@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Journey 13 · Wallet, Convert, Transfer & Withdraw</title>
+<style>
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('assets/manrope.woff2') format('woff2')}
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --coinG1:#FFD54F;--coinG2:#FFB300;--coinDeep:#9A6A00;
+    --gold1:#E8A33A;--gold2:#C77F1A;--goldRich:#8A5A0E;
+    --violet:#7C4DFF;--violet2:#B388FF;--violetDeep:#4A2E9E;
+    --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--cyan:#1FA8FF;--amber:#F59E0B;
+    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  body{background:#E7ECF6;background-image:radial-gradient(58% 32% at 12% 0%,rgba(232,163,58,.10),transparent 60%),radial-gradient(50% 32% at 90% 6%,rgba(124,77,255,.08),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
+  .num{font-variant-numeric:tabular-nums}
+  .page-head{max-width:1900px;margin:0 auto 46px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:var(--goldRich);text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:50px;line-height:1.05;font-weight:800;letter-spacing:-1.6px;color:#10121A}
+  .page-head p{font-size:15px;line-height:23px;color:#5A6272;margin-top:14px;max-width:780px;font-weight:550}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:1980px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:56px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--gold1),var(--coinG1));color:#5A3E00;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none}
+  .fname{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#10121A}
+  .fname span{display:block;font-size:12px;font-weight:600;color:#707786;margin-top:2px}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(20,30,60,.18);border:1px solid #D7DDEA}
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:34px 0 4px;font-size:20px;font-weight:800;letter-spacing:-.3px;color:#10121A}
+  .divider::after{content:"";flex:1;height:1.5px;background:#CDD5E4;border-radius:1px}
+
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+
+  .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
+  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .lbody{flex:1;padding:16px 20px 0;display:flex;flex-direction:column;overflow:hidden}
+  .h1{font-size:25px;line-height:31px;font-weight:800;letter-spacing:-.6px}
+  .sub{font-size:14px;line-height:21px;font-weight:600;color:var(--t2);margin-top:9px}
+  .cta{margin-top:auto;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+  .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.32)}
+  .btn.gold{background:linear-gradient(140deg,var(--gold1),var(--coinG1));color:#5A3E00;box-shadow:0 8px 22px rgba(232,163,58,.35)}
+  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
+  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
+
+  /* three bucket glyphs */
+  .g-coin{border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#7A5400;background:radial-gradient(circle at 35% 28%,#FFE99A,var(--coinG2) 55%,#C88A00);box-shadow:inset 0 1px 3px rgba(255,255,255,.7),inset 0 -3px 6px rgba(120,80,0,.4)}
+  .g-gold{border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--gold1),var(--gold2) 60%,var(--goldRich));box-shadow:inset 0 1px 2px rgba(255,255,255,.4),0 2px 6px rgba(138,90,14,.4)}
+  .g-tgold{border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--violet2),var(--violet) 60%,var(--violetDeep));box-shadow:inset 0 1px 2px rgba(255,255,255,.4),0 2px 6px rgba(74,46,158,.4)}
+
+  /* bucket cards (wallet home) */
+  .bucket{border-radius:20px;padding:15px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .bucket .bh{display:flex;align-items:center;gap:11px}
+  .bucket .gly{width:40px;height:40px;font-size:14px}
+  .bucket .bn{font-size:15px;font-weight:800}
+  .bucket .br{font-size:11px;font-weight:700;margin-top:1px}
+  .bucket .bal{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-top:12px}
+  .bucket .bal small{font-size:14px;font-weight:750;margin-left:4px}
+  .bucket .acts{display:flex;gap:8px;margin-top:12px}
+  .bucket .ab{flex:1;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800}
+  .bucket.coins{background:linear-gradient(135deg,#FFFBF0,#FFF3D6);border:1px solid #FFE199}
+  .bucket.coins .bn{color:#7A5400}.bucket.coins .br{color:#B08900}.bucket.coins .bal{color:var(--coinDeep)}
+  .bucket.coins .ab{background:#fff;border:1px solid #FFE199;color:var(--coinDeep)}
+  .bucket.coins .ab.primary{background:linear-gradient(140deg,var(--coinG1),var(--coinG2));color:#5A3E00;border:none}
+  .bucket.gold{background:linear-gradient(135deg,#2A2010,#3A2A08);color:#fff}
+  .bucket.gold .bn{color:#fff}.bucket.gold .br{color:#E6C87A}.bucket.gold .bal{color:#FFE1A0}
+  .bucket.gold .ab{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#FFE1A0}
+  .bucket.gold .ab.primary{background:linear-gradient(140deg,var(--gold1),var(--coinG1));color:#5A3E00;border:none}
+  .bucket.tgold{background:linear-gradient(135deg,#F3EEFF,#E9E0FF);border:1px solid #D6C7FF}
+  .bucket.tgold .bn{color:var(--violetDeep)}.bucket.tgold .br{color:var(--violet)}.bucket.tgold .bal{color:var(--violetDeep)}
+  .bucket.tgold .ab{background:#fff;border:1px solid #D6C7FF;color:var(--violetDeep)}
+  .bucket.tgold .rulenote{font-size:11px;font-weight:700;color:var(--violetDeep);margin-top:8px;background:rgba(124,77,255,.08);border-radius:10px;padding:8px 10px}
+  .kycrow{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 13px;box-shadow:var(--shadow-sm);font-size:12.5px;font-weight:750}
+  .kycrow .badge{margin-left:auto;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px}
+  .kycrow .badge.ok{color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE}
+  .kycrow .badge.pend{color:var(--amber);background:#FFFBF2;border:1px solid #FDE4B8}
+
+  /* rules table */
+  .ruletable{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:#fff}
+  .rtr{display:flex;padding:12px 14px;border-bottom:1px solid var(--line);font-size:12.5px;font-weight:700}
+  .rtr:last-child{border:none}
+  .rtr .rk{width:110px;font-weight:800;display:flex;align-items:center;gap:7px}
+  .rtr .rk .gly{width:22px;height:22px;font-size:9px}
+  .rtr .rv{flex:1;color:var(--t2);font-weight:650;font-size:12px}
+
+  /* convert panels */
+  .cvpanel{border-radius:16px;padding:14px;position:relative}
+  .cvpanel.from{background:linear-gradient(135deg,#FFFBF0,#FFF3D6);border:1px solid #FFE199}
+  .cvpanel.to{background:linear-gradient(135deg,#2A2010,#3A2A08);color:#fff}
+  .cvpanel .cvl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+  .cvpanel.from .cvl{color:var(--coinDeep)}.cvpanel.to .cvl{color:#E6C87A}
+  .cvpanel .cvl .gly{width:20px;height:20px;font-size:8px}
+  .cvpanel .amt{font-size:34px;font-weight:800;letter-spacing:-1px;margin-top:8px}
+  .cvpanel.from .amt{color:var(--coinDeep)}.cvpanel.to .amt{color:#FFE1A0}
+  .cvpanel .avl{font-size:11.5px;font-weight:700;margin-top:4px}
+  .cvpanel.from .avl{color:#B08900}.cvpanel.to .avl{color:#C9A860}
+  .swapbtn{width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--shadow-sm);margin:-16px auto;position:relative;z-index:2}
+  .commrow{display:flex;justify-content:space-between;padding:9px 2px;font-size:12.5px;font-weight:700;border-bottom:1px solid var(--line)}
+  .commrow .k{color:var(--t2);font-weight:650}.commrow .v{font-weight:800}
+  .commrow:last-child{border:none}
+  .warnnote{display:flex;gap:9px;background:#FFFBF2;border:1px solid #FDE4B8;border-radius:13px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:700;color:#8A6410}
+
+  /* recipient / transfer */
+  .idfield{height:56px;border-radius:16px;background:#F6F8FC;border:1.5px solid var(--gold1);box-shadow:0 0 0 4px rgba(232,163,58,.1);display:flex;align-items:center;padding:0 16px;font-size:20px;font-weight:800;letter-spacing:2px}
+  .reccard{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow-sm)}
+  .reccard .av{width:48px;height:48px;border-radius:50%;background-size:cover;background-position:center;flex:none}
+  .reccard .rn{font-size:15px;font-weight:800}
+  .reccard .ri{font-size:12px;font-weight:700;color:var(--t2)}
+  .reccard .ok{margin-left:auto;color:var(--green1);font-size:18px}
+  .balr{display:flex;align-items:center;padding:11px 2px;font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
+  .balr .k{color:var(--t2);font-weight:650}.balr .v{margin-left:auto;font-weight:800}
+  .balr.minus .v{color:var(--red)}.balr.new .k{color:var(--t1);font-weight:800}
+  .balr .unavail{margin-left:auto;color:var(--t3);font-weight:700;font-size:12px}
+  .limitbar{height:8px;border-radius:999px;background:#EAEEF5;overflow:hidden;margin-top:8px}
+  .limitbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold1),var(--coinG1))}
+
+  /* KYC */
+  .kycsteps{display:flex;flex-direction:column;margin:6px 0}
+  .kstep{display:flex;gap:14px;position:relative;padding-bottom:18px}
+  .kstep:last-child{padding-bottom:0}
+  .kstep .kd{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;z-index:1}
+  .kstep .kd.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .kstep .kd.now{background:#fff;border:2.5px solid var(--gold1);color:var(--gold2)}
+  .kstep .kd.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
+  .kstep::before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--line)}
+  .kstep:last-child::before{display:none}
+  .kstep .kt{font-size:14px;font-weight:800}.kstep .ks{font-size:12px;font-weight:650;color:var(--t2);margin-top:1px}
+  .docframe{height:180px;border-radius:16px;border:2px dashed var(--line);background:#F6F8FC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--t2)}
+  .docframe .di{font-size:40px}
+  .selfieframe{width:200px;height:200px;border-radius:50%;border:3px solid var(--gold1);background:#F0F2F7;display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto;box-shadow:0 0 0 6px rgba(232,163,58,.12)}
+
+  /* withdraw source */
+  .srcopt{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:var(--shadow-sm)}
+  .srcopt.on{border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,77,255,.12)}
+  .srcopt .gly{width:34px;height:34px;font-size:12px}
+  .srcopt .sn{font-size:13.5px;font-weight:800}
+  .srcopt .sv{font-size:11.5px;font-weight:700;color:var(--t2)}
+  .srcopt .rad{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--line)}
+  .srcopt.on .rad{border-color:var(--violet);background:radial-gradient(circle,var(--violet) 42%,transparent 46%)}
+  .usdbig{text-align:center;padding:8px 0}
+  .usdbig .ug{font-size:44px;font-weight:800;color:var(--goldRich)}
+  .usdbig .ul{font-size:12px;font-weight:750;color:var(--t2);margin-top:2px}
+
+  /* stages */
+  .stages{display:flex;flex-direction:column;margin:6px 0}
+  .stg{display:flex;gap:14px;position:relative;padding-bottom:20px}
+  .stg:last-child{padding-bottom:0}
+  .stg .sd{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:1}
+  .stg .sd.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .stg .sd.now{background:#fff;border:2.5px solid var(--gold1);color:var(--gold2);position:relative}
+  .stg .sd.now::after{content:"";position:absolute;inset:-2.5px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--gold1);animation:spin 1s linear infinite}
+  .stg .sd.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
+  .stg::before{content:"";position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--line)}
+  .stg:last-child::before{display:none}
+  .stg .st{font-size:14px;font-weight:800}.stg.wait .st{color:var(--t3)}
+
+  /* history */
+  .txrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .txrow:last-child{border:none}
+  .txrow .ti{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px;background:#F3F5FA}
+  .txrow .tn{font-size:13.5px;font-weight:800}
+  .txrow .td{font-size:11px;font-weight:650;color:var(--t3);margin-top:1px;font-family:ui-monospace,monospace}
+  .txrow .amt{margin-left:auto;text-align:right;font-size:14px;font-weight:800}
+  .txrow .amt.plus{color:var(--green1)}.txrow .amt.minus{color:var(--red)}
+  .txrow .amt .bk{font-size:10px;font-weight:700;color:var(--t3);display:block;margin-top:1px}
+  .fchips{display:flex;gap:7px;overflow:hidden}
+  .fchip{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .fchip.on{background:#14161C;color:#fff;border-color:#14161C}
+
+  /* celebrate/state */
+  .celebrate{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:36px}
+  .celebrate .cta,.state .cta{width:100%}
+  .sic{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;background:#E9F9EF;border:1.5px solid #BFE9CE}
+  .sic.v{background:#F3EEFF;border-color:#D6C7FF}.sic.gold{background:#FFF7E4;border-color:#FFE199}
+  .state{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:36px}
+  .state .h1{margin-top:18px}.state .sub{max-width:290px}
+  .state .btnrow{width:100%;margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .refnote{font-size:11px;font-weight:700;color:var(--t3);margin-top:8px;font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Journey 13 — Wallet</div>
+  <h1>Wallet</h1>
+  <p>Three separate balances — <b>Coins</b> (spend/convert), <b>Gold</b> (convert/transfer/withdraw), and <b>Transferred Gold</b> (hold/withdraw only, can't recirculate). Secure &amp; premium, not casino: exact tabular balances, the 13:10 conversion math and its 23% commission disclosed, User-ID transfers, KYC-gated withdrawal, and a reference on every result.</p>
+</div>
+
+<div class="frames">
+
+  <div class="divider">Wallet &amp; conversion</div>
+
+  <!-- WA-01 WALLET HOME -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-01</div><div class="fname">Wallet Home<span>Three distinct buckets + rules</span></div></div>
+  <div class="phone" data-nav="wallet">
+    <div class="top"><div class="back">‹</div><div class="htitle">Wallet</div><div class="back" style="margin-left:auto">🧾</div></div>
+    <div class="lbody">
+      <div class="scrollarea">
+        <div class="bucket coins">
+          <div class="bh"><div class="g-coin gly">C</div><div><div class="bn">Coins</div><div class="br">Spend &amp; convert</div></div></div>
+          <div class="bal num">1,240<small>Coins</small></div>
+          <div class="acts"><div class="ab primary">Buy Coins</div><div class="ab">Convert</div></div>
+        </div>
+        <div class="bucket gold">
+          <div class="bh"><div class="g-gold gly">G</div><div><div class="bn">Gold</div><div class="br">Convert · transfer · withdraw</div></div></div>
+          <div class="bal num">860<small>Gold</small></div>
+          <div class="acts"><div class="ab primary">Convert</div><div class="ab">Transfer</div><div class="ab">Withdraw</div></div>
+        </div>
+        <div class="bucket tgold">
+          <div class="bh"><div class="g-tgold gly">G</div><div><div class="bn">Transferred Gold</div><div class="br">Hold or withdraw only</div></div></div>
+          <div class="bal num">130<small>Gold</small></div>
+          <div class="rulenote">🔒 Gold received from another Fan can't be transferred again or converted into Coins.</div>
+          <div class="acts"><div class="ab">Withdraw</div></div>
+        </div>
+        <div class="kycrow">🛡️ Identity verification<span class="badge ok">✓ Verified</span></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- WA-01A BUCKET RULES -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-01A</div><div class="fname">Bucket Rules<span>Why three balances</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">How your wallet works</div></div>
+    <div class="lbody">
+      <div class="ruletable" style="margin-top:6px">
+        <div class="rtr"><div class="rk"><div class="g-coin gly">C</div>Coins</div><div class="rv">Buy or win → spend or convert to Gold</div></div>
+        <div class="rtr"><div class="rk"><div class="g-gold gly">G</div>Gold</div><div class="rv">Earn or convert → convert, transfer, withdraw</div></div>
+        <div class="rtr"><div class="rk"><div class="g-tgold gly">G</div>Transf. Gold</div><div class="rv">Received from a Fan → hold or withdraw only</div></div>
+      </div>
+      <div class="warnnote" style="background:#F3EEFF;border-color:#D6C7FF;color:var(--violetDeep);margin-top:14px">🔒 Transferred Gold can't be sent onward — this stops the same balance circulating repeatedly between accounts.</div>
+      <div class="cta"><div class="btn ghost">Got It</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-02 CONVERT -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-02</div><div class="fname">Convert Coins → Gold<span>13:10 · 23% commission shown</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Convert</div></div>
+    <div class="lbody">
+      <div class="cvpanel from">
+        <div class="cvl"><div class="g-coin gly">C</div>From · Coins</div>
+        <div class="amt num">130</div>
+        <div class="avl num">Balance 1,240 · multiples of 13</div>
+      </div>
+      <div class="swapbtn">⇅</div>
+      <div class="cvpanel to">
+        <div class="cvl"><div class="g-gold gly">G</div>To · Gold</div>
+        <div class="amt num">100</div>
+        <div class="avl num">Balance 860 → 960</div>
+      </div>
+      <div class="card" style="padding:4px 15px;margin-top:12px">
+        <div class="commrow"><span class="k">Rate</span><span class="v num">13 Coins = 10 Gold</span></div>
+        <div class="commrow"><span class="k">Platform commission</span><span class="v num">≈ 23.08%</span></div>
+      </div>
+      <div class="cta"><div class="btn gold">Convert 130 Coins → 100 Gold</div><div class="altlink">Switch Direction · Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-02B CONFIRM CONVERSION -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-02B</div><div class="fname">Confirm Conversion<span>Round-trip loss disclosed</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm</div></div>
+    <div class="lbody">
+      <div style="text-align:center;padding:6px 0"><div style="font-size:19px;font-weight:800">Convert 130 Coins into 100 Gold?</div></div>
+      <div class="card" style="padding:4px 15px;margin-top:8px">
+        <div class="balr"><span class="k">Coins</span><span class="v num">1,240 → 1,110</span></div>
+        <div class="balr"><span class="k">Gold</span><span class="v num">860 → 960</span></div>
+        <div class="balr"><span class="k">Platform commission</span><span class="v num">≈ 23.08%</span></div>
+        <div class="balr new" style="border:none"><span class="k">Reference</span><span class="v" style="font-family:ui-monospace,monospace">CNV-preview</span></div>
+      </div>
+      <div class="warnnote" style="margin-top:14px"><span>⚠️</span><span>The 13:10 rate applies each way — converting this Gold back would return <b>76 Coins</b>, not 130. Converting back does not restore your original balance.</span></div>
+      <div class="cta"><div class="btn gold">Confirm Conversion</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-02D SUCCESS -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-02D</div><div class="fname">Conversion Successful<span>Both balances updated</span></div></div>
+  <div class="phone">
+    <div class="lbody celebrate">
+      <div class="sic gold">⇅</div>
+      <div class="h1" style="margin-top:16px">Conversion complete</div>
+      <div class="sub">130 Coins → 100 Gold</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:16px;text-align:left">
+        <div class="balr"><span class="k">New Coin balance</span><span class="v num">1,110</span></div>
+        <div class="balr"><span class="k">New Gold balance</span><span class="v num">960</span></div>
+        <div class="balr new" style="border:none"><span class="k">Reference</span><span class="v" style="font-family:ui-monospace,monospace">CNV-4471</span></div>
+      </div>
+      <div class="cta" style="margin-top:16px"><div class="btn">Done</div><div class="altlink">Convert Again · View Transaction</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Transfer Gold</div>
+
+  <!-- WA-03 RECIPIENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-03</div><div class="fname">Recipient by User ID<span>SFL ID · verified</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Transfer Gold</div></div>
+    <div class="lbody">
+      <div class="lbl">Recipient SFL User ID</div>
+      <div class="idfield num">67890<span style="color:var(--gold1);font-weight:300">|</span></div>
+      <div class="reccard" style="margin-top:14px">
+        <div class="av" style="background-image:url('assets/fb_m4.jpg')"></div>
+        <div style="flex:1"><div class="rn">Mikael K.</div><div class="ri num">ID 67890 · Blue Wolves · Lv 9</div></div>
+        <div class="ok">✓</div>
+      </div>
+      <div class="cta"><div class="btn">Continue</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-03A TRANSFER AMOUNT -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-03A</div><div class="fname">Transfer Amount<span>Level limit · TG unavailable</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Amount to send</div></div>
+    <div class="lbody">
+      <div class="reccard" style="margin-bottom:14px"><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="rn">Mikael K.</div><div class="ri num">ID 67890</div></div></div>
+      <div class="cvpanel to" style="text-align:center"><div class="cvl" style="justify-content:center"><div class="g-gold gly">G</div>Sending Gold</div><div class="amt num" style="text-align:center">200</div></div>
+      <div class="card" style="padding:4px 15px;margin-top:12px">
+        <div class="balr"><span class="k">Earned Gold available</span><span class="v num">860</span></div>
+        <div class="balr"><span class="k">Transferred Gold</span><span class="unavail num">130 · can't be a source</span></div>
+        <div class="balr"><span class="k">Level 4 limit</span><span class="v num">520 per transfer</span></div>
+        <div class="balr new" style="border:none"><span class="k">Remaining after send</span><span class="v num">660 Gold</span></div>
+      </div>
+      <div class="limitbar"><i style="width:38%"></i></div>
+      <div style="font-size:11px;font-weight:700;color:var(--t2);margin-top:6px" class="num">200 of 520 limit used</div>
+      <div class="cta"><div class="btn">Review Transfer</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-03B CONFIRM TRANSFER -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-03B</div><div class="fname">Confirm Transfer<span>Recipient gets Transferred Gold</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm transfer</div></div>
+    <div class="lbody">
+      <div style="text-align:center;padding:6px 0"><div style="font-size:19px;font-weight:800">Send 200 Gold to Mikael K.?</div></div>
+      <div class="card" style="padding:4px 15px;margin-top:8px">
+        <div class="balr"><span class="k">You send from</span><span class="v" style="display:flex;align-items:center;gap:6px"><div class="g-gold gly" style="width:18px;height:18px;font-size:8px">G</div>Gold</span></div>
+        <div class="balr"><span class="k">Mikael receives as</span><span class="v" style="display:flex;align-items:center;gap:6px;color:var(--violetDeep)"><div class="g-tgold gly" style="width:18px;height:18px;font-size:8px">G</div>Transferred Gold</span></div>
+        <div class="balr"><span class="k">Amount</span><span class="v num">200 Gold</span></div>
+        <div class="balr new" style="border:none"><span class="k">Your Gold after</span><span class="v num">660</span></div>
+      </div>
+      <div class="warnnote" style="background:#F3EEFF;border-color:#D6C7FF;color:var(--violetDeep);margin-top:14px">🔒 Mikael receives this as Transferred Gold — he can hold or withdraw it, but can't transfer it again.</div>
+      <div class="cta"><div class="btn">Send 200 Gold</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-03F TRANSFERRED GOLD BLOCK -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-03F</div><div class="fname">Transferred Gold Block<span>Received Gold can't be re-sent</span></div></div>
+  <div class="phone">
+    <div class="lbody state">
+      <div class="sic v">🔒</div>
+      <div class="h1">Transferred Gold can't be sent again</div>
+      <div class="sub">The 130 Gold you received from another Fan can only be held or withdrawn.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:16px;text-align:left">
+        <div class="balr"><span class="k">Earned Gold (can transfer)</span><span class="v num">860</span></div>
+        <div class="balr new" style="border:none"><span class="k">Transferred Gold (hold/withdraw)</span><span class="v num" style="color:var(--violetDeep)">130</span></div>
+      </div>
+      <div class="btnrow"><div class="btn">Use Earned Gold</div><div class="btn ghost">Withdraw Transferred Gold</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">KYC &amp; withdrawal</div>
+
+  <!-- KYC-01 INTRO -->
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-01</div><div class="fname">Verify Identity<span>Required to withdraw</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Verify identity</div></div>
+    <div class="lbody">
+      <div class="sub" style="margin-top:0">Withdrawals need a one-time identity check. Your documents are never shown publicly.</div>
+      <div class="card" style="padding:14px 16px;margin-top:16px">
+        <div class="kycsteps">
+          <div class="kstep"><div class="kd wait">1</div><div><div class="kt">Personal details</div></div></div>
+          <div class="kstep"><div class="kd wait">2</div><div><div class="kt">Identity document</div></div></div>
+          <div class="kstep"><div class="kd wait">3</div><div><div class="kt">Selfie &amp; liveness</div></div></div>
+          <div class="kstep"><div class="kd wait">4</div><div><div class="kt">Review</div></div></div>
+        </div>
+      </div>
+      <div class="warnnote" style="margin-top:14px;background:#F0F7FF;border-color:#CEE4FA;color:#1E5E96">🔒 Minimum withdrawal 130 Gold ≈ $10. Documents are encrypted and never appear on your profile.</div>
+      <div class="cta"><div class="btn">Start Verification</div><div class="altlink">Not Now</div></div>
+    </div>
+  </div></div>
+
+  <!-- KYC-02 DOCUMENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-02</div><div class="fname">Identity Document<span>Compliant provider</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Identity document</div></div>
+    <div class="lbody">
+      <div class="lbl">Document type</div>
+      <div class="card" style="padding:13px 15px;display:flex;align-items:center;font-size:14px;font-weight:750;margin-bottom:14px">🪪 Passport <span style="margin-left:auto;color:var(--t3)">▾</span></div>
+      <div class="lbl">Upload front</div>
+      <div class="docframe"><div class="di">📷</div><div style="font-size:13px;font-weight:750">Take a photo or upload</div><div style="font-size:11px;color:var(--t3)">Clear · uncropped · all corners visible</div></div>
+      <div class="cta"><div class="btn">Continue</div></div>
+    </div>
+  </div></div>
+
+  <!-- KYC-03 SELFIE -->
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-03</div><div class="fname">Selfie &amp; Liveness<span>Match to document</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Selfie check</div></div>
+    <div class="lbody">
+      <div style="text-align:center;margin-top:20px"><div class="selfieframe">🙂</div><div style="font-size:14px;font-weight:750;margin-top:18px">Center your face in the circle</div><div style="font-size:12px;font-weight:650;color:var(--t2);margin-top:6px">Good lighting · no hat or glasses · follow the prompts</div></div>
+      <div class="cta"><div class="btn">Start Liveness Check</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-04A WITHDRAW -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-04A</div><div class="fname">Withdraw<span>Amount · USD · source</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Withdraw</div><span style="margin-left:auto;font-size:11px;font-weight:800;color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE;padding:3px 10px;border-radius:999px">✓ Verified</span></div>
+    <div class="lbody">
+      <div class="cvpanel to" style="text-align:center"><div class="cvl" style="justify-content:center"><div class="g-gold gly">G</div>Withdraw Gold</div><div class="amt num">130</div></div>
+      <div class="usdbig"><div class="ug num">≈ $10.00</div><div class="ul num">130 Gold ÷ 13 · fee applied at payout</div></div>
+      <div class="lbl">Withdraw from</div>
+      <div class="srcopt"><div class="g-gold gly">G</div><div style="flex:1"><div class="sn">Earned Gold</div><div class="sv num">860 available</div></div><div class="rad"></div></div>
+      <div class="srcopt on"><div class="g-tgold gly">G</div><div style="flex:1"><div class="sn">Transferred Gold</div><div class="sv num">130 available · selected</div></div><div class="rad"></div></div>
+      <div class="cta"><div class="btn gold">Review Withdrawal</div><div class="altlink">Manage Payout Method</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-04C CONFIRM WITHDRAWAL -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-04C</div><div class="fname">Confirm Withdrawal<span>Gross · fee · net</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm withdrawal</div></div>
+    <div class="lbody">
+      <div class="card" style="padding:4px 15px;margin-top:8px">
+        <div class="balr"><span class="k">Gold amount</span><span class="v num">130 Gold</span></div>
+        <div class="balr"><span class="k">Source</span><span class="v" style="color:var(--violetDeep)">Transferred Gold</span></div>
+        <div class="balr"><span class="k">Gross value</span><span class="v num">≈ $10.00</span></div>
+        <div class="balr"><span class="k">Payout fee</span><span class="v" style="color:var(--t3)">shown at payout</span></div>
+        <div class="balr new" style="border:none"><span class="k">Payout method</span><span class="v">Bank ••• 4021</span></div>
+      </div>
+      <div class="warnnote" style="margin-top:14px;background:#F0F7FF;border-color:#CEE4FA;color:#1E5E96">🔒 Identity verified · processing 1–3 business days · a reference is issued on submission.</div>
+      <div class="cta"><div class="btn gold">Confirm Withdrawal</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- WA-04D PROCESSING -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-04D</div><div class="fname">Withdrawal Processing<span>Non-instant · reference issued</span></div></div>
+  <div class="phone">
+    <div class="lbody">
+      <div style="text-align:center;margin-top:14px"><div class="sic gold" style="margin:0 auto">🏦</div><div class="h1" style="margin-top:16px">Withdrawal submitted</div><div class="sub">130 Gold · ≈ $10.00 to Bank ••• 4021</div></div>
+      <div class="stages" style="margin-top:22px">
+        <div class="stg"><div class="sd done">✓</div><div><div class="st">Request submitted</div></div></div>
+        <div class="stg"><div class="sd now"></div><div><div class="st">Security review</div></div></div>
+        <div class="stg wait"><div class="sd wait">◦</div><div><div class="st">Payout processing</div></div></div>
+        <div class="stg wait"><div class="sd wait">◦</div><div><div class="st">Completed</div></div></div>
+      </div>
+      <div class="refnote" style="text-align:center">Reference WDR-77120 · 130 Gold reserved</div>
+      <div class="cta"><div class="btn ghost">Done · View Status</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">History</div>
+
+  <!-- WA-05 HISTORY -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-05</div><div class="fname">Transaction History<span>All buckets · auditable</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Transactions</div></div>
+    <div class="lbody">
+      <div class="fchips" style="margin-bottom:12px"><span class="fchip on">All</span><span class="fchip">Coins</span><span class="fchip">Gold</span><span class="fchip">Transfers</span><span class="fchip">Withdrawals</span></div>
+      <div class="scrollarea">
+        <div class="card" style="padding:2px 16px">
+          <div class="txrow"><div class="ti">🏦</div><div><div class="tn">Withdrawal</div><div class="td">WDR-77120 · pending</div></div><div class="amt minus num">−130<span class="bk">Transf. Gold</span></div></div>
+          <div class="txrow"><div class="ti">📤</div><div><div class="tn">Gold transferred</div><div class="td">TRF-4410 · to ID 67890</div></div><div class="amt minus num">−200<span class="bk">Gold</span></div></div>
+          <div class="txrow"><div class="ti">⇅</div><div><div class="tn">Convert Coins → Gold</div><div class="td">CNV-4471</div></div><div class="amt plus num">+100<span class="bk">Gold</span></div></div>
+          <div class="txrow"><div class="ti">🎁</div><div><div class="tn">Gift · Golden Boot</div><div class="td">GFT-8841</div></div><div class="amt minus num">−199<span class="bk">Coins</span></div></div>
+          <div class="txrow"><div class="ti">📥</div><div><div class="tn">Gold received</div><div class="td">from Zeeshan N.</div></div><div class="amt plus num">+200<span class="bk">Transf. Gold</span></div></div>
+          <div class="txrow"><div class="ti">🪙</div><div><div class="tn">Coin purchase</div><div class="td">SFL-90312</div></div><div class="amt plus num">+500<span class="bk">Coins</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- WA-05A DETAIL -->
+  <div class="fw"><div class="flabel"><div class="fnum">WA-05A</div><div class="fname">Transaction Detail<span>Full record · dispute</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Transfer detail</div></div>
+    <div class="lbody">
+      <div style="text-align:center;padding:8px 0"><div style="font-size:44px">📤</div><div style="font-size:20px;font-weight:800;margin-top:6px">200 Gold sent</div><div style="font-size:12px;font-weight:750;color:var(--t2)">to Mikael K. · ID 67890</div></div>
+      <div class="card" style="padding:4px 15px">
+        <div class="balr"><span class="k">Amount</span><span class="v num">200 Gold</span></div>
+        <div class="balr"><span class="k">Source bucket</span><span class="v">Earned Gold</span></div>
+        <div class="balr"><span class="k">Destination bucket</span><span class="v" style="color:var(--violetDeep)">Transferred Gold</span></div>
+        <div class="balr"><span class="k">Status</span><span class="v" style="color:var(--green1)">Completed</span></div>
+        <div class="balr"><span class="k">Date</span><span class="v num">14 Aug · 21:12</span></div>
+        <div class="balr new" style="border:none"><span class="k">Reference</span><span class="v" style="font-family:ui-monospace,monospace">TRF-4410</span></div>
+      </div>
+      <div class="cta"><div class="btn ghost">Get Support · Raise Dispute</div><div class="altlink">Copy Reference ID</div></div>
+    </div>
+  </div></div>
+
+</div>
+
+<style id="sfl-chrome">
+  .sfl-statusbar{position:relative;z-index:600;height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px;background:inherit;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .sfl-statusbar .sfl-time{position:relative;z-index:2}
+  .sfl-statusbar .sfl-sys{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+  .sfl-statusbar .sfl-sys svg{display:block}
+  .sfl-notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .sfl-notch::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#1b222c;box-shadow:inset 0 0 2px rgba(120,180,255,.5)}
+</style>
+<script id="sfl-chrome-js">
+(function(){
+  function lum(c){var m=(c||'').match(/[\d.]+/g);if(!m)return 1;var r=m[0]/255,g=m[1]/255,b=m[2]/255;return 0.2126*r+0.7152*g+0.0722*b;}
+  var SIG='<svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor"><rect x="0" y="9" width="3" height="4" rx="1"/><rect x="5" y="6.5" width="3" height="6.5" rx="1"/><rect x="10" y="3.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="13" rx="1"/></svg>';
+  var WIFI='<svg width="17" height="13" viewBox="0 0 17 13" fill="currentColor"><path d="M8.5 2.2C5.6 2.2 2.9 3.3 1 5.2l1.5 1.5C4 5.2 6.2 4.2 8.5 4.2s4.5 1 6 2.5L16 5.2c-1.9-1.9-4.6-3-7.5-3z"/><path d="M8.5 6.6c-1.7 0-3.3.7-4.5 1.9l1.6 1.6c.8-.7 1.8-1.2 2.9-1.2s2.1.5 2.9 1.2l1.6-1.6C11.8 7.3 10.2 6.6 8.5 6.6z"/><circle cx="8.5" cy="11.6" r="1.4"/></svg>';
+  var BAT='<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity="0.45"/><rect x="2.1" y="2.1" width="15" height="8.8" rx="1.8" fill="currentColor"/><path d="M25 4.6c1 .5 1 3.3 0 3.8z" fill="currentColor" fill-opacity="0.6"/></svg>';
+  function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
+  document.querySelectorAll('.phone').forEach(function(p){
+    if(p.querySelector(':scope > .sfl-statusbar'))return;
+    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    p.insertBefore(build(dark),p.firstChild);
+  });
+})();
+</script>
+
+</body>
+</html>

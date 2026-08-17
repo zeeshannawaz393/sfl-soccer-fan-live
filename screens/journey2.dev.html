@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Journey 2 · Join a Fan Club (v2)</title>
+<style>
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('assets/manrope.woff2') format('woff2')}
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --live1:#FF416C;--live2:#FF7A3B;
+    --gold1:#FFB300;--gold2:#FFD54F;
+    --violet:#7C4DFF;--cyan:#1FA8FF;--red:#E4362B;--sky:#5FA8DE;--amber:#F59E0B;
+    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    /* default club theme (red) */
+    --ck:#E4362B;--ck2:#FF6E60;--ckd:#8F1109;
+  }
+  .club-red{--ck:#E4362B;--ck2:#FF6E60;--ckd:#8F1109}
+  .club-blue{--ck:#2E77B2;--ck2:#63B0EA;--ckd:#123E63}
+  .club-violet{--ck:#7C4DFF;--ck2:#B79BF5;--ckd:#3A1E86}
+  .club-gold{--ck:#D99A00;--ck2:#FFCB45;--ckd:#7A5400}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  body{background:#E7ECF6;background-image:radial-gradient(60% 34% at 12% 0%,rgba(228,54,43,.10),transparent 60%),radial-gradient(52% 34% at 90% 6%,rgba(46,119,178,.10),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
+  .num{font-variant-numeric:tabular-nums}
+  .page-head{max-width:1900px;margin:0 auto 48px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:#0FA04C;text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:52px;line-height:1.04;font-weight:800;letter-spacing:-1.7px;color:#10121A}
+  .page-head p{font-size:15px;line-height:23px;color:#5A6272;margin-top:14px;max-width:780px;font-weight:550}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:1980px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:48px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;box-shadow:0 5px 14px rgba(15,183,83,.32);flex:none}
+  .fname{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#10121A}
+  .fname span{display:block;font-size:12px;font-weight:600;color:#707786;margin-top:2px}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(20,30,60,.20);border:1px solid #D7DDEA}
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:34px 0 4px;font-size:20px;font-weight:800;letter-spacing:-.3px;color:#10121A}
+  .divider::after{content:"";flex:1;height:1.5px;background:#CDD5E4;border-radius:1px}
+
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  @keyframes shimmer{0%{transform:translateX(-70%)}100%{transform:translateX(70%)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+  @keyframes halo{0%{box-shadow:0 0 0 0 var(--glow)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  @keyframes confFall{0%{transform:translateY(-30px) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(560px) rotate(420deg);opacity:0}}
+  @keyframes floatUp{0%{opacity:0;transform:translate(-50%,0) scale(.6)}14%{opacity:1}100%{opacity:0;transform:translate(-50%,-190px) scale(1.1)}}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none !important}}
+
+  /* primitives */
+  .avatar{border-radius:50%;flex:none;background-size:cover;background-position:center 25%;background-repeat:no-repeat;background-color:#E4E8F2}
+  .crest{border-radius:22%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;letter-spacing:.5px;position:relative;background:linear-gradient(150deg,var(--ck2),var(--ck) 55%,var(--ckd));box-shadow:inset 0 2px 6px rgba(255,255,255,.35),inset 0 -6px 12px rgba(0,0,0,.28),0 8px 20px color-mix(in srgb,var(--ck) 45%,transparent)}
+  .crest::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.32),transparent 42%);pointer-events:none}
+  .crest.circ{border-radius:50%}
+  .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px;z-index:5}
+  .back,.ico{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .htitle{font-size:20px;font-weight:800;letter-spacing:-.4px}
+  .body{flex:1;padding:22px 20px 0;display:flex;flex-direction:column;overflow:hidden}
+  .h1{font-size:26px;line-height:31px;font-weight:800;letter-spacing:-.6px}
+  .sub{font-size:14px;line-height:21px;font-weight:600;color:var(--t2);margin-top:9px}
+  .cta{margin-top:auto;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+  .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.34)}
+  .btn.club{background:linear-gradient(140deg,var(--ck2),var(--ck) 70%);box-shadow:0 12px 28px color-mix(in srgb,var(--ck) 50%,transparent);--glow:color-mix(in srgb,var(--ck) 45%,transparent);animation:breathe 2.8s infinite}
+  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.danger{background:#fff;color:var(--red);border:1.5px solid #FFD2CE;box-shadow:var(--shadow-sm)}
+  .btn.sm{height:44px;font-size:14px}
+  .link{font-size:13.5px;font-weight:800;color:#0FA04C;text-align:center}
+  .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
+  .altlink b{color:#0FA04C}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.3px}
+  .live{color:#fff;background:linear-gradient(90deg,var(--live1),var(--live2));box-shadow:0 4px 12px rgba(255,65,108,.4)}
+  .live i{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
+  .glassp{color:#fff;background:rgba(10,12,18,.42);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16)}
+  .sp-open{color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE}
+  .sp-soon{color:#C77700;background:#FFF6DE;border:1px solid #FFDF8E}
+  .sp-inv{color:#5E3EC5;background:#F1EBFF;border:1px solid #DCCEFF}
+  .sp-full{color:#C22318;background:#FFF5F4;border:1px solid #FFD2CE}
+  .sp-pending{color:#1E7BB8;background:#EAF5FD;border:1px solid #C9E5F8}
+  .sp-member{color:#fff;background:linear-gradient(90deg,var(--green1),var(--green2))}
+  .verified{color:var(--cyan);font-size:13px}
+  .livetag{display:inline-flex;align-items:center;gap:5px;margin-left:8px;font-size:11px;font-weight:800;letter-spacing:.4px;color:var(--live1)}
+  .livetag i{width:6px;height:6px;border-radius:50%;background:var(--live1);animation:blink 1.3s infinite;box-shadow:0 0 8px var(--live1)}
+  .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column}
+  .bar-track{height:8px;border-radius:999px;background:#E7EBF3;overflow:hidden;position:relative}
+  .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green1),var(--green2));position:relative;overflow:hidden}
+  .bar-fill::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 44%,rgba(255,255,255,.5) 50%,transparent 56%);animation:shimmer 2.6s infinite}
+  .bar-fill.gold{background:linear-gradient(90deg,var(--gold1),var(--gold2))}
+  .bar-fill.club{background:linear-gradient(90deg,var(--ck),var(--ck2))}
+  .consent{display:block;background:#F0F7FF;border:1px solid #CEE4FA;border-radius:14px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:650;color:#1E5E96}
+  .consent b{font-weight:800}
+  .consent.g{background:#F2FBF5;border-color:#BFE9CE;color:#187A42}
+  .consent.y{background:#FFFBF2;border-color:#FDE4B8;color:#8A6410}
+  .consent.r{background:#FFF5F4;border-color:#FFD2CE;color:#C22318}
+  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .sect{font-size:14px;font-weight:800;letter-spacing:-.2px;margin:2px 0 11px;display:flex;align-items:center;color:#2A3140}
+  .sect span{margin-left:auto;font-size:12px;font-weight:750;color:#0FA04C}
+  .facestack{display:flex}
+  .facestack .avatar{border:2.5px solid #fff;margin-left:-10px}
+  .facestack .avatar:first-child{margin-left:0}
+
+  /* ===== VIBRANT CLUB CARD (media) ===== */
+  .vcard{position:relative;border-radius:22px;overflow:hidden;background:#111;box-shadow:0 14px 32px rgba(20,30,60,.16);margin-bottom:14px}
+  .vcard .cover{height:150px;background-size:cover;background-position:center 20%;position:relative}
+  .vcard .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--ck) 30%,transparent),transparent 34%,rgba(8,10,16,.28) 60%,#0C0E14 99%)}
+  .vcard .cov-top{position:absolute;top:11px;left:11px;right:11px;display:flex;z-index:2}
+  .vcard .cov-top .glassp{margin-left:auto}
+  .vcard .cbadge{position:absolute;left:14px;bottom:-22px;z-index:3;width:56px;height:56px;font-size:15px;border:3px solid #fff}
+  .vcard .info{background:#fff;padding:14px 14px 13px 80px;position:relative}
+  .vcard .cn{font-size:15.5px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:6px}
+  .vcard .cm{font-size:12px;font-weight:700;color:var(--t2);margin-top:2px}
+  .vcard .cstats{display:flex;align-items:center;gap:14px;margin-top:11px}
+  .vcard .cstats .s{font-size:12px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:5px}
+  .vcard .cstats .s .l{color:var(--t3);font-weight:700}
+  .vcard .cstats .facestack{margin-left:auto}
+  .vcard .cstats .facestack .avatar{width:24px;height:24px}
+  .vcard .apply{position:absolute;right:14px;bottom:13px;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--ck2),var(--ck));padding:8px 15px;border-radius:999px;box-shadow:0 6px 16px color-mix(in srgb,var(--ck) 45%,transparent)}
+  .vcard.mini .cover{height:0}
+  .vcard.mini .info{padding-left:14px}
+
+  /* tabs / header */
+  .ctabs{display:flex;gap:18px;padding:8px 20px 0}
+  .ctab{font-size:14px;font-weight:750;color:var(--t3);padding-bottom:10px;position:relative}
+  .ctab.on{color:var(--t1);font-weight:800}
+  .ctab.on::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--green1),var(--green2))}
+  .searchbar{height:46px;border-radius:14px;background:#fff;border:1.5px solid var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.10);display:flex;align-items:center;padding:0 14px;gap:9px;font-size:14px;font-weight:600;color:var(--t1)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .fchip{font-size:12.5px;font-weight:750;color:var(--t2);background:#fff;border:1.5px solid var(--line);padding:7px 12px;border-radius:999px;display:inline-flex;gap:5px;align-items:center}
+  .fchip.on{color:#0FA04C;border-color:#9FDDB4;background:#F2FBF5}
+  .recent{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--t2)}
+  .recent .ic{color:var(--t3)}
+
+  /* ===== CINEMATIC HERO (details/home) ===== */
+  .hero{position:relative;height:230px;flex:none;background-size:cover;background-position:center 22%}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--ck) 34%,transparent) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.5) 72%,#0B0D13 100%)}
+  .hero .hnav{position:absolute;top:16px;left:16px;right:16px;display:flex;z-index:3}
+  .hero .hnav .back{background:rgba(10,12,18,.4);border:none;color:#fff;backdrop-filter:blur(6px)}
+  .hero .hbadge{position:absolute;left:20px;bottom:-30px;z-index:4;width:78px;height:78px;font-size:21px;border:4px solid var(--bg)}
+  .hero .hbadge::before{content:"";position:absolute;inset:-6px;border-radius:26%;background:conic-gradient(var(--ck2),#fff,var(--ck),var(--ck2));z-index:-1;filter:blur(2px);opacity:.55;animation:spin 6s linear infinite}
+  .hero .hmeta{position:absolute;left:112px;right:18px;bottom:12px;z-index:3}
+  .hero .hname{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.4px;display:flex;align-items:center;gap:7px;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .hero .hsub{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin-top:3px;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .hero .hlive{position:absolute;left:20px;top:56px;z-index:3}
+  .detailbody{flex:1;overflow:hidden;padding:42px 20px 0}
+  .statrow{display:flex;border-radius:18px;padding:14px 6px;margin-bottom:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--ck) 12%,#fff),#fff);border:1px solid color-mix(in srgb,var(--ck) 22%,var(--line));box-shadow:var(--shadow-sm)}
+  .statrow .st{flex:1;text-align:center;position:relative}
+  .statrow .st+.st::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:1px;background:color-mix(in srgb,var(--ck) 20%,var(--line))}
+  .statrow .v{font-size:18px;font-weight:800;color:var(--t1)}
+  .statrow .v.ck{color:var(--ck)}
+  .statrow .l{font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+  .desc{font-size:13.5px;line-height:20px;font-weight:600;color:#3A4150;margin-bottom:13px}
+
+  /* live room preview strip */
+  .roomstrip{display:flex;gap:10px;margin-bottom:14px}
+  .roomtile{flex:1;height:78px;border-radius:14px;position:relative;overflow:hidden;background-size:cover;background-position:center}
+  .roomtile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,10,16,.75))}
+  .roomtile .rl{position:absolute;left:8px;bottom:7px;right:8px;font-size:11px;font-weight:800;color:#fff;z-index:2;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  .roomtile .lv{position:absolute;top:7px;left:7px;z-index:2}
+
+  /* timeline */
+  .timeline{margin:4px 0}
+  .tl{display:flex;gap:13px;position:relative;padding-bottom:22px}
+  .tl:last-child{padding-bottom:0}
+  .tl .dot{width:28px;height:28px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;z-index:1}
+  .tl .dot.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;box-shadow:0 4px 12px rgba(15,183,83,.35)}
+  .tl .dot.cur{background:#fff;border:2.5px solid var(--gold1);color:var(--gold1);animation:halo 2s infinite;--glow:rgba(255,179,0,.4)}
+  .tl .dot.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
+  .tl::before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--line)}
+  .tl:last-child::before{display:none}
+  .tl .tt{font-size:14px;font-weight:800}
+  .tl .td{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px}
+  .tl.pending .tt{color:var(--t3)}
+
+  /* ===== CEREMONY (colour flood) ===== */
+  .ceremony{position:relative;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--ck) 92%,#000) 0%,color-mix(in srgb,var(--ck) 60%,#0B0D13) 45%,#0B0D13 100%);overflow:hidden}
+  .ceremony .rays{position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 34%,rgba(255,255,255,.10) 0deg,transparent 18deg,rgba(255,255,255,.10) 36deg,transparent 54deg,rgba(255,255,255,.10) 72deg,transparent 90deg,rgba(255,255,255,.10) 108deg,transparent 126deg,rgba(255,255,255,.10) 144deg,transparent 162deg,rgba(255,255,255,.10) 180deg,transparent 198deg);animation:spin 40s linear infinite;opacity:.5}
+  .ceremony .cbody{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:70px 24px 26px}
+  .cmedal{width:118px;height:118px;font-size:34px;border-radius:28%;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  .cmedal::before{content:"";position:absolute;inset:-9px;border-radius:30%;background:conic-gradient(var(--ck2),#fff,var(--gold2),var(--ck2));z-index:-1;filter:blur(3px);animation:spin 5s linear infinite}
+  .cmedal .halo2{position:absolute;inset:-9px;border-radius:30%;box-shadow:0 0 0 0 rgba(255,255,255,.4);animation:halo 2.2s infinite;--glow:rgba(255,255,255,.35)}
+  .ch1{font-size:29px;line-height:34px;font-weight:800;letter-spacing:-.6px;color:#fff;margin-top:24px}
+  .cscarf{margin-top:12px;font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ck) 60%,#000),transparent);padding:8px 26px;border-top:2px solid rgba(255,255,255,.25);border-bottom:2px solid rgba(255,255,255,.25)}
+  .csub{font-size:13.5px;line-height:20px;font-weight:600;color:rgba(255,255,255,.82);margin-top:14px;max-width:280px}
+  .cunlocks{width:100%;margin-top:20px;display:flex;flex-direction:column;gap:9px}
+  .cunlock{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:11px 13px;font-size:13.5px;font-weight:750;color:#fff}
+  .cunlock .ic{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .cbtns{width:100%;margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:10px}
+  .cbtns .btn{background:#fff;color:var(--ckd);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+  .cbtns .btn.o{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3);box-shadow:none}
+  .conf{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+  .conf i{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:confFall 3.4s linear infinite}
+
+  /* quick actions */
+  .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}
+  .qa{background:#fff;border-radius:15px;box-shadow:var(--shadow-sm);padding:12px 4px 9px;text-align:center;border:1px solid var(--line)}
+  .qa .qi{font-size:21px}
+  .qa .ql{font-size:11px;font-weight:750;color:var(--t2);margin-top:4px}
+  .feed-item{background:#fff;border-radius:16px;box-shadow:var(--shadow-sm);padding:12px 13px;margin-bottom:10px;border:1px solid var(--line)}
+  .feed-item .fh{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .feed-item .fh .avatar,.feed-item .fh .crest{width:30px;height:30px;font-size:11px}
+  .feed-item .fn{font-size:13px;font-weight:800}
+  .feed-item .ft{font-size:11px;font-weight:650;color:var(--t3)}
+  .feed-item .fb{font-size:13px;line-height:19px;font-weight:600;color:#2A2F3A}
+  .pin{font-size:10px;font-weight:800;color:var(--ck);background:color-mix(in srgb,var(--ck) 12%,#fff);border:1px solid color-mix(in srgb,var(--ck) 30%,#fff);padding:2px 8px;border-radius:999px;margin-left:auto}
+
+  /* value rows */
+  .valrow{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .valrow .ic{width:22px;height:22px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px}
+  .valrow .ic.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .valrow .ic.wait{background:#EEF1F6;border:1.5px solid var(--line)}
+  .valrow .vt{font-size:13.5px;font-weight:750}
+  .valrow .vs{font-size:12px;font-weight:650;color:var(--t2)}
+
+  /* sheet */
+  .sheet-scrim{position:absolute;inset:0;background:rgba(10,14,20,.5);z-index:6;display:flex;align-items:flex-end}
+  .sheet{background:#fff;border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
+  .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 16px}
+  .sheet h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
+  .sheet p{font-size:13.5px;line-height:20px;font-weight:600;color:var(--t2);margin-top:9px}
+  .radio{display:flex;align-items:center;gap:10px;padding:12px 0;font-size:14px;font-weight:700;border-bottom:1px solid var(--line)}
+  .radio .r{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none}
+  .radio.on .r{border-color:var(--green1);background:radial-gradient(circle,var(--green1) 42%,transparent 46%)}
+
+  /* generic state */
+  .state{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:40px}
+  .sic{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;background:#EEF1F6;border:1.5px solid var(--line)}
+  .sic.g{background:#F2FBF5;border-color:#BFE9CE}.sic.r{background:#FFF5F4;border-color:#FFD2CE}.sic.b{background:#F0F7FF;border-color:#CEE4FA}.sic.y{background:#FFFBF2;border-color:#FDE4B8}
+  .state .h1{margin-top:18px}.state .sub{max-width:290px}
+  .state .btnrow{width:100%;margin-top:22px;display:flex;flex-direction:column;gap:10px}
+
+  .loaderwrap{align-items:center;text-align:center;justify-content:center;display:flex;flex-direction:column;flex:1}
+  .spinner{width:44px;height:44px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .9s linear infinite}
+
+  /* club social layer (J2-16) */
+  .sechd{display:flex;align-items:center;margin:16px 0 9px}
+  .sechd .st{font-size:14px;font-weight:800}.sechd .sa{margin-left:auto;font-size:12px;font-weight:800;color:var(--ck)}
+  .clublive{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:0 14px}
+  .clublive::-webkit-scrollbar{display:none}
+  .lvcard{flex:none;width:132px;height:92px;border-radius:15px;position:relative;overflow:hidden;background-size:cover;background-position:center}
+  .lvcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(8,10,16,.82))}
+  .lvcard .lvb{position:absolute;top:8px;left:8px;z-index:2;background:linear-gradient(140deg,var(--live1),var(--live2));color:#fff;font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:999px}
+  .lvcard .lvv{position:absolute;top:8px;right:8px;z-index:2;background:rgba(10,12,18,.55);color:#fff;font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:999px}
+  .lvcard .lvt{position:absolute;left:9px;right:9px;bottom:19px;z-index:2;font-size:11.5px;font-weight:800;color:#fff}
+  .lvcard .lvh{position:absolute;left:9px;bottom:7px;z-index:2;font-size:10px;font-weight:650;color:rgba(255,255,255,.85)}
+  .onlinebar{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 13px;box-shadow:var(--shadow-sm)}
+  .onav{display:flex}
+  .onav .oav{width:30px;height:30px;border-radius:50%;background-size:cover;background-position:center;border:2px solid #fff;margin-left:-9px;background-color:#DDE3ED}
+  .onav .oav:first-child{margin-left:0}
+  .onav .omore{width:30px;height:30px;border-radius:50%;background:#EEF1F7;border:2px solid #fff;margin-left:-9px;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:var(--t2)}
+  .onh{flex:1;min-width:0}.onh b{font-size:13px;font-weight:800}.onh span{display:block;font-size:11px;font-weight:650;color:var(--t2)}
+  .sbtn{background:linear-gradient(140deg,var(--ck2),var(--ck) 70%);color:#fff;font-size:12px;font-weight:800;padding:9px 14px;border-radius:999px;flex:none}
+  .chatprev{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow-sm);padding:6px 13px;margin-top:10px}
+  .cmsg{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;font-weight:650;color:#2B313D}
+  .cmsg:last-child{border-bottom:none}
+  .cmsg .cav{width:26px;height:26px;border-radius:50%;background-size:cover;background-position:center;background-color:#DDE3ED;flex:none}
+  .cmsg b{font-weight:800;color:var(--t1)}
+  .giftt{background:linear-gradient(140deg,#FFE5B8,#FFD27A);color:#7A4E00;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .giftlead{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow-sm);padding:4px 13px;margin-top:2px}
+  .glrow{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .glrow:last-child{border-bottom:none}
+  .glrow .gr{width:20px;font-size:12px;font-weight:800;color:var(--t3);text-align:center}
+  .glrow .gav{width:32px;height:32px;border-radius:50%;background-size:cover;background-position:center;background-color:#DDE3ED;flex:none}
+  .glrow .gn{font-size:13px;font-weight:800;flex:1}
+  .glrow .gg{font-size:12px;font-weight:800;color:#B08900;display:flex;align-items:center;gap:5px}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Journey 2 — remade</div>
+  <h1>Join a Fan Club</h1>
+  <p>Rebuilt with real atmosphere: every club floods its own colours across its screens, discovery cards carry fan photography and member faces, crests glow, live rooms preview, and joining is a ceremony — colour flood, tifo rays, confetti — not a form confirmation. People first, club colour second, utility third.</p>
+</div>
+
+<div class="frames">
+
+  <div class="divider">Entry &amp; discovery</div>
+
+  <!-- J2-01 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-01</div><div class="fname">No Club / Join Entry<span>Registered Fan without a club</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">My Club</div></div>
+    <div class="body">
+      <div style="text-align:center;margin-top:6px;position:relative">
+        <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(15,183,83,.22),transparent 70%);filter:blur(6px)"></div>
+        <div class="crest circ" style="--ck:#0FB753;--ck2:#7CD843;--ckd:#0A7A38;width:84px;height:84px;font-size:34px;margin:0 auto;position:relative">🛡️</div>
+        <div class="h1" style="margin-top:18px">Find your Fan Club</div>
+        <div class="sub" style="margin:9px auto 0;max-width:300px">Join a fan family, complete duties, run into Squad Rooms and push your club up the league.</div>
+      </div>
+      <div class="card" style="margin-top:22px;padding:6px 16px">
+        <div class="valrow" style="border:none"><div class="ic done">✓</div><div class="vt">Club community &amp; announcements</div></div>
+        <div class="valrow"><div class="ic done">✓</div><div class="vt">Squad Room access</div></div>
+        <div class="valrow"><div class="ic done">✓</div><div class="vt">Fan Tasks &amp; rewards</div></div>
+        <div class="valrow" style="border:none"><div class="ic done">✓</div><div class="vt">Club league participation</div></div>
+      </div>
+      <div class="cta">
+        <div class="btn">Discover Clubs</div>
+        <div class="btn ghost">Enter Recruitment Link</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-02 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-02</div><div class="fname">Club Discovery<span>Media cards · covers · faces · live</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Clubs</div><div class="ico" style="margin-left:auto">🔍</div><div class="ico">🔔</div></div>
+    <div class="ctabs"><div class="ctab">My Club</div><div class="ctab on">Discover</div><div class="ctab">League</div></div>
+    <div class="body" style="padding-top:14px">
+      <div class="sect">Recommended for you</div>
+      <div class="vcard club-red">
+        <div class="cover" style="background-image:url('assets/fb_crowd.jpg')">
+          <div class="cov-top"><span class="pill live"><i></i>4 LIVE</span><span class="pill glassp num">1,204 👥</span></div>
+          <div class="crest cbadge">RD</div>
+        </div>
+        <div class="info">
+          <div class="cn">Red District FC <span class="verified">✓</span></div>
+          <div class="cm">Jay Malik · Level 6 · London 🇬🇧</div>
+          <div class="cstats">
+            <div class="facestack">
+              <div class="avatar" style="background-image:url('assets/fb_m2.jpg')"></div>
+              <div class="avatar" style="background-image:url('assets/fb_f2.jpg')"></div>
+              <div class="avatar" style="background-image:url('assets/fb_m1.jpg')"></div>
+            </div>
+            <span style="font-size:11.5px;font-weight:700;color:var(--t2)">+1.2k reds</span>
+          </div>
+          <div class="apply">Apply</div>
+        </div>
+      </div>
+      <div class="sect" style="margin-top:4px">Active now <span class="livetag"><i></i>LIVE</span></div>
+      <div class="vcard club-blue">
+        <div class="cover" style="background-image:url('assets/fb_stadium.jpg');height:120px">
+          <div class="cov-top"><span class="pill live"><i></i>6 LIVE</span><span class="pill sp-soon" style="margin-left:auto">Closing soon</span></div>
+          <div class="crest cbadge">BV</div>
+        </div>
+        <div class="info">
+          <div class="cn">Blueview United</div>
+          <div class="cm">M. Okonkwo · Level 8 · Lagos 🇳🇬</div>
+          <div class="apply">Apply</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-03 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-03</div><div class="fname">Search &amp; Filters<span>Name / Club ID / Manager</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="searchbar" style="flex:1">🔍 Red<span style="color:var(--green1);font-weight:300">|</span></div></div>
+    <div class="body" style="padding-top:14px">
+      <div class="chips" style="margin-bottom:16px">
+        <span class="fchip on">Applications open ✕</span>
+        <span class="fchip">Level ▾</span>
+        <span class="fchip">Region ▾</span>
+        <span class="fchip">Live now</span>
+      </div>
+      <div class="vcard mini club-red"><div class="info" style="padding-left:14px"><div style="display:flex;align-items:center;gap:11px"><div class="crest" style="width:42px;height:42px;font-size:13px">RD</div><div style="flex:1"><div class="cn">Red District FC <span class="verified">✓</span></div><div class="cm num">#3 League · 1,204 members</div></div><span class="pill sp-open">Open</span></div></div></div>
+      <div class="vcard mini club-gold"><div class="info" style="padding-left:14px"><div style="display:flex;align-items:center;gap:11px"><div class="crest" style="width:42px;height:42px;font-size:13px">RL</div><div style="flex:1"><div class="cn">Redline Rovers</div><div class="cm num">#11 League · 642 members</div></div><span class="pill sp-inv">Invite only</span></div></div></div>
+      <div class="sect" style="margin-top:8px">Recent searches</div>
+      <div class="recent"><span class="ic">🕘</span>Blueview United</div>
+      <div class="recent"><span class="ic">🕘</span>manager: Jay Malik</div>
+    </div>
+  </div></div>
+
+  <!-- J2-04 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-04</div><div class="fname">Recruitment Link<span>Resolving external link</span></div></div>
+  <div class="phone club-red">
+    <div class="body loaderwrap" style="background:radial-gradient(120% 80% at 50% 30%,color-mix(in srgb,var(--ck) 80%,#000),#0B0D13);margin:-0 -20px 0;padding:0">
+      <div class="crest" style="width:70px;height:70px;font-size:20px;margin-bottom:24px">RD</div>
+      <div class="spinner"></div>
+      <div class="h1" style="margin-top:24px;font-size:20px;color:#fff">Opening invitation…</div>
+      <div class="sub" style="color:rgba(255,255,255,.7)">Red District FC</div>
+    </div>
+  </div></div>
+
+  <div class="divider">Voluntary application path</div>
+
+  <!-- J2-05 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-05</div><div class="fname">Club Details<span>Cinematic hero · club-colour flood · live rooms</span></div></div>
+  <div class="phone club-red">
+    <div class="hero" style="background-image:url('assets/fb_crowd.jpg')">
+      <div class="hnav"><div class="back">‹</div><div class="back" style="margin-left:auto;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
+      <span class="pill live hlive"><i></i>4 LIVE</span>
+      <div class="crest hbadge">RD</div>
+      <div class="hmeta"><div class="hname">Red District FC <span class="verified" style="color:#7CE8FF">✓</span></div><div class="hsub">London 🇬🇧 · Est. 2021 · Jay Malik</div></div>
+    </div>
+    <div class="detailbody">
+      <div class="statrow">
+        <div class="st"><div class="v ck num">Lv 6</div><div class="l">Club level</div></div>
+        <div class="st"><div class="v num">#3</div><div class="l">League</div></div>
+        <div class="st"><div class="v num">1,204</div><div class="l">Members</div></div>
+      </div>
+      <div class="desc">The loudest reds in London. Daily match reactions, Sunday debates and full watch-alongs for every fixture.</div>
+      <div class="roomstrip">
+        <div class="roomtile" style="background-image:url('assets/fb_f1.jpg')"><span class="pill live lv"><i></i>LIVE</span><div class="rl">Derby warm-up 🔴</div></div>
+        <div class="roomtile" style="background-image:url('assets/fb_m2.jpg')"><span class="pill live lv"><i></i>LIVE</span><div class="rl">Transfer talk</div></div>
+      </div>
+      <div class="consent">🤝 Joining is voluntary. Applying asks the Manager to review — withdraw anytime while pending.</div>
+      <div class="cta">
+        <div class="btn club">Apply to Join</div>
+        <div class="btn ghost">Preview Club Feed</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-06 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-06</div><div class="fname">Review Application<span>Consent + privacy</span></div></div>
+  <div class="phone club-red">
+    <div class="top"><div class="back">‹</div><div class="htitle">Review application</div></div>
+    <div class="body">
+      <div class="card" style="padding:14px;display:flex;align-items:center;gap:12px;border:1.5px solid color-mix(in srgb,var(--ck) 22%,var(--line))">
+        <div class="avatar" style="width:48px;height:48px;background-image:url('assets/q1_t.jpg')"></div>
+        <div style="flex:1"><div style="font-size:15px;font-weight:800">Ada</div><div style="font-size:12px;font-weight:700;color:var(--t2)" class="num">@ada_reds · SFL-84729164</div></div>
+        <span style="font-size:20px">→</span>
+        <div class="crest" style="width:44px;height:44px;font-size:12px">RD</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin:14px 2px;font-size:12.5px;font-weight:700;color:var(--t2)"><span style="color:var(--t3)">Current membership</span><span style="margin-left:auto;color:var(--t1)">No Active Club</span></div>
+      <div class="consent g" style="margin-top:2px">🔒 The Manager will see your public profile, SFL ID, Fan Level and activity — never your phone, email or wallet.</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:16px;font-size:13px;font-weight:700;color:var(--t1)"><span style="width:22px;height:22px;border-radius:7px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none">✓</span>I understand the Manager will review my application</div>
+      <div class="cta"><div class="btn club">Submit Application</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-07 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-07</div><div class="fname">Application Submitted<span>Pending review</span></div></div>
+  <div class="phone club-red ceremony" style="--ck:#E4362B;--ck2:#FF6E60;--ckd:#8F1109">
+    <div class="rays"></div>
+    <div class="cbody">
+      <div class="crest cmedal">📨<div class="halo2"></div></div>
+      <div class="ch1">Application sent</div>
+      <div class="cscarf">Red District FC</div>
+      <div class="csub">Jay Malik will review your request. We'll ping you the moment there's a decision.</div>
+      <div class="cunlocks"><div class="cunlock"><div class="ic">⏳</div>Pending Manager Review · sent 21:04</div></div>
+      <div class="cbtns"><div class="btn">View Application</div><div class="btn o">Browse Live Rooms</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-08 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-08</div><div class="fname">My Applications<span>Timeline · multiple allowed</span></div></div>
+  <div class="phone club-red">
+    <div class="top"><div class="back">‹</div><div class="htitle">Applications</div></div>
+    <div class="body">
+      <div class="vcard mini" style="margin-bottom:16px"><div class="info" style="padding-left:14px"><div style="display:flex;align-items:center;gap:11px"><div class="crest" style="width:42px;height:42px;font-size:13px">RD</div><div style="flex:1"><div class="cn">Red District FC</div><div class="cm num">Ref RD-2291 · sent 14 Aug</div></div><span class="pill sp-pending">Pending</span></div></div></div>
+      <div class="timeline">
+        <div class="tl"><div class="dot done">✓</div><div><div class="tt">Submitted</div><div class="td num">14 Aug, 21:04</div></div></div>
+        <div class="tl"><div class="dot cur">◔</div><div><div class="tt">Manager review</div><div class="td">In the manager's queue</div></div></div>
+        <div class="tl pending"><div class="dot wait">◦</div><div><div class="tt">Decision</div><div class="td">You'll be notified</div></div></div>
+      </div>
+      <div class="consent" style="margin-top:14px">⏱ Applications auto-expire after 14 days if not reviewed. You have <b>2 others</b> pending.</div>
+      <div class="cta"><div class="btn danger">Withdraw Application</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-10 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-10</div><div class="fname">Membership Confirmed<span>Ceremony — colour flood + confetti</span></div></div>
+  <div class="phone club-red ceremony">
+    <div class="rays"></div>
+    <div class="conf">
+      <i style="left:12%;background:#fff;animation-delay:0s"></i><i style="left:24%;background:var(--gold2);animation-delay:.6s"></i>
+      <i style="left:38%;background:#fff;animation-delay:1.1s"></i><i style="left:52%;background:var(--ck2);animation-delay:.3s"></i>
+      <i style="left:66%;background:var(--gold2);animation-delay:1.4s"></i><i style="left:78%;background:#fff;animation-delay:.9s"></i>
+      <i style="left:88%;background:var(--ck2);animation-delay:1.7s"></i><i style="left:46%;background:var(--gold2);animation-delay:2.1s"></i>
+    </div>
+    <div class="cbody">
+      <div class="crest cmedal">RD<div class="halo2"></div></div>
+      <div class="ch1">Welcome to the reds,<br>Ada 🔴</div>
+      <div class="cscarf">Red District FC · Member</div>
+      <div class="cunlocks">
+        <div class="cunlock"><div class="ic">🏟️</div>Squad Room access</div>
+        <div class="cunlock"><div class="ic">✅</div>Club Tasks &amp; rewards</div>
+        <div class="cunlock"><div class="ic">💬</div>Club Feed &amp; chat</div>
+      </div>
+      <div class="cbtns"><div class="btn">Enter Club</div><div class="btn o">View Today's Tasks</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-11 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-11</div><div class="fname">Not Approved<span>Respectful · no account impact</span></div></div>
+  <div class="phone club-red">
+    <div class="body state">
+      <div class="crest" style="width:84px;height:84px;font-size:22px">RD</div>
+      <div class="h1" style="margin-top:18px">Application not approved</div>
+      <div class="sub"><span class="num">14 Aug</span> · Red District FC</div>
+      <div class="card" style="width:100%;padding:12px 14px;margin-top:16px;text-align:left;font-size:12.5px;line-height:18px;font-weight:650;color:var(--t2)">"We're at capacity for London reds this month — try us again next season." <div style="margin-top:6px;font-weight:750;color:var(--t3)">— Jay Malik</div></div>
+      <div class="sub" style="max-width:290px">Clubs manage their own capacity. This doesn't restrict your SFL account.</div>
+      <div class="btnrow">
+        <div class="btn">Discover Other Clubs</div>
+        <div class="btn ghost">View Similar Clubs</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="divider">Manager-invitation path</div>
+
+  <!-- J2-12 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-12</div><div class="fname">Invitation Notification<span>Manager used your SFL ID</span></div></div>
+  <div class="phone club-red">
+    <div class="top"><div class="back">‹</div><div class="htitle">Notifications</div></div>
+    <div class="body" style="padding-top:12px">
+      <div class="vcard" style="margin-bottom:20px">
+        <div class="cover" style="background-image:url('assets/fb_crowd.jpg');height:96px">
+          <div class="cov-top"><span class="pill glassp">✉️ Invitation</span><span class="pill sp-soon" style="margin-left:auto">New</span></div>
+          <div class="crest cbadge">RD</div>
+        </div>
+        <div class="info">
+          <div class="cn">Red District FC invited you</div>
+          <div class="cm">Jay Malik · 2h ago</div>
+          <div class="consent" style="margin-top:11px">🔒 Jay used your <b>SFL ID</b> to invite you — they can't see your phone or email.</div>
+          <div class="btn club sm" style="margin-top:12px">Review Invitation</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:12.5px;font-weight:700;color:var(--t3)">Earlier</div>
+      <div class="feed-item" style="margin-top:12px"><div class="fh"><div class="crest circ" style="--ck:#0FB753;--ck2:#7CD843;--ckd:#0A7A38">✓</div><div><div class="fn">Task complete</div><div class="ft">You earned +20 XP</div></div></div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-13 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-13</div><div class="fname">Invitation — Accept / Decline<span>Explicit consent</span></div></div>
+  <div class="phone club-red">
+    <div class="hero" style="background-image:url('assets/fb_crowd.jpg');height:200px">
+      <div class="hnav"><div class="back">‹</div></div>
+      <div class="crest hbadge">RD</div>
+      <div class="hmeta"><div class="hname">Red District FC <span class="verified" style="color:#7CE8FF">✓</span></div><div class="hsub">#3 League · 1,204 members</div></div>
+    </div>
+    <div class="detailbody">
+      <div class="card" style="padding:13px 14px;margin-bottom:14px;border:1.5px solid color-mix(in srgb,var(--ck) 22%,var(--line))">
+        <div style="display:flex;align-items:center;gap:10px"><div class="crest" style="width:34px;height:34px;font-size:11px">JM</div><div style="flex:1"><div style="font-size:13px;font-weight:800">Invitation from Jay Malik</div><div style="font-size:11px;font-weight:650;color:var(--t2)">Expires in 6 days · via SFL-84729164</div></div></div>
+        <div class="desc" style="margin:10px 0 0;font-style:italic;color:var(--t1)">"We'd love a Yoruba-speaking red on the mic — come join us! 🔴"</div>
+      </div>
+      <div class="consent g">✅ You'll only become a member if you choose Accept.</div>
+      <div class="cta">
+        <div class="btn club">Accept Invitation</div>
+        <div class="btn ghost">Decline</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-14 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-14</div><div class="fname">Decline — Confirm<span>Optional reason</span></div></div>
+  <div class="phone club-red">
+    <div class="body" style="filter:blur(1.5px);opacity:.5"><div class="h1">Invitation</div></div>
+    <div class="sheet-scrim">
+      <div class="sheet">
+        <div class="grab"></div>
+        <h3>Decline this invitation?</h3>
+        <p>Optional — let the Manager know why:</p>
+        <div style="margin-top:8px">
+          <div class="radio on"><span class="r"></span>Already in another club</div>
+          <div class="radio"><span class="r"></span>Not interested right now</div>
+          <div class="radio" style="border:none"><span class="r"></span>Prefer not to say</div>
+        </div>
+        <div class="cta" style="margin-top:16px">
+          <div class="btn danger">Decline</div>
+          <div class="btn ghost">Keep Invitation</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-15 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-15</div><div class="fname">Invitation Accepted<span>Ceremony</span></div></div>
+  <div class="phone club-red ceremony">
+    <div class="rays"></div>
+    <div class="conf">
+      <i style="left:16%;background:#fff;animation-delay:.2s"></i><i style="left:30%;background:var(--gold2);animation-delay:.9s"></i>
+      <i style="left:50%;background:var(--ck2);animation-delay:.5s"></i><i style="left:70%;background:#fff;animation-delay:1.3s"></i>
+      <i style="left:84%;background:var(--gold2);animation-delay:.7s"></i>
+    </div>
+    <div class="cbody">
+      <div class="crest cmedal">RD<div class="halo2"></div></div>
+      <div class="ch1">You're in, Ada! 🎊</div>
+      <div class="cscarf">Red District FC · Member</div>
+      <div class="csub">Invitation accepted. Jay and 1,200 reds just gained a new voice.</div>
+      <div class="cbtns"><div class="btn">Enter Club</div><div class="btn o">Meet the Squad</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Active membership · Club Home</div>
+
+  <!-- J2-16 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-16</div><div class="fname">Club Home — Member<span>Central hub (backlog #1)</span></div></div>
+  <div class="phone club-red">
+    <div class="hero" style="background-image:url('assets/fb_crowd.jpg');height:172px">
+      <div class="hnav"><div class="back">‹</div><span class="pill sp-member" style="margin-left:auto;align-self:center">✓ Member</span><div class="back" style="margin-left:8px;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
+      <div class="crest hbadge" style="bottom:-26px;width:68px;height:68px">RD</div>
+      <div class="hmeta" style="left:104px"><div class="hname" style="font-size:19px">Red District FC</div><div class="hsub">Lv 6 · #3 League · 1,204 members</div></div>
+    </div>
+    <div class="detailbody" style="padding-top:38px">
+      <div class="card" style="padding:13px 14px;margin-bottom:12px;border:1.5px solid color-mix(in srgb,var(--gold1) 30%,#fff);background:linear-gradient(120deg,#FFFBF0,#fff)">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:13px;font-weight:800">🏟️ Weekly Club Mission</div><div style="font-size:12px;font-weight:800;color:#B08900" class="num">18/25</div></div>
+        <div class="bar-track" style="margin-top:9px"><div class="bar-fill gold" style="width:72%"></div></div>
+        <div style="font-size:11.5px;font-weight:650;color:var(--t2);margin-top:8px">25 members active this week · unlocks Club Tifo</div>
+      </div>
+      <div class="btn club" style="height:50px">🏟️ Enter Squad Room</div>
+      <div class="qgrid">
+        <div class="qa"><div class="qi">✅</div><div class="ql">Tasks</div></div>
+        <div class="qa"><div class="qi">📺</div><div class="ql">Live</div></div>
+        <div class="qa"><div class="qi">🎁</div><div class="ql">Rewards</div></div>
+        <div class="qa"><div class="qi">📊</div><div class="ql">League</div></div>
+      </div>
+
+      <div class="sechd"><div class="st">🔴 Live now · 4 rooms</div><div class="sa">See all</div></div>
+      <div class="clublive">
+        <div class="lvcard" style="background-image:url('assets/fb_host.jpg')"><span class="lvb">● LIVE</span><span class="lvv">👁 1.2K</span><div class="lvt">Derby warm-up</div><div class="lvh">Jay Malik · host</div></div>
+        <div class="lvcard" style="background-image:url('assets/fb_crowd.jpg')"><span class="lvb">● LIVE</span><span class="lvv">👁 480</span><div class="lvt">North Stand party</div><div class="lvh">Nadia</div></div>
+        <div class="lvcard" style="background-image:url('assets/fb_m3.jpg')"><span class="lvb">PK</span><span class="lvv">👁 2.1K</span><div class="lvt">PK: Reds vs Blues</div><div class="lvh">Omar</div></div>
+      </div>
+
+      <div class="sechd"><div class="st">Online now</div><div class="sa">Members</div></div>
+      <div class="onlinebar">
+        <div class="onav"><div class="oav" style="background-image:url('assets/nadia_t.jpg')"></div><div class="oav" style="background-image:url('assets/omar_t.jpg')"></div><div class="oav" style="background-image:url('assets/sara_t.jpg')"></div><div class="oav" style="background-image:url('assets/kojo_t.jpg')"></div><div class="omore">+338</div></div>
+        <div class="onh"><b>342 online</b><span>Reds chatting right now</span></div>
+        <div class="sbtn">Open chat</div>
+      </div>
+      <div class="chatprev">
+        <div class="cmsg"><div class="cav" style="background-image:url('assets/nadia_t.jpg')"></div><div><b>Nadia</b> Derby day, let's gooo 🔴🔴</div></div>
+        <div class="cmsg"><div class="cav" style="background-image:url('assets/omar_t.jpg')"></div><div><b>Omar</b> sent <span class="giftt">🎁 Rocket ×3</span> to Jay</div></div>
+        <div class="cmsg"><div class="cav" style="background-image:url('assets/sara_t.jpg')"></div><div><b>Sara</b> Who's on the watch-along tonight?</div></div>
+      </div>
+
+      <div class="sechd"><div class="st">🎁 Top fans this week</div><div class="sa">Rewards</div></div>
+      <div class="giftlead">
+        <div class="glrow"><div class="gr">1</div><div class="gav" style="background-image:url('assets/omar_t.jpg')"></div><div class="gn">Omar B.</div><div class="gg">◆ 4,820</div></div>
+        <div class="glrow"><div class="gr">2</div><div class="gav" style="background-image:url('assets/sara_t.jpg')"></div><div class="gn">Sara K.</div><div class="gg">◆ 3,110</div></div>
+        <div class="glrow"><div class="gr">3</div><div class="gav" style="background-image:url('assets/nadia_t.jpg')"></div><div class="gn">Nadia O.</div><div class="gg">◆ 2,640</div></div>
+      </div>
+
+      <div class="sect">Club feed</div>
+      <div class="feed-item"><div class="fh"><div class="crest">JM</div><div><div class="fn">Jay Malik</div><div class="ft">Manager · 1h</div></div><span class="pin">📌 Pinned</span></div><div class="fb">Watch-along for the derby kicks off 20:45. Be there reds 🔴</div></div>
+      <div class="feed-item"><div class="fh"><div class="avatar" style="background-image:url('assets/nadia_t.jpg')"></div><div><div class="fn">Nadia</div><div class="ft">2h</div></div></div><div class="fb">That comeback though 😤🔥</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-21 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-21</div><div class="fname">Fan Value Callout<span>Decoupled · participation-driven</span></div></div>
+  <div class="phone club-red">
+    <div class="body" style="padding:0">
+      <div style="background:radial-gradient(120% 70% at 50% 0%,color-mix(in srgb,var(--green1) 70%,#000),#0B3B20 60%,#0B0D13);padding:34px 20px 26px;text-align:center;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);font-size:20px;opacity:.5;animation:floatUp 4s infinite">📈</div>
+        <div class="crest circ" style="--ck:#7CD843;--ck2:#C9FF3D;--ckd:#0F9A46;width:82px;height:82px;font-size:32px;margin:0 auto;color:#0B3B20">📈</div>
+        <div class="h1" style="color:#fff;margin-top:16px">Your Fan Value is live</div>
+        <div class="sub" style="color:rgba(255,255,255,.82);max-width:290px;margin-left:auto;margin-right:auto">Active now you've joined a club. It grows with participation — attendance, contribution, streaks.</div>
+      </div>
+      <div style="padding:18px 20px 0;display:flex;flex-direction:column;flex:1">
+        <div class="card" style="padding:6px 16px">
+          <div class="valrow"><div class="ic done">✓</div><div><div class="vt">Joined a club</div><div class="vs">Red District FC</div></div></div>
+          <div class="valrow" style="border:none"><div class="ic done">✓</div><div><div class="vt">Driven by participation, not results</div><div class="vs">Not a wallet balance · not withdrawable</div></div></div>
+        </div>
+        <div class="consent" style="margin-top:14px">ℹ️ Fan Value reflects how active you are — never a bet on match outcomes.</div>
+        <div class="cta"><div class="btn">Activate Starting Value</div><div class="link">Learn how value works</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="divider">Leaving &amp; ended states</div>
+
+  <!-- J2-18 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-18</div><div class="fname">Leave Club Review<span>Consequences</span></div></div>
+  <div class="phone club-red">
+    <div class="top"><div class="back">‹</div><div class="htitle">Leave club</div></div>
+    <div class="body">
+      <div class="vcard mini" style="margin-bottom:14px"><div class="info" style="padding-left:14px"><div style="display:flex;align-items:center;gap:11px"><div class="crest" style="width:42px;height:42px;font-size:13px">RD</div><div style="flex:1"><div class="cn">Red District FC</div><div class="cm num">Member 3 months · 4,120 pts</div></div></div></div></div>
+      <div class="sect">What stays</div>
+      <div class="card" style="padding:4px 16px;margin-bottom:14px">
+        <div class="valrow"><div class="ic done">✓</div><div class="vt">Wallet Gold &amp; owned players</div></div>
+        <div class="valrow" style="border:none"><div class="ic done">✓</div><div class="vt">Fan Level &amp; history</div></div>
+      </div>
+      <div class="sect">What ends</div>
+      <div class="card" style="padding:4px 16px">
+        <div class="valrow"><div class="ic wait" style="color:var(--red)">✕</div><div class="vt">Squad Room, Tasks &amp; Feed access</div></div>
+        <div class="valrow"><div class="ic wait" style="color:var(--red)">✕</div><div class="vt">New club-point contributions</div></div>
+        <div class="valrow" style="border:none"><div class="ic wait" style="color:var(--amber)">❄</div><div class="vt">Fan Value freezes until you rejoin</div></div>
+      </div>
+      <div class="cta"><div class="btn ghost">Stay in Club</div><div class="link" style="color:var(--red)">Continue Leaving</div></div>
+    </div>
+  </div></div>
+
+  <!-- J2-19 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-19</div><div class="fname">Confirm Leave<span>Destructive</span></div></div>
+  <div class="phone club-red">
+    <div class="body" style="filter:blur(1.5px);opacity:.5"><div class="h1">Leave club</div></div>
+    <div class="sheet-scrim">
+      <div class="sheet">
+        <div class="grab"></div>
+        <h3>Leave Red District FC?</h3>
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-top:14px;font-size:13px;line-height:18px;font-weight:700;color:var(--t1)"><span style="width:22px;height:22px;border-radius:7px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none">✓</span>I understand I'll lose Squad Room, Tasks, Feed and member rewards</div>
+        <div class="cta" style="margin-top:18px">
+          <div class="btn danger">Leave Club</div>
+          <div class="btn ghost">Cancel</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-20 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-20</div><div class="fname">Left Club / No Club<span>Retained assets</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic">👋</div>
+      <div class="h1">You left Red District FC</div>
+      <div class="sub"><span class="num">14 Aug 2026</span></div>
+      <div class="card" style="width:100%;padding:6px 16px;margin-top:16px;text-align:left">
+        <div class="valrow"><div class="ic done">✓</div><div class="vt">Wallet &amp; players kept</div></div>
+        <div class="valrow" style="border:none"><div class="ic wait" style="color:var(--amber)">❄</div><div class="vt">Fan Value frozen</div></div>
+      </div>
+      <div class="btnrow">
+        <div class="btn">Discover New Clubs</div>
+        <div class="btn ghost">Explore Live Rooms</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-17 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-17</div><div class="fname">Membership Ended<span>Removed / transfer / closed</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic y">📤</div>
+      <div class="h1">Your membership ended</div>
+      <div class="sub" style="max-width:290px">Your place at <b style="color:var(--t1)">Red District FC</b> ended on <span class="num">14 Aug</span>. Your wallet, players and Fan Level stay on your account.</div>
+      <div class="btnrow">
+        <div class="btn">Discover Clubs</div>
+        <div class="btn ghost">View Transfer Status</div>
+        <div class="link" style="color:var(--t2);margin-top:4px">Contact Support</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="divider">Guest gate &amp; key error states</div>
+
+  <!-- J2-22 -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-22</div><div class="fname">Guest Must Register<span>Return to same club after auth</span></div></div>
+  <div class="phone club-red">
+    <div class="hero" style="background-image:url('assets/fb_crowd.jpg');height:340px">
+      <div class="hnav"><div class="back">‹</div></div>
+      <span class="pill live hlive"><i></i>4 LIVE</span>
+      <div class="crest hbadge">RD</div>
+      <div class="hmeta"><div class="hname">Red District FC</div><div class="hsub">#3 League · 1,204 members</div></div>
+    </div>
+    <div class="body" style="padding-top:44px">
+      <div style="text-align:center"><div class="h1">Join the reds</div><div class="sub" style="max-width:290px;margin:9px auto 0">Create an SFL account to apply to Red District FC. We'll bring you right back here.</div></div>
+      <div class="cta">
+        <div class="btn club">Create Account</div>
+        <div class="btn ghost">Sign In</div>
+        <div class="altlink">Keep Browsing</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-13b -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-13b</div><div class="fname">Blocked — In Another Club<span>No auto-switch</span></div></div>
+  <div class="phone club-red">
+    <div class="hero" style="background-image:url('assets/fb_crowd.jpg');height:160px">
+      <div class="hnav"><div class="back">‹</div></div>
+      <div class="crest hbadge" style="bottom:-26px;width:66px;height:66px">RD</div>
+      <div class="hmeta" style="left:100px"><div class="hname" style="font-size:18px">Red District FC</div><div class="hsub">Invitation from Jay Malik</div></div>
+    </div>
+    <div class="detailbody" style="padding-top:38px">
+      <div class="consent y">⚠️ You're already an active member of <b>Blueview United</b>. Leave your current club or complete a transfer before accepting.</div>
+      <div class="cta">
+        <div class="btn ghost">View Current Club</div>
+        <div class="btn ghost">Transfer Options</div>
+        <div class="altlink" style="color:var(--t3)">Accept is unavailable</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-05b -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-05b</div><div class="fname">Club Details — Full<span>Capacity reached</span></div></div>
+  <div class="phone club-violet">
+    <div class="hero" style="background-image:url('assets/fb_stadium.jpg')">
+      <div class="hnav"><div class="back">‹</div></div>
+      <div class="crest hbadge">VV</div>
+      <div class="hmeta"><div class="hname">Violet Valley</div><div class="hsub">Manchester 🇬🇧 · Est. 2020</div></div>
+    </div>
+    <div class="detailbody">
+      <div class="statrow">
+        <div class="st"><div class="v ck num">Lv 4</div><div class="l">Club level</div></div>
+        <div class="st"><div class="v num">#7</div><div class="l">League</div></div>
+        <div class="st"><div class="v num">500/500</div><div class="l">Members</div></div>
+      </div>
+      <div class="consent r">🚫 This club has reached its member capacity.</div>
+      <div class="cta">
+        <div class="btn club">Notify Me if a Place Opens</div>
+        <div class="btn ghost">Discover Similar Clubs</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- J2-04b -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-04b</div><div class="fname">Link Expired<span>Recruitment link error</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic y">🔗</div>
+      <div class="h1">This link has expired</div>
+      <div class="sub">The Manager's recruitment link is no longer active. You can still find the club yourself.</div>
+      <div class="btnrow">
+        <div class="btn">Discover Clubs</div>
+        <div class="btn ghost">Search Club Name</div>
+      </div>
+    </div>
+  </div></div>
+
+</div>
+
+<style id="sfl-chrome">
+  .sfl-statusbar{position:relative;z-index:600;height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px;background:inherit;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .sfl-statusbar .sfl-time{position:relative;z-index:2}
+  .sfl-statusbar .sfl-sys{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+  .sfl-statusbar .sfl-sys svg{display:block}
+  .sfl-notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .sfl-notch::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#1b222c;box-shadow:inset 0 0 2px rgba(120,180,255,.5)}
+</style>
+<script id="sfl-chrome-js">
+(function(){
+  function lum(c){var m=(c||'').match(/[\d.]+/g);if(!m)return 1;var r=m[0]/255,g=m[1]/255,b=m[2]/255;return 0.2126*r+0.7152*g+0.0722*b;}
+  var SIG='<svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor"><rect x="0" y="9" width="3" height="4" rx="1"/><rect x="5" y="6.5" width="3" height="6.5" rx="1"/><rect x="10" y="3.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="13" rx="1"/></svg>';
+  var WIFI='<svg width="17" height="13" viewBox="0 0 17 13" fill="currentColor"><path d="M8.5 2.2C5.6 2.2 2.9 3.3 1 5.2l1.5 1.5C4 5.2 6.2 4.2 8.5 4.2s4.5 1 6 2.5L16 5.2c-1.9-1.9-4.6-3-7.5-3z"/><path d="M8.5 6.6c-1.7 0-3.3.7-4.5 1.9l1.6 1.6c.8-.7 1.8-1.2 2.9-1.2s2.1.5 2.9 1.2l1.6-1.6C11.8 7.3 10.2 6.6 8.5 6.6z"/><circle cx="8.5" cy="11.6" r="1.4"/></svg>';
+  var BAT='<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity="0.45"/><rect x="2.1" y="2.1" width="15" height="8.8" rx="1.8" fill="currentColor"/><path d="M25 4.6c1 .5 1 3.3 0 3.8z" fill="currentColor" fill-opacity="0.6"/></svg>';
+  function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
+  document.querySelectorAll('.phone').forEach(function(p){
+    if(p.querySelector(':scope > .sfl-statusbar'))return;
+    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    p.insertBefore(build(dark),p.firstChild);
+  });
+})();
+</script>
+
+</body>
+</html>

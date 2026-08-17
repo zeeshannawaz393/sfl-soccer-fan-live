@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Journey 1 · Onboarding &amp; Auth</title>
+<style>
+  @font-face{
+    font-family:'Manrope';font-style:normal;font-weight:200 800;
+    src:url('assets/manrope.woff2') format('woff2');
+  }
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --live1:#FF416C;--live2:#FF7A3B;
+    --gold1:#FFB300;--gold2:#FFD54F;
+    --violet:#7C4DFF;--cyan:#1FA8FF;--red:#E4362B;--amber:#F59E0B;
+    --shadow:0 10px 30px rgba(24,40,80,.10);
+    --shadow-sm:0 4px 14px rgba(24,40,80,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  body{
+    background:#E9EDF6;
+    background-image:
+      radial-gradient(50% 30% at 12% 0%,rgba(15,183,83,.10),transparent 60%),
+      radial-gradient(45% 30% at 88% 8%,rgba(255,179,0,.08),transparent 60%);
+    color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;
+    padding:64px 40px 96px;
+  }
+  .num{font-variant-numeric:tabular-nums}
+  .page-head{max-width:1900px;margin:0 auto 52px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:#0FA04C;text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:50px;line-height:1.05;font-weight:800;letter-spacing:-1.5px;color:#10121A}
+  .page-head p{font-size:15px;line-height:23px;color:#5A6272;margin-top:14px;max-width:720px;font-weight:550}
+  .frames{display:flex;gap:56px;flex-wrap:wrap;justify-content:center;max-width:1980px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:16px}
+  .flabel{display:flex;align-items:center;gap:11px}
+  .fnum{width:28px;height:28px;border-radius:9px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;box-shadow:0 6px 16px rgba(15,183,83,.35)}
+  .fname{font-size:16px;font-weight:800;letter-spacing:-.2px;color:#10121A}
+  .fname span{display:block;font-size:12.5px;font-weight:600;color:#707786;margin-top:2px}
+  .phone{
+    width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;
+    background:var(--bg);display:flex;flex-direction:column;
+    box-shadow:0 40px 90px rgba(20,30,60,.16);border:1px solid #DDE2EE;
+  }
+  @keyframes shimmer{0%{transform:translateX(-70%)}100%{transform:translateX(70%)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.35);opacity:0}}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none !important}}
+
+  /* shared auth chrome */
+  .top{padding:20px 22px 0;display:flex;align-items:center;gap:12px}
+  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .steps{flex:1;display:flex;gap:5px}
+  .steps i{height:4px;border-radius:2px;background:#E2E6F0;flex:1}
+  .steps i.on{background:linear-gradient(90deg,var(--green1),var(--green2))}
+  .body{flex:1;padding:26px 22px 0;display:flex;flex-direction:column}
+  .h1{font-size:26px;line-height:32px;font-weight:800;letter-spacing:-.6px}
+  .sub{font-size:14px;line-height:21px;font-weight:600;color:var(--t2);margin-top:9px}
+  .fld{margin-top:18px}
+  .lbl{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
+  .inp{
+    height:54px;border-radius:16px;background:#fff;border:1.5px solid var(--line);
+    display:flex;align-items:center;padding:0 16px;font-size:15px;font-weight:650;color:var(--t1);
+    box-shadow:var(--shadow-sm);gap:10px;
+  }
+  .inp.focus{border-color:var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.12)}
+  .inp .ph{color:var(--t3);font-weight:600}
+  .inp .eye{margin-left:auto;color:var(--t3);font-size:16px}
+  .inp .ok{margin-left:auto;color:#0FA04C;font-weight:800;font-size:13px}
+  .cta{
+    margin-top:auto;margin-bottom:26px;
+  }
+  .btn{
+    height:54px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:800;color:#fff;
+    background:linear-gradient(140deg,var(--green1),var(--green2));
+    box-shadow:0 10px 24px rgba(15,183,83,.35);
+  }
+  .btn.dis{background:#DDE2EC;color:#9AA2B1;box-shadow:none}
+  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .fineprint{font-size:12px;line-height:17px;font-weight:600;color:var(--t3);text-align:center;margin-top:12px}
+  .fineprint b{color:#0FA04C;font-weight:750}
+  .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center;margin-top:16px}
+  .altlink b{color:#0FA04C}
+
+  /* 1 · splash */
+  .splash{background:linear-gradient(180deg,#0B1B10,#123A20 60%,#0E5B31);align-items:center;justify-content:center;display:flex}
+  .splash .mid{display:flex;flex-direction:column;align-items:center;gap:18px}
+  .splash .logo{
+    width:92px;height:92px;border-radius:28px;position:relative;
+    background:linear-gradient(140deg,var(--green1),var(--green2));
+    display:flex;align-items:center;justify-content:center;font-size:46px;
+    box-shadow:0 20px 50px rgba(15,183,83,.4);
+  }
+  .splash .logo::after{content:"";position:absolute;inset:-14px;border-radius:38px;border:2px solid rgba(124,216,67,.5);animation:pulse 2s infinite}
+  .splash .wm{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+  .splash .tag{font-size:13px;font-weight:650;color:#8CE8AE;letter-spacing:2.5px;text-transform:uppercase}
+  .splash .load{margin-top:22px;width:120px;height:4px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+  .splash .load i{position:absolute;left:0;top:0;bottom:0;width:44px;border-radius:2px;background:var(--green2);animation:shimmer 1.4s infinite}
+
+  /* 2 · welcome */
+  .welcome .hero{
+    height:46%;position:relative;flex:none;
+    background:url('assets/dk_cam.jpg') center 8%/cover no-repeat;
+  }
+  .welcome .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,27,16,.15),rgba(244,246,251,0) 55%,var(--bg) 96%)}
+  .welcome .hero .logo{
+    position:absolute;top:20px;left:22px;width:44px;height:44px;border-radius:14px;
+    background:linear-gradient(140deg,var(--green1),var(--green2));
+    display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;
+    box-shadow:0 8px 20px rgba(10,30,16,.35);
+  }
+  .welcome .wbody{flex:1;padding:6px 22px 0;display:flex;flex-direction:column}
+  .welcome .h1{font-size:32px;line-height:38px}
+  .welcome .h1 b{background:linear-gradient(90deg,#0FA04C,#5CBF2A);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .welcome .sub{margin-top:10px}
+  .welcome .cta{gap:10px;display:flex;flex-direction:column}
+  .guest-note{font-size:12px;line-height:17px;font-weight:600;color:var(--t3);text-align:center;margin-top:10px}
+
+  /* 3 · phone */
+  .ccode{display:flex;gap:10px}
+  .ccode .cc{flex:none;width:108px}
+  .agenote{display:flex;align-items:center;gap:9px;margin-top:14px;background:#FFFBF2;border:1px solid #FDE4B8;border-radius:13px;padding:10px 13px;font-size:12px;line-height:17px;font-weight:650;color:#8A6410}
+
+  /* 4 · otp */
+  .otp{display:flex;gap:9px;margin-top:18px}
+  .otp i{
+    flex:1;height:60px;border-radius:15px;background:#fff;border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-style:normal;
+    font-size:22px;font-weight:800;box-shadow:var(--shadow-sm);
+  }
+  .otp i.full{border-color:var(--green1)}
+  .otp i.cur{border-color:var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.12)}
+  .resend{display:flex;justify-content:space-between;margin-top:16px;font-size:13px;font-weight:750}
+  .resend .a{color:var(--t3)}
+  .resend .b{color:#0FA04C}
+  .autonote{font-size:12px;font-weight:600;color:var(--t3);margin-top:14px;text-align:center}
+
+  /* 5 · dob */
+  .dob{display:flex;gap:10px}
+  .dob .inp{flex:1;justify-content:center;font-weight:800}
+  .privnote{display:flex;gap:9px;margin-top:14px;background:#F0F7FF;border:1px solid #CEE4FA;border-radius:13px;padding:10px 13px;font-size:12px;line-height:17px;font-weight:650;color:#1E5E96}
+
+  /* 6 · email + password */
+  .meter{display:flex;gap:5px;margin-top:10px;align-items:center}
+  .meter i{height:5px;border-radius:3px;flex:1;background:#E2E6F0}
+  .meter i.g{background:linear-gradient(90deg,var(--green1),var(--green2))}
+  .meter span{font-size:12px;font-weight:800;color:#0FA04C;margin-left:6px}
+  .reqs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .req{font-size:12px;font-weight:750;color:var(--t3);background:#fff;border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+  .req.ok{color:#0FA04C;border-color:#BFE9CE;background:#F2FBF5}
+  .vnote{display:flex;gap:9px;margin-top:16px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:13px;padding:10px 13px;font-size:12px;line-height:17px;font-weight:650;color:#187A42}
+
+  /* 7 · profile */
+  .avarow{display:flex;justify-content:center;margin-top:4px}
+  .ava{
+    width:96px;height:96px;border-radius:50%;position:relative;
+    background:url('assets/q1_t.jpg') center 25%/cover no-repeat;
+    border:3px solid #fff;box-shadow:var(--shadow);
+  }
+  .ava .edit{
+    position:absolute;right:-2px;bottom:-2px;width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(140deg,var(--green1),var(--green2));border:2.5px solid #fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+  .tchip{font-size:12.5px;font-weight:750;color:var(--t2);background:#fff;border:1.5px solid var(--line);padding:7px 13px;border-radius:999px}
+  .tchip.on{color:#0FA04C;border-color:#9FDDB4;background:#F2FBF5}
+  .permnote{font-size:12px;font-weight:600;color:var(--t3);text-align:center;margin-top:10px}
+
+  /* 8 · ID reveal */
+  .idwrap{align-items:center;text-align:center;display:flex;flex-direction:column}
+  .party{font-size:44px;margin-top:8px}
+  .idcard{
+    margin-top:20px;width:100%;border-radius:22px;overflow:hidden;position:relative;
+    background:linear-gradient(115deg,#0B1B10,#123A20 55%,#0E5B31);
+    padding:22px 18px;box-shadow:0 16px 40px rgba(14,60,32,.35);
+  }
+  .idcard::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 44%,rgba(255,255,255,.10) 50%,transparent 56%);animation:shimmer 3.2s infinite}
+  .idcard .lab{font-size:11px;font-weight:800;letter-spacing:2.5px;color:#8CE8AE;text-transform:uppercase}
+  .idcard .id{font-size:34px;font-weight:800;color:#fff;letter-spacing:2px;margin-top:8px}
+  .idcard .row{display:flex;gap:9px;justify-content:center;margin-top:16px;position:relative;z-index:1}
+  .idcard .act{font-size:13px;font-weight:800;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:8px 16px;border-radius:999px}
+  .uses{width:100%;margin-top:18px;text-align:left}
+  .use{display:flex;align-items:center;gap:11px;padding:10px 2px;font-size:13.5px;font-weight:650;color:var(--t2)}
+  .use .ic{width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .use b{color:var(--t1);font-weight:750}
+
+  /* 9 · choose start */
+  .opt{
+    border-radius:20px;background:#fff;border:1.5px solid var(--line);box-shadow:var(--shadow-sm);
+    padding:16px;display:flex;align-items:center;gap:14px;margin-top:12px;
+  }
+  .opt .ic{width:48px;height:48px;border-radius:16px;flex:none;display:flex;align-items:center;justify-content:center;font-size:23px;background:#F3F5FA}
+  .opt .a{font-size:15.5px;font-weight:800;letter-spacing:-.2px}
+  .opt .b{font-size:12.5px;line-height:18px;font-weight:650;color:var(--t2);margin-top:3px}
+  .opt .chev{margin-left:auto;color:var(--t3);font-size:17px}
+  .opt.rec{border-color:#9FDDB4;background:linear-gradient(115deg,#F4FCF6,#fff)}
+  .opt.rec .ic{background:#E9F9EF}
+  .opt .pill{font-size:11px;font-weight:800;color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE;padding:2px 8px;border-radius:999px;margin-left:7px;letter-spacing:.5px}
+
+  /* 10 · sign in */
+  .seg{display:flex;background:#E9ECF4;border-radius:999px;padding:4px;margin-top:20px}
+  .seg i{flex:1;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13.5px;font-weight:800;color:var(--t2)}
+  .seg i.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .forgot{font-size:13px;font-weight:800;color:#0FA04C;text-align:right;margin-top:10px}
+
+  /* 11 · underage block */
+  .blockwrap{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:60px}
+  .bic{width:84px;height:84px;border-radius:50%;background:#FFFBF2;border:1.5px solid #FDE4B8;display:flex;align-items:center;justify-content:center;font-size:38px}
+  .bic.red{background:#FFF5F4;border-color:#FFD2CE}
+  .bic.green{background:#F2FBF5;border-color:#BFE9CE}
+  .bic.blue{background:#F0F7FF;border-color:#CEE4FA}
+  .blockwrap .h1{margin-top:20px;font-size:23px;line-height:29px}
+  .blockwrap .sub{max-width:290px}
+  .blockwrap .link{margin-top:22px;font-size:14px;font-weight:800;color:#0FA04C}
+  .blockwrap .btnrow{width:100%;padding:0 22px;margin-top:24px;display:flex;flex-direction:column;gap:10px}
+  .blockwrap .btnrow .btn{width:100%}
+
+  /* state & recovery additions */
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:30px 0 0;font-size:19px;font-weight:800;letter-spacing:-.3px;color:#10121A}
+  .divider::after{content:"";flex:1;height:1.5px;background:#D8DEEA;border-radius:1px}
+  .inp.err{border-color:var(--red);box-shadow:0 0 0 4px rgba(228,54,43,.10)}
+  .errmsg{display:flex;gap:8px;margin-top:12px;font-size:12.5px;line-height:17px;font-weight:700;color:#C22318;background:#FFF5F4;border:1px solid #FFD2CE;border-radius:12px;padding:10px 13px}
+  .otp i.errb{border-color:var(--red);color:#C22318}
+  .chkrow{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:13px;font-weight:700;color:var(--t2)}
+  .chk{width:20px;height:20px;border-radius:6px;background:linear-gradient(140deg,var(--green1),var(--green2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex:none}
+  .refchip{font-size:14px;font-weight:800;color:var(--t2);background:#fff;border:1.5px dashed #C9CFDC;padding:9px 16px;border-radius:11px;margin-top:16px;letter-spacing:1.5px}
+  .reason{font-size:12px;font-weight:800;color:#C22318;background:#FFF5F4;border:1px solid #FFD2CE;padding:5px 12px;border-radius:999px;margin-top:14px;letter-spacing:.5px;text-transform:uppercase}
+  .signout{margin-top:18px;font-size:13.5px;font-weight:800;color:var(--t3)}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Journey 1 (confirmed v2)</div>
+  <h1>Onboarding, Registration &amp; Sign-in</h1>
+  <p>Complete 27-screen set for the confirmed flow: the registration funnel (phone OTP → age gate → email &amp; password → email verify → profile with football interests → SFL ID → choose how to start), both sign-in methods, the full password-recovery flow, all four Entry Router states, registration error states, all four separated §15 blocked states, and the contextual notification pre-prompt. Everyone registers as a Fan; no role choice, no direct club join.</p>
+</div>
+
+<div class="frames">
+
+  <!-- 1 · SPLASH -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">1</div><div class="fname">Splash / Entry Router<span>Session check · resume logic · offline &amp; update states</span></div></div>
+    <div class="phone splash">
+      <div class="mid">
+        <div class="logo">⚽</div>
+        <div class="wm">Soccer Fan Live</div>
+        <div class="tag">The Living Stadium</div>
+        <div class="load"><i></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 · WELCOME -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">2</div><div class="fname">Welcome<span>Three entry paths · no role choice</span></div></div>
+    <div class="phone welcome">
+      <div class="hero"><div class="logo">⚽</div></div>
+      <div class="wbody">
+        <div class="h1">Your club. Your stage.<br><b>Game on.</b></div>
+        <div class="sub">Join fan communities, watch live reactions, take a position and experience matchday together.</div>
+        <div class="cta">
+          <div class="btn">Create Account</div>
+          <div class="btn ghost">Sign In</div>
+          <div class="altlink"><b>Explore as Guest</b></div>
+          <div class="guest-note">Browse live rooms and clubs. Create an account to join rooms, participate, predict, send gifts or start a club.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 · PHONE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">3</div><div class="fname">Phone Number<span>Step 1 of 6 · never shown publicly</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">What's your number?</div>
+        <div class="sub">We'll send a verification code to this number. It will never be shown to other members.</div>
+        <div class="fld">
+          <div class="lbl">Phone</div>
+          <div class="ccode">
+            <div class="inp cc">🇬🇧 +44</div>
+            <div class="inp focus" style="flex:1"><span class="num">7700 900</span><span style="color:var(--green1);font-weight:300">|</span></div>
+          </div>
+        </div>
+        <div class="agenote">🎂 You must be at least 16 to create an account. We'll confirm your age next.</div>
+        <div class="cta">
+          <div class="btn">Continue</div>
+          <div class="fineprint">By continuing you agree to the <b>Terms</b> and <b>Privacy Policy</b></div>
+          <div class="altlink">Already have an account? <b>Sign in</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 · OTP -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">4</div><div class="fname">OTP Verification<span>Step 2 of 6 · resend countdown · auto-detect</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">Enter the code</div>
+        <div class="sub">Sent to <b class="num" style="color:var(--t1)">+44 •••• ••0 900</b> &nbsp;·&nbsp; <span style="color:#0FA04C;font-weight:750">Edit number</span></div>
+        <div class="otp">
+          <i class="full num">4</i><i class="full num">7</i><i class="full num">2</i><i class="cur"></i><i></i><i></i>
+        </div>
+        <div class="resend"><span class="a num">Resend in 00:24</span><span class="b">Change number</span></div>
+        <div class="autonote">The code may be filled in automatically when it arrives.</div>
+        <div class="cta">
+          <div class="btn dis">Verify</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 · AGE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">5</div><div class="fname">Age &amp; Eligibility<span>Step 3 of 6 · minimum age configurable by country</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">When were you born?</div>
+        <div class="sub">Your date of birth confirms eligibility and will never appear publicly.</div>
+        <div class="fld">
+          <div class="lbl">Date of birth</div>
+          <div class="dob">
+            <div class="inp num">14</div>
+            <div class="inp">March</div>
+            <div class="inp num">2004</div>
+          </div>
+        </div>
+        <div class="privnote">🔒 Only used for eligibility. Read our <b>age policy</b>.</div>
+        <div class="cta"><div class="btn">Continue</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 · EMAIL + PASSWORD -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">6</div><div class="fname">Email &amp; Password<span>Step 4 of 6 · primary sign-in method · non-blocking verify</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">Secure your account</div>
+        <div class="sub">You'll sign in with this email and password. Your phone stays linked for verification.</div>
+        <div class="fld">
+          <div class="lbl">Email</div>
+          <div class="inp">ada@example.com<span class="ok">✓</span></div>
+        </div>
+        <div class="fld">
+          <div class="lbl">Password</div>
+          <div class="inp">••••••••••<span class="eye">👁</span></div>
+          <div class="meter"><i class="g"></i><i class="g"></i><i class="g"></i><i></i><span>Good</span></div>
+          <div class="reqs">
+            <span class="req ok">✓ 8+ characters</span>
+            <span class="req ok">✓ Upper &amp; lower</span>
+            <span class="req ok">✓ Number</span>
+            <span class="req">Special character</span>
+          </div>
+        </div>
+        <div class="vnote">✉️ We'll send a verification link to your email — you can keep going while it arrives.</div>
+        <div class="cta"><div class="btn">Continue</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 · PROFILE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">7</div><div class="fname">Profile Setup<span>Step 5 of 6 · name &amp; username</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      <div class="body" style="padding-top:18px">
+        <div class="avarow"><div class="ava"><div class="edit">📷</div></div></div>
+        <div class="fld" style="margin-top:14px">
+          <div class="lbl">Display name</div>
+          <div class="inp">Ada</div>
+        </div>
+        <div class="fld">
+          <div class="lbl">Username</div>
+          <div class="inp">@ada_reds<span class="ok">✓ available</span></div>
+        </div>
+        <div class="cta">
+          <div class="btn">Continue</div>
+          <div class="permnote">Photo access is only requested when you tap the camera.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 · ID REVEAL -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">8</div><div class="fname">SFL User ID<span>Step 6 of 6 · permanent · separate from username</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back" style="opacity:0">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      <div class="body idwrap">
+        <div class="party">🎉</div>
+        <div class="h1">You're in, Ada!</div>
+        <div class="sub">This is your permanent SFL ID. Your username can change — this never does.</div>
+        <div class="idcard">
+          <div class="lab">SFL User ID</div>
+          <div class="id num">SFL-84729164</div>
+          <div class="row"><span class="act">📋 Copy</span><span class="act">↗ Share</span></div>
+        </div>
+        <div class="uses">
+          <div class="use"><div class="ic">🛡️</div><div><b>Club invitations</b> — Managers invite you with it</div></div>
+          <div class="use"><div class="ic">🪙</div><div><b>Gold transfers</b> — fans can send Gold to your ID</div></div>
+          <div class="use"><div class="ic">🎧</div><div><b>Support</b> — locate your account and transactions</div></div>
+        </div>
+        <div class="cta" style="width:100%"><div class="btn">Continue</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 · CHOOSE START -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">9</div><div class="fname">Choose How to Start<span>Everyone starts as a Fan</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back" style="opacity:0">‹</div></div>
+      <div class="body">
+        <div class="h1">How do you want to start?</div>
+        <div class="sub">Everyone starts as a Fan. You can join a club, create your own, or explore first.</div>
+        <div class="opt rec">
+          <div class="ic">🛡️</div>
+          <div><div class="a">Join a Club <span class="pill">POPULAR</span></div><div class="b">Discover fan clubs, apply to join, earn rewards together</div></div>
+          <div class="chev">›</div>
+        </div>
+        <div class="opt">
+          <div class="ic">👑</div>
+          <div><div class="a">Start a Club</div><div class="b">Create its identity and colours — you become its Manager</div></div>
+          <div class="chev">›</div>
+        </div>
+        <div class="opt">
+          <div class="ic">📺</div>
+          <div><div class="a">Explore for Now</div><div class="b">Browse live rooms and Matchday. Join a club any time</div></div>
+          <div class="chev">›</div>
+        </div>
+        <div class="cta"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 · SIGN IN -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">10</div><div class="fname">Sign In<span>Email/password primary · phone OTP secondary</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body">
+        <div class="h1">Welcome back</div>
+        <div class="seg"><i class="on">Email</i><i>Phone OTP</i></div>
+        <div class="fld">
+          <div class="lbl">Email</div>
+          <div class="inp">ada@example.com</div>
+        </div>
+        <div class="fld">
+          <div class="lbl">Password</div>
+          <div class="inp"><span class="ph">Your password</span><span class="eye">👁</span></div>
+        </div>
+        <div class="forgot">Forgot password?</div>
+        <div class="cta">
+          <div class="btn">Sign In</div>
+          <div class="altlink">New to SFL? <b>Create an account</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 · UNDERAGE BLOCK -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">11</div><div class="fname">Blocked State — Underage<span>One of four separated block variants (§15)</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body blockwrap">
+        <div class="bic">🎂</div>
+        <div class="h1">We can't create your account yet</div>
+        <div class="sub">SFL requires a minimum age in your country. Nothing you entered has been kept.</div>
+        <div class="link">Read our privacy &amp; age policy</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Entry Router states</div>
+
+  <!-- 1b · OFFLINE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">1b</div><div class="fname">Entry — Offline<span>Router state · retry</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic blue">📡</div>
+        <div class="h1">You're offline</div>
+        <div class="sub">Check your connection — the stadium will still be here when you're back.</div>
+        <div class="btnrow"><div class="btn">Try Again</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1c · MAINTENANCE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">1c</div><div class="fname">Entry — Maintenance<span>Router state</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic">🛠️</div>
+        <div class="h1">We'll be right back</div>
+        <div class="sub">SFL is getting a quick upgrade at half-time. Check back shortly.</div>
+        <div class="link">View status page</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1d · UPDATE REQUIRED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">1d</div><div class="fname">Entry — Update Required<span>Router state · store link</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic green">⬆️</div>
+        <div class="h1">Update to keep playing</div>
+        <div class="sub">This version of SFL is no longer supported. Update to get back to the action.</div>
+        <div class="btnrow"><div class="btn">Update on the App Store</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1e · SESSION EXPIRED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">1e</div><div class="fname">Entry — Session Expired<span>Router state → Sign In</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic">⏰</div>
+        <div class="h1">You've been signed out</div>
+        <div class="sub">For your security, this session ended. Sign in again to continue.</div>
+        <div class="btnrow"><div class="btn">Sign In</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Registration error states</div>
+
+  <!-- 3b · NUMBER ALREADY REGISTERED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">3b</div><div class="fname">Phone — Already Registered<span>Also §15 block variant · offers Sign In / Recover</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">What's your number?</div>
+        <div class="sub">We'll send a verification code to this number. It will never be shown to other members.</div>
+        <div class="fld">
+          <div class="lbl">Phone</div>
+          <div class="ccode">
+            <div class="inp cc">🇬🇧 +44</div>
+            <div class="inp err num" style="flex:1">7700 900123</div>
+          </div>
+          <div class="errmsg">👋 This number already has an SFL account.</div>
+        </div>
+        <div class="cta">
+          <div class="btn">Sign In instead</div>
+          <div class="btn ghost" style="margin-top:10px">Recover my account</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4b · OTP WRONG CODE -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">4b</div><div class="fname">OTP — Wrong Code<span>Attempts remaining · resend available</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="body">
+        <div class="h1">Enter the code</div>
+        <div class="sub">Sent to <b class="num" style="color:var(--t1)">+44 •••• ••0 900</b></div>
+        <div class="otp">
+          <i class="errb num">4</i><i class="errb num">7</i><i class="errb num">2</i><i class="errb num">9</i><i class="errb num">1</i><i class="errb num">8</i>
+        </div>
+        <div class="errmsg">That code isn't right — 2 attempts left.</div>
+        <div class="resend"><span class="b">Resend code</span><span class="b">Change number</span></div>
+        <div class="cta"><div class="btn">Verify</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4c · OTP LOCKED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">4c</div><div class="fname">OTP — Temporarily Locked<span>Too many attempts · cooldown</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body blockwrap">
+        <div class="bic red">⏳</div>
+        <div class="h1">Too many attempts</div>
+        <div class="sub">For your security, verification is paused. Try again in <b class="num" style="color:var(--t1)">09:41</b>.</div>
+        <div class="link">Change number</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6b · VERIFY EMAIL -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">6b</div><div class="fname">Verify Email (step 7)<span>Non-blocking — user can continue (flag F3)</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="body blockwrap" style="justify-content:flex-start;padding-top:60px">
+        <div class="bic green">✉️</div>
+        <div class="h1">Check your inbox</div>
+        <div class="sub">We sent a verification link to <b style="color:var(--t1)">ada@example.com</b>. Password recovery needs a verified email.</div>
+        <div class="btnrow">
+          <div class="btn">Open Mail App</div>
+          <div class="btn ghost">Resend link</div>
+        </div>
+        <div class="link">I'll verify later — continue</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Sign-in &amp; password recovery</div>
+
+  <!-- 10b · SIGN IN OTP TAB -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">10b</div><div class="fname">Sign In — Phone OTP<span>Second method on the same screen</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body">
+        <div class="h1">Welcome back</div>
+        <div class="seg"><i>Email</i><i class="on">Phone OTP</i></div>
+        <div class="fld">
+          <div class="lbl">Phone</div>
+          <div class="ccode">
+            <div class="inp cc">🇬🇧 +44</div>
+            <div class="inp num" style="flex:1">7700 900123</div>
+          </div>
+        </div>
+        <div class="fineprint" style="text-align:left;margin-top:12px">We'll text you a six-digit sign-in code.</div>
+        <div class="cta">
+          <div class="btn">Send Code</div>
+          <div class="altlink">New to SFL? <b>Create an account</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 · FORGOT PASSWORD -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">12</div><div class="fname">Forgot Password<span>Email or phone · sends verification code</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body">
+        <div class="h1">Reset your password</div>
+        <div class="sub">Enter the email or phone on your account and we'll send a verification code.</div>
+        <div class="fld">
+          <div class="lbl">Email or phone</div>
+          <div class="inp focus">ada@example.com</div>
+        </div>
+        <div class="cta"><div class="btn">Send Verification Code</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 · RECOVERY VERIFICATION -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">13</div><div class="fname">Recovery Verification<span>Masked destination · change method</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body">
+        <div class="h1">Enter the code</div>
+        <div class="sub">Sent to <b style="color:var(--t1)">a•••@example.com</b></div>
+        <div class="otp">
+          <i class="full num">8</i><i class="full num">3</i><i class="cur"></i><i></i><i></i><i></i>
+        </div>
+        <div class="resend"><span class="a num">Resend in 00:41</span><span class="b">Use my phone instead</span></div>
+        <div class="cta"><div class="btn dis">Verify</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 · CREATE NEW PASSWORD -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">14</div><div class="fname">Create New Password<span>Strength · sign out other devices</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body">
+        <div class="h1">Create a new password</div>
+        <div class="fld">
+          <div class="lbl">New password</div>
+          <div class="inp">••••••••••••<span class="eye">👁</span></div>
+          <div class="meter"><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><span>Strong</span></div>
+        </div>
+        <div class="fld">
+          <div class="lbl">Confirm password</div>
+          <div class="inp">••••••••••••<span class="ok">✓</span></div>
+        </div>
+        <div class="chkrow"><span class="chk">✓</span>Sign out of my other devices</div>
+        <div class="cta"><div class="btn">Update Password</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14b · PASSWORD UPDATED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">14b</div><div class="fname">Password Updated<span>Completion · straight into the app</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic green">✅</div>
+        <div class="h1">Password updated</div>
+        <div class="sub">You're signed in on this device. Other devices were signed out.</div>
+        <div class="btnrow"><div class="btn">Back to the action</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Blocked states (§15) &amp; permission pre-prompt</div>
+
+  <!-- 15b · SECURITY REVIEW -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">15b</div><div class="fname">Blocked — Security Review<span>Reference number · no fraud details exposed</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back">‹</div></div>
+      <div class="body blockwrap">
+        <div class="bic blue">🛡️</div>
+        <div class="h1">We couldn't finish your registration</div>
+        <div class="sub">Something needs a closer look on our side. Share this reference with support and we'll help you out.</div>
+        <div class="refchip num">REF-4F7K2M</div>
+        <div class="btnrow"><div class="btn ghost">Contact Support</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15c · SUSPENDED -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">15c</div><div class="fname">Blocked — Suspended<span>Reason category · appeal · sign out</span></div></div>
+    <div class="phone">
+      <div class="top"><div class="back" style="opacity:0">‹</div></div>
+      <div class="body blockwrap">
+        <div class="bic red">⚠️</div>
+        <div class="h1">Account suspended</div>
+        <div class="reason">Community guidelines</div>
+        <div class="sub" style="margin-top:12px">Your account is suspended until 21 Aug 2026. You can appeal if you think this is a mistake.</div>
+        <div class="btnrow">
+          <div class="btn ghost">Submit an appeal</div>
+          <div class="btn ghost">Contact Support</div>
+        </div>
+        <div class="signout">Sign out</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16 · NOTIFICATION PRE-PROMPT -->
+  <div class="fw">
+    <div class="flabel"><div class="fnum">16</div><div class="fname">Notification Pre-Prompt<span>Contextual — shown before the OS dialog</span></div></div>
+    <div class="phone">
+      <div class="body blockwrap">
+        <div class="bic green">🔔</div>
+        <div class="h1">Never miss kickoff</div>
+        <div class="sub">We'll tell you when your club plays and when hosts go live. Nothing else, unless you ask.</div>
+        <div class="btnrow">
+          <div class="btn">Enable Notifications</div>
+          <div class="btn ghost">Not now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style id="sfl-chrome">
+  .sfl-statusbar{position:relative;z-index:600;height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px;background:inherit;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .sfl-statusbar .sfl-time{position:relative;z-index:2}
+  .sfl-statusbar .sfl-sys{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+  .sfl-statusbar .sfl-sys svg{display:block}
+  .sfl-notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .sfl-notch::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#1b222c;box-shadow:inset 0 0 2px rgba(120,180,255,.5)}
+</style>
+<script id="sfl-chrome-js">
+(function(){
+  function lum(c){var m=(c||'').match(/[\d.]+/g);if(!m)return 1;var r=m[0]/255,g=m[1]/255,b=m[2]/255;return 0.2126*r+0.7152*g+0.0722*b;}
+  var SIG='<svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor"><rect x="0" y="9" width="3" height="4" rx="1"/><rect x="5" y="6.5" width="3" height="6.5" rx="1"/><rect x="10" y="3.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="13" rx="1"/></svg>';
+  var WIFI='<svg width="17" height="13" viewBox="0 0 17 13" fill="currentColor"><path d="M8.5 2.2C5.6 2.2 2.9 3.3 1 5.2l1.5 1.5C4 5.2 6.2 4.2 8.5 4.2s4.5 1 6 2.5L16 5.2c-1.9-1.9-4.6-3-7.5-3z"/><path d="M8.5 6.6c-1.7 0-3.3.7-4.5 1.9l1.6 1.6c.8-.7 1.8-1.2 2.9-1.2s2.1.5 2.9 1.2l1.6-1.6C11.8 7.3 10.2 6.6 8.5 6.6z"/><circle cx="8.5" cy="11.6" r="1.4"/></svg>';
+  var BAT='<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity="0.45"/><rect x="2.1" y="2.1" width="15" height="8.8" rx="1.8" fill="currentColor"/><path d="M25 4.6c1 .5 1 3.3 0 3.8z" fill="currentColor" fill-opacity="0.6"/></svg>';
+  function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
+  document.querySelectorAll('.phone').forEach(function(p){
+    if(p.querySelector(':scope > .sfl-statusbar'))return;
+    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    p.insertBefore(build(dark),p.firstChild);
+  });
+})();
+</script>
+
+</body>
+</html>

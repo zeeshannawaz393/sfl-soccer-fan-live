@@ -1,0 +1,350 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>SFL — Create a Club</title>
+<style>
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --live1:#FF416C;--live2:#FF7A3B;
+    --gold1:#FFB300;--gold2:#FFD54F;
+    --violet:#7C4DFF;--cyan:#1FA8FF;--red:#E4362B;--sky:#5FA8DE;--amber:#F59E0B;
+    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0d1017;font-family:'Manrope',-apple-system,sans-serif;color:var(--t1);padding:40px}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:1980px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:52px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none}
+  .fname{font-size:15px;font-weight:800;color:#EAEEF5}.fname span{display:block;font-size:11px;font-weight:650;color:#8892A4}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(20,30,60,.20);border:1px solid #D7DDEA}
+  .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px;z-index:5}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .stepind{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--t3)}
+  .steps{display:flex;gap:5px;padding:14px 20px 4px}
+  .steps i{height:5px;flex:1;border-radius:3px;background:var(--line)}
+  .steps i.on{background:linear-gradient(90deg,var(--green1),var(--green2))}
+  .body{flex:1;padding:8px 20px 0;display:flex;flex-direction:column;overflow:hidden}
+  .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:14px;padding-top:8px}
+  .h1{font-size:22px;line-height:27px;font-weight:800;letter-spacing:-.5px}
+  .sub{font-size:13px;line-height:19px;font-weight:600;color:var(--t2);margin-top:6px}
+  .fl{font-size:11.5px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .input{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 15px;font-size:14.5px;font-weight:700;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:8px}
+  .input .ph{color:var(--t3);font-weight:600}.input .pre{color:var(--t3);font-weight:800}
+  .avail{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--green1);display:flex;align-items:center;gap:4px}
+  .disc{font-size:11px;line-height:16px;font-weight:650;color:var(--t3);background:#FFF8E9;border:1px solid #FDECC2;border-radius:11px;padding:10px 12px}
+  .btn{height:52px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.32)}
+  .btn.dark{background:linear-gradient(140deg,#1A1D25,#33384A)}
+  .cta{padding:14px 0 18px;margin-top:auto}
+  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .searchbar{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 15px;font-size:14px;font-weight:650;color:var(--t3);box-shadow:var(--shadow-sm)}
+  .lgchips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .lgchips::-webkit-scrollbar{display:none}
+  .lgchip{flex:none;padding:8px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--t2);box-shadow:var(--shadow-sm);white-space:nowrap}
+  .lgchip.on{background:var(--t1);color:#fff;border-color:transparent}
+  .lgsec{font-size:11.5px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 2px}
+  .lgroup{display:flex;flex-direction:column;gap:10px}
+  .teamrow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 13px;box-shadow:var(--shadow-sm)}
+  .teamrow.on{border-color:var(--green1);box-shadow:0 0 0 2px rgba(15,183,83,.25)}
+  .teamrow .crest{width:38px;height:38px;border-radius:10px;font-size:11px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(150deg,var(--red),#8F1109);flex:none}
+  .teamrow .tn{font-size:14px;font-weight:800}
+  .teamrow .tc{font-size:11px;font-weight:650;color:var(--t2);margin-top:1px}
+  .teamrow .rad{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none}
+  .teamrow.on .rad{border-color:var(--green1);background:radial-gradient(circle,var(--green1) 40%,transparent 46%)}
+  .teamsel{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff,#F3F7FD);border:1px solid var(--line);border-radius:15px;padding:13px 14px;box-shadow:var(--shadow-sm)}
+  .teamsel .crest{width:44px;height:44px;border-radius:11px;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(150deg,var(--red),#8F1109);flex:none}
+  .teamsel .tn{font-size:14.5px;font-weight:800}.teamsel .tc{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:1px}
+  .teamsel .chg{margin-left:auto;font-size:12px;font-weight:800;color:var(--cyan)}
+  .crestbuild{display:flex;flex-direction:column;align-items:center;gap:14px;background:linear-gradient(160deg,#fff,#F4F7FD);border:1px solid var(--line);border-radius:20px;padding:22px 16px;box-shadow:var(--shadow-sm)}
+  .crest{width:96px;height:96px;border-radius:16px;background:linear-gradient(150deg,var(--red),#8F1109);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;box-shadow:0 12px 30px rgba(228,54,43,.32)}
+  .swatches{display:flex;gap:11px}
+  .sw{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.15);position:relative}
+  .sw.on::after{content:"";position:absolute;inset:-5px;border:2px solid var(--t1);border-radius:50%}
+  .emrow{display:flex;gap:9px}
+  .em{width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:19px}
+  .em.on{border-color:var(--t1);border-width:2px}
+  .seg{display:flex;background:#EBEEF4;border-radius:13px;padding:4px;gap:4px}
+  .segopt{flex:1;text-align:center;padding:11px;border-radius:10px;font-size:13px;font-weight:800;color:var(--t2)}
+  .segopt.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .visbox{font-size:12px;line-height:17px;font-weight:650;color:var(--t2);background:#EFF6FF;border:1px solid #DCEAFB;border-radius:12px;padding:11px 13px}
+  .visbox b{color:var(--t1)}
+  .visbox.inv{background:#F4EEFF;border-color:#E4D8FB}
+  .invlink{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 13px;box-shadow:var(--shadow-sm);margin-top:10px}
+  .invlink .ilk{font-size:10.5px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+  .invlink .ilv{font-size:13px;font-weight:800;color:var(--t1);margin-top:2px}
+  .invlink .ilbtns{margin-left:auto;display:flex;gap:7px}
+  .invlink .ilb{font-size:11.5px;font-weight:800;color:var(--cyan);background:#EAF6FF;border-radius:999px;padding:7px 12px}
+  .trow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 15px;box-shadow:var(--shadow-sm)}
+  .trow .tt{font-size:13.5px;font-weight:800}.trow .ts{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:2px}
+  .tog{margin-left:auto;width:46px;height:28px;border-radius:999px;background:var(--green1);position:relative;flex:none}
+  .tog::after{content:"";position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:#fff}
+  .tog.off{background:#CDD3DE}.tog.off::after{right:auto;left:3px}
+  .chk{width:24px;height:24px;border-radius:7px;background:var(--green1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none}
+  .chk.off{background:#fff;border:1.5px solid var(--line);color:transparent}
+  .summ{display:flex;align-items:center;gap:13px;padding:16px}
+  .summ .crest{width:56px;height:56px;font-size:15px}
+  .summ .sn{font-size:16px;font-weight:800}.summ .sh{font-size:12px;font-weight:700;color:var(--t2);margin-top:2px}
+  .srow{display:flex;align-items:center;padding:12px 16px;border-top:1px solid var(--line);font-size:13px;font-weight:700}
+  .srow .k{color:var(--t2)}.srow .v{margin-left:auto;font-weight:800}
+  .celebrate{align-items:center;text-align:center;justify-content:center;gap:0}
+  .cbadge{width:110px;height:110px;border-radius:20px;background:linear-gradient(150deg,var(--red),#8F1109);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#fff;box-shadow:0 20px 44px rgba(228,54,43,.36);margin:0 auto}
+  .checklist{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:18px}
+  .cli{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 14px;box-shadow:var(--shadow-sm);text-align:left}
+  .cli .ci{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+  .cli .cn{font-size:13px;font-weight:800}.cli .cs{font-size:11px;font-weight:650;color:var(--t2)}
+  .cli .arr{margin-left:auto;color:var(--t3);font-weight:800}
+</style></head>
+<body>
+<div class="frames">
+
+  <!-- CC-01T SELECT TEAM -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-01T</div><div class="fname">Select Team — League Picker<span>Search · filter by league · 106 clubs</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Pick your team</div><div class="stepind">Step 1 of 6</div></div>
+    <div class="steps"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="searchbar">🔍 Search 106+ clubs or cities…</div>
+      <div class="lgchips"><span class="lgchip on" data-league="">All</span><span class="lgchip" data-league="premier">🏴 Premier League</span><span class="lgchip" data-league="laliga">🇪🇸 La Liga</span><span class="lgchip" data-league="seriea">🇮🇹 Serie A</span><span class="lgchip" data-league="bundesliga">🇩🇪 Bundesliga</span><span class="lgchip" data-league="ligue1">🇫🇷 Ligue 1</span><span class="lgchip" data-league="primeira">🇵🇹 Primeira</span><span class="lgchip" data-league="eredivisie">🇳🇱 Eredivisie</span></div>
+    <div class="lgroup" data-league="premier">
+      <div class="lgsec">ENGLAND · PREMIER LEAGUE</div>
+      <div class="teamrow on" data-name="arsenal"><div class="crest cr-red">ARS</div><div><div class="tn">Arsenal</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="aston villa"><div class="crest cr-red">AVL</div><div><div class="tn">Aston Villa</div><div class="tc">Birmingham</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="bournemouth"><div class="crest cr-red">BOU</div><div><div class="tn">Bournemouth</div><div class="tc">Bournemouth</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="brentford"><div class="crest cr-red">BRE</div><div><div class="tn">Brentford</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="brighton & hove albion"><div class="crest cr-blue">BHA</div><div><div class="tn">Brighton & Hove Albion</div><div class="tc">Brighton</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="chelsea"><div class="crest cr-blue">CHE</div><div><div class="tn">Chelsea</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="crystal palace"><div class="crest cr-blue">CRY</div><div><div class="tn">Crystal Palace</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="everton"><div class="crest cr-blue">EVE</div><div><div class="tn">Everton</div><div class="tc">Liverpool</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fulham"><div class="crest cr-blue">FUL</div><div><div class="tn">Fulham</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="ipswich town"><div class="crest cr-blue">IPS</div><div><div class="tn">Ipswich Town</div><div class="tc">Ipswich</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="leicester city"><div class="crest cr-blue">LEI</div><div><div class="tn">Leicester City</div><div class="tc">Leicester</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="liverpool"><div class="crest cr-red">LIV</div><div><div class="tn">Liverpool</div><div class="tc">Liverpool</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="manchester city"><div class="crest cr-blue">MCI</div><div><div class="tn">Manchester City</div><div class="tc">Manchester</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="manchester united"><div class="crest cr-red">MUN</div><div><div class="tn">Manchester United</div><div class="tc">Manchester</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="newcastle united"><div class="crest cr-blue">NEW</div><div><div class="tn">Newcastle United</div><div class="tc">Newcastle</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="nottingham forest"><div class="crest cr-red">NFO</div><div><div class="tn">Nottingham Forest</div><div class="tc">Nottingham</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="southampton"><div class="crest cr-red">SOU</div><div><div class="tn">Southampton</div><div class="tc">Southampton</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="tottenham hotspur"><div class="crest cr-blue">TOT</div><div><div class="tn">Tottenham Hotspur</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="west ham united"><div class="crest cr-red">WHU</div><div><div class="tn">West Ham United</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="wolverhampton"><div class="crest cr-gold">WOL</div><div><div class="tn">Wolverhampton</div><div class="tc">Wolverhampton</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="laliga">
+      <div class="lgsec">SPAIN · LA LIGA</div>
+      <div class="teamrow" data-name="real madrid"><div class="crest cr-gold">RMA</div><div><div class="tn">Real Madrid</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fc barcelona"><div class="crest cr-blue">BAR</div><div><div class="tn">FC Barcelona</div><div class="tc">Barcelona</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="atlético madrid"><div class="crest cr-red">ATM</div><div><div class="tn">Atlético Madrid</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="athletic bilbao"><div class="crest cr-red">ATH</div><div><div class="tn">Athletic Bilbao</div><div class="tc">Bilbao</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="real sociedad"><div class="crest cr-blue">RSO</div><div><div class="tn">Real Sociedad</div><div class="tc">San Sebastián</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="real betis"><div class="crest cr-green">BET</div><div><div class="tn">Real Betis</div><div class="tc">Seville</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="villarreal"><div class="crest cr-gold">VIL</div><div><div class="tn">Villarreal</div><div class="tc">Villarreal</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="valencia"><div class="crest cr-gold">VAL</div><div><div class="tn">Valencia</div><div class="tc">Valencia</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="sevilla"><div class="crest cr-red">SEV</div><div><div class="tn">Sevilla</div><div class="tc">Seville</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="girona"><div class="crest cr-red">GIR</div><div><div class="tn">Girona</div><div class="tc">Girona</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="osasuna"><div class="crest cr-red">OSA</div><div><div class="tn">Osasuna</div><div class="tc">Pamplona</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="celta vigo"><div class="crest cr-blue">CEL</div><div><div class="tn">Celta Vigo</div><div class="tc">Vigo</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="rayo vallecano"><div class="crest cr-red">RAY</div><div><div class="tn">Rayo Vallecano</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="mallorca"><div class="crest cr-red">MLL</div><div><div class="tn">Mallorca</div><div class="tc">Palma</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="getafe"><div class="crest cr-blue">GET</div><div><div class="tn">Getafe</div><div class="tc">Getafe</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="las palmas"><div class="crest cr-gold">LPA</div><div><div class="tn">Las Palmas</div><div class="tc">Las Palmas</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="deportivo alavés"><div class="crest cr-blue">ALA</div><div><div class="tn">Deportivo Alavés</div><div class="tc">Vitoria</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="espanyol"><div class="crest cr-blue">ESP</div><div><div class="tn">Espanyol</div><div class="tc">Barcelona</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="leganés"><div class="crest cr-blue">LEG</div><div><div class="tn">Leganés</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="real valladolid"><div class="crest cr-purple">VLL</div><div><div class="tn">Real Valladolid</div><div class="tc">Valladolid</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="seriea">
+      <div class="lgsec">ITALY · SERIE A</div>
+      <div class="teamrow" data-name="inter milan"><div class="crest cr-blue">INT</div><div><div class="tn">Inter Milan</div><div class="tc">Milan</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="ac milan"><div class="crest cr-red">MIL</div><div><div class="tn">AC Milan</div><div class="tc">Milan</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="juventus"><div class="crest cr-gold">JUV</div><div><div class="tn">Juventus</div><div class="tc">Turin</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="napoli"><div class="crest cr-blue">NAP</div><div><div class="tn">Napoli</div><div class="tc">Naples</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="as roma"><div class="crest cr-red">ROM</div><div><div class="tn">AS Roma</div><div class="tc">Rome</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="lazio"><div class="crest cr-blue">LAZ</div><div><div class="tn">Lazio</div><div class="tc">Rome</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="atalanta"><div class="crest cr-blue">ATA</div><div><div class="tn">Atalanta</div><div class="tc">Bergamo</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fiorentina"><div class="crest cr-purple">FIO</div><div><div class="tn">Fiorentina</div><div class="tc">Florence</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="bologna"><div class="crest cr-red">BOL</div><div><div class="tn">Bologna</div><div class="tc">Bologna</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="torino"><div class="crest cr-red">TOR</div><div><div class="tn">Torino</div><div class="tc">Turin</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="udinese"><div class="crest cr-gold">UDI</div><div><div class="tn">Udinese</div><div class="tc">Udine</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="genoa"><div class="crest cr-red">GEN</div><div><div class="tn">Genoa</div><div class="tc">Genoa</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="monza"><div class="crest cr-red">MON</div><div><div class="tn">Monza</div><div class="tc">Monza</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="hellas verona"><div class="crest cr-gold">VER</div><div><div class="tn">Hellas Verona</div><div class="tc">Verona</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="cagliari"><div class="crest cr-red">CAG</div><div><div class="tn">Cagliari</div><div class="tc">Cagliari</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="lecce"><div class="crest cr-gold">LEC</div><div><div class="tn">Lecce</div><div class="tc">Lecce</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="empoli"><div class="crest cr-blue">EMP</div><div><div class="tn">Empoli</div><div class="tc">Empoli</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="parma"><div class="crest cr-gold">PAR</div><div><div class="tn">Parma</div><div class="tc">Parma</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="como"><div class="crest cr-blue">COM</div><div><div class="tn">Como</div><div class="tc">Como</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="venezia"><div class="crest cr-green">VEN</div><div><div class="tn">Venezia</div><div class="tc">Venice</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="bundesliga">
+      <div class="lgsec">GERMANY · BUNDESLIGA</div>
+      <div class="teamrow" data-name="bayern munich"><div class="crest cr-red">FCB</div><div><div class="tn">Bayern Munich</div><div class="tc">Munich</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="borussia dortmund"><div class="crest cr-gold">BVB</div><div><div class="tn">Borussia Dortmund</div><div class="tc">Dortmund</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="rb leipzig"><div class="crest cr-red">RBL</div><div><div class="tn">RB Leipzig</div><div class="tc">Leipzig</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="bayer leverkusen"><div class="crest cr-red">B04</div><div><div class="tn">Bayer Leverkusen</div><div class="tc">Leverkusen</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="eintracht frankfurt"><div class="crest cr-red">SGE</div><div><div class="tn">Eintracht Frankfurt</div><div class="tc">Frankfurt</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="vfb stuttgart"><div class="crest cr-red">VFB</div><div><div class="tn">VfB Stuttgart</div><div class="tc">Stuttgart</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="vfl wolfsburg"><div class="crest cr-green">WOB</div><div><div class="tn">VfL Wolfsburg</div><div class="tc">Wolfsburg</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="sc freiburg"><div class="crest cr-red">SCF</div><div><div class="tn">SC Freiburg</div><div class="tc">Freiburg</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="hoffenheim"><div class="crest cr-blue">TSG</div><div><div class="tn">Hoffenheim</div><div class="tc">Sinsheim</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="mainz 05"><div class="crest cr-red">M05</div><div><div class="tn">Mainz 05</div><div class="tc">Mainz</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="werder bremen"><div class="crest cr-green">SVW</div><div><div class="tn">Werder Bremen</div><div class="tc">Bremen</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fc augsburg"><div class="crest cr-red">FCA</div><div><div class="tn">FC Augsburg</div><div class="tc">Augsburg</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="union berlin"><div class="crest cr-red">FCU</div><div><div class="tn">Union Berlin</div><div class="tc">Berlin</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="borussia m.gladbach"><div class="crest cr-green">BMG</div><div><div class="tn">Borussia M.gladbach</div><div class="tc">Mönchengladbach</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="vfl bochum"><div class="crest cr-blue">BOC</div><div><div class="tn">VfL Bochum</div><div class="tc">Bochum</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="1. fc heidenheim"><div class="crest cr-red">HDH</div><div><div class="tn">1. FC Heidenheim</div><div class="tc">Heidenheim</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fc st. pauli"><div class="crest cr-gold">STP</div><div><div class="tn">FC St. Pauli</div><div class="tc">Hamburg</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="holstein kiel"><div class="crest cr-blue">KSV</div><div><div class="tn">Holstein Kiel</div><div class="tc">Kiel</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="ligue1">
+      <div class="lgsec">FRANCE · LIGUE 1</div>
+      <div class="teamrow" data-name="paris saint-germain"><div class="crest cr-blue">PSG</div><div><div class="tn">Paris Saint-Germain</div><div class="tc">Paris</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="marseille"><div class="crest cr-blue">OM</div><div><div class="tn">Marseille</div><div class="tc">Marseille</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="as monaco"><div class="crest cr-red">ASM</div><div><div class="tn">AS Monaco</div><div class="tc">Monaco</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="lyon"><div class="crest cr-blue">OL</div><div><div class="tn">Lyon</div><div class="tc">Lyon</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="lille"><div class="crest cr-red">LOSC</div><div><div class="tn">Lille</div><div class="tc">Lille</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="nice"><div class="crest cr-red">OGCN</div><div><div class="tn">Nice</div><div class="tc">Nice</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="rennes"><div class="crest cr-red">SRFC</div><div><div class="tn">Rennes</div><div class="tc">Rennes</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="lens"><div class="crest cr-gold">RCL</div><div><div class="tn">Lens</div><div class="tc">Lens</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="strasbourg"><div class="crest cr-blue">RCSA</div><div><div class="tn">Strasbourg</div><div class="tc">Strasbourg</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="nantes"><div class="crest cr-gold">FCN</div><div><div class="tn">Nantes</div><div class="tc">Nantes</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="montpellier"><div class="crest cr-blue">MHSC</div><div><div class="tn">Montpellier</div><div class="tc">Montpellier</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="toulouse"><div class="crest cr-purple">TFC</div><div><div class="tn">Toulouse</div><div class="tc">Toulouse</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="reims"><div class="crest cr-red">SR</div><div><div class="tn">Reims</div><div class="tc">Reims</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="brest"><div class="crest cr-red">SB29</div><div><div class="tn">Brest</div><div class="tc">Brest</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="le havre"><div class="crest cr-blue">HAC</div><div><div class="tn">Le Havre</div><div class="tc">Le Havre</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="auxerre"><div class="crest cr-blue">AJA</div><div><div class="tn">Auxerre</div><div class="tc">Auxerre</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="angers"><div class="crest cr-gold">SCO</div><div><div class="tn">Angers</div><div class="tc">Angers</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="saint-étienne"><div class="crest cr-green">ASSE</div><div><div class="tn">Saint-Étienne</div><div class="tc">Saint-Étienne</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="primeira">
+      <div class="lgsec">PORTUGAL · PRIMEIRA LIGA</div>
+      <div class="teamrow" data-name="benfica"><div class="crest cr-red">SLB</div><div><div class="tn">Benfica</div><div class="tc">Lisbon</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fc porto"><div class="crest cr-blue">FCP</div><div><div class="tn">FC Porto</div><div class="tc">Porto</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="sporting cp"><div class="crest cr-green">SCP</div><div><div class="tn">Sporting CP</div><div class="tc">Lisbon</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="braga"><div class="crest cr-red">SCB</div><div><div class="tn">Braga</div><div class="tc">Braga</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="vitória sc"><div class="crest cr-blue">VSC</div><div><div class="tn">Vitória SC</div><div class="tc">Guimarães</div></div><div class="rad"></div></div>
+    </div>
+    <div class="lgroup" data-league="eredivisie">
+      <div class="lgsec">NETHERLANDS · EREDIVISIE</div>
+      <div class="teamrow" data-name="ajax"><div class="crest cr-red">AJA</div><div><div class="tn">Ajax</div><div class="tc">Amsterdam</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="psv eindhoven"><div class="crest cr-red">PSV</div><div><div class="tn">PSV Eindhoven</div><div class="tc">Eindhoven</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="feyenoord"><div class="crest cr-red">FEY</div><div><div class="tn">Feyenoord</div><div class="tc">Rotterdam</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="az alkmaar"><div class="crest cr-red">AZ</div><div><div class="tn">AZ Alkmaar</div><div class="tc">Alkmaar</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="fc twente"><div class="crest cr-red">TWE</div><div><div class="tn">FC Twente</div><div class="tc">Enschede</div></div><div class="rad"></div></div>
+    </div>
+      <div class="disc">⚠️ Real club &amp; league names shown for concept. Official names, badges &amp; data require licensing or an official data provider before launch.</div>
+    </div><div class="cta"><div class="btn">Use Arsenal ›</div></div></div>
+  </div></div>
+
+  <!-- CC-01 BASICS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-01</div><div class="fname">Create Club — Basics<span>Name · handle · region</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Club basics</div><div class="stepind">Step 2 of 6</div></div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="fl">Your team</div>
+      <div class="teamsel"><div class="crest cr-red">ARS</div><div style="flex:1"><div class="tn">Arsenal</div><div class="tc">London · Premier League</div></div><div class="chg">Change</div></div>
+      <div class="field"><div class="fl">Club name</div><div class="input">Arsenal Fans</div></div>
+      <div class="field"><div class="fl">Handle</div><div class="input"><span class="pre">@</span>arsenalfans<span class="avail">✓ Available</span></div></div>
+      <div class="field"><div class="fl">City / Region</div><div class="input">London, UK 🇬🇧</div></div>
+      <div class="disc">⚠️ SFL clubs are fan communities. Choosing a team does not imply official affiliation, licence or endorsement.</div>
+    </div><div class="cta"><div class="btn">Continue</div></div></div>
+  </div></div>
+
+  <!-- CC-02 IDENTITY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-02</div><div class="fname">Identity — Crest &amp; Colours<span>Shield builder</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Club identity</div><div class="stepind">Step 3 of 6</div></div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="crestbuild">
+        <div class="crest cr-red">ARS</div>
+        <div class="swatches">
+          <div class="sw on" style="background:linear-gradient(150deg,#F0564A,#A81C12)"></div>
+          <div class="sw" style="background:linear-gradient(150deg,#5AA0E6,#1B569B)"></div>
+          <div class="sw" style="background:linear-gradient(150deg,#F3CC55,#B0800A)"></div>
+          <div class="sw" style="background:linear-gradient(150deg,#5FC27E,#1C8348)"></div>
+          <div class="sw" style="background:linear-gradient(150deg,#B07CF0,#6A34B8)"></div>
+          <div class="sw" style="background:linear-gradient(150deg,#43C4C9,#157B7F)"></div>
+        </div>
+        <div class="emrow"><div class="em on">🛡️</div><div class="em">⚽</div><div class="em">🦁</div><div class="em">⭐</div><div class="em">🔥</div></div>
+      </div>
+      <div class="field"><div class="fl">Initials on crest</div><div class="input">ARS</div></div>
+      <div class="field"><div class="fl">Club motto <span style="text-transform:none;color:var(--t3)">(optional)</span></div><div class="input">Victoria Concordia Crescit</div></div>
+    </div><div class="cta"><div class="btn">Continue</div></div></div>
+  </div></div>
+
+  <!-- CC-03 TYPE & RULES -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-03</div><div class="fname">Type &amp; Rules<span>Visibility · approvals</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">How it runs</div><div class="stepind">Step 4 of 6</div></div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="field"><div class="fl">Who can find your club</div><div class="seg"><div class="segopt on">Public</div><div class="segopt">Invite-only</div></div></div>
+      <div class="visbox pubonly">🌍 <b>Public</b> — your club appears in Discovery, search &amp; league tables. Anyone can apply to join.</div>
+      <div class="invonly" style="display:none">
+        <div class="visbox inv">🔒 <b>Invite-only</b> — hidden from Discovery. Fans join with your link or code.</div>
+        <div class="invlink"><div><div class="ilk">Your invite link</div><div class="ilv num">sfl.live/c/arsenal-x8f2</div></div><div class="ilbtns"><div class="ilb">Copy</div><div class="ilb">Share</div></div></div>
+      </div>
+      <div class="trow"><div><div class="tt">Approve new fans</div><div class="ts">Review each application before they join</div></div><div class="tog"></div></div>
+      <div class="trow"><div><div class="tt">Members can post to club feed</div><div class="ts">Off = only you (Manager) can post</div></div><div class="tog"></div></div>
+      <div class="trow"><div><div class="tt">Age-restricted content</div><div class="ts">Keep the club 18+</div></div><div class="tog off"></div></div>
+      <div class="field"><div class="fl">Category</div><div class="input">Match-day &amp; watchalongs</div></div>
+    </div><div class="cta"><div class="btn">Continue</div></div></div>
+  </div></div>
+
+  <!-- CC-04 MANAGER AGREEMENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-04</div><div class="fname">Manager Agreement<span>Commission · KYC · conduct</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Manager terms</div><div class="stepind">Step 5 of 6</div></div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="h1">Before you go live</div>
+      <div class="card" style="padding:2px 16px">
+        <div class="srow" style="border-top:none"><span class="k">Manager commission</span><span class="v">Additive · from platform</span></div>
+        <div class="srow"><span class="k">Payouts</span><span class="v">To verified wallet</span></div>
+        <div class="srow"><span class="k">Club wallet</span><span class="v">Held in Gold</span></div>
+      </div>
+      <div class="disc">🛡️ Identity verification (KYC) is required before your club can receive or pay out money. You'll be prompted when you first withdraw.</div>
+      <div class="trow"><div class="chk">✓</div><div><div class="tt">I accept the Manager Code of Conduct</div><div class="ts">No misleading real-team claims · fair play · community rules</div></div></div>
+      <div class="trow"><div class="chk">✓</div><div><div class="tt">I'm 18+ and these details are accurate</div></div></div>
+    </div><div class="cta"><div class="btn dark">Agree &amp; continue</div></div></div>
+  </div></div>
+
+  <!-- CC-05 REVIEW & CREATE -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-05</div><div class="fname">Review &amp; Create<span>Final summary</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Review</div><div class="stepind">Step 6 of 6</div></div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <div class="body"><div class="scrollarea">
+      <div class="card">
+        <div class="summ"><div class="crest cr-red">ARS</div><div><div class="sn">Arsenal Fans</div><div class="sh">@arsenalfans · London 🇬🇧</div></div></div>
+        <div class="srow"><span class="k">Team</span><span class="v">Arsenal</span></div>
+        <div class="srow"><span class="k">Visibility</span><span class="v">Public</span></div>
+        <div class="srow"><span class="k">Approve fans</span><span class="v">On</span></div>
+        <div class="srow"><span class="k">Your roles</span><span class="v">Manager + Fan</span></div>
+      </div>
+      <div class="disc">You become Manager and Fan of this club. While you run it you can't join or manage another — but you can always explore others.</div>
+    </div><div class="cta"><div class="btn">Create Club 🎉</div></div></div>
+  </div></div>
+
+  <!-- CC-06 CLUB CREATED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CC-06</div><div class="fname">Club Created — First Steps<span>New-club empty state</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back" style="opacity:0">‹</div><div class="htitle"></div></div>
+    <div class="body"><div class="scrollarea celebrate">
+      <div class="cbadge cr-red">ARS</div>
+      <div class="h1" style="margin-top:16px">Arsenal Fans is live! 🎉</div>
+      <div class="sub" style="text-align:center;max-width:280px">You're the Manager and first Fan. Here's how to get your club buzzing.</div>
+      <div class="checklist">
+        <div class="cli"><div class="ci" style="background:#EAF3FF">👥</div><div><div class="cn">Invite your first fans</div><div class="cs">Share your club link</div></div><div class="arr">›</div></div>
+        <div class="cli"><div class="ci" style="background:#EAFBEF">✅</div><div><div class="cn">Set the first Fan Task</div><div class="cs">Give fans a reason to return daily</div></div><div class="arr">›</div></div>
+        <div class="cli"><div class="ci" style="background:#FFF0E9">📡</div><div><div class="cn">Go live for match-day</div><div class="cs">Host a watchalong</div></div><div class="arr">›</div></div>
+        <div class="cli"><div class="ci" style="background:#F3EEFF">🎯</div><div><div class="cn">Open a prediction</div><div class="cs">Next fixture: Arsenal vs Chelsea</div></div><div class="arr">›</div></div>
+      </div>
+    </div><div class="cta"><div class="btn dark">Go to Manager HQ</div></div></div>
+  </div></div>
+
+</div>
+</body></html>

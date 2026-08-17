@@ -1,0 +1,10 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "screens",
+      "url": "http://localhost:8630",
+      "port": 8630
+    }
+  ]
+}

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Journey 19 · Messaging, Voice & Video Calls</title>
+<style>
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('assets/manrope.woff2') format('woff2')}
+  :root{
+    --arena:#080A10;--panel:#141922;--panel2:#1C2330;--panel3:#252E3D;
+    --line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);
+    --t1:#F2F5FA;--t2:#98A2B3;--t3:#5A6472;
+    --volt:#C9FF3D;--gold1:#FFC23D;--gold2:#FF9E1B;--goldSoft:#FFE1A0;
+    --live:#FF2D6E;--amber:#FFA31A;--coral:#FF3B5F;--green:#2FCB6E;--cyan:#38C6FF;
+    --red:#E4362B;--redDeep:#8E1912;--blue:#2F7FD1;--blueDeep:#1E5E9E;
+    --shadow:0 18px 44px rgba(0,0,0,.5);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  body{background:#0B0E14;background-image:radial-gradient(56% 30% at 12% 0%,rgba(228,54,43,.14),transparent 60%),radial-gradient(48% 30% at 90% 5%,rgba(47,127,209,.12),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
+  .page-head{max-width:1900px;margin:0 auto 44px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:var(--volt);text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:50px;line-height:1.04;font-weight:800;letter-spacing:-1.6px;color:#fff}
+  .page-head p{font-size:15px;line-height:23px;color:#AEB6C4;margin-top:14px;max-width:830px;font-weight:550}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:2040px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:60px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--red),var(--redDeep));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex:none}
+  .fnum.call{background:linear-gradient(140deg,var(--green),#1a9c53)}
+  .fname{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#fff}
+  .fname span{display:block;font-size:12px;font-weight:600;color:#8A93A2;margin-top:2px}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--arena);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(0,0,0,.55);border:1px solid #262C38}
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:34px 0 4px;font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .divider::after{content:"";flex:1;height:1.5px;background:rgba(255,255,255,.14);border-radius:1px}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes ring{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes pulsring{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+
+  .top{padding:18px 18px 0;display:flex;align-items:center;gap:11px}
+  .back,.ico{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .hicons{margin-left:auto;display:flex;gap:8px}
+  .body{flex:1;padding:14px 16px 0;display:flex;flex-direction:column;overflow:hidden}
+  .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:0}
+  .scroll>*{flex:none}
+  .lbl{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--t3);text-transform:uppercase}
+  .cta{margin-top:auto;padding:14px 0 22px;display:flex;flex-direction:column;gap:9px}
+  .cta .btn{width:100%}
+  .altlink{font-size:13px;font-weight:750;color:var(--t2);text-align:center}
+  .btn{height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;color:#0A1400;background:var(--volt);box-shadow:0 10px 24px rgba(201,255,61,.22)}
+  .btn.red{background:linear-gradient(140deg,#FF5488,var(--live));color:#fff}
+  .btn.ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line2);box-shadow:none}
+  .btn.sm{height:44px;font-size:13.5px;border-radius:12px}
+  .av{border-radius:50%;background-size:cover;background-position:center;flex:none}
+
+  /* search / filters */
+  .search{height:44px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;gap:9px;padding:0 13px;font-size:13.5px;font-weight:600;color:var(--t3)}
+  .filters{display:flex;gap:7px;overflow:hidden;margin:12px 0 4px}
+  .fchip{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:var(--panel2);border:1px solid var(--line);padding:7px 12px;border-radius:999px}
+  .fchip.on{background:var(--volt);color:#0A1400;border-color:var(--volt)}
+  .fchip .bd{margin-left:5px;background:var(--live);color:#fff;border-radius:999px;padding:0 5px;font-size:10px}
+
+  /* inbox row */
+  .crow{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .crow:last-child{border:none}
+  .crow .cav{width:50px;height:50px;position:relative}
+  .crow .cav .dot{position:absolute;bottom:1px;right:1px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--arena)}
+  .crow .crest{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;background:linear-gradient(150deg,var(--red),var(--redDeep))}
+  .crow .cn{font-size:14.5px;font-weight:800;color:#fff;display:flex;align-items:center;gap:6px}
+  .crow .rolechip{font-size:8.5px;font-weight:800;padding:1px 6px;border-radius:5px;text-transform:uppercase}
+  .crow .rolechip.mgr{background:rgba(255,194,61,.18);color:var(--gold1)}
+  .crow .rolechip.club{background:rgba(228,54,43,.2);color:#FF8A7E}
+  .crow .cp{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px;display:flex;align-items:center;gap:5px}
+  .crow .cp.miss{color:var(--coral)}
+  .crow .cmeta{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .crow .ct{font-size:11px;font-weight:700;color:var(--t3)}
+  .crow .unread{background:var(--live);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+  .crow .tick{font-size:12px;color:var(--cyan)}
+
+  /* new msg result */
+  .uresult{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:9px}
+  .uresult .av{width:46px;height:46px}
+  .uresult .un{font-size:14px;font-weight:800;color:#fff}
+  .uresult .ui{font-size:11px;font-weight:700;color:var(--t3);font-family:ui-monospace,monospace}
+  .uresult .act{margin-left:auto;height:34px;padding:0 15px;border-radius:10px;font-size:12.5px;font-weight:800;display:flex;align-items:center}
+  .uresult .act.msg{background:var(--volt);color:#0A1400}
+  .uresult .act.req{background:var(--panel3);color:var(--t1);border:1px solid var(--line2)}
+
+  /* request card */
+  .reqcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:11px}
+  .reqcard .rh{display:flex;align-items:center;gap:11px}
+  .reqcard .rn{font-size:14.5px;font-weight:800;color:#fff}
+  .reqcard .rc{font-size:11px;font-weight:700;color:var(--t2)}
+  .reqcard .shared{font-size:10.5px;font-weight:750;color:var(--cyan);margin-top:2px}
+  .reqcard .rmsg{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:12.5px;font-weight:600;color:#D6DEEA;margin:11px 0}
+  .reqcard .racts{display:flex;gap:8px}
+  .reqcard .racts .btn{flex:1}
+
+  /* chat thread */
+  .chdr{padding:14px 16px 12px;display:flex;align-items:center;gap:11px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .chdr .av{width:40px;height:40px}
+  .chdr .cn{font-size:15px;font-weight:800;color:#fff}
+  .chdr .cs{font-size:11px;font-weight:700;color:var(--green);margin-top:1px}
+  .chdr .callbtn{width:38px;height:38px;border-radius:50%;background:var(--panel2);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+  .msgs{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:10px;padding:14px 16px}
+  .sysmsg{align-self:center;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--t2);text-align:center;max-width:85%}
+  .bubble{max-width:76%;padding:10px 13px;border-radius:16px;font-size:13.5px;font-weight:600;line-height:19px}
+  .bubble.recv{align-self:flex-start;background:var(--panel2);color:#E4E9F1;border-bottom-left-radius:5px}
+  .bubble.sent{align-self:flex-end;background:linear-gradient(140deg,var(--red),var(--redDeep));color:#fff;border-bottom-right-radius:5px}
+  .bmeta{display:flex;align-items:center;gap:5px;justify-content:flex-end;margin-top:4px;font-size:10px;font-weight:700;opacity:.85}
+  .bmeta .tick{color:#9CE0FF}
+  .sentwrap{align-self:flex-end;display:flex;flex-direction:column;align-items:flex-end;max-width:78%}
+  .recvwrap{align-self:flex-start;display:flex;flex-direction:column;align-items:flex-start;max-width:78%}
+  .failmeta{color:var(--coral)!important;opacity:1}
+  .giftcard{align-self:center;background:linear-gradient(150deg,#241A05,#141922);border:1px solid rgba(255,194,61,.35);border-radius:16px;padding:13px 16px;text-align:center;max-width:80%}
+  .giftcard .gi{font-size:30px}
+  .giftcard .gt{font-size:13px;font-weight:800;color:var(--goldSoft);margin-top:4px}
+  .giftcard .gs{font-size:10.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .composer{display:flex;align-items:center;gap:9px;padding:10px 16px 16px}
+  .composer .cin{flex:1;height:44px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;padding:0 15px;font-size:13px;color:var(--t3);font-weight:600}
+  .composer .cbtn{width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .composer .cbtn.gift{background:linear-gradient(140deg,var(--gold1),var(--gold2));border:none;color:#3A2400}
+  .composer .cbtn.send{background:var(--volt);border:none}
+
+  .dnote{display:block;border-radius:12px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:700}
+  .dnote.info{background:rgba(47,127,209,.12);border:1px solid rgba(47,127,209,.3);color:#8FC0F0}
+  .dnote.amber{background:rgba(255,163,26,.1);border:1px solid rgba(255,163,26,.3);color:var(--amber)}
+  .dnote.coral{background:rgba(255,59,95,.1);border:1px solid rgba(255,59,95,.3);color:#FF7C93}
+  .dnote.gold{background:rgba(255,194,61,.1);border:1px solid rgba(255,194,61,.3);color:var(--goldSoft)}
+
+  /* blocked composer */
+  .blockedbar{margin:auto 16px 16px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px;text-align:center;font-size:12.5px;font-weight:750;color:var(--t2)}
+
+  /* gift sheet */
+  .giftgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .giftopt{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+  .giftopt.on{border-color:var(--gold1);background:rgba(255,194,61,.08)}
+  .giftopt .ge{font-size:28px}
+  .giftopt .gn{font-size:11px;font-weight:800;color:#fff;margin-top:5px}
+  .giftopt .gc{font-size:11px;font-weight:800;color:var(--gold1);margin-top:2px;display:flex;align-items:center;justify-content:center;gap:3px}
+  .kv{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700}
+  .kv:last-child{border:none}
+  .kv .k{color:var(--t2);font-weight:650}.kv .v{margin-left:auto;font-weight:800;color:#fff}
+  .kv .v.gold{color:var(--goldSoft)}
+
+  /* CALL SCREENS */
+  .callbg{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(18px) brightness(.4);transform:scale(1.2)}
+  .callbg::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,10,16,.5),rgba(8,10,16,.85))}
+  .callinner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;padding:60px 24px 34px}
+  .callstate{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.75)}
+  .callava{width:130px;height:130px;border-radius:50%;background-size:cover;background-position:center;margin-top:26px;border:3px solid rgba(255,255,255,.3);position:relative}
+  .callava .pulse{position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,.5);animation:pulsring 1.8s ease-out infinite}
+  .callava.ring{animation:ring 1.6s ease-in-out infinite}
+  .callname{font-size:26px;font-weight:800;color:#fff;margin-top:22px;letter-spacing:-.5px}
+  .callsub{font-size:13px;font-weight:700;color:rgba(255,255,255,.7);margin-top:5px}
+  .rolebadge{display:inline-flex;margin-top:10px;font-size:10px;font-weight:800;padding:4px 11px;border-radius:999px;background:rgba(255,194,61,.2);color:var(--gold1);border:1px solid rgba(255,194,61,.35)}
+  .callctrls{margin-top:auto;display:flex;gap:22px;align-items:center;justify-content:center}
+  .cc{display:flex;flex-direction:column;align-items:center;gap:7px}
+  .cc .b{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;backdrop-filter:blur(6px)}
+  .cc .b.end{background:var(--live);border:none}
+  .cc .b.accept{background:var(--green);border:none}
+  .cc .b.on{background:#fff;color:#14161C}
+  .cc .l{font-size:10px;font-weight:700;color:rgba(255,255,255,.7)}
+  .netq{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:750;color:rgba(255,255,255,.8);margin-top:6px}
+  .netq .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .netq.weak .d{background:var(--amber)}
+
+  /* video call */
+  .videofull{position:absolute;inset:0;background-size:cover;background-position:center}
+  .videofull::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent 25%,transparent 65%,rgba(0,0,0,.55))}
+  .selfview{position:absolute;top:16px;right:16px;width:96px;height:132px;border-radius:14px;background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.5);z-index:3;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .vtopbar{position:absolute;top:20px;left:20px;z-index:3}
+  .vname{font-size:18px;font-weight:800;color:#fff}
+  .vdur{font-size:12px;font-weight:700;color:rgba(255,255,255,.85);margin-top:2px;display:flex;align-items:center;gap:6px}
+  .vctrls{position:absolute;bottom:30px;left:0;right:0;z-index:3;display:flex;gap:18px;justify-content:center}
+
+  /* call end / history */
+  .celebrate{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:34px}
+  .celebrate .cta{width:100%}
+  .esic{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px}
+  .esic.miss{background:rgba(255,59,95,.14);border:1.5px solid rgba(255,59,95,.4);color:var(--coral)}
+  .esic.done{background:rgba(47,203,110,.14);border:1.5px solid rgba(47,203,110,.4)}
+  .callrow{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .callrow:last-child{border:none}
+  .callrow .av{width:44px;height:44px}
+  .callrow .cn{font-size:13.5px;font-weight:800;color:#fff}
+  .callrow .cd{font-size:11px;font-weight:700;margin-top:2px;display:flex;align-items:center;gap:5px;color:var(--t2)}
+  .callrow .cd.miss{color:var(--coral)}
+  .callrow .cb{margin-left:auto;width:38px;height:38px;border-radius:50%;background:var(--panel2);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--green)}
+
+  /* settings */
+  .setgrp{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:12px}
+  .setrow{display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700;color:#fff}
+  .setrow:last-child{border:none}
+  .setrow .sv{margin-left:auto;font-size:12.5px;font-weight:750;color:var(--t2)}
+  .sw{width:42px;height:24px;border-radius:999px;background:var(--panel3);position:relative;flex:none}
+  .sw.on{background:var(--volt)}
+  .sw i{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff}
+  .sw.on i{left:20px}
+  .radio{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--line2)}
+  .radio.on{border-color:var(--volt);background:radial-gradient(circle,var(--volt) 42%,transparent 46%)}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Journey 19 — Messaging &amp; Calls</div>
+  <h1>Team Communication Tunnel</h1>
+  <p>Private DMs, club group chat, and 1:1 voice/video — kept separate from live-room chat (J7/J8), Party chat (J18), and feed comments (J18). Two hard rules: <b>money never moves through chat</b> (the Gift button routes to J10; Gold stays in J13's wallet), and <b>contact is permission-gated</b> — club members direct, everyone else by request, calls stricter still, and Manager status never bypasses a Fan's privacy. Delivery and call states are honest — no fake "Delivered," no fake "Ringing."</p>
+</div>
+
+<div class="frames">
+
+  <div class="divider">Messaging entry</div>
+
+  <!-- MSG-01 INBOX -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-01</div><div class="fname">Chat Inbox<span>Conversations + call activity</span></div></div>
+  <div class="phone" data-nav="home">
+    <div class="top"><div class="back">‹</div><div class="htitle">Messages</div><div class="hicons" style="margin-left:auto"><div class="ico">✎</div><div class="ico">⚙</div></div></div>
+    <div class="body">
+      <div class="search">🔍 Search messages</div>
+      <div class="filters"><span class="fchip on">All</span><span class="fchip">Unread</span><span class="fchip">Club</span><span class="fchip">Managers</span><span class="fchip">Requests <span class="bd">2</span></span></div>
+      <div class="scroll">
+        <div class="crow"><div class="crest">RF</div><div style="flex:1"><div class="cn">Red Fury · Club Chat <span class="rolechip club">Club</span></div><div class="cp">Jordan: Big watchalong tonight—be there!</div></div><div class="cmeta"><div class="ct">2m</div><div class="unread num">5</div></div></div>
+        <div class="crow"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_m1.jpg')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Jordan <span class="rolechip mgr">Manager</span></div><div class="cp">You: Thanks for the gift! <span class="tick">✓✓</span></div></div><div class="cmeta"><div class="ct">14m</div></div></div>
+        <div class="crow"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_f2.jpg')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cp">possession was unreal 🔥</div></div><div class="cmeta"><div class="ct">1h</div><div class="unread num">2</div></div></div>
+        <div class="crow"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cp miss">📞 Missed video call</div></div><div class="cmeta"><div class="ct">3h</div></div></div>
+        <div class="crow"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cp">🎁 Golden Boot sent</div></div><div class="cmeta"><div class="ct">1d</div></div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- MSG-02 NEW MESSAGE -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-02</div><div class="fname">New Message / Search<span>Permission-aware results</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">✕</div><div class="htitle">New Message</div></div>
+    <div class="body">
+      <div class="search">🔍 Name or User ID</div>
+      <div class="lbl" style="margin:16px 0 10px">Your club</div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="un">Jordan · Manager</div><div class="ui num">ID 10022 · Red Fury</div></div><div class="act msg">Message</div></div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="un">Priya S.</div><div class="ui num">ID 67890 · Red Fury</div></div><div class="act msg">Message</div></div>
+      <div class="lbl" style="margin:8px 0 10px">Found by ID · different club</div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="un">Diego S.</div><div class="ui num">ID 60034 · Blue Wolves</div></div><div class="act req">Request</div></div>
+      <div class="dnote info" style="margin-top:8px">Fans in another club receive a <b>message request</b> first — they choose whether to accept. Wallet balances are never shown here.</div>
+    </div>
+  </div></div>
+
+  <!-- MSG-03 REQUESTS -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-03</div><div class="fname">Message Requests<span>Anti-spam gate</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Message Requests</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="reqcard">
+          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="rn">Diego S.</div><div class="rc num">ID 60034 · Blue Wolves</div><div class="shared">🔵 Met in Matchday Watchalong</div></div></div>
+          <div class="rmsg">"Great shout in the party earlier — up for a chat about the derby?"</div>
+          <div class="racts"><div class="btn ghost sm">Delete</div><div class="btn sm">Accept</div></div>
+          <div style="text-align:center;margin-top:9px;font-size:11.5px;font-weight:750;color:var(--coral)">Block &amp; Report</div>
+        </div>
+        <div class="reqcard">
+          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/fb_f3.jpg')"></div><div style="flex:1"><div class="rn">Sara V.</div><div class="rc num">ID 90551 · Night City</div><div class="shared">🆔 Found by User ID</div></div></div>
+          <div class="rmsg">"Hey! Saw your Fan Value, big respect 👏"</div>
+          <div class="racts"><div class="btn ghost sm">Delete</div><div class="btn sm">Accept</div></div>
+        </div>
+        <div class="dnote amber">Accepting turns this into a normal conversation and unlocks calls. Deleting won't notify them.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="divider">Private communication</div>
+
+  <!-- MSG-04 THREAD -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-04</div><div class="fname">One-to-One Chat<span>Delivery states · gift card</span></div></div>
+  <div class="phone">
+    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cs">● Online</div></div><div class="callbtn">📞</div><div class="callbtn">📹</div></div>
+    <div class="msgs">
+      <div class="sysmsg">Request accepted · you can now message &amp; call</div>
+      <div class="recvwrap"><div class="bubble recv">possession was unreal tonight 🔥</div><div class="bmeta" style="justify-content:flex-start">9:32 PM</div></div>
+      <div class="sentwrap"><div class="bubble sent">right?! that last 10 mins was unreal</div><div class="bmeta"><span>9:33 PM</span><span class="tick">✓✓ Read</span></div></div>
+      <div class="giftcard"><div class="gi">🥇</div><div class="gt">You sent a Golden Boot</div><div class="gs">Sent via Gifts · 199 Coins</div></div>
+      <div class="recvwrap"><div class="bubble recv">omg thank you!! 😍</div><div class="bmeta" style="justify-content:flex-start">9:35 PM</div></div>
+      <div class="sentwrap"><div class="bubble sent">call you after the replay?</div><div class="bmeta"><span>9:36 PM</span><span>✓ Delivered</span></div></div>
+    </div>
+    <div class="composer"><div class="cbtn gift">🎁</div><div class="cin">Message…</div><div class="cbtn">😀</div><div class="cbtn send">➤</div></div>
+  </div></div>
+
+  <!-- MSG-06 GIFT FLOW -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-06</div><div class="fname">Send Gift in Chat<span>Routes to J10 · never wallet</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">✕</div><div class="htitle">Send a Gift</div></div>
+    <div class="body">
+      <div style="display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:14px"><div class="av" style="width:40px;height:40px;background-image:url('assets/fb_f2.jpg')"></div><div><div style="font-size:13.5px;font-weight:800">To Priya S.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">Recipient locked to this chat</div></div><div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:13px;font-weight:800;color:var(--gold1)">🪙 1,240</div></div>
+      <div class="giftgrid">
+        <div class="giftopt"><div class="ge">🧣</div><div class="gn">Scarf</div><div class="gc">🪙 20</div></div>
+        <div class="giftopt on"><div class="ge">🥇</div><div class="gn">Golden Boot</div><div class="gc">🪙 199</div></div>
+        <div class="giftopt"><div class="ge">🎆</div><div class="gn">Flare</div><div class="gc">🪙 99</div></div>
+        <div class="giftopt"><div class="ge">🏆</div><div class="gn">Trophy</div><div class="gc">🪙 499</div></div>
+        <div class="giftopt"><div class="ge">⚽</div><div class="gn">Match Ball</div><div class="gc">🪙 49</div></div>
+        <div class="giftopt"><div class="ge">💐</div><div class="gn">Bouquet</div><div class="gc">🪙 79</div></div>
+      </div>
+      <div class="dnote gold" style="margin-top:14px">🎁 Gifts go through the Gifts journey — this is <b>not</b> a cash or Gold transfer. Coins are spent, and Priya receives a gift.</div>
+      <div class="cta"><div class="btn" style="background:linear-gradient(140deg,var(--gold1),var(--gold2));color:#3A2400">Send Golden Boot · 199 Coins</div></div>
+    </div>
+  </div></div>
+
+  <!-- MSG-04B BLOCKED / FAILED -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-04B</div><div class="fname">Failed &amp; Blocked States<span>Honest, non-revealing</span></div></div>
+  <div class="phone">
+    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cs" style="color:var(--t3)">Last seen recently</div></div><div class="callbtn" style="opacity:.4">📞</div><div class="callbtn" style="opacity:.4">📹</div></div>
+    <div class="msgs">
+      <div class="sentwrap"><div class="bubble sent">you around for a call?</div><div class="bmeta"><span>8:01 PM</span><span>✓ Sent</span></div></div>
+      <div class="sentwrap"><div class="bubble sent" style="opacity:.7">hello?</div><div class="bmeta failmeta"><span>8:14 PM</span><span>⚠ Failed · Tap to retry</span></div></div>
+      <div class="sysmsg">Offline — 1 message queued, will send when you reconnect</div>
+    </div>
+    <div class="blockedbar">🚫 You blocked this account · messaging &amp; calls are off<div style="display:flex;gap:9px;margin-top:11px"><div class="btn ghost sm" style="flex:1">Unblock</div><div class="btn red sm" style="flex:1">Delete Chat</div></div></div>
+  </div></div>
+
+  <div class="divider">Club group chat</div>
+
+  <!-- MSG-05 CLUB GROUP CHAT -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-05</div><div class="fname">Club Group Chat<span>System events · Manager pin</span></div></div>
+  <div class="phone">
+    <div class="chdr"><div class="back">‹</div><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(150deg,var(--red),var(--redDeep));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px">RF</div><div style="flex:1"><div class="cn">Red Fury · Club Chat</div><div class="cs" style="color:var(--t2)">388 members · 42 online</div></div><div class="callbtn">⋯</div></div>
+    <div style="padding:9px 16px;background:rgba(255,194,61,.08);border-bottom:1px solid rgba(255,194,61,.2);display:flex;gap:8px;align-items:center"><span style="color:var(--gold1)">📌</span><div style="font-size:11.5px;font-weight:750;color:var(--goldSoft)">Manager: Matchday 6 watchalong 8PM — be there!</div></div>
+    <div class="msgs">
+      <div class="sysmsg">Alex joined Red Fury 🔴</div>
+      <div class="recvwrap"><div class="cn" style="font-size:11px;color:var(--gold1);margin-bottom:3px;font-weight:800;display:flex;gap:5px">Jordan <span class="rolechip mgr">Manager</span></div><div class="bubble recv">Huge game tonight lads, let's fill the stand 💪</div><div class="bmeta" style="justify-content:flex-start">7:40 PM</div></div>
+      <div class="recvwrap"><div class="cn" style="font-size:11px;color:var(--t2);margin-bottom:3px;font-weight:800">Marco T.</div><div class="bubble recv">Counting down ⚽🔥</div></div>
+      <div class="sysmsg">Priya is now on loan at Blue Wolves</div>
+      <div class="sentwrap"><div class="bubble sent">Up the Fury! 🧣</div><div class="bmeta"><span>7:42 PM</span><span class="tick">✓✓</span></div></div>
+    </div>
+    <div class="composer"><div class="cbtn gift">🎁</div><div class="cin">Message the club…</div><div class="cbtn send">➤</div></div>
+  </div></div>
+
+  <div class="divider">Calls</div>
+
+  <!-- CALL-01 OUTGOING -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-01</div><div class="fname">Outgoing Call<span>Honest ringing state</span></div></div>
+  <div class="phone">
+    <div class="callbg" style="background-image:url('assets/fb_f2.jpg')"></div>
+    <div class="callinner">
+      <div class="callstate">Voice call · Ringing…</div>
+      <div class="callava ring" style="background-image:url('assets/fb_f2.jpg')"><div class="pulse"></div></div>
+      <div class="callname">Priya S.</div>
+      <div class="callsub">Red Fury</div>
+      <div class="callctrls">
+        <div class="cc"><div class="b">🔊</div><div class="l">Speaker</div></div>
+        <div class="cc"><div class="b end">📞</div><div class="l">Cancel</div></div>
+        <div class="cc"><div class="b">💬</div><div class="l">Message</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CALL-02 INCOMING VIDEO -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-02</div><div class="fname">Incoming Video Call<span>Camera off until accept</span></div></div>
+  <div class="phone">
+    <div class="callbg" style="background-image:url('assets/fb_m4.jpg')"></div>
+    <div class="callinner">
+      <div class="callstate">Incoming video call</div>
+      <div class="callava" style="background-image:url('assets/fb_m4.jpg')"></div>
+      <div class="callname">Mo A.</div>
+      <div class="callsub">Blue Wolves</div>
+      <div class="rolebadge">Accepted contact</div>
+      <div class="dnote info" style="margin-top:20px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#D6DEEA">📷 Your camera stays off until you accept.</div>
+      <div class="callctrls" style="gap:40px">
+        <div class="cc"><div class="b end">📞</div><div class="l">Decline</div></div>
+        <div class="cc"><div class="b accept">📹</div><div class="l">Accept</div></div>
+      </div>
+      <div style="margin-top:16px;font-size:12px;font-weight:750;color:rgba(255,255,255,.7)">💬 Reply with message</div>
+    </div>
+  </div></div>
+
+  <!-- CALL-P PERMISSION -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-P</div><div class="fname">Camera Permission<span>Always an escape route</span></div></div>
+  <div class="phone">
+    <div class="body celebrate">
+      <div class="esic" style="background:rgba(56,198,255,.14);border:1.5px solid rgba(56,198,255,.4)">📷</div>
+      <div style="font-size:22px;font-weight:800;color:#fff;margin-top:18px">Camera access</div>
+      <div style="font-size:13.5px;font-weight:600;color:var(--t2);margin-top:8px;max-width:290px;text-align:center">SFL needs camera access for video calls. You can always switch to a voice call instead.</div>
+      <div class="cta" style="margin-top:20px"><div class="btn">Continue</div><div class="btn ghost">Use Voice Call Instead</div><div class="altlink">Not Now</div></div>
+    </div>
+  </div></div>
+
+  <!-- CALL-03 ACTIVE VOICE -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-03</div><div class="fname">Active Voice Call<span>Timer starts on connect</span></div></div>
+  <div class="phone">
+    <div class="callbg" style="background-image:url('assets/fb_f2.jpg')"></div>
+    <div class="callinner">
+      <div class="callstate" style="color:var(--green)">● Connected</div>
+      <div class="callava" style="background-image:url('assets/fb_f2.jpg')"></div>
+      <div class="callname">Priya S.</div>
+      <div class="callsub num" style="font-size:18px;color:#fff;font-weight:800;margin-top:8px">04:12</div>
+      <div class="netq"><span class="d"></span>Good connection</div>
+      <div class="callctrls" style="margin-bottom:14px">
+        <div class="cc"><div class="b">🔇</div><div class="l">Mute</div></div>
+        <div class="cc"><div class="b">📹</div><div class="l">Video</div></div>
+        <div class="cc"><div class="b on">🔊</div><div class="l">Speaker</div></div>
+      </div>
+      <div class="callctrls"><div class="cc"><div class="b end" style="width:66px;height:66px">📞</div><div class="l">End</div></div></div>
+    </div>
+  </div></div>
+
+  <!-- CALL-04 ACTIVE VIDEO -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-04</div><div class="fname">Active Video Call<span>Faces first · self-view</span></div></div>
+  <div class="phone">
+    <div class="videofull" style="background-image:url('assets/fb_m4.jpg')"></div>
+    <div class="selfview" style="background-image:url('assets/fb_host.jpg')"></div>
+    <div class="vtopbar"><div class="vname">Mo A.</div><div class="vdur"><span class="netq" style="margin:0"><span class="d"></span></span><span class="num">02:48</span> · HD</div></div>
+    <div class="vctrls">
+      <div class="cc"><div class="b">🔇</div></div>
+      <div class="cc"><div class="b on">📷</div></div>
+      <div class="cc"><div class="b">🔄</div></div>
+      <div class="cc"><div class="b end">📞</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Call outcomes</div>
+
+  <!-- CALL-05 MISSED / FAILED -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-05</div><div class="fname">Missed / Busy / Failed<span>No pushy "call again" spam</span></div></div>
+  <div class="phone">
+    <div class="body celebrate">
+      <div class="esic miss">📞</div>
+      <div style="font-size:23px;font-weight:800;color:#fff;margin-top:16px">No answer</div>
+      <div style="font-size:13.5px;font-weight:600;color:var(--t2);margin-top:8px">Priya didn't pick up. You can leave a message.</div>
+      <div style="width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px 16px;margin-top:20px;text-align:left">
+        <div class="kv"><span class="k">Type</span><span class="v">Voice call · outgoing</span></div>
+        <div class="kv"><span class="k">Status</span><span class="v" style="color:var(--amber)">No answer</span></div>
+        <div class="kv"><span class="k">Time</span><span class="v num">9:41 PM</span></div>
+      </div>
+      <div class="cta" style="margin-top:18px"><div class="btn">Send Message</div><div class="btn ghost">Call Again</div></div>
+    </div>
+  </div></div>
+
+  <!-- CALL-06 HISTORY -->
+  <div class="fw"><div class="flabel"><div class="fnum call">CALL-06</div><div class="fname">Call History<span>Metadata only · never recordings</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Calls</div></div>
+    <div class="body">
+      <div class="filters"><span class="fchip on">All</span><span class="fchip">Missed</span><span class="fchip">Voice</span><span class="fchip">Video</span></div>
+      <div class="scroll">
+        <div class="callrow"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cd">↗ Outgoing · Voice · 4:12</div></div><div class="cb">📞</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cd miss">↙ Missed · Video</div></div><div class="cb" style="color:var(--coral)">📹</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="cn">Jordan</div><div class="cd">↙ Incoming · Voice · 8:30</div></div><div class="cb">📞</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cd">↗ Outgoing · Video · 12:04</div></div><div class="cb">📹</div></div>
+      </div>
+      <div class="dnote info" style="margin-bottom:16px">🔒 We store call times &amp; durations only — never audio or video. Calls aren't recorded.</div>
+    </div>
+  </div></div>
+
+  <!-- MSG-08 SETTINGS -->
+  <div class="fw"><div class="flabel"><div class="fnum">MSG-08</div><div class="fname">Messaging &amp; Call Settings<span>Safe by default</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Privacy</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="lbl" style="margin-bottom:8px">Who can message me</div>
+        <div class="setgrp">
+          <div class="setrow">Club members<div class="radio on"></div></div>
+          <div class="setrow">People I've interacted with<div class="radio"></div></div>
+          <div class="setrow">Everyone (via request)<div class="radio"></div></div>
+          <div class="setrow">Nobody<div class="radio"></div></div>
+        </div>
+        <div class="lbl" style="margin-bottom:8px">Who can call me</div>
+        <div class="setgrp">
+          <div class="setrow">Accepted contacts<div class="radio on"></div></div>
+          <div class="setrow">Club members<div class="radio"></div></div>
+          <div class="setrow">Nobody<div class="radio"></div></div>
+        </div>
+        <div class="setgrp">
+          <div class="setrow">Read receipts<div class="sw on"><i></i></div></div>
+          <div class="setrow">Online status<div class="sw on"><i></i></div></div>
+          <div class="setrow">Allow mobile data for video<div class="sw"><i></i></div></div>
+        </div>
+        <div class="dnote info" style="margin-bottom:14px">Default keeps unknown users from calling you directly. Safety &amp; transaction messages can't be muted.</div>
+      </div>
+    </div>
+  </div></div>
+
+</div>
+
+<style id="sfl-chrome">
+  .sfl-statusbar{position:relative;z-index:600;height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px;background:inherit;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .sfl-statusbar .sfl-time{position:relative;z-index:2}
+  .sfl-statusbar .sfl-sys{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+  .sfl-statusbar .sfl-sys svg{display:block}
+  .sfl-notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .sfl-notch::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#1b222c;box-shadow:inset 0 0 2px rgba(120,180,255,.5)}
+</style>
+<script id="sfl-chrome-js">
+(function(){
+  function lum(c){var m=(c||'').match(/[\d.]+/g);if(!m)return 1;var r=m[0]/255,g=m[1]/255,b=m[2]/255;return 0.2126*r+0.7152*g+0.0722*b;}
+  var SIG='<svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor"><rect x="0" y="9" width="3" height="4" rx="1"/><rect x="5" y="6.5" width="3" height="6.5" rx="1"/><rect x="10" y="3.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="13" rx="1"/></svg>';
+  var WIFI='<svg width="17" height="13" viewBox="0 0 17 13" fill="currentColor"><path d="M8.5 2.2C5.6 2.2 2.9 3.3 1 5.2l1.5 1.5C4 5.2 6.2 4.2 8.5 4.2s4.5 1 6 2.5L16 5.2c-1.9-1.9-4.6-3-7.5-3z"/><path d="M8.5 6.6c-1.7 0-3.3.7-4.5 1.9l1.6 1.6c.8-.7 1.8-1.2 2.9-1.2s2.1.5 2.9 1.2l1.6-1.6C11.8 7.3 10.2 6.6 8.5 6.6z"/><circle cx="8.5" cy="11.6" r="1.4"/></svg>';
+  var BAT='<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity="0.45"/><rect x="2.1" y="2.1" width="15" height="8.8" rx="1.8" fill="currentColor"/><path d="M25 4.6c1 .5 1 3.3 0 3.8z" fill="currentColor" fill-opacity="0.6"/></svg>';
+  function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
+  document.querySelectorAll('.phone').forEach(function(p){
+    if(p.querySelector(':scope > .sfl-statusbar'))return;
+    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    p.insertBefore(build(dark),p.firstChild);
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Journey 15 · Fan Transfer & Loan (Transfer Window)</title>
+<style>
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('assets/manrope.woff2') format('woff2')}
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --gold1:#FFB300;--goldDeep:#9A6A00;
+    --amber:#F59E0B;--amberDeep:#B4740A;
+    --coral:#FF3B5F;--value:#4DB326;
+    --red:#E4362B;--redDeep:#B4241B;--blue:#2F7FD1;--blueDeep:#1E5E9E;
+    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  body{background:#E7ECF6;background-image:radial-gradient(56% 30% at 10% 0%,rgba(47,127,209,.10),transparent 60%),radial-gradient(50% 30% at 92% 5%,rgba(228,54,43,.08),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
+  .page-head{max-width:1900px;margin:0 auto 44px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:var(--blueDeep);text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:50px;line-height:1.04;font-weight:800;letter-spacing:-1.6px;color:#10121A}
+  .page-head p{font-size:15px;line-height:23px;color:#5A6272;margin-top:14px;max-width:800px;font-weight:550}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:2040px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:56px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--blue),#1E5E9E);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none}
+  .fname{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#10121A}
+  .fname span{display:block;font-size:12px;font-weight:600;color:#707786;margin-top:2px}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(20,30,60,.18);border:1px solid #D7DDEA}
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:34px 0 4px;font-size:20px;font-weight:800;letter-spacing:-.3px;color:#10121A}
+  .divider::after{content:"";flex:1;height:1.5px;background:#CDD5E4;border-radius:1px}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+
+  .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
+  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .body{flex:1;padding:16px 20px 0;display:flex;flex-direction:column;overflow:hidden}
+  .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .scroll>*{flex:none}
+  .h1{font-size:24px;line-height:30px;font-weight:800;letter-spacing:-.6px}
+  .sub{font-size:13.5px;line-height:20px;font-weight:600;color:var(--t2);margin-top:8px}
+  .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase}
+  .cta{margin-top:auto;padding:14px 0 22px;display:flex;flex-direction:column;gap:9px}
+  .cta .btn{width:100%}
+  .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
+  .card{background:#fff;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+
+  .btn{height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 10px 24px rgba(15,183,83,.28)}
+  .btn.blue{background:linear-gradient(140deg,var(--blue),#2569b0);box-shadow:0 10px 24px rgba(47,127,209,.28)}
+  .btn.amber{background:linear-gradient(140deg,var(--gold1),var(--amber));color:#5A3E00;box-shadow:0 10px 24px rgba(245,158,11,.28)}
+  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.coral{background:#fff;color:var(--coral);border:1.5px solid #FBD5DD;box-shadow:var(--shadow-sm)}
+  .btn.dis{background:#EEF1F6;color:var(--t3);box-shadow:none}
+  .btn.sm{height:44px;font-size:13.5px;border-radius:12px}
+
+  /* crest / avatar */
+  .crest{border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;background:linear-gradient(150deg,var(--red),var(--redDeep));box-shadow:0 5px 14px rgba(228,54,43,.35),inset 0 1px 0 rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.2)}
+  .crest.blue{background:linear-gradient(150deg,var(--blue),var(--blueDeep));box-shadow:0 5px 14px rgba(47,127,209,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+  .crest.green{background:linear-gradient(150deg,var(--green1),#0a8f40);box-shadow:0 5px 14px rgba(15,183,83,.35)}
+  .av{border-radius:50%;background-size:cover;background-position:center;flex:none}
+
+  /* move visual: origin -> fan -> destination */
+  .move{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 0}
+  .move .side{flex:1;text-align:center}
+  .move .side .crest{width:56px;height:56px;font-size:24px;border-radius:16px;margin:0 auto 8px}
+  .move .side .cl{font-size:12px;font-weight:800}
+  .move .side .cr{font-size:10px;font-weight:750;color:var(--t2);margin-top:1px}
+  .move .fan{flex:none;display:flex;flex-direction:column;align-items:center;gap:7px;z-index:2}
+  .move .fan .av{width:82px;height:82px;border:3px solid #fff;box-shadow:0 8px 22px rgba(20,30,60,.22)}
+  .move .fan .fn{font-size:12px;font-weight:800}
+  .move .arr{flex:none;font-size:22px;color:var(--t3);align-self:center;margin-top:-24px}
+  .move .arr.go{color:var(--green1)}
+  .movetype{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 13px;border-radius:999px;margin:0 auto}
+  .movetype.loan{background:#FFF7E6;color:var(--amberDeep);border:1px solid #FBE3B0}
+  .movetype.perm{background:#EAF9F0;color:#0A8F40;border:1px solid #BFE9CE}
+
+  /* segmented */
+  .seg{display:flex;gap:8px}
+  .segopt{flex:1;border:1.5px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center;background:#fff;box-shadow:var(--shadow-sm)}
+  .segopt .si{font-size:20px}
+  .segopt .st{font-size:14px;font-weight:800;margin-top:4px}
+  .segopt .sd{font-size:10.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .segopt.on.loan{border-color:var(--amber);background:#FFFBF2;box-shadow:0 0 0 3px rgba(245,158,11,.14)}
+  .segopt.on.loan .st{color:var(--amberDeep)}
+  .segopt.on.perm{border-color:var(--green1);background:#F3FCF6;box-shadow:0 0 0 3px rgba(15,183,83,.14)}
+  .segopt.on.perm .st{color:#0A8F40}
+
+  /* club preview / search */
+  .search{height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;gap:9px;padding:0 13px;font-size:13.5px;font-weight:650;color:var(--t3);box-shadow:var(--shadow-sm)}
+  .clubprev{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--blue);border-radius:16px;padding:13px;box-shadow:0 0 0 3px rgba(47,127,209,.1)}
+  .clubprev .crest{width:48px;height:48px;font-size:21px}
+  .clubprev .cn{font-size:15px;font-weight:800}
+  .clubprev .cm{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .clubprev .ok{margin-left:auto;font-size:11px;font-weight:800;color:#0A8F40;background:#EAF9F0;border:1px solid #BFE9CE;padding:3px 9px;border-radius:999px}
+
+  /* rows */
+  .kv{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700}
+  .kv:last-child{border:none}
+  .kv .k{color:var(--t2);font-weight:650}.kv .v{margin-left:auto;font-weight:800}
+  .kv .v.amber{color:var(--amberDeep)}.kv .v.green{color:#0A8F40}.kv .v.value{color:var(--value)}
+  .note{display:block;border-radius:13px;padding:12px 14px;font-size:12.5px;line-height:18px;font-weight:700}
+  .note.protect{background:#F3FCF6;border:1px solid #BFE9CE;color:#0A7D39}
+  .note.info{background:#F0F7FF;border:1px solid #CEE4FA;color:#1E5E96}
+  .note.amber{background:#FFF7E6;border:1px solid #FBE3B0;color:var(--amberDeep)}
+  .note.coral{background:#FFF0F3;border:1px solid #FBD5DD;color:#C42A47}
+
+  .fancard{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm)}
+  .fancard .av{width:56px;height:56px}
+  .fancard .fn{font-size:16px;font-weight:800}
+  .fancard .fid{font-size:11.5px;font-weight:700;color:var(--t3);font-family:ui-monospace,monospace}
+  .fancard .badges{display:flex;gap:6px;margin-top:5px}
+  .lvbadge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;background:#EEF1F6;color:#5A6272}
+  .fvbadge{font-size:11px;font-weight:800;color:var(--value)}
+
+  /* consent header portrait */
+  .consenthdr{text-align:center;padding:2px 0 4px}
+  .pendpill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;padding:4px 12px;border-radius:999px;background:#FFF7E6;color:var(--amberDeep);border:1px solid #FBE3B0}
+  .deadline{font-size:11.5px;font-weight:750;color:var(--t2);margin-top:8px}
+
+  /* status timeline */
+  .timeline{display:flex;flex-direction:column;margin:2px 0}
+  .tl{display:flex;gap:14px;position:relative;padding-bottom:16px}
+  .tl:last-child{padding-bottom:0}
+  .tl .dot{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;z-index:1}
+  .tl .dot.ok{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .tl .dot.now{background:#fff;border:2.5px solid var(--amber);color:var(--amberDeep);position:relative}
+  .tl .dot.now::after{content:"";position:absolute;inset:-2.5px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--amber);animation:spin 1s linear infinite}
+  .tl .dot.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
+  .tl::before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--line)}
+  .tl:last-child::before{display:none}
+  .tl .tt{font-size:14px;font-weight:800}.tl.wait .tt{color:var(--t3)}
+  .tl .ts{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:1px}
+  .tl .ts.amber{color:var(--amberDeep)}
+
+  /* three-step approvals */
+  .track{display:flex;gap:8px;margin-top:4px}
+  .tstep{flex:1;text-align:center}
+  .tstep .td{width:26px;height:26px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+  .tstep .td.ok{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .tstep .td.wait{background:#FFF7E6;color:var(--amberDeep);border:1.5px solid var(--amber)}
+  .tstep .td.idle{background:#EEF1F6;color:var(--t3)}
+  .tstep .tl2{font-size:10px;font-weight:750;color:var(--t2);line-height:12px}
+
+  /* completion takeover */
+  .takeover{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:0 24px}
+  .takeover.blue{background:linear-gradient(165deg,#2F7FD1,#164a80)}
+  .takeover.blue::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent);mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent);opacity:.7}
+  .takeover .bigcrest{width:100px;height:100px;border-radius:26px;font-size:44px;position:relative;z-index:1;box-shadow:0 16px 40px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.3)}
+  .takeover .tav{width:86px;height:86px;border-radius:50%;border:3px solid rgba(255,255,255,.8);background-size:cover;background-position:center;margin-top:-30px;margin-left:52px;position:relative;z-index:2;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+  .takeover .tlabel{font-size:12px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:22px;position:relative;z-index:1}
+  .takeover .ttitle{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.6px;margin-top:6px;position:relative;z-index:1}
+  .takeover .tsub{font-size:14px;font-weight:650;color:rgba(255,255,255,.85);margin-top:8px;position:relative;z-index:1}
+  .takeover .tstats{display:flex;gap:10px;margin-top:20px;position:relative;z-index:1}
+  .takeover .tstat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:10px 16px}
+  .takeover .tstat .sv{font-size:18px;font-weight:800;color:#fff}
+  .takeover .tstat .sl{font-size:10px;font-weight:750;color:rgba(255,255,255,.8);margin-top:2px}
+  .takeover .tcta{position:relative;z-index:1;width:100%;margin-top:26px;display:flex;flex-direction:column;gap:9px}
+  .takeover .tcta .btn{width:100%;background:#fff;color:var(--blueDeep)}
+  .takeover .tcta .altlink{color:rgba(255,255,255,.85)}
+
+  /* countdown ring for loan */
+  .loanhero{text-align:center;padding:8px 0}
+  .ring{width:130px;height:130px;margin:0 auto;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .rd{font-size:30px;font-weight:800;letter-spacing:-1px;color:var(--amberDeep)}
+  .ring .rl{font-size:10px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:1px}
+
+  .checkopt{display:flex;align-items:center;gap:11px;background:#F6F8FC;border:1.5px solid var(--line);border-radius:13px;padding:13px;font-size:13px;font-weight:750}
+  .checkopt .box{width:22px;height:22px;border-radius:7px;border:2px solid var(--green1);background:var(--green1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+  .reasonopt{display:flex;align-items:center;gap:11px;background:#F6F8FC;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:13px;font-weight:750;margin-bottom:8px}
+  .reasonopt .rad{margin-left:auto;width:19px;height:19px;border-radius:50%;border:2px solid var(--line)}
+  .reasonopt.on{border-color:var(--coral);background:#FFF0F3}
+  .reasonopt.on .rad{border-color:var(--coral);background:radial-gradient(circle,var(--coral) 42%,transparent 46%)}
+  .diff{display:flex;gap:10px}
+  .diffcol{flex:1;border-radius:13px;padding:12px;border:1px solid var(--line)}
+  .diffcol.old{background:#F6F8FC}
+  .diffcol.new{background:#FFF7E6;border-color:#FBE3B0}
+  .diffcol .dh{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--t2);margin-bottom:8px}
+  .diffcol .dr{font-size:12px;font-weight:750;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .diffcol .dr:last-child{border:none}
+  .diffcol .dr b{display:block;font-size:10px;color:var(--t3);font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Journey 15 — Transfer &amp; Loan</div>
+  <h1>The Transfer Window</h1>
+  <p>A Fan moves between clubs — permanently or on loan — through one gate: <b>Fan consent AND both Managers' approval AND live eligibility.</b> A Fan is a member, never an asset: no price tags, no "buy/sell." Consent is a major checkpoint and is version-locked — change any term and the Fan must agree again. Origin → Fan → Destination throughout; destination-club takeover only after the move completes.</p>
+</div>
+
+<div class="frames">
+
+  <div class="divider">Creating the move</div>
+
+  <!-- ML-00 REQUEST A MOVE (FAN) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-00</div><div class="fname">Request a Club Move<span>Fan-initiated route</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Request a Move</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="fancard"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div><div class="fn">Alex R.</div><div class="fid num">ID 40118 · Red Fury</div><div class="badges"><span class="lvbadge">Lv 5</span><span class="fvbadge num">Fan Value 2.8K</span></div></div></div>
+        <div class="lbl">Move type</div>
+        <div class="seg">
+          <div class="segopt on loan"><div class="si">🕐</div><div class="st">Temporary Loan</div><div class="sd">You return after</div></div>
+          <div class="segopt perm"><div class="si">⇄</div><div class="st">Permanent</div><div class="sd">Change club</div></div>
+        </div>
+        <div class="lbl">Destination club</div>
+        <div class="clubprev"><div class="crest blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cm">Mgr · Mikael K. · Grade B · #7</div></div><span class="ok">Open</span></div>
+        <div class="lbl">Loan terms</div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Start date</span><span class="v num">20 Aug 2026</span></div>
+          <div class="kv"><span class="k">Return</span><span class="v num">End of season · 31 May</span></div>
+          <div class="kv"><span class="k">Duration</span><span class="v amber">1 season</span></div>
+        </div>
+        <div class="note protect">🛡️ You are requesting this move voluntarily. Both club Managers must approve before your membership changes.</div>
+        <div style="height:8px"></div>
+      </div>
+      <div class="cta"><div class="btn amber">Review Request</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-01 CREATE OFFER (MANAGER) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-01</div><div class="fname">Create Offer<span>Manager · propose a move</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">New Offer</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="fancard"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="fn">Alex R.</div><div class="fid num">ID 40118 · Red Fury</div><div class="badges"><span class="lvbadge">Lv 5</span><span class="fvbadge num">Fan Value 2.8K</span><span class="lvbadge">21d active</span></div></div></div>
+        <div class="lbl">Move type</div>
+        <div class="seg">
+          <div class="segopt on loan"><div class="si">🕐</div><div class="st">Loan</div><div class="sd">Temporary</div></div>
+          <div class="segopt perm"><div class="si">⇄</div><div class="st">Permanent</div><div class="sd">Full transfer</div></div>
+        </div>
+        <div class="lbl">Destination club</div>
+        <div class="clubprev"><div class="crest blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cm">Grade B · #7 · accepting moves</div></div><span class="ok">✓</span></div>
+        <div class="lbl">Loan terms</div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Start</span><span class="v num">20 Aug</span></div>
+          <div class="kv"><span class="k">End / season</span><span class="v num">31 May (1 season)</span></div>
+          <div class="kv"><span class="k">Return club</span><span class="v">Red Fury</span></div>
+          <div class="kv"><span class="k">Early return</span><span class="v">Not allowed</span></div>
+          <div class="kv"><span class="k">Offer expires</span><span class="v amber num">in 7 days</span></div>
+        </div>
+        <div class="note protect">🛡️ Alex must consent before this move can happen. The Blue Wolves Manager must also approve.</div>
+        <div style="height:8px"></div>
+      </div>
+      <div class="cta"><div class="btn amber">Review Offer</div><div class="altlink">Save Draft · Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-01A REVIEW & SEND -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-01A</div><div class="fname">Review &amp; Send Offer<span>Sending = your club's approval</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Review offer</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:16px 16px 8px">
+          <div class="move">
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div><div class="cr">Origin</div></div>
+            <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div class="fn">Alex R.</div></div>
+            <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div><div class="cr">Destination</div></div>
+          </div>
+          <div style="text-align:center;margin-top:8px"><span class="movetype loan">🕐 Loan · 1 season</span></div>
+        </div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Dates</span><span class="v num">20 Aug → 31 May</span></div>
+          <div class="kv"><span class="k">Return club</span><span class="v">Red Fury</span></div>
+          <div class="kv"><span class="k">Fan Value</span><span class="v value">Stays with Alex</span></div>
+          <div class="kv"><span class="k">Loan activity</span><span class="v">Counts for Blue Wolves</span></div>
+          <div class="kv"><span class="k">Approvals needed</span><span class="v">Fan + both Managers</span></div>
+        </div>
+        <div class="note info">📌 Sending records your club's approval of <b>these exact terms</b>. Any later change requires new approval and new Fan consent.</div>
+        <div style="height:8px"></div>
+      </div>
+      <div class="cta"><div class="btn amber">Send Offer to Alex</div><div class="altlink">Edit</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Consent &amp; approvals</div>
+
+  <!-- ML-02 FAN CONSENT (LOAN) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-02</div><div class="fname">Fan Consent · Loan<span>The checkpoint · unpressured</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Loan Offer</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="consenthdr">
+          <span class="pendpill">🕐 Pending your response</span>
+          <div class="move" style="margin-top:12px">
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div><div class="cr">Your club</div></div>
+            <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div></div>
+            <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div><div class="cr">On loan</div></div>
+          </div>
+          <div class="deadline">Respond within <b>6 days 4 hrs</b> · from Mikael K.</div>
+        </div>
+        <div class="note info">Blue Wolves would like you to join <b>on loan for one season</b>. You'll return to Red Fury when the loan ends.</div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Type</span><span class="v amber">Loan · 1 season</span></div>
+          <div class="kv"><span class="k">Start → return</span><span class="v num">20 Aug → 31 May</span></div>
+          <div class="kv"><span class="k">Return club</span><span class="v">Red Fury</span></div>
+          <div class="kv"><span class="k">Your Fan Value</span><span class="v value">Stays with you</span></div>
+          <div class="kv"><span class="k">Your level</span><span class="v">Unchanged</span></div>
+        </div>
+        <div class="note protect">🛡️ This move only happens with your consent. You are a member — never owned or sold. You can decline.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn">Accept Loan</div><div style="display:flex;gap:9px"><div class="btn ghost sm" style="flex:1">Ask Manager</div><div class="btn coral sm" style="flex:1">Decline</div></div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-02P FAN CONSENT (PERMANENT) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-02P</div><div class="fname">Fan Consent · Permanent<span>"membership will end"</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Transfer Offer</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="consenthdr">
+          <span class="pendpill">🕐 Pending your response</span>
+          <div class="move" style="margin-top:12px">
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div><div class="cr">Leaving</div></div>
+            <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div></div>
+            <div class="side"><div class="crest green">BW</div><div class="cl">Blue Wolves</div><div class="cr">New club</div></div>
+          </div>
+          <div class="deadline">Respond within <b>6 days</b> · from Mikael K.</div>
+        </div>
+        <div class="note coral">⚠️ This move will <b>end your current Red Fury membership</b> and make Blue Wolves your active club. There is no automatic return.</div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Type</span><span class="v green">Permanent transfer</span></div>
+          <div class="kv"><span class="k">Effective</span><span class="v num">On all approvals</span></div>
+          <div class="kv"><span class="k">Fan Value</span><span class="v value">Stays with you</span></div>
+          <div class="kv"><span class="k">Level · User ID · wallet</span><span class="v">Unchanged</span></div>
+          <div class="kv"><span class="k">Red Fury history</span><span class="v">Kept as historical</span></div>
+        </div>
+        <div class="note protect">🛡️ You are a member — never owned or sold. You can decline and keep your current club.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn blue">Accept Transfer</div><div style="display:flex;gap:9px"><div class="btn ghost sm" style="flex:1">Ask Manager</div><div class="btn coral sm" style="flex:1">Decline</div></div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-02A ACCEPT CONFIRMATION -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-02A</div><div class="fname">Accept Confirmation<span>Understanding checkbox</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">✕</div><div class="htitle">Confirm acceptance</div></div>
+    <div class="body">
+      <div class="card" style="padding:16px 16px 8px;margin-bottom:14px">
+        <div class="move">
+          <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div></div>
+          <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div></div>
+          <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div></div>
+        </div>
+        <div style="text-align:center;margin-top:6px"><span class="movetype loan">🕐 Loan · 20 Aug → 31 May</span></div>
+      </div>
+      <div class="checkopt"><div class="box">✓</div><div>I understand this move and its duration — I'll represent Blue Wolves on loan and return to Red Fury on 31 May.</div></div>
+      <div class="note info" style="margin-top:14px">Accepting records your consent. The move still needs both Managers' approval — <b>accepting is not the same as moving.</b></div>
+      <div class="cta"><div class="btn">Confirm Acceptance</div><div class="altlink">Go Back</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-07D MANAGER APPROVAL DETAIL (LIGHT) -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-07D</div><div class="fname">Manager Approval Detail<span>Consent received · your call</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Approve move</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:16px 16px 8px">
+          <div class="move">
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div></div>
+            <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div class="fn">Alex R.</div></div>
+            <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div></div>
+          </div>
+          <div class="track" style="margin-top:8px">
+            <div class="tstep"><div class="td ok">✓</div><div class="tl2">Fan consent</div></div>
+            <div class="tstep"><div class="td ok">✓</div><div class="tl2">Origin mgr</div></div>
+            <div class="tstep"><div class="td wait">!</div><div class="tl2">You (dest.)</div></div>
+          </div>
+        </div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Move type</span><span class="v amber">Loan · 1 season</span></div>
+          <div class="kv"><span class="k">Dates</span><span class="v num">20 Aug → 31 May</span></div>
+          <div class="kv"><span class="k">Fan consent</span><span class="v green">✓ 14 Aug · 20:05</span></div>
+          <div class="kv"><span class="k">Terms version</span><span class="v num">v1 · current</span></div>
+          <div class="kv"><span class="k">Initiated by</span><span class="v">Origin Manager</span></div>
+        </div>
+        <div class="note protect">🛡️ Fan consent received on the current terms. You can approve — the move completes only when both Managers sign off.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn blue">Approve Move</div><div style="display:flex;gap:9px"><div class="btn ghost sm" style="flex:1">💬 Chat</div><div class="btn coral sm" style="flex:1">Reject</div></div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Processing &amp; completion</div>
+
+  <!-- ML-03 PROCESSING TRACKER -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-03</div><div class="fname">Processing Tracker<span>Match-event timeline</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Move status</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div class="crest" style="width:34px;height:34px;font-size:15px;border-radius:9px">RF</div><span style="font-size:18px;color:var(--t3)">→</span><div class="av" style="width:34px;height:34px;background-image:url('assets/fb_m2.jpg')"></div><span style="font-size:18px;color:var(--t3)">→</span><div class="crest blue" style="width:34px;height:34px;font-size:15px;border-radius:9px">BW</div><span class="movetype loan" style="margin-left:auto">🕐 Loan</span></div>
+        </div>
+        <div class="card" style="padding:16px">
+          <div class="timeline">
+            <div class="tl"><div class="dot ok">✓</div><div><div class="tt">Offer created</div><div class="ts">Mikael K. · 14 Aug 19:40</div></div></div>
+            <div class="tl"><div class="dot ok">✓</div><div><div class="tt">Fan consented</div><div class="ts">Alex R. · 14 Aug 20:05</div></div></div>
+            <div class="tl"><div class="dot ok">✓</div><div><div class="tt">Origin club approved</div><div class="ts">Red Fury · 14 Aug 20:20</div></div></div>
+            <div class="tl"><div class="dot ok">✓</div><div><div class="tt">Destination approved</div><div class="ts">Blue Wolves · 14 Aug 21:02</div></div></div>
+            <div class="tl"><div class="dot now"></div><div><div class="tt">Membership processing</div><div class="ts amber">Updating club membership…</div></div></div>
+            <div class="tl wait"><div class="dot wait">◦</div><div><div class="tt">Move completed</div></div></div>
+          </div>
+        </div>
+        <div class="note info">All approvals received — we're updating your club membership atomically. Reference <b>MV-55210</b>.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn ghost">Contact Support</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-03A PERMANENT TRANSFER COMPLETE -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-03A</div><div class="fname">Transfer Complete<span>Destination colour takeover</span></div></div>
+  <div class="phone">
+    <div class="takeover blue">
+      <div style="position:relative;z-index:1"><div class="crest blue bigcrest" style="margin:0 auto">BW</div></div>
+      <div class="tav" style="background-image:url('assets/fb_m2.jpg')"></div>
+      <div class="tlabel">Transfer Complete</div>
+      <div class="ttitle">Welcome to Blue Wolves</div>
+      <div class="tsub">Red Fury → Blue Wolves · 14 Aug 2026</div>
+      <div class="tstats">
+        <div class="tstat"><div class="sv num">2,840</div><div class="sl">Fan Value</div></div>
+        <div class="tstat"><div class="sv num">Lv 5</div><div class="sl">Level kept</div></div>
+        <div class="tstat"><div class="sv num">40118</div><div class="sl">User ID</div></div>
+      </div>
+      <div class="tcta"><div class="btn">Enter New Club</div><div class="altlink">View Transfer Details</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-03B LOAN ACTIVATED -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-03B</div><div class="fname">Loan Activated<span>Parent + active + return date</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Loan Started</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:16px 16px 10px">
+          <div class="move">
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div><div class="cr">Parent club</div></div>
+            <div class="fan"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div class="fn">On Loan</div></div>
+            <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div><div class="cr">Active now</div></div>
+          </div>
+        </div>
+        <div class="loanhero">
+          <div class="ring">
+            <svg width="130" height="130" viewBox="0 0 130 130"><circle cx="65" cy="65" r="58" fill="none" stroke="#F0EAD8" stroke-width="12"/><circle cx="65" cy="65" r="58" fill="none" stroke="#F59E0B" stroke-width="12" stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="60"/></svg>
+            <div class="rc"><div class="rd num">284</div><div class="rl">days left</div></div>
+          </div>
+        </div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Start</span><span class="v num">20 Aug 2026</span></div>
+          <div class="kv"><span class="k">Return date</span><span class="v amber num">31 May 2027</span></div>
+          <div class="kv"><span class="k">Your Fan Value</span><span class="v value num">2,840 · unchanged</span></div>
+          <div class="kv"><span class="k">Loan activity counts for</span><span class="v">Blue Wolves</span></div>
+        </div>
+        <div class="note amber">🕐 You'll be reminded 7 days and 1 day before your automatic return to Red Fury.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn blue">Enter Loan Club</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Return &amp; negative states</div>
+
+  <!-- ML-03C LOAN RETURN -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-03C</div><div class="fname">Loan Completed &amp; Return<span>Auto-return to origin</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Loan Completed</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:16px 16px 10px">
+          <div class="move">
+            <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div><div class="cr">Loan ended</div></div>
+            <div class="arr go">→</div>
+            <div class="side"><div class="crest">RF</div><div class="cl">Red Fury</div><div class="cr">Back home</div></div>
+          </div>
+          <div style="text-align:center;margin-top:6px"><span class="movetype perm" style="background:#EAF9F0">✓ Returned to parent club</span></div>
+        </div>
+        <div class="lbl">Your loan spell · summary</div>
+        <div class="card" style="padding:4px 15px">
+          <div class="kv"><span class="k">Dates</span><span class="v num">20 Aug → 31 May</span></div>
+          <div class="kv"><span class="k">Live hours for Blue Wolves</span><span class="v num">142h</span></div>
+          <div class="kv"><span class="k">Fan Value at return</span><span class="v value num">3,610</span></div>
+          <div class="kv"><span class="k">Level</span><span class="v">Lv 7 · kept</span></div>
+        </div>
+        <div class="note info">Loan activity stays historically credited to Blue Wolves. Future activity now counts for <b>Red Fury</b> again. Past league results aren't recalculated.</div>
+        <div style="height:6px"></div>
+      </div>
+      <div class="cta"><div class="btn">Return to Club</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-X1 TERMS CHANGED -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-X1</div><div class="fname">Terms Changed<span>Prior consent invalidated</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Offer updated</div></div>
+    <div class="body">
+      <div class="note amber" style="margin-bottom:14px">⚠️ The terms changed after you accepted, so your previous consent no longer applies. Please review and decide again.</div>
+      <div class="diff">
+        <div class="diffcol old"><div class="dh">Previous</div><div class="dr"><b>Duration</b>1 season</div><div class="dr"><b>Return</b>31 May</div><div class="dr"><b>Early return</b>No</div></div>
+        <div class="diffcol new"><div class="dh">Updated</div><div class="dr"><b>Duration</b>Half season</div><div class="dr"><b>Return</b>2 Jan</div><div class="dr"><b>Early return</b>Allowed</div></div>
+      </div>
+      <div class="card" style="padding:4px 15px;margin-top:14px">
+        <div class="kv"><span class="k">Consent status</span><span class="v" style="color:var(--coral)">Invalidated</span></div>
+        <div class="kv"><span class="k">Terms version</span><span class="v num">v1 → v2</span></div>
+      </div>
+      <div class="cta"><div class="btn amber">Review Updated Offer</div><div class="btn coral">Decline</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-X2 OFFER EXPIRED -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-X2</div><div class="fname">Offer Expired<span>Deadline passed</span></div></div>
+  <div class="phone">
+    <div class="body" style="justify-content:center;align-items:center;text-align:center;display:flex;flex-direction:column">
+      <div style="width:84px;height:84px;border-radius:50%;background:#F3F5FA;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:36px">⌛</div>
+      <div class="h1" style="margin-top:18px">This offer expired</div>
+      <div class="sub" style="max-width:280px">The response deadline passed, so the loan offer from Blue Wolves can no longer be accepted.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:18px;text-align:left">
+        <div class="kv"><span class="k">Offer</span><span class="v">Loan · 1 season</span></div>
+        <div class="kv"><span class="k">Expired</span><span class="v num">16 Aug · 19:40</span></div>
+        <div class="kv"><span class="k">Your membership</span><span class="v green">Unchanged · Red Fury</span></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn ghost">Contact Manager</div><div class="altlink">Back to Club</div></div>
+    </div>
+  </div></div>
+
+  <!-- ML-X3 FAN DECLINED (MANAGER VIEW) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-X3</div><div class="fname">Offer Declined<span>Manager view · membership unchanged</span></div></div>
+  <div class="phone">
+    <div class="body" style="justify-content:center;align-items:center;text-align:center;display:flex;flex-direction:column">
+      <div style="width:84px;height:84px;border-radius:50%;background:#FFF0F3;border:1.5px solid #FBD5DD;display:flex;align-items:center;justify-content:center;font-size:34px">🙅</div>
+      <div class="h1" style="margin-top:18px">Alex declined the offer</div>
+      <div class="sub" style="max-width:290px">Alex R. chose not to move. Their Red Fury membership is unchanged — Fans always choose.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:18px;text-align:left">
+        <div class="kv"><span class="k">Fan</span><span class="v">Alex R. · ID 40118</span></div>
+        <div class="kv"><span class="k">Offer</span><span class="v">Loan → Blue Wolves</span></div>
+        <div class="kv"><span class="k">Reason (optional)</span><span class="v" style="color:var(--t2)">"Happy where I am"</span></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn ghost">Create New Offer</div><div class="altlink">Back to Fan List</div></div>
+    </div>
+  </div></div>
+
+</div>
+
+<style id="sfl-chrome">
+  .sfl-statusbar{position:relative;z-index:600;height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 28px;background:inherit;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .sfl-statusbar .sfl-time{position:relative;z-index:2}
+  .sfl-statusbar .sfl-sys{position:relative;z-index:2;display:flex;align-items:center;gap:7px}
+  .sfl-statusbar .sfl-sys svg{display:block}
+  .sfl-notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px;z-index:1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+  .sfl-notch::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#1b222c;box-shadow:inset 0 0 2px rgba(120,180,255,.5)}
+</style>
+<script id="sfl-chrome-js">
+(function(){
+  function lum(c){var m=(c||'').match(/[\d.]+/g);if(!m)return 1;var r=m[0]/255,g=m[1]/255,b=m[2]/255;return 0.2126*r+0.7152*g+0.0722*b;}
+  var SIG='<svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor"><rect x="0" y="9" width="3" height="4" rx="1"/><rect x="5" y="6.5" width="3" height="6.5" rx="1"/><rect x="10" y="3.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="13" rx="1"/></svg>';
+  var WIFI='<svg width="17" height="13" viewBox="0 0 17 13" fill="currentColor"><path d="M8.5 2.2C5.6 2.2 2.9 3.3 1 5.2l1.5 1.5C4 5.2 6.2 4.2 8.5 4.2s4.5 1 6 2.5L16 5.2c-1.9-1.9-4.6-3-7.5-3z"/><path d="M8.5 6.6c-1.7 0-3.3.7-4.5 1.9l1.6 1.6c.8-.7 1.8-1.2 2.9-1.2s2.1.5 2.9 1.2l1.6-1.6C11.8 7.3 10.2 6.6 8.5 6.6z"/><circle cx="8.5" cy="11.6" r="1.4"/></svg>';
+  var BAT='<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.6" y="0.6" width="22.8" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity="0.45"/><rect x="2.1" y="2.1" width="15" height="8.8" rx="1.8" fill="currentColor"/><path d="M25 4.6c1 .5 1 3.3 0 3.8z" fill="currentColor" fill-opacity="0.6"/></svg>';
+  function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
+  document.querySelectorAll('.phone').forEach(function(p){
+    if(p.querySelector(':scope > .sfl-statusbar'))return;
+    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    p.insertBefore(build(dark),p.firstChild);
+  });
+})();
+</script>
+
+</body>
+</html>
