@@ -3,3 +3,8 @@
 node_modules/
 .claude/settings.local.json
 screens/sfl-mobile*.html
+
+# CI/CD build artifacts
+dist/
+deploy/
+scratch_player.js

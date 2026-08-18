@@ -183,7 +183,7 @@
 
   /* ===== PROFILE ===== */
   .phero{padding:18px 18px 16px;background:linear-gradient(150deg,var(--red),var(--redDeep));position:relative;overflow:hidden}
-  .phero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 90% at 82% 0%,rgba(255,255,255,.18),transparent 55%)}
+  .phero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 90% at 82% 0%,rgba(255,255,255,.18),transparent 55%);pointer-events:none}
   .phero .pt{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
   .phero .pav{width:70px;height:70px;border:3px solid rgba(255,255,255,.6);box-shadow:0 6px 18px rgba(0,0,0,.25)}
   .phero .pn{font-size:20px;font-weight:800;color:#fff}
@@ -207,6 +207,21 @@
   .levelcard .lbar{height:8px;border-radius:999px;background:rgba(255,255,255,.16);margin:12px 0 8px;overflow:hidden}
   .levelcard .lbar i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),#B388FF);border-radius:999px}
   .levelcard .lmeta{display:flex;font-size:11px;font-weight:700;color:#B7C0CE}
+  .pvswitch{display:flex;gap:8px;margin-bottom:12px;background:#EDEFF4;border-radius:13px;padding:4px}
+  .pvopt{flex:1;text-align:center;padding:9px;border-radius:10px;font-size:13px;font-weight:800;color:var(--t2);cursor:pointer}
+  .pvopt.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .pvopt.on.mgr{background:var(--red);color:#fff}
+  .pv-mgr{display:none}
+  .mgrhqcard{background:linear-gradient(150deg,var(--red),var(--redDeep));border-radius:16px;padding:15px 16px;color:#fff;box-shadow:var(--shadow-sm)}
+  .mgrhqcard .mh{display:flex;align-items:center;gap:11px}
+  .mgrhqcard .mcr{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+  .mgrhqcard .mtitle{font-size:16px;font-weight:800}
+  .mgrhqcard .msub{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.82);margin-top:1px}
+  .mgrhqcard .mopen{margin-left:auto;font-size:11px;font-weight:800;background:#fff;color:var(--red);padding:6px 12px;border-radius:999px}
+  .mgrhqcard .mtgt{margin-top:13px}
+  .mgrhqcard .mtgt .mtl{display:flex;font-size:11px;font-weight:750;color:rgba(255,255,255,.85);margin-bottom:5px}
+  .mgrhqcard .mtbar{height:7px;border-radius:4px;background:rgba(255,255,255,.22);overflow:hidden}
+  .mgrhqcard .mtbar i{display:block;height:100%;background:#fff;border-radius:4px}
   .statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
   .stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 10px;box-shadow:var(--shadow-sm)}
   .stat .sv{font-size:19px;font-weight:800;letter-spacing:-.5px}
@@ -344,7 +359,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Global Shell</div>
   <h1>SFL Arena Operating System</h1>
-  <p>The layer connecting all 19 journeys — entry routing, navigation, notifications, profile, KYC, and support. <b>5 tabs</b> (Home · Market · Stadium · Games · Wallet) with Manager HQ as a <b>shortcut</b>, not a 6th tab. Roles are <b>additive</b> (Fan is permanent). Deep links never bypass auth; KYC gates withdrawal only; success always carries a reference. Light shell (quieter than the immersive journeys) + a dark splash tunnel.</p>
+  <p>The layer connecting all 19 journeys — entry routing, navigation, notifications, profile, KYC, and support. <b>5 tabs</b> (Home · Market · Stadium · Games · Chats) with Manager HQ as a <b>shortcut</b>, not a 6th tab. Roles are <b>additive</b> (Fan is permanent). Deep links never bypass auth; KYC gates withdrawal only; success always carries a reference. Light shell (quieter than the immersive journeys) + a dark splash tunnel.</p>
 </div>
 
 <div class="frames">
@@ -402,7 +417,7 @@
   <!-- G-02 FAN HOME -->
   <div class="fw"><div class="flabel"><div class="fnum">G-02</div><div class="fname">Fan Home<span>5-tab nav · stadium centre</span></div></div>
   <div class="phone">
-    <div class="hbar"><div class="av ha" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="coinpill">🪙 1,240</div><div class="hicon">💬<span class="dot"></span></div><div class="hicon">🔔<span class="dot"></span></div></div></div>
+    <div class="hbar"><div class="av ha" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="coinpill">🪙 1,240</div><div class="hicon">🔔<span class="dot"></span></div></div></div>
     <div class="hscroll">
       <div class="hfollow">
         <div class="hfol"><div class="fav" style="background-image:url('assets/fb_m1.jpg')"></div><div class="flv">LIVE</div><div class="fn">Jay M.</div></div>
@@ -411,14 +426,6 @@
         <div class="hfol off"><div class="fav" style="background-image:url('assets/fb_f2.jpg')"></div><div class="fn" style="margin-top:6px">Priya</div></div>
         <div class="hfol off"><div class="fav" style="background-image:url('assets/fb_m4.jpg')"></div><div class="fn" style="margin-top:6px">Mikael</div></div>
         <div class="hfol add"><div class="fav">+</div><div class="fn" style="margin-top:6px">Find</div></div>
-      </div>
-      <div class="hspot" style="background-image:url('assets/fb_crowd.jpg')">
-        <div class="hlive"><span class="d"></span>LIVE</div><div class="hvc">👁 12.8K</div>
-        <div class="hsc"><span class="mn">DERBY</span>&nbsp; RED <span>2</span>–<span>1</span> BLUE <span class="mm">67'</span></div>
-        <div class="hsi">
-          <div class="hst">Derby Night: we're not sitting back</div>
-          <div class="hrow"><div class="hav2" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hn2">Jay Malik ✔</div><div class="hc2">Red District FC</div></div><div class="hjoin">Join Live</div></div>
-        </div>
       </div>
       <div class="hchips">
         <div class="hchip on" data-club="mine">⭐ My Club</div>
@@ -455,7 +462,7 @@
       <div class="nav"><div class="ni">🔁</div>Market</div>
       <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
       <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav"><div class="ni">◆</div>Wallet</div>
+      <div class="nav"><div class="ni">💬</div>Chats</div>
     </div>
   </div></div>
 
@@ -494,7 +501,7 @@
       <div class="nav"><div class="ni">🔁</div>Market</div>
       <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
       <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav"><div class="ni">◆</div>Wallet</div>
+      <div class="nav"><div class="ni">💬</div>Chats</div>
     </div>
   </div></div>
 
@@ -537,7 +544,24 @@
       <div class="nav"><div class="ni">🔁</div>Market</div>
       <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
       <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav" style="opacity:.4"><div class="ni">◆</div>Wallet</div>
+      <div class="nav" style="opacity:.4"><div class="ni">💬</div>Chats</div>
+    </div>
+  </div></div>
+
+  <!-- GATE-01 CREATE ACCOUNT GATE -->
+  <div class="fw"><div class="flabel"><div class="fnum">GATE-01</div><div class="fname">Create Account Gate<span>Guest action gate</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div></div>
+    <div class="body" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div style="margin-top:16px;width:88px;height:88px;border-radius:26px;background:linear-gradient(150deg,#C9FF3D,#0FB753);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 16px 36px rgba(15,183,83,.4)">🔒</div>
+      <div class="h1" style="margin-top:18px;font-size:23px">Create an account to continue</div>
+      <div class="sub" style="max-width:290px;margin-top:8px">You're browsing as a guest. Sign up free to unlock everything below — browsing stays open either way.</div>
+      <div style="width:100%;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);padding:4px 10px;margin-top:22px">
+        <div style="display:flex;align-items:center;gap:13px;padding:13px 6px;border-bottom:1px solid var(--line)"><div style="width:42px;height:42px;border-radius:13px;background:#FDECEC;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🛡️</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Join a fan club</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Squad rooms, feed &amp; club chat</div></div></div>
+        <div style="display:flex;align-items:center;gap:13px;padding:13px 6px;border-bottom:1px solid var(--line)"><div style="width:42px;height:42px;border-radius:13px;background:#EAF3FF;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🎯</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Predict, vote &amp; play</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Predictions, awards &amp; mini-games</div></div></div>
+        <div style="display:flex;align-items:center;gap:13px;padding:13px 6px"><div style="width:42px;height:42px;border-radius:13px;background:#FFF6E0;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🎁</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Gift, earn &amp; trade</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Send gifts, earn Gold &amp; trade players</div></div></div>
+      </div>
+      <div class="cta" style="width:100%;margin-top:auto"><div class="btn">Create Account</div><div class="btn ghost">Sign In</div><div class="altlink">Keep Browsing</div></div>
     </div>
   </div></div>
 
@@ -553,6 +577,7 @@
         <div class="daygroup">Today</div>
         <div class="card" style="padding:2px 15px">
           <div class="nrow"><div class="ni club">🔴</div><div style="flex:1"><div class="nt">Red Fury invited you to join</div><div class="nsupport">Tap to view the invitation</div><div class="ntime">12m ago</div></div><div class="unread"></div></div>
+          <div class="nrow"><div class="ni club">🔁</div><div style="flex:1"><div class="nt">Loan offer from Blue Wolves</div><div class="nsupport">Your Manager proposed a move · tap to accept or reject</div><div class="ntime">18m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni money">💠</div><div style="flex:1"><div class="nt">Priya sent you 130 Gold</div><div class="nsupport">Received as Transferred Gold</div><div class="ntime">40m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni reward">🎁</div><div style="flex:1"><div class="nt">You won 20 Coins — reward ready to claim</div><div class="nsupport">Correct prediction · NSH 3–0 MTL</div><div class="ntime">1h ago</div></div><div class="unread"></div></div>
         </div>
@@ -580,22 +605,46 @@
         <div class="lbl">Your roles</div>
         <div class="rolecard">
           <div class="rolerow"><div class="ri fan">🎽</div>Fan<span class="rtag perm">Permanent</span></div>
-          <div class="rolerow"><div class="ri mgr">🛡️</div>Manager · Red Fury<span class="rgo">Open HQ</span></div>
+          <div class="rolerow rolemgr"><div class="ri mgr">🛡️</div>Manager · Red Fury<span class="rgo">Open HQ</span></div>
           <div class="rolerow"><div class="ri host">📡</div>Host<span class="rtag">Active only while live</span></div>
         </div>
-        <div class="levelcard">
-          <div class="lh"><div class="lv">Level 4</div><div class="lp">Transfer limit 520 Gold</div></div>
-          <div class="lbar"><i style="width:62%"></i></div>
-          <div class="lmeta"><span class="num">1,240 / 2,000 Level Points</span><span style="margin-left:auto">Next: Lv 5</span></div>
+        <div class="pv-fan">
+          <div class="levelcard">
+            <div class="lh"><div class="lv">Level 4</div><div class="lp">Transfer limit 520 Gold</div></div>
+            <div class="lbar"><i style="width:62%"></i></div>
+            <div class="lmeta"><span class="num">1,240 / 2,000 Level Points</span><span style="margin-left:auto">Next: Lv 5</span></div>
+          </div>
+          <div class="statgrid" style="margin-top:12px">
+            <div class="stat"><div class="sv num">21</div><div class="sl">Active days</div></div>
+            <div class="stat"><div class="sv num">6.2h</div><div class="sl">Live/week</div></div>
+            <div class="stat"><div class="sv value num">1,510</div><div class="sl">Fan Value</div></div>
+            <div class="stat"><div class="sv num">142</div><div class="sl">Tasks done</div></div>
+            <div class="stat"><div class="sv num">38</div><div class="sl">Predictions</div></div>
+            <div class="stat"><div class="sv num">4</div><div class="sl">Transfers</div></div>
+          </div>
         </div>
-        <div class="statgrid">
-          <div class="stat"><div class="sv num">21</div><div class="sl">Active days</div></div>
-          <div class="stat"><div class="sv num">6.2h</div><div class="sl">Live/week</div></div>
-          <div class="stat"><div class="sv value num">1,510</div><div class="sl">Fan Value</div></div>
-          <div class="stat"><div class="sv num">142</div><div class="sl">Tasks done</div></div>
-          <div class="stat"><div class="sv num">38</div><div class="sl">Predictions</div></div>
-          <div class="stat"><div class="sv num">4</div><div class="sl">Transfers</div></div>
+        <div class="pv-mgr">
+          <div class="mgrhqcard">
+            <div class="mh"><div class="mcr">RF</div><div><div class="mtitle">Red Fury</div><div class="msub">Grade B · League #4 · Manager</div></div><span class="mopen mgo">Open HQ</span></div>
+            <div class="mtgt"><div class="mtl">Monthly recruitment target<span style="margin-left:auto" class="num">8 / 12 fans</span></div><div class="mtbar"><i style="width:66%"></i></div></div>
+          </div>
+          <div class="statgrid" style="margin-top:12px">
+            <div class="stat"><div class="sv num">34</div><div class="sl">Fans in club</div></div>
+            <div class="stat"><div class="sv num">12</div><div class="sl">Recruits (mo)</div></div>
+            <div class="stat"><div class="sv num">7%</div><div class="sl">Commission</div></div>
+            <div class="stat"><div class="sv num">Grade B</div><div class="sl">Club grade</div></div>
+            <div class="stat"><div class="sv num">#4</div><div class="sl">League pos.</div></div>
+            <div class="stat"><div class="sv num">2</div><div class="sl">Approvals</div></div>
+          </div>
+          <div class="lbl" style="margin-top:12px">Manager tools</div>
+          <div class="card" style="padding:2px 15px">
+            <div class="listrow mgrlink" data-go="managerhq"><span class="li">🛡️</span>Manager HQ<span class="arr">›</span></div>
+            <div class="listrow mgrlink" data-go="mgrrecruit"><span class="li">🔎</span>Recruit Fans<span class="arr">›</span></div>
+            <div class="listrow mgrlink" data-go="mgrapprovals"><span class="li">🔁</span>Transfer / Loan Approvals<span class="arr">›</span></div>
+            <div class="listrow mgrlink" data-go="mgrcommission"><span class="li">💰</span>Commission &amp; Club Finances<span class="arr">›</span></div>
+          </div>
         </div>
+        <div class="lbl" style="margin-top:12px">Account</div>
         <div class="card" style="padding:2px 15px">
           <div class="listrow"><span class="li">◆</span>Wallet<span class="arr">›</span></div>
           <div class="listrow"><span class="li">🎒</span>Kit Bag<span class="arr">›</span></div>
@@ -603,6 +652,97 @@
           <div class="listrow"><span class="li">⚙️</span>Settings<span class="arr">›</span></div>
         </div>
         <div style="height:6px"></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- G-05ED EDIT PROFILE -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05ED</div><div class="fname">Edit Profile<span>Name &amp; photo only</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Edit Profile</div></div>
+    <div class="body">
+      <div style="display:flex;flex-direction:column;align-items:center;margin-top:10px">
+        <div style="position:relative;width:96px;height:96px">
+          <div class="avatar epavatar" style="width:96px;height:96px;border-radius:50%;background-image:url('assets/fb_host.jpg')"></div>
+          <div class="epphoto" style="position:absolute;right:-2px;bottom:-2px;width:32px;height:32px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid #fff;cursor:pointer">📷</div>
+        </div>
+        <div class="epphoto" style="margin-top:11px;font-size:12.5px;font-weight:800;color:var(--coral);cursor:pointer">Change display picture</div>
+      </div>
+      <div class="lbl" style="margin-top:22px">Display name</div>
+      <div class="epname" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:var(--t1);outline:none">Zeeshan N.</div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--t3);margin-top:8px">This is the name other fans see. Your User ID stays the same.</div>
+      <div class="cta"><div class="btn">Save Changes</div></div>
+    </div>
+  </div></div>
+
+  <!-- G-05U OTHER-USER PROFILE -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05U</div><div class="fname">User Profile<span>Another fan · public view</span></div></div>
+  <div class="phone">
+    <div class="phero">
+      <div class="pt" style="justify-content:space-between"><div class="back">‹</div><div class="back">⋯</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:2px 0 8px">
+        <div class="av pav" style="width:84px;height:84px;background-image:url('assets/fb_f2.jpg')"></div>
+        <div class="pn" style="font-size:20px;margin-top:10px">Lucia M. <span style="color:#8FD0FF">✓</span></div>
+        <div class="pid num">User ID 55021</div>
+        <div class="pbadges" style="justify-content:center"><span class="pb">Lv 12</span><span class="pb">Red District FC</span><span class="pb">🔥 14-day</span></div>
+      </div>
+      <div style="display:flex;gap:8px;padding:2px 2px 2px">
+        <div class="ufollow" style="flex:1;text-align:center;padding:11px;border-radius:12px;background:#C9FF3D;color:#0A1400;font-weight:800;font-size:13px;cursor:pointer">Follow</div>
+        <div class="umsg" style="flex:1;text-align:center;padding:11px;border-radius:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:800;font-size:13px;cursor:pointer">💬 Message</div>
+        <div class="ugift" style="flex:1;text-align:center;padding:11px;border-radius:12px;background:linear-gradient(140deg,var(--gold1,#F3CC55),var(--gold2,#B0800A));color:#3A2400;font-weight:800;font-size:13px;cursor:pointer">🎁 Gift</div>
+      </div>
+    </div>
+    <div class="body">
+      <div class="scroll">
+        <div class="lbl">Fan stats</div>
+        <div class="statgrid">
+          <div class="stat"><div class="sv value num">8,240</div><div class="sl">Fan Power</div></div>
+          <div class="stat"><div class="sv num">Lv 12</div><div class="sl">Fan level</div></div>
+          <div class="stat"><div class="sv num">143</div><div class="sl">Gifts sent</div></div>
+          <div class="stat"><div class="sv num">61</div><div class="sl">Lives joined</div></div>
+          <div class="stat"><div class="sv num">28</div><div class="sl">Positions played</div></div>
+          <div class="stat"><div class="sv num">210</div><div class="sl">Active days</div></div>
+        </div>
+        <div class="lbl">Club</div>
+        <div class="card" style="padding:2px 15px">
+          <div class="listrow"><span class="li">🛡️</span>Red District FC · Fan<span class="arr">›</span></div>
+          <div class="listrow"><span class="li">🏆</span>Grade A · League #2<span class="arr">›</span></div>
+        </div>
+        <div class="lbl">Recent activity</div>
+        <div class="card" style="padding:2px 15px">
+          <div class="listrow"><span class="li">⚽</span>Played RW in RobbieOnAir's room<span class="arr">›</span></div>
+          <div class="listrow"><span class="li">🥇</span>Sent a Golden Boot to the Reds<span class="arr">›</span></div>
+          <div class="listrow"><span class="li">🎮</span>Won a Penalty mini-game<span class="arr">›</span></div>
+        </div>
+        <div style="height:6px"></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- EV-01 CLUB EVENTS -->
+  <div class="fw"><div class="flabel"><div class="fnum">EV-01</div><div class="fname">Club Events<span>Events &amp; competitions</span></div></div>
+  <div class="phone">
+    <div style="display:flex;align-items:center;gap:12px;padding:16px 16px 8px"><div class="back">‹</div><div style="font-size:19px;font-weight:800">Club Events</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="lbl">Upcoming · Red Fury FC</div>
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+          <div style="height:92px;background:url('assets/fb_crowd.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:var(--coral,#E4362B);padding:3px 8px;border-radius:6px">WATCH PARTY</span></div>
+          <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Matchday Watch Party</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Sat 8PM · vs Blue Wolves · 128 going</div><div class="btn evjoin" style="margin-top:10px">Join Event</div></div>
+        </div>
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+          <div style="height:92px;background:url('assets/fb_stadium.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#7A2BFF;padding:3px 8px;border-radius:6px">PK TOURNAMENT</span></div>
+          <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Derby PK Tournament</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Sun 6PM · 16 clubs · knockout</div><div class="btn evjoin" style="margin-top:10px">Enter Tournament</div></div>
+        </div>
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+          <div style="height:92px;background:url('assets/fb_m3.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#0FA04C;padding:3px 8px;border-radius:6px">PREDICTION LEAGUE</span></div>
+          <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Weekly Prediction League</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Predict 5 fixtures · prize pool 500 Gold</div><div class="btn evjoin" style="margin-top:10px">Join League</div></div>
+        </div>
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+          <div style="height:92px;background:url('assets/fb_f1.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#C99000;padding:3px 8px;border-radius:6px">RECRUITMENT DRIVE</span></div>
+          <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Fan Recruitment Drive</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Recruit 5 fans this week · club bonus</div><div class="btn evjoin" style="margin-top:10px">Take Part</div></div>
+        </div>
+        <div style="height:8px"></div>
       </div>
     </div>
   </div></div>
@@ -639,6 +779,53 @@
         </div>
         <div style="height:6px"></div>
       </div>
+    </div>
+  </div></div>
+
+  <!-- G-05P CHANGE PASSWORD -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05P</div><div class="fname">Change Password<span>Security</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Change password</div></div>
+    <div class="body">
+      <div class="lbl" style="margin-top:6px">Current password</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••</div>
+      <div class="lbl" style="margin-top:14px">New password</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
+      <div class="lbl" style="margin-top:14px">Confirm new password</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--t3);margin-top:10px">At least 8 characters, with a number and a symbol.</div>
+      <div class="cta"><div class="btn">Update Password</div></div>
+    </div>
+  </div></div>
+
+  <!-- G-05BL BLOCKED USERS -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05BL</div><div class="fname">Blocked Users<span>Privacy</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Blocked users</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="card" style="padding:2px 15px">
+          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Mo A.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 88214</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
+          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/dk_t.jpg')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">J. Kopa</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 60034</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
+        </div>
+        <div class="note info" style="margin-top:12px">Blocked users can't message, call or gift you.</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- G-05T LEGAL -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05T</div><div class="fname">Legal<span>Terms · Privacy · Guidelines</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Terms &amp; policies</div></div>
+    <div class="body">
+      <div class="card" style="padding:2px 15px">
+        <div class="listrow"><span class="li">📄</span>Terms of Service<span class="arr">›</span></div>
+        <div class="listrow"><span class="li">🔒</span>Privacy Policy<span class="arr">›</span></div>
+        <div class="listrow"><span class="li">📣</span>Community Guidelines<span class="arr">›</span></div>
+        <div class="listrow"><span class="li">🎮</span>Responsible Play<span class="arr">›</span></div>
+        <div class="listrow"><span class="li">⚖️</span>Licenses<span class="arr">›</span></div>
+      </div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--t3);margin-top:12px;text-align:center">SFL v1.0.0 · © 2026 Soccer Fan Live</div>
     </div>
   </div></div>
 

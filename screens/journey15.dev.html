@@ -186,6 +186,9 @@
   .diffcol .dr{font-size:12px;font-weight:750;padding:5px 0;border-bottom:1px dashed var(--line)}
   .diffcol .dr:last-child{border:none}
   .diffcol .dr b{display:block;font-size:10px;color:var(--t3);font-weight:700}
+  .editrow{cursor:pointer}
+  .edchev{margin-left:8px;color:var(--blue);font-weight:800;font-size:15px;flex:none}
+  .clubprev .ok.change{background:#F0F7FF;color:var(--blue);border:1px solid #CEE4FA;cursor:pointer}
 </style>
 </head>
 <body>
@@ -240,14 +243,14 @@
           <div class="segopt perm"><div class="si">⇄</div><div class="st">Permanent</div><div class="sd">Full transfer</div></div>
         </div>
         <div class="lbl">Destination club</div>
-        <div class="clubprev"><div class="crest blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cm">Grade B · #7 · accepting moves</div></div><span class="ok">✓</span></div>
-        <div class="lbl">Loan terms</div>
+        <div class="clubprev"><div class="crest blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cm">Grade B · #7 · accepting moves</div></div><span class="ok change">Change ›</span></div>
+        <div class="lbl termslbl">Loan terms</div>
         <div class="card" style="padding:4px 15px">
-          <div class="kv"><span class="k">Start</span><span class="v num">20 Aug</span></div>
-          <div class="kv"><span class="k">End / season</span><span class="v num">31 May (1 season)</span></div>
-          <div class="kv"><span class="k">Return club</span><span class="v">Red Fury</span></div>
-          <div class="kv"><span class="k">Early return</span><span class="v">Not allowed</span></div>
-          <div class="kv"><span class="k">Offer expires</span><span class="v amber num">in 7 days</span></div>
+          <div class="kv editrow" data-field="start"><span class="k">Start</span><span class="v num">20 Aug</span><span class="edchev">›</span></div>
+          <div class="kv editrow loanonly" data-field="end"><span class="k">End / season</span><span class="v num">31 May (1 season)</span><span class="edchev">›</span></div>
+          <div class="kv loanonly"><span class="k">Return club</span><span class="v">Red Fury</span></div>
+          <div class="kv editrow loanonly" data-field="early"><span class="k">Early return</span><span class="v">Not allowed</span><span class="edchev">›</span></div>
+          <div class="kv editrow" data-field="expires"><span class="k">Offer expires</span><span class="v amber num">in 7 days</span><span class="edchev">›</span></div>
         </div>
         <div class="note protect">🛡️ Alex must consent before this move can happen. The Blue Wolves Manager must also approve.</div>
         <div style="height:8px"></div>
@@ -284,7 +287,25 @@
     </div>
   </div></div>
 
-  <div class="divider">Consent &amp; approvals</div>
+  <!-- ML-01S OFFER SENT (MANAGER) -->
+  <div class="fw"><div class="flabel"><div class="fnum">ML-01S</div><div class="fname">Offer Sent<span>Manager · awaiting fan response</span></div></div>
+  <div class="phone">
+    <div class="body" style="justify-content:center;align-items:center;text-align:center;display:flex;flex-direction:column">
+      <div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,var(--green1),var(--green2));display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;box-shadow:0 12px 30px rgba(15,183,83,.32)">✓</div>
+      <div class="h1" style="margin-top:18px">Offer sent to Alex</div>
+      <div class="sub" style="max-width:290px">Alex R. will receive a notification to review and respond. The move only proceeds if the Fan consents — you'll be notified of their decision.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:18px;text-align:left">
+        <div class="kv"><span class="k">Fan</span><span class="v">Alex R. · ID 40118</span></div>
+        <div class="kv"><span class="k">Move</span><span class="v amber">Loan → Blue Wolves</span></div>
+        <div class="kv"><span class="k">Status</span><span class="v" style="color:var(--amberDeep)">Awaiting fan consent</span></div>
+        <div class="kv"><span class="k">Offer expires</span><span class="v num">in 7 days</span></div>
+      </div>
+      <div class="note protect" style="margin-top:14px">🛡️ Fans always choose. Their membership stays unchanged until they accept.</div>
+      <div class="cta" style="width:100%"><div class="btn">Back to Fan List</div><div class="altlink">View Pending Offers</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Fan side · notification &amp; consent</div>
 
   <!-- ML-02 FAN CONSENT (LOAN) -->
   <div class="fw"><div class="flabel"><div class="fnum">ML-02</div><div class="fname">Fan Consent · Loan<span>The checkpoint · unpressured</span></div></div>
@@ -421,7 +442,7 @@
         <div class="note info">All approvals received — we're updating your club membership atomically. Reference <b>MV-55210</b>.</div>
         <div style="height:6px"></div>
       </div>
-      <div class="cta"><div class="btn ghost">Contact Support</div></div>
+      <div class="cta"><div class="btn">Back to Home</div><div class="btn ghost">Contact Support</div></div>
     </div>
   </div></div>
 
@@ -439,7 +460,7 @@
         <div class="tstat"><div class="sv num">Lv 5</div><div class="sl">Level kept</div></div>
         <div class="tstat"><div class="sv num">40118</div><div class="sl">User ID</div></div>
       </div>
-      <div class="tcta"><div class="btn">Enter New Club</div><div class="altlink">View Transfer Details</div></div>
+      <div class="tcta"><div class="btn">Enter New Club</div><div class="altlink">Back to Home</div></div>
     </div>
   </div></div>
 
@@ -471,7 +492,7 @@
         <div class="note amber">🕐 You'll be reminded 7 days and 1 day before your automatic return to Red Fury.</div>
         <div style="height:6px"></div>
       </div>
-      <div class="cta"><div class="btn blue">Enter Loan Club</div></div>
+      <div class="cta"><div class="btn blue">Enter Loan Club</div><div class="altlink">Back to Home</div></div>
     </div>
   </div></div>
 

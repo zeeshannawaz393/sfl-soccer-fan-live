@@ -97,6 +97,18 @@
 
   /* recruitment snapshot */
   .recruit{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .hfilt{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:var(--panel);border:1px solid var(--line);padding:6px 13px;border-radius:999px}
+  .hfilt.on{background:var(--volt);color:#0A0C10;border-color:var(--volt);font-weight:800}
+  .hlog{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)}
+  .hlog:last-child{border-bottom:none}
+  .ha2{width:38px;height:38px;border-radius:50%;background-size:cover;background-position:center;flex:none}
+  .hn2{font-size:13.5px;font-weight:800}
+  .hs2{font-size:11px;font-weight:700;color:var(--t2);margin-top:2px}
+  .hstat{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:8px;flex:none}
+  .hstat.ok{background:rgba(201,255,61,.15);color:var(--volt)}
+  .hstat.pend{background:rgba(255,163,26,.15);color:var(--amber)}
+  .hstat.rej{background:rgba(255,255,255,.08);color:var(--t3)}
+  .hstat.exp{background:rgba(255,163,26,.12);color:var(--amber)}
   .recruit .rh{display:flex;align-items:center;font-size:12px;font-weight:800;color:var(--t2)}
   .recruit .rc{font-size:30px;font-weight:800;letter-spacing:-1px;margin:6px 0 2px}
   .recruit .rc small{font-size:16px;color:var(--t2);font-weight:750}
@@ -399,7 +411,8 @@
             <div class="linkbox"><span class="lk">sfl.app/join/red-fury-12345</span><span class="cp">Copy</span></div>
           </div>
         </div>
-        <div class="row2"><div class="btn gold sm" style="flex:1">Share</div><div class="btn ghost sm" style="flex:1">Show QR</div></div>
+        <div class="row2"><div class="btn gold sm" style="flex:1;justify-content:center">Share Invitation</div></div>
+        <div class="byidbtn btn ghost sm" style="margin-top:10px;width:100%;justify-content:center">👤 Invite a specific Fan by User ID</div>
         <div class="lbl">Performance</div>
         <div class="card" style="padding:4px 15px">
           <div class="kv"><span class="k">Accepted today</span><span class="v volt num">3</span></div>
@@ -439,6 +452,30 @@
       </div>
       <div class="note info" style="margin-top:14px">"Join Red Fury on Soccer Fan Live. Use this invitation to <b>apply</b> to our club." Opening the link never adds a Fan automatically — they choose to accept.</div>
       <div class="cta"><div class="btn gold">Copy Link</div><div class="btn ghost">Share to SFL Chat</div><div class="altlink">System Share…</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-02H RECRUITMENT HISTORY -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-02H</div><div class="fname">Recruitment History<span>Log · accepted / rejected / expired</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Recruitment History</div></div></div>
+    <div class="body">
+      <div class="row2" style="margin-bottom:10px">
+        <div class="stat" style="padding:11px 13px"><div class="v num" style="font-size:20px;color:var(--volt)">128</div><div class="k">Total recruited</div></div>
+        <div class="stat" style="padding:11px 13px"><div class="v num" style="font-size:20px">24</div><div class="k">This month</div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;overflow:hidden"><span class="hfilt on">All</span><span class="hfilt">Accepted</span><span class="hfilt">Rejected</span><span class="hfilt">Expired</span></div>
+      <div class="scroll">
+        <div class="card" style="padding:2px 14px">
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="hn2">Mikael K.</div><div class="hs2 num">ID 88214 · via link · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f3.jpg')"></div><div style="flex:1"><div class="hn2">Sara V.</div><div class="hs2 num">ID 90551 · by User ID · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="hn2">Diego S.</div><div class="hs2 num">ID 60034 · via QR · 13 Aug</div></div><span class="hstat pend">Pending</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="hn2">Jordan A.</div><div class="hs2 num">ID 10022 · via link · 12 Aug</div></div><span class="hstat rej">Rejected</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="hn2">Lena R.</div><div class="hs2 num">ID 44120 · by User ID · 11 Aug</div></div><span class="hstat exp">Expired</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="hn2">Priya M.</div><div class="hs2 num">ID 67890 · via link · 10 Aug</div></div><span class="hstat ok">Accepted</span></div>
+        </div>
+        <div style="height:10px;flex:none"></div>
+      </div>
     </div>
   </div></div>
 
@@ -600,6 +637,7 @@
   <!-- MC-06R INVITATION SENT -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-06R</div><div class="fname">Invitation Sent<span>Amber clock, not a checkmark</span></div></div>
   <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Invitation sent</div></div></div>
     <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🕐</div>
       <div class="sheet-title" style="margin-top:18px">Invitation sent</div>
@@ -619,9 +657,9 @@
   <div class="phone">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Approvals · 2 pending</div></div></div>
     <div class="body">
-      <div class="tabs" style="margin-bottom:4px"><div class="tab on">Transfers <span class="bd">1</span></div><div class="tab">Loans <span class="bd">1</span></div><div class="tab">Done</div><div class="tab">Rejected</div></div>
+      <div class="tabs" style="margin-bottom:8px"><div class="tab on">Transfers <span class="bd">1</span></div><div class="tab">Loans <span class="bd">1</span></div><div class="tab">Done</div><div class="tab">Rejected</div></div>
       <div class="scroll">
-        <div class="transfer">
+        <div class="transfer" data-cat="fans">
           <div class="tfhead"><span class="tftype perm">⇄ Permanent transfer</span><span style="font-size:11px;font-weight:700;color:var(--t3)">exp. 2d</span></div>
           <div class="tfmove">
             <div class="side"><div class="crest sm blue">BW</div><div class="sl">Blue Wolves</div></div>
@@ -637,7 +675,7 @@
           </div>
           <div class="sactions" style="display:flex;gap:9px;margin-top:14px"><div class="btn ghost sm" style="flex:1">Reject</div><div class="btn sm" style="flex:2">✓ Approve</div></div>
         </div>
-        <div class="transfer">
+        <div class="transfer" data-cat="fans">
           <div class="tfhead"><span class="tftype loan">🕐 Loan · 30 days</span><span style="font-size:11px;font-weight:700;color:var(--t3)">exp. 4d</span></div>
           <div class="tfmove">
             <div class="side"><div class="crest sm">RF</div><div class="sl">Red Fury</div></div>

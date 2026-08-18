@@ -52,6 +52,8 @@
   .filters{display:flex;gap:9px;padding:0 20px 14px;overflow:hidden}
   .fchip{flex:none;padding:9px 17px;border-radius:999px;font-size:14px;font-weight:750;color:var(--t2);background:var(--raised);border:1px solid var(--hair)}
   .fchip.on{background:var(--volt);color:#0A0C10;font-weight:800;border-color:var(--volt);box-shadow:0 4px 16px rgba(201,255,61,.3)}
+  .fchip.pkchip,.fchip.pkchip.on{background:linear-gradient(135deg,#FF3B5C,#7A2BFF);color:#fff;font-weight:800;border:none;animation:pkglow 2.2s infinite}
+  @keyframes pkglow{0%,100%{box-shadow:0 4px 16px rgba(122,43,255,.4)}50%{box-shadow:0 6px 26px rgba(255,59,92,.65)}}
 
   .scroll{flex:1;overflow:hidden;padding:0 20px}
 
@@ -112,9 +114,11 @@
   .ni.on{color:var(--volt)}
   .ni.on::after{content:"";width:16px;height:3px;border-radius:2px;background:var(--volt);position:absolute;bottom:-2px}
   .ni.on{position:relative}
-  .golive{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:21;width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,#DEFF7A,var(--volt));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0A0C10;box-shadow:0 10px 26px rgba(201,255,61,.5),0 0 0 6px var(--arena);animation:breathe 2.6s infinite}
-  .golive .gi{font-size:22px;line-height:1}
-  .golive .gl{font-size:9px;font-weight:800;margin-top:1px}
+  .golive{position:absolute;left:50%;bottom:100px;transform:translateX(-50%);z-index:21;display:flex;align-items:center;gap:11px;padding:16px 34px;border-radius:999px;background:linear-gradient(135deg,#DEFF7A,var(--volt));color:#0A0C10;box-shadow:0 18px 40px rgba(201,255,61,.6),0 0 0 5px var(--arena);animation:breathe 2.6s infinite;cursor:pointer}
+  .golive .godot{width:12px;height:12px;border-radius:50%;background:#FF2E4D;animation:golivepulse 1.4s infinite}
+  .golive .gi{font-size:20px;line-height:1}
+  .golive .gl{font-size:16px;font-weight:800;letter-spacing:.4px}
+  @keyframes golivepulse{0%{box-shadow:0 0 0 0 rgba(255,46,77,.6)}100%{box-shadow:0 0 0 12px rgba(255,46,77,0)}}
 </style>
 </head>
 <body>
@@ -140,9 +144,7 @@
 
       <div class="filters">
         <div class="fchip on">For You</div>
-        <div class="fchip">Following</div>
-        <div class="fchip">Premier League</div>
-        <div class="fchip">Champions</div>
+        <div class="fchip pkchip">⚔️ PK Battle</div>
       </div>
 
       <div class="scroll">
@@ -201,10 +203,37 @@
             <div class="rimg" style="background-image:url('assets/fb_m2.jpg')"></div><div class="rg"></div>
             <span class="badge-live sm rl"><i></i>LIVE</span>
           </div>
+          <div class="rcard pkcard" data-cat="pk" style="display:none">
+            <div class="rimg" style="background-image:url('assets/fb_stadium.jpg')"></div><div class="rg"></div>
+            <span class="badge-live sm rl"><i></i>LIVE PK</span>
+            <span class="rv">👁 <span class="num">4.1K</span></span>
+            <div class="rmeta">
+              <div class="rt">⚔️ Blues vs Reds · Derby PK</div>
+              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="rhn">Maria <span class="verified">✔</span></div><div class="rc">1:42 left</div></div></div>
+            </div>
+          </div>
+          <div class="rcard pkcard" data-cat="pk" style="display:none">
+            <div class="rimg" style="background-image:url('assets/fb_crowd.jpg')"></div><div class="rg"></div>
+            <span class="badge-live sm rl"><i></i>LIVE PK</span>
+            <span class="rv">👁 <span class="num">2.7K</span></span>
+            <div class="rmeta">
+              <div class="rt">⚔️ Reds vs Greens · Cup PK</div>
+              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_m1.jpg')"></div><div><div class="rhn">Jordan <span class="verified">✔</span></div><div class="rc">0:48 left</div></div></div>
+            </div>
+          </div>
+          <div class="rcard pkcard" data-cat="pk" style="display:none">
+            <div class="rimg" style="background-image:url('assets/fb_f3.jpg')"></div><div class="rg"></div>
+            <span class="badge-live sm rl"><i></i>LIVE PK</span>
+            <span class="rv">👁 <span class="num">1.3K</span></span>
+            <div class="rmeta">
+              <div class="rt">⚔️ Blues vs Whites · Friendly PK</div>
+              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_f3.jpg')"></div><div><div class="rhn">Sofia R. <span class="verified">✔</span></div><div class="rc">2:15 left</div></div></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="golive" style="bottom:92px"><div class="gi">🎥</div><div class="gl">GO LIVE</div></div>
+      <div class="golive"><span class="godot"></span><div class="gi">🎥</div><div class="gl">GO LIVE</div></div>
 
     </div></div>
   </div>

@@ -67,7 +67,8 @@
   .gsheet .ghead .gsub{font-size:11px;font-weight:650;color:#B7ADBE;margin-top:1px}
   .gsheet .ghead .gbal{margin-left:auto;display:inline-flex;align-items:center;gap:5px;background:linear-gradient(120deg,rgba(60,42,8,.6),rgba(30,20,4,.6));border:1px solid rgba(255,200,100,.4);padding:5px 11px;border-radius:999px;font-size:12.5px;font-weight:800;color:#FFE1A0}
   .gsheet .ghead .gbal .coin{width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 28%,var(--goldLite),#C88A00)}
-  .gcats{display:flex;gap:7px;overflow:hidden;margin-bottom:12px}
+  .gcats{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:12px}
+  .gcats::-webkit-scrollbar{display:none}
   .gcat{flex:none;font-size:12px;font-weight:750;color:rgba(255,255,255,.6);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:999px}
   .gcat.on{background:var(--gold1);color:#5A3E00;border-color:var(--gold1)}
   .ggrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
@@ -207,17 +208,74 @@
     <div class="sheet-scrim"><div class="gsheet">
       <div class="grab"></div>
       <div class="ghead"><div class="crest cr-red">RD</div><div style="flex:1"><div class="gt">Gift the Reds</div><div class="gsub">Your club · powers this room, host earns a share</div></div><div class="gbal"><div class="coin"></div><span class="num">1,240</span></div></div>
-      <div class="gcats"><span class="gcat on">Popular</span><span class="gcat">Match Day</span><span class="gcat">Trophies</span><span class="gcat">Fan Support</span><span class="gcat">Legends</span></div>
+      <div class="gcats"><span class="gcat on">🔥 Popular</span><span class="gcat">⚽ Match Day</span><span class="gcat">🏆 Trophies</span><span class="gcat">👟 Golden Boot</span><span class="gcat">🧤 Golden Glove</span><span class="gcat">❤️ Fan Support</span><span class="gcat">🥅 PK Battle</span><span class="gcat">🟥 Referee</span><span class="gcat">🏟️ Stadium</span><span class="gcat">👕 Club Kit</span><span class="gcat">🌍 World Cup</span><span class="gcat">👑 Legends</span><span class="gcat">💎 VIP</span></div>
       <div class="ggrid">
-        <div class="gtile" data-cat="popular matchday"><span class="rar rar-std">STD</span><div class="ge">⚽</div><div class="gn">Football</div><div class="gp"><div class="coin"></div>10</div></div>
-        <div class="gtile" data-cat="popular matchday support"><span class="rar rar-std">STD</span><div class="ge">📣</div><div class="gn">Chant</div><div class="gp"><div class="coin"></div>15</div></div>
-        <div class="gtile" data-cat="popular matchday"><span class="rar rar-rare">RARE</span><div class="ge">🧨</div><div class="gn">Flare</div><div class="gp"><div class="coin"></div>35</div></div>
-        <div class="gtile" data-cat="popular support"><span class="rar rar-rare">RARE</span><div class="ge">🧤</div><div class="gn">Save</div><div class="gp"><div class="coin"></div>25</div></div>
-        <div class="gtile" data-cat="support matchday"><span class="rar rar-epic">EPIC</span><div class="ge">🎽</div><div class="gn">Club Kit</div><div class="gp"><div class="coin"></div>60</div></div>
-        <div class="gtile" data-cat="trophies matchday"><span class="rar rar-epic">EPIC</span><div class="ge">🏅</div><div class="gn">MOTM</div><div class="gp"><div class="coin"></div>120</div></div>
-        <div class="gtile on" data-cat="trophies legends"><span class="rar rar-ultra">ULTRA</span><div class="ge">🥇</div><div class="gn">Golden Boot</div><div class="gp"><div class="coin"></div>199</div></div>
-        <div class="gtile" data-cat="trophies legends"><span class="rar rar-ultra">ULTRA</span><div class="ge">🏆</div><div class="gn">Trophy</div><div class="gp"><div class="coin"></div>299</div></div>
-        <div class="gtile leg" data-cat="legends trophies"><span class="rar rar-legend">LEG</span><div class="ge">👑</div><div class="gn">Legend</div><div class="gp"><div class="coin"></div>499</div></div>
+        <!-- POPULAR -->
+        <div class="gtile on" data-cat="popular matchday"><span class="rar rar-std">STD</span><div class="ge">⚽</div><div class="gn">Football</div><div class="gp"><div class="coin"></div>10</div></div>
+        <div class="gtile" data-cat="popular support"><span class="rar rar-std">STD</span><div class="ge">📣</div><div class="gn">Chant</div><div class="gp"><div class="coin"></div>15</div></div>
+        <div class="gtile" data-cat="popular clubkit"><span class="rar rar-std">STD</span><div class="ge">🧣</div><div class="gn">Scarf</div><div class="gp"><div class="coin"></div>20</div></div>
+        <div class="gtile" data-cat="popular stadium"><span class="rar rar-std">STD</span><div class="ge">🥁</div><div class="gn">Drum</div><div class="gp"><div class="coin"></div>25</div></div>
+        <div class="gtile" data-cat="popular matchday"><span class="rar rar-rare">RARE</span><div class="ge">🔥</div><div class="gn">Goal Celebration</div><div class="gp"><div class="coin"></div>35</div></div>
+        <!-- MATCH DAY -->
+        <div class="gtile" data-cat="matchday" style="display:none"><span class="rar rar-std">STD</span><div class="ge">🎯</div><div class="gn">Perfect Pass</div><div class="gp"><div class="coin"></div>13</div></div>
+        <div class="gtile" data-cat="matchday popular" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🥅</div><div class="gn">GOAL!</div><div class="gp"><div class="coin"></div>40</div></div>
+        <div class="gtile" data-cat="matchday" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🚀</div><div class="gn">Screamer</div><div class="gp"><div class="coin"></div>60</div></div>
+        <div class="gtile" data-cat="matchday" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🔥</div><div class="gn">Man of the Match</div><div class="gp"><div class="coin"></div>120</div></div>
+        <!-- TROPHIES -->
+        <div class="gtile" data-cat="trophies" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🏆</div><div class="gn">League Trophy</div><div class="gp"><div class="coin"></div>199</div></div>
+        <div class="gtile" data-cat="trophies" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🏆</div><div class="gn">Champions Cup</div><div class="gp"><div class="coin"></div>299</div></div>
+        <div class="gtile" data-cat="trophies" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🌟</div><div class="gn">Golden Ball</div><div class="gp"><div class="coin"></div>250</div></div>
+        <div class="gtile" data-cat="trophies worldcup" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">🌍</div><div class="gn">World Cup</div><div class="gp"><div class="coin"></div>499</div></div>
+        <!-- GOLDEN BOOT -->
+        <div class="gtile" data-cat="goldenboot trophies" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">👟</div><div class="gn">Golden Boot</div><div class="gp"><div class="coin"></div>199</div></div>
+        <div class="gtile" data-cat="goldenboot" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🎯</div><div class="gn">Golden Strike</div><div class="gp"><div class="coin"></div>99</div></div>
+        <div class="gtile" data-cat="goldenboot" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🔥</div><div class="gn">Hat-Trick</div><div class="gp"><div class="coin"></div>150</div></div>
+        <div class="gtile" data-cat="goldenboot" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">👑</div><div class="gn">Top Scorer</div><div class="gp"><div class="coin"></div>250</div></div>
+        <!-- GOLDEN GLOVE -->
+        <div class="gtile" data-cat="goldenglove" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🧤</div><div class="gn">Golden Glove</div><div class="gp"><div class="coin"></div>199</div></div>
+        <div class="gtile" data-cat="goldenglove" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🧤</div><div class="gn">Clean Sheet</div><div class="gp"><div class="coin"></div>60</div></div>
+        <div class="gtile" data-cat="goldenglove" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🧤</div><div class="gn">World-Class Save</div><div class="gp"><div class="coin"></div>99</div></div>
+        <div class="gtile" data-cat="goldenglove pk" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🧤</div><div class="gn">Penalty Save</div><div class="gp"><div class="coin"></div>120</div></div>
+        <!-- FAN SUPPORT -->
+        <div class="gtile" data-cat="support popular" style="display:none"><span class="rar rar-std">STD</span><div class="ge">❤️</div><div class="gn">I Support You</div><div class="gp"><div class="coin"></div>10</div></div>
+        <div class="gtile" data-cat="support" style="display:none"><span class="rar rar-std">STD</span><div class="ge">🙌</div><div class="gn">We Believe</div><div class="gp"><div class="coin"></div>20</div></div>
+        <div class="gtile" data-cat="support" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🔥</div><div class="gn">Never Give Up</div><div class="gp"><div class="coin"></div>35</div></div>
+        <div class="gtile" data-cat="support" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🫶</div><div class="gn">Fan Forever</div><div class="gp"><div class="coin"></div>50</div></div>
+        <!-- PK BATTLE -->
+        <div class="gtile" data-cat="pk" style="display:none"><span class="rar rar-std">STD</span><div class="ge">⚽</div><div class="gn">Penalty Kick</div><div class="gp"><div class="coin"></div>13</div></div>
+        <div class="gtile" data-cat="pk" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🎯</div><div class="gn">Top Corner</div><div class="gp"><div class="coin"></div>50</div></div>
+        <div class="gtile" data-cat="pk" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🔥</div><div class="gn">Panenka</div><div class="gp"><div class="coin"></div>99</div></div>
+        <div class="gtile" data-cat="pk" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🏆</div><div class="gn">PK Winner</div><div class="gp"><div class="coin"></div>199</div></div>
+        <!-- REFEREE -->
+        <div class="gtile" data-cat="referee" style="display:none"><span class="rar rar-std">STD</span><div class="ge">🟨</div><div class="gn">Yellow Card</div><div class="gp"><div class="coin"></div>10</div></div>
+        <div class="gtile" data-cat="referee" style="display:none"><span class="rar rar-std">STD</span><div class="ge">🟥</div><div class="gn">Red Card</div><div class="gp"><div class="coin"></div>15</div></div>
+        <div class="gtile" data-cat="referee" style="display:none"><span class="rar rar-std">STD</span><div class="ge">🚩</div><div class="gn">Offside</div><div class="gp"><div class="coin"></div>20</div></div>
+        <div class="gtile" data-cat="referee" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🖥️</div><div class="gn">VAR Check</div><div class="gp"><div class="coin"></div>30</div></div>
+        <!-- STADIUM -->
+        <div class="gtile" data-cat="stadium" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🏟️</div><div class="gn">Stadium Lights</div><div class="gp"><div class="coin"></div>50</div></div>
+        <div class="gtile" data-cat="stadium" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🚩</div><div class="gn">Flag Display</div><div class="gp"><div class="coin"></div>40</div></div>
+        <div class="gtile" data-cat="stadium" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🔥</div><div class="gn">Tifo Display</div><div class="gp"><div class="coin"></div>120</div></div>
+        <div class="gtile" data-cat="stadium" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">🎆</div><div class="gn">Fireworks</div><div class="gp"><div class="coin"></div>150</div></div>
+        <!-- CLUB KIT -->
+        <div class="gtile" data-cat="clubkit" style="display:none"><span class="rar rar-std">STD</span><div class="ge">👕</div><div class="gn">Home Shirt</div><div class="gp"><div class="coin"></div>20</div></div>
+        <div class="gtile" data-cat="clubkit" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🚩</div><div class="gn">Club Flag</div><div class="gp"><div class="coin"></div>30</div></div>
+        <div class="gtile" data-cat="clubkit" style="display:none"><span class="rar rar-rare">RARE</span><div class="ge">🛡️</div><div class="gn">Club Badge</div><div class="gp"><div class="coin"></div>40</div></div>
+        <div class="gtile" data-cat="clubkit" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">👑</div><div class="gn">Club Captain</div><div class="gp"><div class="coin"></div>99</div></div>
+        <!-- WORLD CUP -->
+        <div class="gtile" data-cat="worldcup trophies" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🏆</div><div class="gn">World Cup Trophy</div><div class="gp"><div class="coin"></div>399</div></div>
+        <div class="gtile" data-cat="worldcup" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">🌎</div><div class="gn">World Champion</div><div class="gp"><div class="coin"></div>599</div></div>
+        <div class="gtile" data-cat="worldcup" style="display:none"><span class="rar rar-epic">EPIC</span><div class="ge">⭐</div><div class="gn">World Cup Star</div><div class="gp"><div class="coin"></div>150</div></div>
+        <div class="gtile" data-cat="worldcup" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">🌍</div><div class="gn">Road to Glory</div><div class="gp"><div class="coin"></div>250</div></div>
+        <!-- LEGENDS -->
+        <div class="gtile" data-cat="legends" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">👑</div><div class="gn">Football Legend</div><div class="gp"><div class="coin"></div>499</div></div>
+        <div class="gtile leg" data-cat="legends" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">🐐</div><div class="gn">GOAT</div><div class="gp"><div class="coin"></div>999</div></div>
+        <div class="gtile" data-cat="legends" style="display:none"><span class="rar rar-ultra">ULTRA</span><div class="ge">⚽</div><div class="gn">Legendary Goal</div><div class="gp"><div class="coin"></div>299</div></div>
+        <div class="gtile" data-cat="legends" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">⭐</div><div class="gn">Hall of Fame</div><div class="gp"><div class="coin"></div>599</div></div>
+        <!-- VIP -->
+        <div class="gtile" data-cat="vip" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">💎</div><div class="gn">Diamond Football</div><div class="gp"><div class="coin"></div>500</div></div>
+        <div class="gtile" data-cat="vip" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">💎</div><div class="gn">Diamond Boot</div><div class="gp"><div class="coin"></div>799</div></div>
+        <div class="gtile leg" data-cat="vip" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">👑</div><div class="gn">Royal Crown</div><div class="gp"><div class="coin"></div>999</div></div>
+        <div class="gtile" data-cat="vip" style="display:none"><span class="rar rar-legend">LEG</span><div class="ge">💰</div><div class="gn">Champion's Vault</div><div class="gp"><div class="coin"></div>1500</div></div>
       </div>
       <div class="gbtn side red" style="margin-top:12px">Send Golden Boot to Reds · <span class="num" style="margin-left:4px">199</span></div>
     </div></div>
@@ -314,7 +372,7 @@
         <div class="ctr"><span class="k">Reference</span><span class="v" style="font-family:ui-monospace,monospace">GFT-8841</span></div>
       </div>
       <div class="gbtn">Send Again</div>
-      <div class="glink">Done · View Wallet Activity</div>
+      <div class="glink">Done</div>
     </div></div>
   </div></div>
 
