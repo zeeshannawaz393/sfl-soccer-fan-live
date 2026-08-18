@@ -1061,3 +1061,94 @@ page=('<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8">'
 
 open('sfl-prototype.html','w',encoding='utf-8').write(page)
 print('wrote sfl-prototype.html', round(len(page)/1048576,2),'MB · journeys:',len(ALL))
+
+# ---------------------------------------------------------------------------
+# Multi-page SITE: hub index + one self-contained gallery page per journey
+# ---------------------------------------------------------------------------
+import shutil
+SITE=os.path.join(SCR,'..','site')
+if os.path.isdir(SITE): shutil.rmtree(SITE)
+os.makedirs(os.path.join(SITE,'journeys'))
+FONT_B64=base64.b64encode(open('assets/manrope.woff2','rb').read()).decode()
+
+def slugify(t):
+    return re.sub(r'[^a-z0-9]+','-', t.lower()).strip('-')
+
+def inline_assets(html):
+    used={}
+    def rep(m):
+        a=m.group(1)
+        if a.endswith('.woff2'): return m.group(0)
+        used.setdefault(a, '--g-'+re.sub(r'[^a-zA-Z0-9]','_',a))
+        return 'var('+used[a]+')'
+    out=re.sub(r"url\(['\"]?assets/([\w.\-]+)['\"]?\)", rep, html)
+    out=out.replace("url('assets/manrope.woff2')", "url('data:font/woff2;base64,"+FONT_B64+"')")
+    if used:
+        vars_css=':root{'+''.join(v+':url("'+datauri(a)+'");' for a,v in used.items())+'}'
+        out=out.replace('</style>', vars_css+'</style>', 1)
+    return out
+
+# code -> section for the hub ("journey" vs "reference")
+REF={'E2','E3','E4'}
+entries=[]  # (code,label,slug,filename,screens)
+for fn,code,label in ALL:
+    src=allsrc[fn]
+    nscr=src.count('class="fnum"')
+    slug=slugify(label)
+    outname=(code+'-'+slug)+'.html'
+    open(os.path.join(SITE,'journeys',outname),'w',encoding='utf-8').write(inline_assets(src))
+    entries.append((code,label,slug,'journeys/'+outname,nscr,'reference' if code in REF else 'journey'))
+
+# copy the interactive prototype into the site as prototype.html
+shutil.copyfile('sfl-prototype.html', os.path.join(SITE,'prototype.html'))
+
+def cards(kind):
+    out=''
+    for code,label,slug,href,nscr,k in entries:
+        if k!=kind: continue
+        out+=('<a class="jcard" href="'+href+'">'
+              '<div class="jcode">'+code+'</div>'
+              '<div class="jmeta"><div class="jname">'+label+'</div>'
+              '<div class="jscr">'+str(nscr)+' screens</div></div>'
+              '<div class="jarrow">→</div></a>')
+    return out
+
+hub=('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+ '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+ '<title>SFL - Prototype Hub</title>'
+ "<style>@font-face{font-family:'Manrope';font-weight:200 800;src:url('data:font/woff2;base64,"+FONT_B64+"') format('woff2')}"
+ '*{margin:0;padding:0;box-sizing:border-box}'
+ "body{font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;background:#0B0E14;color:#EAEEF5;"
+ 'background-image:radial-gradient(60% 40% at 12% 0%,rgba(228,54,43,.16),transparent 60%),radial-gradient(50% 35% at 92% 4%,rgba(201,255,61,.10),transparent 60%);'
+ 'min-height:100vh;padding:44px 22px 80px}'
+ '.wrap{max-width:1100px;margin:0 auto}'
+ '.kick{font-size:12px;font-weight:800;letter-spacing:4px;color:#C9FF3D;text-transform:uppercase}'
+ 'h1{font-size:40px;font-weight:800;letter-spacing:-1.2px;margin-top:8px}'
+ '.sub{color:#8C97A8;font-size:15px;font-weight:550;margin-top:10px;max-width:640px;line-height:22px}'
+ '.hero{display:flex;align-items:center;gap:18px;margin:30px 0 12px;padding:22px;border-radius:20px;'
+ 'background:linear-gradient(135deg,#E4362B,#8F1109);box-shadow:0 20px 50px rgba(228,54,43,.28);text-decoration:none;color:#fff}'
+ '.hero .pl{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:26px;flex:none}'
+ '.hero .ht{font-size:21px;font-weight:800}.hero .hs{font-size:13px;font-weight:650;color:rgba(255,255,255,.85);margin-top:3px}'
+ '.hero .go{margin-left:auto;font-size:14px;font-weight:800;background:#fff;color:#B4241B;padding:11px 18px;border-radius:999px}'
+ '.lbl{font-size:12px;font-weight:800;letter-spacing:1.5px;color:#8C97A8;text-transform:uppercase;margin:30px 0 12px}'
+ '.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}'
+ '.jcard{display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;background:#141922;'
+ 'border:1px solid #232A36;text-decoration:none;color:#EAEEF5;transition:border-color .15s,transform .15s}'
+ '.jcard:hover{border-color:#C9FF3D;transform:translateY(-2px)}'
+ '.jcode{min-width:40px;height:40px;padding:0 8px;border-radius:10px;background:#0B0E14;border:1px solid #2A3140;'
+ 'display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#C9FF3D;flex:none}'
+ '.jname{font-size:15px;font-weight:800}.jscr{font-size:11.5px;font-weight:700;color:#8C97A8;margin-top:2px}'
+ '.jarrow{margin-left:auto;color:#8C97A8;font-size:18px;font-weight:800}'
+ '.foot{margin-top:40px;color:#5C6675;font-size:12px;font-weight:600}'
+ '</style></head><body><div class="wrap">'
+ '<div class="kick">Soccer Fan Live</div><h1>Prototype Hub</h1>'
+ '<div class="sub">Open the full clickable prototype, or browse any single journey as a one-page gallery of every screen.</div>'
+ '<a class="hero" href="prototype.html"><div class="pl">▶</div>'
+ '<div><div class="ht">Full Interactive Prototype</div><div class="hs">The complete wired app - tap through every flow end to end</div></div>'
+ '<div class="go">Open →</div></a>'
+ '<div class="lbl">Journeys - all screens on one page</div><div class="grid">'+cards('journey')+'</div>'
+ '<div class="lbl">Design &amp; reference sets</div><div class="grid">'+cards('reference')+'</div>'
+ '<div class="foot">Generated from source by build/build_proto.py - '+str(len(entries))+' journeys.</div>'
+ '</div></body></html>')
+open(os.path.join(SITE,'index.html'),'w',encoding='utf-8').write(hub)
+print('wrote site/ :', len(entries),'journey pages + index.html + prototype.html')

@@ -8,3 +8,4 @@ screens/sfl-mobile*.html
 dist/
 deploy/
 scratch_player.js
+site/

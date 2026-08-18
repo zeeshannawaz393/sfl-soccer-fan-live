@@ -25,15 +25,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build prototype
-        run: python build/build_proto.py
-
-      - name: Stage deploy folder (single self-contained file as index.html)
+      - name: Build prototype + multi-page site
         run: |
-          mkdir -p dist
-          cp screens/sfl-prototype.html dist/index.html
-          # NOTE: only index.html is deployed — no .htaccess, so existing SSL/redirect rules are never overwritten
-          ls -la dist
+          python build/build_proto.py
+          ls -la site site/journeys
 
       - name: Deploy over SSH (rsync)
         env:
@@ -49,7 +44,8 @@ jobs:
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
           ssh-keyscan -p "$PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
-          # upload index.html + .htaccess; do NOT delete other files in the doc root
+          # deploy the whole site/ (index hub + prototype.html + journeys/).
+          # NO --delete: existing files (.htaccess, SSL/.well-known, cgi-bin) are never removed.
           rsync -avz \
             -e "ssh -i ~/.ssh/id_deploy -p $PORT -o StrictHostKeyChecking=accept-new" \
-            dist/ "$SSH_USER@$SSH_HOST:$SSH_TARGET_DIR"
+            site/ "$SSH_USER@$SSH_HOST:$SSH_TARGET_DIR"
