@@ -200,21 +200,35 @@ SB_INJECT=r"""
 
   var NAVCSS=false;
   function ensureNavCss(){ if(NAVCSS)return; NAVCSS=true; var st=document.createElement('style'); st.textContent=
-   '.sfl-nav{position:absolute;left:14px;right:14px;bottom:14px;height:60px;border-radius:22px;display:flex;align-items:center;justify-content:space-around;padding:0 8px;z-index:590;font-family:Manrope,-apple-system,sans-serif;background:rgba(255,255,255,.93);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.7);box-shadow:0 12px 34px rgba(20,30,60,.2)}'
-   +'.sfl-nav.dark{background:rgba(20,24,32,.9);border-color:rgba(255,255,255,.1);box-shadow:0 12px 34px rgba(0,0,0,.5)}'
-   +'.sfl-nav .nit{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;font-weight:800;color:#A6ADBC}'
-   +'.sfl-nav.dark .nit{color:#606a78}'
-   +'.sfl-nav .nit .ic{font-size:18px;line-height:1}'
-   +'.sfl-nav .nit.on{color:#E4362B}'
-   +'.sfl-nav .nc{width:52px;height:52px;border-radius:50%;background:linear-gradient(150deg,#E4362B,#8E1912);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:-24px;box-shadow:0 8px 22px rgba(228,54,43,.45);border:3px solid #F4F6FB}'
+   '.sfl-nav{position:absolute;left:14px;right:14px;bottom:14px;height:62px;border-radius:24px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;z-index:590;font-family:Manrope,-apple-system,sans-serif;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.75);box-shadow:0 14px 38px rgba(20,30,60,.22)}'
+   +'.sfl-nav.dark{background:rgba(18,22,30,.92);border-color:rgba(255,255,255,.1);box-shadow:0 14px 38px rgba(0,0,0,.55)}'
+   +'.sfl-nav .nit{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9.5px;font-weight:800;color:#9AA2B1;letter-spacing:.2px;transition:color .2s;cursor:pointer}'
+   +'.sfl-nav.dark .nit{color:#6A7383}'
+   +'.sfl-nav .nit .ic{width:42px;height:33px;border-radius:13px;display:flex;align-items:center;justify-content:center;opacity:.62;transition:transform .28s cubic-bezier(.34,1.56,.64,1),background .2s,box-shadow .2s,opacity .2s}.sfl-nav .nit .ic svg{width:22px;height:22px;display:block}'
+   +'.sfl-nav .nit.home .ic{color:#E4362B}.sfl-nav .nit.market .ic{color:#2266C9}.sfl-nav .nit.games .ic{color:#7C3AED}.sfl-nav .nit.chats .ic{color:#0EA47D}'
+   +'.sfl-nav .nit:active .ic{transform:scale(.9)}'
+   +'.sfl-nav .nit.on{color:var(--accent,#E4362B)}'
+   +'.sfl-nav .nit.on .ic{opacity:1;color:#fff;transform:translateY(-4px);background:var(--grad,linear-gradient(150deg,#FF6E3D,#E4362B));box-shadow:0 9px 18px var(--glow,rgba(228,54,43,.5)),inset 0 1px 0 rgba(255,255,255,.4);animation:navpop .44s ease}'
+   +'.sfl-nav .nit.home{--accent:#E4362B;--grad:linear-gradient(150deg,#FF6E3D,#E4362B);--glow:rgba(228,54,43,.5)}'
+   +'.sfl-nav .nit.market{--accent:#2266C9;--grad:linear-gradient(150deg,#4AA0F5,#2266C9);--glow:rgba(47,127,209,.5)}'
+   +'.sfl-nav .nit.games{--accent:#7C3AED;--grad:linear-gradient(150deg,#A78BFA,#7C3AED);--glow:rgba(124,58,237,.5)}'
+   +'.sfl-nav .nit.chats{--accent:#0EA47D;--grad:linear-gradient(150deg,#2DD4A7,#0EA47D);--glow:rgba(14,164,125,.5)}'
+   +'@keyframes navpop{0%{transform:translateY(0) scale(.85)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-4px) scale(1)}}'
+   +'.sfl-nav .nc{position:relative;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#FF7A5C,#FF4A3D 45%,#B4241B);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:-26px;box-shadow:0 10px 24px rgba(228,54,43,.55),inset 0 2px 0 rgba(255,255,255,.4);border:3px solid #F4F6FB;animation:navcfloat 2.8s ease-in-out infinite;cursor:pointer}'
    +'.sfl-nav.dark .nc{border-color:#12151C}'
-   +'.sfl-nav .nc.on{box-shadow:0 0 0 4px rgba(228,54,43,.35),0 10px 24px rgba(228,54,43,.6)}'
-   +'.sfl-nav .nc .ic{font-size:19px;line-height:1}.sfl-nav .nc .nl{font-size:7px;font-weight:800;margin-top:1px}';
+   +'.sfl-nav .nc::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(228,54,43,.4);animation:navcring 2.2s ease-out infinite;pointer-events:none}'
+   +'.sfl-nav .nc .ic{height:25px;display:flex;align-items:center;justify-content:center}.sfl-nav .nc .ic svg{width:25px;height:25px;display:block}.sfl-nav .nc .nl{font-size:7.5px;font-weight:800;margin-top:2px;letter-spacing:.3px}'
+   +'@keyframes navcfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes navcring{0%{transform:scale(.8);opacity:.7}100%{transform:scale(1.35);opacity:0}}';
    document.head.appendChild(st); }
   function injectNav(phone,dark){ var tab=phone.getAttribute&&phone.getAttribute('data-nav'); if(!tab)return; if(phone.querySelector(':scope > .sfl-nav'))return; ensureNavCss();
-   function it(id,ic,l){return '<div class="nit'+(tab===id?' on':'')+'"><span class="ic">'+ic+'</span>'+l+'</div>';}
+   var NAVIC={home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.2V19h12v-8.8"/><path d="M10 19v-5h4v5"/></svg>',
+     market:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h13l-3.3-3.3M20 15.5H7l3.3 3.3"/></svg>',
+     stadium:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5c0-2 4-3.6 9-3.6s9 1.6 9 3.6-4 3.6-9 3.6-9-1.6-9-3.6Z"/><path d="M3 9.5V14c0 2 4 3.6 9 3.6s9-1.6 9-3.6V9.5"/><path d="M8 12.4v3.1M16 12.4v3.1M12 13v3.3"/></svg>',
+     games:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10.5" rx="5.25"/><path d="M6.5 11v2.2M5.4 12.1h2.2"/><circle cx="15.6" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="18.2" cy="13.6" r="1.05" fill="currentColor" stroke="none"/></svg>',
+     chats:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.7A8 8 0 1 1 20.5 11.5Z"/></svg>'};
+   function it(id,l){return '<div class="nit '+id+(tab===id?' on':'')+'"><span class="ic">'+NAVIC[id]+'</span>'+l+'</div>';}
    var nav=document.createElement('div'); nav.className='sfl-nav'+(dark?' dark':'');
-   nav.innerHTML=it('home','🏠','Home')+it('market','🔁','Market')+'<div class="nc'+((tab==='stadium'||tab==='live')?' on':'')+'"><span class="ic">🏟️</span><span class="nl">Stadium</span></div>'+it('games','🎮','Games')+it('chats','💬','Chats');
+   nav.innerHTML=it('home','Home')+it('market','Market')+'<div class="nc'+((tab==='stadium'||tab==='live')?' on':'')+'"><span class="ic">'+NAVIC.stadium+'</span><span class="nl">Stadium</span></div>'+it('games','Games')+it('chats','Chats');
    phone.appendChild(nav);
    var body=phone.querySelector('.scrollarea,.scroll,.lscroll,.hscroll,.feed,.list')||phone.querySelector('.dbody,.lbody,.body'); if(body) body.style.paddingBottom='84px'; }
 """
@@ -279,19 +293,58 @@ PLAYER_JS = """
     });
   }
   var GIFTSHEET=%GIFTSHEET%;
+  function roomCommentBox(){ var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return null; return phone.querySelector('.rchat')||phone.querySelector('.pkchat'); }
+  function pushComment(html,cls){ var box=roomCommentBox(); if(!box)return; var d=document.createElement('div'); d.className='cm'+(cls?(' '+cls):''); d.innerHTML=html; box.appendChild(d); while(box.children.length>50)box.removeChild(box.firstChild); box.scrollTop=box.scrollHeight; }
+  function giftHosts(scope){ return [].slice.call(scope.querySelectorAll('.ghost.on')).map(function(h){return (h.getAttribute('data-host')||((h.querySelector('.ghn')||{}).textContent)||'Host').trim();}); }
+  function giftQty(scope){ var q=scope.querySelector('.qval'); return q?Math.max(1,parseInt(q.textContent,10)||1):1; }
+  function giftRecalc(scope){
+    var tile=scope.querySelector('.gtile.on'); var cnt=scope.querySelector('.gselcount'); var btn=scope.querySelector('.gsend');
+    var hosts=giftHosts(scope); var n=Math.max(1,hosts.length); var qty=giftQty(scope);
+    if(cnt)cnt.textContent=n+' host'+(n!==1?'s':'')+' selected';
+    if(tile&&btn){ var nm=((tile.querySelector('.gn')||{}).textContent||'Gift').trim(); var unit=parseInt(((tile.querySelector('.gp')||{}).textContent||'0').replace(/[^0-9]/g,''),10)||0; var total=unit*qty*n; btn.innerHTML='Send '+nm+(qty>1?(' ×'+qty):'')+(n>1?(' · '+n+' hosts'):'')+' · <span class="num" style="margin-left:4px">'+total+'</span>'; }
+    var all=scope.querySelectorAll('.ghost').length, sel=scope.querySelectorAll('.ghost.on').length; var sa=scope.querySelector('.gselall'); if(sa)sa.textContent=(sel>=all&&all>0?'Unselect all':'Select all');
+  }
+  function giftTier(unit){ return unit>=600?4:unit>=200?3:unit>=90?2:unit>=30?1:0; }
+  function giftBurst(em,tier){
+    var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return; ensureFlyCss();
+    var counts=[6,10,16,24,36][tier]||8;
+    if(tier>=2){ var big=document.createElement('div'); big.className='sflgiftpop'; big.textContent=em; phone.appendChild(big); setTimeout(function(){if(big.parentNode)big.parentNode.removeChild(big);},1500); }
+    if(tier>=3){ var ring=document.createElement('div'); ring.className='sflgiftring'; phone.appendChild(ring); setTimeout(function(){if(ring.parentNode)ring.parentNode.removeChild(ring);},1100); }
+    if(tier>=4){ var fl=document.createElement('div'); fl.className='sflgiftflash'; phone.appendChild(fl); setTimeout(function(){if(fl.parentNode)fl.parentNode.removeChild(fl);},700); }
+    for(var k=0;k<counts;k++){(function(i){ var g=document.createElement('div'); g.className='sflfly'; g.textContent=em; g.style.left=(10+Math.random()*74)+'%'; g.style.fontSize=(20+Math.random()*(16+tier*9))+'px'; g.style.animationDelay=(i*60)+'ms'; phone.appendChild(g); setTimeout(function(){if(g.parentNode)g.parentNode.removeChild(g);},2200+i*60); })(k);}
+  }
+  function giftInfoBanner(em,nm,qty,total,hosts){
+    var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return; ensureFlyCss();
+    var old=phone.querySelector('.sflgiftinfo'); if(old)old.remove();
+    var to=(hosts&&hosts.length>1)?(' → '+hosts.length+' hosts'):((hosts&&hosts.length===1)?(' → '+hosts[0]):'');
+    var b=document.createElement('div'); b.className='sflgiftinfo';
+    b.innerHTML='<div class="gi-em">'+em+'</div><div class="gi-tx"><div class="gi-nm"><b>You</b> sent <b>'+nm+'</b>'+(qty>1?(' ×'+qty):'')+to+'</div><div class="gi-co"><span class="gi-coin"></span>'+total+' Coins</div></div>';
+    phone.appendChild(b); setTimeout(function(){b.classList.add('out');},2300); setTimeout(function(){if(b.parentNode)b.parentNode.removeChild(b);},2800);
+  }
+  function sendGift(em,nm,n,unit,hosts,qty){
+    qty=Math.max(1,qty||1); n=Math.max(1,n||1); var total=(unit||0)*qty*n; var tier=giftTier(unit||0);
+    giftBurst(em,tier); giftInfoBanner(em,nm,qty,total,hosts);
+    var who=(hosts&&hosts.length)?hosts:['Host'];
+    pushComment('<b style="color:#DCFF8A">You</b> sent '+em+' <b style="color:#FFE1A0">'+nm+' ×'+qty+'</b>'+(who.length>1?(' to '+who.length+' hosts'):(' to '+who[0])), 'giftmsg');
+    sflToast('🎁 '+nm+(qty>1?(' ×'+qty):'')+' sent'+(n>1?(' to '+n+' hosts'):'')+' · '+total+' Coins');
+  }
   function SFLgiftInteract(scope,tgt,onClose){
     if(tgt.classList&&(tgt.classList.contains('sheet-scrim')||tgt.classList.contains('sflgiftoverlay'))){ if(onClose)onClose(); return true; }
-    var gt=tgt.closest('.gtile'); if(gt){ [].forEach.call(scope.querySelectorAll('.gtile'),function(c){c.classList.remove('on');}); gt.classList.add('on'); var nm=((gt.querySelector('.gn')||{}).textContent||'Gift').trim(); var pr=((gt.querySelector('.gp')||{}).textContent||'').replace(/\s+/g,''); var sb=scope.querySelector('.gsheet .btn')||scope.querySelector('.btn'); if(sb)sb.innerHTML='Send '+nm+' to Reds · '+pr; return true; }
-    var gc=tgt.closest('.gcat'); if(gc&&gc.parentElement){ [].forEach.call(gc.parentElement.children,function(c){c.classList&&c.classList.remove('on');}); gc.classList.add('on'); var gx=(gc.textContent||'').toLowerCase(); var key=/match/.test(gx)?'matchday':/troph/.test(gx)?'trophies':/golden boot/.test(gx)?'goldenboot':/golden glove/.test(gx)?'goldenglove':/support/.test(gx)?'support':/pk|penalty/.test(gx)?'pk':/refer/.test(gx)?'referee':/stadium/.test(gx)?'stadium':/club/.test(gx)?'clubkit':/world/.test(gx)?'worldcup':/legend/.test(gx)?'legends':/vip|luxury|diamond/.test(gx)?'vip':'popular'; [].forEach.call(scope.querySelectorAll('.gtile'),function(tl){var cats=(tl.getAttribute('data-cat')||''); tl.style.display=(cats.indexOf(key)>=0)?'':'none';}); return true; }
-    if(tgt.closest('.btn,.gbtn')){ if(onClose)onClose(); return true; }
+    var gh=tgt.closest('.ghost'); if(gh){ gh.classList.toggle('on'); if(!scope.querySelector('.ghost.on'))gh.classList.add('on'); giftRecalc(scope); return true; }
+    if(tgt.closest('.gselall')){ var hs=scope.querySelectorAll('.ghost'); var sel=scope.querySelectorAll('.ghost.on').length; var turnOn=sel<hs.length; [].forEach.call(hs,function(h,i){ if(turnOn)h.classList.add('on'); else h.classList.toggle('on', i===0); }); giftRecalc(scope); return true; }
+    if(tgt.closest('.qminus')){ var q=scope.querySelector('.qval'); if(q){var v=Math.max(1,(parseInt(q.textContent,10)||1)-1); q.textContent=v; giftRecalc(scope);} return true; }
+    if(tgt.closest('.qplus')){ var q2=scope.querySelector('.qval'); if(q2){var v2=Math.min(99,(parseInt(q2.textContent,10)||1)+1); q2.textContent=v2; giftRecalc(scope);} return true; }
+    var gc=tgt.closest('.gcat'); if(gc&&gc.parentElement){ [].forEach.call(gc.parentElement.children,function(c){c.classList&&c.classList.remove('on');}); gc.classList.add('on'); var key=gc.getAttribute('data-k')||'popular'; var first=null; [].forEach.call(scope.querySelectorAll('.gtile'),function(tl){var m=((tl.getAttribute('data-cat')||'').split(' ').indexOf(key)>=0); tl.style.display=m?'':'none'; tl.classList.remove('on'); if(m&&!first)first=tl;}); if(first)first.classList.add('on'); giftRecalc(scope); return true; }
+    var gt=tgt.closest('.gtile'); if(gt){ [].forEach.call(scope.querySelectorAll('.gtile'),function(c){c.classList.remove('on');}); gt.classList.add('on'); giftRecalc(scope); return true; }
+    if(tgt.closest('.gsend,.btn,.gbtn')){ var t2=scope.querySelector('.gtile.on'); var hosts=giftHosts(scope); var n=Math.max(1,hosts.length); var qty=giftQty(scope); var nm=t2?((t2.querySelector('.gn')||{}).textContent||'Gift').trim():'Gift'; var em=t2?((t2.querySelector('.ge')||{}).textContent||'🎁').trim():'🎁'; var unit=t2?(parseInt(((t2.querySelector('.gp')||{}).textContent||'0').replace(/[^0-9]/g,''),10)||0):0; if(onClose)onClose(); sendGift(em,nm,n,unit,hosts,qty); return true; }
     return false;
   }
   function openGiftSheet(){
     if(SFLguest){goTo('gate');return;}
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflgiftoverlay'))return;
     var ov=document.createElement('div'); ov.className='sflgiftoverlay'; ov.style.cssText='position:absolute;inset:0;z-index:700'; ov.innerHTML=GIFTSHEET;
-    phone.appendChild(ov); SFLcoinify(ov); SFLcrest(ov);
-    ov.addEventListener('click',function(e){ e.stopPropagation(); var isSend=!!e.target.closest('.btn,.gbtn'); var selEl=isSend&&(ov.querySelector('.gtile.on .ge')||ov.querySelector('.gtile.on')); var em=selEl?(selEl.textContent||'').trim():'🎁'; SFLgiftInteract(ov,e.target,function(){ov.remove(); if(isSend)flyGift(em);}); });
+    phone.appendChild(ov); SFLcoinify(ov); SFLcrest(ov); giftRecalc(ov);
+    ov.addEventListener('click',function(e){ e.stopPropagation(); SFLgiftInteract(ov,e.target,function(){ov.remove();}); });
   }
   function showSeatCard(seat){
     if(!seat||seat.classList.contains('open'))return false;
@@ -299,7 +352,7 @@ PLAYER_JS = """
     var nm=((seat.querySelector('.nm')||{}).textContent||'').trim(); if(!nm||nm==='Open')return false;
     if(phone.querySelector('.sflseatwrap'))return true;
     var av=seat.querySelector('.av'); var bg=(av&&av.style.backgroundImage)||''; var pos=((seat.querySelector('.pos')||{}).textContent||'').trim();
-    var isYou=/^you$/i.test(nm);
+    var isYou=/^you$/i.test(nm); var isHostView=((VIEWS[curJ].screens[curS]||{}).fnum==='GL-03H');
     var h=0; for(var i=0;i<nm.length;i++)h=(h*31+nm.charCodeAt(i))>>>0;
     var lvl=8+(h%13), fp=(2+(h%9))+'.'+(h%10)+'k', gifts=40+(h%210), streak=3+(h%22);
     var stat=function(v,l){return '<div style="flex:1"><div style="font-size:15px;font-weight:800;color:#fff">'+v+'</div><div style="font-size:9.5px;font-weight:800;letter-spacing:.3px;color:#8892A4;margin-top:2px;text-transform:uppercase">'+l+'</div></div>';};
@@ -312,19 +365,41 @@ PLAYER_JS = """
       +'<div style="width:80px;height:80px;border-radius:50%;margin:0 auto;background-image:'+bg+';background-color:#222;background-size:cover;background-position:center;border:3px solid #12151d;box-shadow:0 8px 20px rgba(0,0,0,.5)"></div>'
       +'<div style="font-size:18px;font-weight:800;margin-top:9px">'+nm+' <span style="color:#3FA9F5;font-size:14px">✓</span></div>'
       +'<div style="display:flex;gap:6px;align-items:center;justify-content:center;font-size:12px;font-weight:750;color:#B7C0CE;margin-top:3px"><span style="display:inline-flex;width:16px;height:18px;background:linear-gradient(150deg,#E4362B,#8E1912);border-radius:3px;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff">RD</span> Red District FC'+(pos?(' · '+pos):'')+'</div>'
-      +'<div style="display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:11px 4px;margin-top:14px">'+stat('Lv '+lvl,'Level')+'<div style="width:1px;background:rgba(255,255,255,.09)"></div>'+stat(fp,'Fan Power')+'<div style="width:1px;background:rgba(255,255,255,.09)"></div>'+stat(gifts,'Gifts')+'</div>'
+      +'<div style="display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:11px 4px;margin-top:14px">'+stat('Lv '+lvl,'Level')+'<div style="width:1px;background:rgba(255,255,255,.09)"></div>'+stat(fp,'Possession')+'<div style="width:1px;background:rgba(255,255,255,.09)"></div>'+stat(gifts,'Gifts')+'</div>'
       +'<div style="display:flex;gap:6px;justify-content:center;margin-top:11px"><span style="font-size:10px;font-weight:800;background:rgba(201,255,61,.16);color:#C9FF3D;padding:5px 10px;border-radius:8px">🔥 '+streak+'-day streak</span><span style="font-size:10px;font-weight:800;background:rgba(255,255,255,.08);padding:5px 10px;border-radius:8px">'+(isYou?'That\\'s you':'Supporter')+'</span></div>'
       +(isYou
         ? '<div class="ssc-profile" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.08);font-weight:800;font-size:13px;padding:12px;border-radius:12px;cursor:pointer">👤 View Profile</div>'
         : '<div style="display:flex;gap:8px;margin-top:14px"><div class="ssc-msg" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.08);font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">💬 Message</div><div class="ssc-profile" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.08);font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">👤 Profile</div></div>'
-          +'<div class="ssc-gift" style="margin-top:9px;background:linear-gradient(140deg,#F3CC55,#B0800A);color:#3A2400;font-weight:800;font-size:13.5px;padding:12px;border-radius:13px;cursor:pointer">🎁 Send '+nm+' a Gift</div>')
+          +'<div class="ssc-gift" style="margin-top:9px;background:linear-gradient(140deg,#F3CC55,#B0800A);color:#3A2400;font-weight:800;font-size:13.5px;padding:12px;border-radius:13px;cursor:pointer">🎁 Send '+nm+' a Gift</div>'
+          +(isHostView?'<div style="display:flex;gap:8px;margin-top:9px"><div class="ssc-mute" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(228,54,43,.16);border:1px solid rgba(228,54,43,.35);color:#FF9F98;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">🔇 Mute</div><div class="ssc-mgr" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(201,255,61,.14);border:1px solid rgba(201,255,61,.32);color:#C9FF3D;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">⭐ Make Manager</div></div>':''))
       +'</div></div>';
     phone.appendChild(wrap);
-    wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.ssc-close')){wrap.remove();return;} if(e.target.closest('.ssc-gift')){wrap.remove(); openGiftSheet(); return;} if(e.target.closest('.ssc-msg')){wrap.remove(); goTo('chatthread'); return;} if(e.target.closest('.ssc-profile')){wrap.remove(); goTo('userprofile'); return;} });
+    wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.ssc-close')){wrap.remove();return;} if(e.target.closest('.ssc-gift')){wrap.remove(); openGiftSheet(); return;} if(e.target.closest('.ssc-msg')){wrap.remove(); goTo('chatthread'); return;} if(e.target.closest('.ssc-profile')){wrap.remove(); goTo('userprofile'); return;}
+      if(e.target.closest('.ssc-mute')){ var mi=seat.querySelector('.micind'); var md=true; if(mi){md=mi.classList.toggle('muted'); mi.textContent=md?'🔇':'🎤';} wrap.remove(); sflToast((md?'🔇 Muted ':'🎤 Unmuted ')+nm); return; }
+      if(e.target.closest('.ssc-mgr')){ if(!seat.querySelector('.mgrbadge')){var b=document.createElement('div'); b.className='mgrbadge'; b.textContent='MGR'; b.style.cssText='position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:800;background:linear-gradient(120deg,#C9FF3D,#8fd400);color:#16260a;padding:1px 5px;border-radius:5px;z-index:5'; seat.appendChild(b);} wrap.remove(); sflToast('⭐ '+nm+' is now a room manager — can mute others'); return; } });
     return true;
   }
   var _FLYCSS=false;
-  function ensureFlyCss(){ if(_FLYCSS)return; _FLYCSS=true; var st=document.createElement('style'); st.textContent='@keyframes sflflyup{0%{transform:translateY(0) scale(.5);opacity:0}12%{opacity:1;transform:translateY(-16px) scale(1)}75%{opacity:1}100%{transform:translateY(-340px) scale(1.15);opacity:0}}.sflfly{position:absolute;bottom:96px;z-index:735;pointer-events:none;animation:sflflyup 1.9s cubic-bezier(.25,.7,.4,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}'; document.head.appendChild(st); }
+  function ensureFlyCss(){ if(_FLYCSS)return; _FLYCSS=true; var st=document.createElement('style'); st.textContent=
+    '@keyframes sflflyup{0%{transform:translateY(0) scale(.5);opacity:0}12%{opacity:1;transform:translateY(-16px) scale(1)}75%{opacity:1}100%{transform:translateY(-340px) scale(1.15);opacity:0}}'
+    +'.sflfly{position:absolute;bottom:96px;z-index:735;pointer-events:none;animation:sflflyup 1.9s cubic-bezier(.25,.7,.4,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}'
+    +'@keyframes sflpop{0%{transform:translate(-50%,-50%) scale(.2) rotate(-12deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.25) rotate(6deg);opacity:1}70%{transform:translate(-50%,-50%) scale(1) rotate(0)}100%{transform:translate(-50%,-50%) scale(1.1);opacity:0}}'
+    +'.sflgiftpop{position:absolute;left:50%;top:44%;z-index:738;pointer-events:none;font-size:110px;animation:sflpop 1.5s cubic-bezier(.25,.7,.4,1) forwards;filter:drop-shadow(0 10px 26px rgba(0,0,0,.55))}'
+    +'@keyframes sflring{0%{transform:translate(-50%,-50%) scale(.2);opacity:.9}100%{transform:translate(-50%,-50%) scale(2.6);opacity:0}}'
+    +'.sflgiftring{position:absolute;left:50%;top:44%;width:200px;height:200px;margin:-100px 0 0 -100px;z-index:737;pointer-events:none;border-radius:50%;border:5px solid rgba(255,214,120,.85);box-shadow:0 0 40px rgba(255,200,90,.6),inset 0 0 40px rgba(255,200,90,.4);animation:sflring 1s ease-out forwards}'
+    +'@keyframes sflflash{0%{opacity:0}25%{opacity:.85}100%{opacity:0}}'
+    +'.sflgiftflash{position:absolute;inset:0;z-index:736;pointer-events:none;background:radial-gradient(circle at 50% 44%,rgba(255,225,150,.9),rgba(255,150,60,.25) 45%,transparent 70%);animation:sflflash .7s ease-out forwards}'
+    +'@keyframes sflgibin{0%{transform:translateY(24px);opacity:0}100%{transform:translateY(0);opacity:1}}'
+    +'.sflgiftinfo{position:absolute;left:14px;bottom:150px;z-index:742;display:flex;align-items:center;gap:10px;background:linear-gradient(120deg,rgba(28,20,42,.96),rgba(18,14,26,.96));border:1px solid rgba(255,214,120,.5);border-radius:14px;padding:9px 14px 9px 10px;box-shadow:0 12px 30px rgba(0,0,0,.5);font-family:Manrope,-apple-system,sans-serif;animation:sflgibin .35s ease forwards;max-width:80%}'
+    +'.sflgiftinfo.out{animation:sflflash .5s reverse forwards;opacity:0;transition:opacity .4s}'
+    +'.sflgiftinfo .gi-em{font-size:32px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}'
+    +'.sflgiftinfo .gi-nm{font-size:12.5px;font-weight:750;color:#EAEEF5}'
+    +'.sflgiftinfo .gi-nm b{font-weight:800;color:#fff}'
+    +'.sflgiftinfo .gi-co{font-size:11px;font-weight:800;color:#FFE1A0;margin-top:2px;display:flex;align-items:center;gap:4px}'
+    +'.sflgiftinfo .gi-coin{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#FFE7A8,#C88A00)}'
+    +'.cm.giftmsg{background:linear-gradient(90deg,rgba(255,179,0,.18),transparent);border-left:2px solid rgba(255,200,90,.7);padding-left:6px;border-radius:4px}'
+    +'.cm.joinmsg{color:#8FE5FF}'
+    ; document.head.appendChild(st); }
   function flyGift(emoji){
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return; ensureFlyCss();
     for(var k=0;k<6;k++){(function(i){
@@ -442,6 +517,26 @@ PLAYER_JS = """
     var wrap=sflSheet('Language', rows+'<div class="sh-cancel" style="text-align:center;margin-top:12px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Cancel</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} var lo=e.target.closest('.lang-opt'); if(lo){var l=lo.getAttribute('data-l'); var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); [].forEach.call(phone.querySelectorAll('.listrow'),function(r){if(/language/i.test(r.textContent)){var a=r.querySelector('.arr'); if(a)a.textContent=l+' ›';}}); wrap.remove(); sflToast('Language set to '+l); return;} });
   }
+  var SFLtaken={ada:1,reds:1,jay:1,priya:1,marco:1,lena:1,diego:1,mikael:1,goal:1,fury:1,captain:1,king:1,legend:1,nadia:1,omar:1};
+  function nameTaken(v){ return !!SFLtaken[(v||'').trim().toLowerCase()]; }
+  function nameSuggest(v){ var b=((v||'').trim().replace(/[0-9]+$/,''))||'Fan'; var opts=[b+'02',b+'123',b+'2026',b+'_SFL']; for(var i=0;i<opts.length;i++){ if(!nameTaken(opts[i])) return opts[i]; } return b+Math.floor(Math.random()*900+100); }
+  function showNameErr(field){ if(!field) return false; var v=(field.textContent||'').trim(); var err=field.nextElementSibling; if(!err||!err.classList||!err.classList.contains('dnerr')){ err=document.createElement('div'); err.className='dnerr'; err.style.cssText='margin-top:8px;font-size:12px;font-weight:750;line-height:1.5'; field.insertAdjacentElement('afterend',err); }
+    if(v && nameTaken(v)){ var sug=nameSuggest(v); field.style.borderColor='#E4362B'; err.style.display='block'; err.innerHTML='<span style="color:#E4362B">⚠ This display name is already taken. Please choose another one.</span><br><span class="dnsug" data-s="'+sug+'" style="display:inline-block;margin-top:7px;background:#EEF6FF;color:#2266C9;border:1px solid #CFE3FA;border-radius:999px;padding:4px 12px;font-weight:800;cursor:pointer">Try “'+sug+'” ›</span>'; return true; }
+    field.style.borderColor=''; err.style.display='none'; err.innerHTML=''; return false; }
+  function applyMgrGate(root){
+    var bal=root.querySelector('.mg-bal'), badge=root.querySelector('.mg-badge'), prog=root.querySelector('.mg-prog i'), togo=root.querySelector('.mg-togo'), buy=root.querySelector('.ccbuy'), go=root.querySelector('.ccgo');
+    if(SFLmgrEligible){
+      if(bal)bal.innerHTML='5,000 <span style="font-size:12px;font-weight:700;color:var(--t3)">/ 5,000 Coins</span>';
+      if(badge){badge.textContent='Unlocked ✓'; badge.style.color='#0A8F40'; badge.style.background='#EAF9F0'; badge.style.borderColor='#BFE9CE';}
+      if(prog)prog.style.width='100%';
+      if(togo)togo.textContent='You meet the 5,000-Coin requirement — create your club.';
+      if(buy)buy.style.display='none';
+      if(go){go.innerHTML='Continue · Pick your club ›'; go.className='btn ccgo'; go.style.opacity='1'; go.style.marginTop='0';}
+    } else {
+      if(buy)buy.style.display='';
+      if(go){go.innerHTML='🔒 Reach 5,000 Coins to continue'; go.className='btn dark ccgo'; go.style.opacity='.5'; go.style.marginTop='9px';}
+    }
+  }
   function showWithdrawSheet(){
     var wrap=sflSheet('Withdraw application?', '<div style="font-size:12.5px;font-weight:700;color:#5A6472;margin-bottom:14px">Your application to Red District FC will be removed. You can re-apply anytime.</div><div class="wd-yes" style="text-align:center;padding:13px;background:#E4362B;color:#fff;border-radius:12px;font-weight:800;cursor:pointer">Withdraw application</div><div class="sh-cancel" style="text-align:center;margin-top:10px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Keep it</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} if(e.target.closest('.wd-yes')){ wrap.remove(); var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); var body=phone&&phone.querySelector('.body'); if(body){ body.innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px"><div style="width:80px;height:80px;border-radius:50%;background:#F0F2F7;display:flex;align-items:center;justify-content:center;font-size:34px">📭</div><div style="font-size:20px;font-weight:800;color:#14161C;margin-top:16px">No applications</div><div style="font-size:13px;font-weight:650;color:#707786;margin-top:8px;max-width:250px">You withdrew your application. Discover clubs and apply anytime.</div><div class="wd-discover" style="margin-top:20px;padding:14px 22px;background:#E4362B;color:#fff;border-radius:14px;font-weight:800;cursor:pointer">Discover Clubs</div></div>'; } sflToast('Application withdrawn'); return;} });
@@ -449,6 +544,27 @@ PLAYER_JS = """
   function showLogoutSheet(){
     var wrap=sflSheet('Log out of SFL?', '<div style="font-size:12.5px;font-weight:700;color:#5A6472;margin-bottom:14px">You can sign back in anytime. Your account and progress stay safe.</div><div class="lo-yes" style="text-align:center;padding:13px;background:#E4362B;color:#fff;border-radius:12px;font-weight:800;cursor:pointer">Log out</div><div class="sh-cancel" style="text-align:center;margin-top:10px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Cancel</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} if(e.target.closest('.lo-yes')){wrap.remove(); hist.length=0; goTo('signin'); return;} });
+  }
+  function showShareSheet(){
+    var link='sfl.app/join/red-fury-12345';
+    var chans=[
+      {k:'WhatsApp',e:'💚',c:'#25D366'},{k:'Instagram',e:'📸',c:'linear-gradient(135deg,#F58529,#DD2A7B,#8134AF)'},
+      {k:'Facebook',e:'👍',c:'#1877F2'},{k:'Messenger',e:'💬',c:'linear-gradient(135deg,#00B2FF,#006AFF)'},
+      {k:'TikTok',e:'🎵',c:'#111'},{k:'X',e:'✖',c:'#111'},
+      {k:'Telegram',e:'✈️',c:'#26A5E4'},{k:'Snapchat',e:'👻',c:'#FFC800'},
+      {k:'SMS',e:'💬',c:'#34C759'},{k:'Email',e:'✉️',c:'#EA4335'},
+      {k:'QR code',e:'🔳',c:'#3A3F4B'},{k:'Copy link',e:'🔗',c:'#707786'}
+    ];
+    var tiles=chans.map(function(ch){return '<div class="shch" data-k="'+ch.k+'" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer"><div style="width:54px;height:54px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 5px 12px rgba(24,40,80,.14);background:'+ch.c+'">'+ch.e+'</div><div style="font-size:10px;font-weight:750;color:#14161C;white-space:nowrap">'+ch.k+'</div></div>';}).join('');
+    var qr='<svg viewBox="0 0 100 100" shape-rendering="crispEdges" style="width:118px;height:118px;display:block"><rect width="100" height="100" fill="#fff"/><g fill="#07090D"><rect x="6" y="6" width="22" height="22"/><rect x="10" y="10" width="14" height="14" fill="#fff"/><rect x="13" y="13" width="8" height="8"/><rect x="72" y="6" width="22" height="22"/><rect x="76" y="10" width="14" height="14" fill="#fff"/><rect x="79" y="13" width="8" height="8"/><rect x="6" y="72" width="22" height="22"/><rect x="10" y="76" width="14" height="14" fill="#fff"/><rect x="13" y="79" width="8" height="8"/><rect x="34" y="8" width="4" height="4"/><rect x="42" y="8" width="4" height="4"/><rect x="34" y="16" width="8" height="4"/><rect x="50" y="12" width="4" height="8"/><rect x="60" y="8" width="4" height="12"/><rect x="34" y="34" width="4" height="4"/><rect x="42" y="38" width="8" height="4"/><rect x="54" y="34" width="4" height="8"/><rect x="64" y="40" width="8" height="4"/><rect x="74" y="34" width="4" height="8"/><rect x="84" y="38" width="6" height="6"/><rect x="8" y="34" width="4" height="8"/><rect x="16" y="42" width="6" height="4"/><rect x="8" y="52" width="8" height="4"/><rect x="20" y="54" width="4" height="8"/><rect x="34" y="52" width="6" height="6"/><rect x="46" y="54" width="4" height="10"/><rect x="56" y="52" width="10" height="4"/><rect x="70" y="56" width="6" height="6"/><rect x="82" y="52" width="8" height="8"/><rect x="34" y="70" width="4" height="8"/><rect x="44" y="72" width="8" height="4"/><rect x="54" y="78" width="4" height="8"/><rect x="66" y="72" width="6" height="6"/><rect x="78" y="70" width="4" height="10"/><rect x="86" y="80" width="6" height="6"/><rect x="40" y="86" width="10" height="4"/><rect x="62" y="86" width="8" height="6"/></g></svg>';
+    var inner='<div style="font-size:12px;font-weight:650;color:#707786;margin-bottom:12px">Invite people from your contacts &amp; socials to apply to <b style="color:#14161C">Red Fury</b>. They always choose to accept — no one is auto-added.</div>'
+      +'<div style="text-align:center;margin-bottom:14px"><div style="display:inline-block;background:#fff;padding:9px;border-radius:14px;box-shadow:0 5px 14px rgba(24,40,80,.14);border:1px solid #ECEEF5">'+qr+'</div><div style="font-size:10.5px;font-weight:750;color:#707786;margin-top:7px">Scan to apply to Red Fury</div></div>'
+      +'<div style="display:flex;align-items:center;gap:8px;background:#F4F6FB;border:1px solid #ECEEF5;border-radius:12px;padding:11px 13px;margin-bottom:16px"><span style="flex:1;font-size:12.5px;font-weight:700;color:#14161C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+link+'</span><span class="shcopy" style="font-size:12px;font-weight:800;color:var(--red,#E4362B);cursor:pointer">Copy</span></div>'
+      +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:17px 4px">'+tiles+'</div>';
+    var wrap=sflSheet('Share club invitation', inner); if(!wrap)return;
+    wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap){wrap.remove();return;}
+      if(e.target.closest('.shcopy')){ sflToast('🔗 Invite link copied'); return; }
+      var ch=e.target.closest('.shch'); if(ch){ var k=ch.getAttribute('data-k'); wrap.remove(); if(/qr/i.test(k)){goTo('mgrshare');return;} if(/copy/i.test(k)){sflToast('🔗 Invite link copied');return;} sflToast('✅ Invitation shared to '+k+' · fans can now apply'); return; } });
   }
   function showEditSheet(title, val, msg){
     var wrap=sflSheet(title, '<div contenteditable="true" class="es-field" style="height:46px;border-radius:12px;background:#F0F2F7;display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:#14161C;outline:none">'+val+'</div><div style="font-size:11.5px;font-weight:700;color:#8892A4;margin-top:8px">'+(msg||'')+'</div><div class="es-save" style="text-align:center;margin-top:14px;padding:13px;background:#C9FF3D;color:#0A1400;border-radius:12px;font-weight:800;cursor:pointer">Save</div>'); if(!wrap)return;
@@ -466,11 +582,94 @@ PLAYER_JS = """
     });
     root.querySelectorAll('.cbtn.send').forEach(function(b){ if(b.getAttribute('data-send'))return; b.setAttribute('data-send','1'); b.addEventListener('click',function(ev){ ev.stopPropagation(); var inp=b.parentElement.querySelector('.cin'); if(inp)sendFrom(inp); }); });
   }
+  function pkWhistle(){
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
+      if(!window._sflac)window._sflac=new AC();
+      var ac=window._sflac; if(ac.state==='suspended'){try{ac.resume();}catch(e){}}
+      var t0=ac.currentTime;
+      var o=ac.createOscillator(), g=ac.createGain(), lfo=ac.createOscillator(), lg=ac.createGain();
+      o.type='sine'; o.frequency.value=2150;
+      lfo.type='sine'; lfo.frequency.value=19; lg.gain.value=150;
+      lfo.connect(lg); lg.connect(o.frequency);
+      g.gain.setValueAtTime(0,t0);
+      g.gain.linearRampToValueAtTime(0.22,t0+0.02);
+      g.gain.setValueAtTime(0.22,t0+0.48);
+      g.gain.linearRampToValueAtTime(0.0001,t0+0.62);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t0); lfo.start(t0); o.stop(t0+0.64); lfo.stop(t0+0.64);
+    }catch(e){}
+  }
+  function pkFinale(m){
+    if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;}
+    if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='PK-03')return;
+    var phone=m.querySelector('.phone'); if(!phone)return;
+    var ov=phone.querySelector('.pkstrike');
+    if(!ov){ ov=document.createElement('div'); ov.className='pkstrike'; ov.innerHTML='<div class="pkst-word">STRIKE</div><div class="pkst-n">10</div><div class="pkst-cap">FINAL SECONDS</div>'; phone.appendChild(ov); }
+    var nn=ov.querySelector('.pkst-n'); var n=10; if(nn)nn.textContent=n;
+    var clk=m.querySelector('.pktimer .mclock'); if(clk){clk.setAttribute('data-sec','10'); var _mm=clk.querySelector('.mm'),_ss=clk.querySelector('.ss'); if(_mm)_mm.textContent='00'; if(_ss)_ss.textContent='10';}
+    window._sflpkfin=setInterval(function(){
+      if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='PK-03'){clearInterval(window._sflpkfin);window._sflpkfin=null;return;}
+      n--; if(nn)nn.textContent=(n<0?0:n); ov.classList.toggle('hot',n<=3);
+      if(n<=0){ clearInterval(window._sflpkfin); window._sflpkfin=null; pkWhistle(); var w=ov.querySelector('.pkst-word'); if(w)w.textContent='FULL TIME'; var c2=ov.querySelector('.pkst-cap'); if(c2)c2.textContent='Battle over'; setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)==='PK-03')goTo('pkfinalizing'); },1000); }
+    },1000);
+  }
+  function startTimers(m){
+    if(window._sfltmr){clearInterval(window._sfltmr);window._sfltmr=null;}
+    var pad=function(n){return(n<10?'0':'')+n;};
+    var C=2*Math.PI*28;
+    var setRing=function(r,v,from){var fg=r.querySelector('.cdfg'); if(fg){fg.style.strokeDasharray=C.toFixed(1); fg.style.strokeDashoffset=(C*(1-v/from)).toFixed(1);} var n=r.querySelector('.cdn'); if(n)n.textContent=v; r.classList.toggle('low',v<=3);};
+    [].forEach.call(m.querySelectorAll('.cdring'),function(r){var from=+(r.getAttribute('data-from')||10); if(r._v==null)r._v=from; setRing(r,r._v,from);});
+    if(!m.querySelector('.mclock')&&!m.querySelector('.cdring'))return;
+    window._sfltmr=setInterval(function(){
+      [].forEach.call(m.querySelectorAll('.mclock'),function(c){var s=+(c.getAttribute('data-sec')||0); if(s>0)s--; c.setAttribute('data-sec',s); var mm=c.querySelector('.mm'),ss=c.querySelector('.ss'); if(mm)mm.textContent=pad(Math.floor(s/60)); if(ss)ss.textContent=pad(s%60); c.classList.toggle('low',s<=30&&s>0);});
+      [].forEach.call(m.querySelectorAll('.cdring'),function(r){var from=+(r.getAttribute('data-from')||10); r._v=(r._v<=0?from:r._v-1); setRing(r,r._v,from);});
+    },1000);
+  }
+  var _LIVENAMES=['Ada','SamRed','PitchZed','Marta','Kojo_9','Nadia','BlueMoon','TifoKing','GloveBoy','RedFury','Zico','LaraW','Deni','MoSalah7'];
+  var _LIVESAY=['come on reds 🔴','what a save! 🧤','GOAL incoming ⚽','turn up the mics 🎙️','let\\'s go 🔥','who scored?','best room today','pass it wide!','🔥🔥🔥','defense please 😅','big match energy','love this club ❤️'];
+  function startLiveFeed(m){
+    if(window._sflfeed){clearInterval(window._sflfeed);window._sflfeed=null;}
+    var box=m.querySelector('.rchat')||m.querySelector('.pkchat'); if(!box)return;
+    var seed=_LIVENAMES[(curS+curJ)%_LIVENAMES.length];
+    setTimeout(function(){ var b2=m.querySelector('.rchat')||m.querySelector('.pkchat'); if(b2!==box||!document.body.contains(box))return; pushComment('<b>'+seed+'</b> joined the live','joinmsg'); },500);
+    var i=0;
+    window._sflfeed=setInterval(function(){
+      if(!document.body.contains(box)){clearInterval(window._sflfeed);window._sflfeed=null;return;}
+      i++; var nm=_LIVENAMES[(i*5+3)%_LIVENAMES.length];
+      if(i%3===0){ pushComment('<b>'+nm+'</b> joined the live','joinmsg'); }
+      else { var col=['#8FE5FF','#DCFF8A','#FF9FB0','#FFD54F'][i%4]; pushComment('<b style="color:'+col+'">'+nm+'</b> '+_LIVESAY[(i*7)%_LIVESAY.length]); }
+    },2900);
+  }
+  function applyFormMode(m){
+    var seg=m.querySelector('.modeseg'); if(seg){ [].forEach.call(seg.querySelectorAll('.mseg'),function(s){ s.classList.toggle('on', s.getAttribute('data-mode')===SFLseatMode); }); }
+    var pv=m.querySelector('.posview'), nv=m.querySelector('.numview'); if(pv)pv.style.display=(SFLseatMode==='num')?'none':''; if(nv)nv.style.display=(SFLseatMode==='num')?'':'none';
+    var np=m.querySelector('.numpitch'); if(np){ var html=''; for(var i=1;i<=SFLseatCount;i++){ html+='<div class="numslot'+(i===1?' host':'')+'">'+i+(i===1?'<span class="sl">Host</span>':'')+'</div>'; } np.innerHTML=html; }
+    var note=m.querySelector('.numnote'); if(note)note.innerHTML='Guests join by number (2–'+SFLseatCount+'). You\\'re always <b>#1</b> as host — you don\\'t pick a position.';
+    var cta=m.querySelector('.cta .btn'); if(cta)cta.textContent='Preview & Go Live · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):SFLformation);
+  }
+  function applySeatNumbers(m){
+    var ht=m.querySelector('.hosttile'); if(ht){ var hn=ht.querySelector('.hostnum'); if(SFLseatMode==='num'){ if(!hn){hn=document.createElement('div');hn.className='hostnum';ht.appendChild(hn);} hn.textContent='1'; } else if(hn){ hn.remove(); } }
+    if(SFLseatMode!=='num')return;
+    var seats=m.querySelectorAll('.formfield .seat'); if(!seats.length)return;
+    var n=2;
+    [].forEach.call(seats,function(s){ var pos=s.querySelector('.pos'); if(!pos)return; if(s.classList.contains('open')){ pos.textContent='#'+n; } else { pos.textContent='#'+n; } n++; });
+  }
+  function decorateSeatMics(m){
+    var seats=m.querySelectorAll('.formfield .seat'); if(!seats.length)return;
+    [].forEach.call(seats,function(s,idx){ if(s.classList.contains('open'))return; if(s.querySelector('.micind'))return;
+      var old=s.querySelector('.mut'); if(old)old.remove();
+      var muted=(idx%5===2);
+      var mi=document.createElement('div'); mi.className='micind'+(muted?' muted':''); mi.textContent=muted?'🔇':'🎤';
+      s.appendChild(mi);
+    });
+  }
   function render(){
     var v=VIEWS[curJ]; if(!v||!v.screens.length)return;
     if(curS>=v.screens.length)curS=v.screens.length-1;
     var scr=v.screens[curS];
     mount.id='j'+scr.srcJ; mount.innerHTML=scr.html;
+    if(window._sflpkto){clearTimeout(window._sflpkto);window._sflpkto=null;} if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;}
     injectBar(mount.querySelector('.phone'));
     SFLcoinify(mount); SFLcrest(mount); SFLchat(mount);
     if(scr.fnum==='FT-01'||scr.fnum==='FT-02'){applyTaskDone(mount);}
@@ -484,10 +683,20 @@ PLAYER_JS = """
     if(scr.fnum==='PK-00'){SFLpkViewer=false;}
     if(scr.fnum==='G-02G'){SFLguest=true;}
     if(scr.fnum==='G-02'||scr.fnum==='G-02M'){SFLguest=false;}
-    if(scr.fnum==='PK-03'){ var _pgb=mount.querySelector('.giftbtns'); if(_pgb)_pgb.style.display=SFLpkViewer?'':'none'; if(!SFLpkViewer){setTimeout(function(){flyGift('🎁');},500);setTimeout(function(){flyGift('🥇');},1300);} }
+    if(scr.fnum==='PK-03'){ var _pgb=mount.querySelector('.giftbtns'); if(_pgb)_pgb.style.display=SFLpkViewer?'':'none'; if(!SFLpkViewer){setTimeout(function(){flyGift('🎁');},500);setTimeout(function(){flyGift('🥇');},1300);} var _pck=mount.querySelector('.pktimer .mclock'); if(_pck){var _ps=(SFLpkMin||5)*60; _pck.setAttribute('data-sec',_ps); _pck.setAttribute('data-init',_ps); var _pmm=_pck.querySelector('.mm'),_pss=_pck.querySelector('.ss'); if(_pmm)_pmm.textContent=(SFLpkMin<10?'0':'')+(SFLpkMin||5); if(_pss)_pss.textContent='00';} pkWhistle(); window._sflpkto=setTimeout(function(){ pkFinale(mount); },4500); }
     if((scr.fnum==='PK-04A'||scr.fnum==='PK-04C')&&SFLpkViewer){var _reb=mount.querySelector('.winbtns .re'); if(_reb)_reb.style.display='none'; var _exb=mount.querySelector('.winbtns .ex'); if(_exb)_exb.style.flex='1';}
     if(scr.fnum==='PV-01'){applyPredDone(mount);}
     if(scr.fnum==='G-05'){ var _pf=mount.querySelector('.pv-fan'),_pm=mount.querySelector('.pv-mgr'); if(_pf)_pf.style.display=SFLmgrMode?'none':''; if(_pm)_pm.style.display=SFLmgrMode?'block':'none'; var _rm=mount.querySelector('.rolemgr'); if(_rm)_rm.style.display=SFLmgrMode?'':'none'; }
+    if(scr.fnum==='CC-00'){ applyMgrGate(mount); }
+    if(scr.fnum==='J2-20'){ SFLmember=false; }
+    if(scr.fnum==='J2-08'){ setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='J2-08')return; var m=mount; var _c=m.querySelector('.tl .dot.cur'); if(_c){_c.className='dot done';_c.textContent='✓';} var _pd=m.querySelector('.tl.pending'); if(_pd){_pd.classList.remove('pending'); var _dd=_pd.querySelector('.dot'); if(_dd){_dd.className='dot cur';_dd.textContent='◔';} var _t2=_pd.querySelector('.td'); if(_t2)_t2.textContent='Reviewing your application…';} },800);
+      setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='J2-08')return; var m=mount; var _pl=m.querySelector('.sp-pending'); if(_pl){_pl.textContent='✓ Approved'; _pl.style.cssText='font-size:9px;font-weight:800;color:#0A8F40;background:#EAF9F0;border:1px solid #BFE9CE;padding:2px 8px;border-radius:999px';} var _c2=m.querySelector('.tl .dot.cur'); if(_c2){_c2.className='dot done';_c2.textContent='✓';} var _tls=m.querySelectorAll('.tl'); if(_tls.length){var _L=_tls[_tls.length-1]; var _tt=_L.querySelector('.tt'); if(_tt)_tt.textContent='Decision · Approved'; var _td=_L.querySelector('.td'); if(_td)_td.textContent='Welcome to Red District FC!';} var _b=m.querySelector('.btn.danger'); if(_b){_b.textContent='Enter Club'; _b.className='btn';} sflToast('✅ Application approved · Welcome to Red District FC'); },1600); }
+    if(scr.fnum==='MG-03A'){ setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)==='MG-03A'){goTo('wheelresult');} },2900); }
+    if(scr.fnum==='PL-04'){ var _plchk=function(){return ((VIEWS[curJ].screens[curS]||{}).fnum)==='PL-04';};
+      setTimeout(function(){ if(!_plchk())return; var st=mount.querySelectorAll('.stage'); if(st[1]){var d=st[1].querySelector('.sd'); if(d){d.className='sd done';d.textContent='✓';}} if(st[2]){st[2].classList.remove('wait'); var d2=st[2].querySelector('.sd'); if(d2){d2.className='sd now';d2.textContent='';}} },1000);
+      setTimeout(function(){ if(!_plchk())return; var st=mount.querySelectorAll('.stage'); if(st[2]){var d=st[2].querySelector('.sd'); if(d){d.className='sd done';d.textContent='✓';}} if(st[3]){st[3].classList.remove('wait'); var d3=st[3].querySelector('.sd'); if(d3){d3.className='sd now';d3.textContent='';}} },1800);
+      setTimeout(function(){ if(!_plchk())return; [].forEach.call(mount.querySelectorAll('.stage'),function(s){s.classList.remove('wait'); var d=s.querySelector('.sd'); if(d){d.className='sd done';d.textContent='✓';}}); var _h1=mount.querySelector('.h1'); if(_h1)_h1.textContent='Transfer complete'; sflToast('✅ Transfer complete · view details to finish'); },2500); }
+    if(scr.fnum==='J2-LV'){ setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='J2-LV')return; var m=mount; var _h=m.querySelector('.ch1'); if(_h)_h.textContent='Leave approved ✓'; var _cm=m.querySelector('.cmedal'); if(_cm)_cm.innerHTML='✅<div class="halo2"></div>'; var _s=m.querySelector('.csub'); if(_s)_s.textContent='A club manager approved your request. You can complete leaving now.'; var _bt=m.querySelector('.cbtns'); if(_bt)_bt.innerHTML='<div class="btn lvcomplete">Complete Leaving</div>'; sflToast('✅ Leave request approved by your manager'); },1500); }
     if(scr.fnum==='G-02'||scr.fnum==='J2-16'||scr.fnum==='J2-10'||scr.fnum==='J2-15'){SFLmember=true;}
     if(/^[1-9]$|^1[0-6]$|^[1-9][a-z]$/.test(scr.fnum)||scr.fnum==='G-02G'){SFLmember=false;}
     scap.textContent=(scr.cap||'').slice(0,46);
@@ -495,6 +704,12 @@ PLAYER_JS = """
     var c2=document.getElementById('counter2');if(c2)c2.textContent=ct.textContent;
     jsel.value=curJ;
     var d=''; for(var i=0;i<v.screens.length;i++) d+='<span class="ppdot'+(i===curS?' on':'')+'"></span>'; dotbar.innerHTML=d;
+    if(scr.fnum==='GL-02'){ applyFormMode(mount); }
+    if(scr.fnum==='GL-02A'){ var _gm=mount.querySelector('.rt2 .rmeta'); if(_gm){ _gm.textContent='Red District FC · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):(SFLformation+' · '+SFLseatCount+' positions')); } }
+    startTimers(mount);
+    startLiveFeed(mount);
+    applySeatNumbers(mount);
+    decorateSeatMics(mount);
     fit();
   }
   function next(){var v=VIEWS[curJ]; if(curS<v.screens.length-1){curS++;} else if(curJ<VIEWS.length-1){curJ++;curS=0;} render();}
@@ -508,13 +723,14 @@ PLAYER_JS = """
   stage.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>45){dx<0?next():prev();}},{passive:true});
   var MULTI='.tchip,.chip', SINGLE='.fchip,.lchip,.tab,.dtab,.segopt,.reasonopt,.srcopt,.laopt,.opt,.giftopt,.pt,.sw,.em,.teamrow,.lgchip,.formcard', SEG='.seg,.tabs,.dtabs';
   function singleSel(el,grp){[].forEach.call(grp.children,function(c){if(c.classList)c.classList.remove('on');});el.classList.add('on');}
-  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var ANCH={"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "pllistlive":[5,"PL-08"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [20, 0],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"]};
+  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var SFLmgrEligible=false; var SFLmgrBuying=false; var SFLpkMin=5; var SFLseatCount=11; var SFLseatMode='pos'; var SFLformation='4-3-3'; var ANCH={"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "pllistlive":[5,"PL-08"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [20, 0],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"leavepending":[1,"J2-LV"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"noclub":[1,"J2-01"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-00"],"mgrupgrade":[24,"CC-00"],"ccstart":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"]};
   function idxOfFnum(j,fn){var a=(JOUR[j]&&JOUR[j].screens)||[];for(var i=0;i<a.length;i++)if(a[i].fnum===fn)return i;return 0;}
   var GUESTOK={guesthome:1,gate:1,clubs:1,clubdetail:1,clubsearch:1,guestlive:1,live:1,register:1,signin:1,notifications:1,guestregister:1,market:1,playerdetail:1,plfilters:1,liveroom:1,pkbattle:1,stadiumhub:1,userprofile:1,squadroom:1,confirmseat:1,fanseated:1,pkfinalizing:1,pkwin:1,pkdraw:1,pkleadchange:1,pkcountdown:1,pkmatchup:1};
   function goTo(a){
     if(a==='register'||a==='signin'){SFLguest=false;}
-    if(a==='managerhq'||a==='mgrclubs'||a==='cccreated'||a.indexOf('mgr')===0){SFLmgrMode=true;}
+    if(a==='managerhq'||a==='mgrclubs'||a==='cccreated'||a.indexOf('mgr')===0){SFLmgrMode=true;SFLmember=true;}
     else if(a==='guesthome'||a==='clubconfirmed'||a==='clubinviteaccepted'){SFLmgrMode=false;}
+    if(a==='club'&&!SFLmember){a='noclub';}
     if(SFLguest){ if(a==='home'){a='guesthome';} else if(!GUESTOK[a]){a='gate';} }
     var d=ANCH[a]; if(!d)return false; hist.push({j:curJ,s:curS,html:mount.innerHTML}); curJ=FLOWN+d[0]; curS=(typeof d[1]==='number')?d[1]:idxOfFnum(d[0],d[1]); render(); return true;}
   function goBack(){ if(hist.length){var h=hist.pop(); curJ=h.j; curS=h.s; render(); if(h.html){mount.innerHTML=h.html;} var sc=VIEWS[curJ].screens[curS]||{}; SFLcoinify(mount); SFLcrest(mount); SFLchat(mount); if(sc.fnum==='FT-01'||sc.fnum==='FT-02'){applyTaskDone(mount);} if(sc.fnum==='PV-01'){applyPredDone(mount);} if(sc.fnum==='PV-05'){applyVoteDone(mount,'motm');} if(sc.fnum==='PV-09'){applyVoteDone(mount,'award');} } else prev(); }
@@ -522,6 +738,7 @@ PLAYER_JS = """
   function cleanTo(anchor, re){ while(hist.length){var _ch=hist[hist.length-1];var _cff=((VIEWS[_ch.j]&&VIEWS[_ch.j].screens[_ch.s])||{}).fnum||'';if(re.test(_cff)){hist.pop();}else break;} var _cd=ANCH[anchor]; if(!_cd)return; curJ=FLOWN+_cd[0]; curS=(typeof _cd[1]==='number')?_cd[1]:idxOfFnum(_cd[0],_cd[1]); render(); }
   function jumpTab(anchor){ var _jd=ANCH[anchor]; if(!_jd)return; curJ=FLOWN+_jd[0]; curS=(typeof _jd[1]==='number')?_jd[1]:idxOfFnum(_jd[0],_jd[1]); render(); }
   function returnTo(fnum, anchor){ while(hist.length){ var _rt=hist[hist.length-1]; var _rf=((VIEWS[_rt.j]&&VIEWS[_rt.j].screens[_rt.s])||{}).fnum||''; if(_rf===fnum){ goBack(); return; } hist.pop(); } if(anchor)goTo(anchor); }
+  function enterAfterJoin(a){ SFLmember=true; hist.length=0; jumpTab('home'); goTo(a); }
   function applyTaskDone(root){
     var rows=root.querySelectorAll('.trow'), added=0;
     rows.forEach(function(r){var tt=r.querySelector('.tt'); if(!tt)return; var k=tt.textContent.trim();
@@ -560,10 +777,11 @@ PLAYER_JS = """
     var hic=t.closest('.hicon'); if(hic){var e=hic.textContent; if(e.indexOf('🔔')>=0)return 'notifications'; if(e.indexOf('💬')>=0)return 'inbox';}
     if(t.closest('.ha')||t.closest('.selavatar'))return 'profile';
     var lab=t.closest('.btn,.dbtn,.lbtn,.short,.mod,.tile,.tplay,.listrow,.rolerow,.pjoin,.ab,.mgo,.cgo,.gj,.rw,.cat,.reccard,.mbanner,.clubcard,.hqbtn,.nrow,.txrow,.hrow,.crow,.callrow,.qt,.mom,.hjoin,.nextfix,.hfol,.livecard,.act,.explorelink,a'); var x=(lab?lab.textContent:'').toLowerCase();
-    var K=[['go live','golive'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','club'],['invitation','club'],['application','club'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','market'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games']];
+    var K=[['go live','golive'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','market'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games']];
     for(var i=0;i<K.length;i++){if(x.indexOf(K[i][0])>=0)return K[i][1];}
     return null;
   }
+  stage.addEventListener('input',function(e){ var f=e.target; if(f&&f.classList&&(f.classList.contains('dname')||f.classList.contains('epname'))){ showNameErr(f); } });
   stage.addEventListener('click',function(e){
     var mEl=document.getElementById('scaler').firstElementChild; if(!mEl||!mEl.contains(e.target))return;
     var t=e.target;
@@ -572,11 +790,17 @@ PLAYER_JS = """
     if(t.closest('.coinbal')){goTo('wallet');return;}
     if(t.closest('.statgrid')){return;}
     var _cf=(VIEWS[curJ].screens[curS]||{}).fnum||'';
+    var _mck=t.closest('.mcchip'); if(_mck){ var _mcl=mEl.querySelector('.mclock'); var _mn=+_mck.getAttribute('data-min'); singleSel(_mck,_mck.parentElement); if(_mcl){ _mcl.setAttribute('data-sec',_mn*60); _mcl.setAttribute('data-init',_mn*60); var _cm=_mcl.querySelector('.mm'),_cs=_mcl.querySelector('.ss'); if(_cm)_cm.textContent=(_mn<10?'0':'')+_mn; if(_cs)_cs.textContent='00'; _mcl.classList.remove('low'); startTimers(mEl);} sflToast('⏱ Match time set to '+_mn+' min'); return; }
+    if(t.closest('.mcreset')){ var _mcl2=mEl.querySelector('.mclock'); if(_mcl2){ var _in=+(_mcl2.getAttribute('data-init')||2700); _mcl2.setAttribute('data-sec',_in); var _im=Math.floor(_in/60); var _rm=_mcl2.querySelector('.mm'),_rs=_mcl2.querySelector('.ss'); if(_rm)_rm.textContent=(_im<10?'0':'')+_im; if(_rs)_rs.textContent='00'; _mcl2.classList.remove('low'); startTimers(mEl);} sflToast('↺ Clock reset'); return; }
+    var _pkl=t.closest('.pklen'); if(_pkl){ singleSel(_pkl,_pkl.parentElement); SFLpkMin=+_pkl.getAttribute('data-min'); sflToast('⚔️ Battle length · '+SFLpkMin+' min'); return; }
+    var _mic=t.closest('.micind'); if(_mic){ var _mst=_mic.closest('.seat'); var _isHost=(_cf==='GL-03H'); var _mnm=(((_mst&&_mst.querySelector('.nm'))||{}).textContent||'this seat').trim(); var _isYou=_mst&&(_mst.classList.contains('you')||/^you$/i.test(_mnm)); if(_isHost||_isYou){ var _md=_mic.classList.toggle('muted'); _mic.textContent=_md?'🔇':'🎤'; sflToast((_md?'🔇 Muted ':'🎤 Unmuted ')+(_isYou?'your mic':_mnm)); } else { sflToast('🔒 Only the host can mute other seats'); } return; }
+    var _sug=t.closest('.dnsug'); if(_sug){ var _de=_sug.closest('.dnerr'); var _df=_de&&_de.previousElementSibling; if(_df){ _df.textContent=_sug.getAttribute('data-s'); showNameErr(_df); } return; }
+    if(_cf==='7'&&t.closest('.btn')){ var _f7=mEl.querySelector('.dname'); if(_f7&&showNameErr(_f7)){return;} next(); return; }
     if(_cf==='1'){ if(!t.closest('.btn,.altlink,a')){next();return;} }
     if(_cf==='G-03'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.ico')){[].forEach.call(mEl.querySelectorAll('.unread'),function(u){u.style.display='none';}); sflToast('All notifications marked read'); return;} var _nfc=t.closest('.fchip'); if(_nfc){singleSel(_nfc,_nfc.parentElement);return;} }
     if(_cf==='MSG-01'){var _rq=t.closest('.fchip'); if(_rq&&/request/i.test(_rq.textContent)){goTo('msgrequests');return;}}
     if(t.closest('.pkcard')){SFLpkViewer=true;goTo('pkbattle');return;}
-    var _dvc=t.closest('.filters .fchip'); if(_dvc&&mEl.querySelector('.pkcard')){ singleSel(_dvc,_dvc.parentElement); var _pk=/pk/i.test(_dvc.textContent); var _dh=mEl.querySelector('.hero'); if(_dh)_dh.style.display=_pk?'none':''; [].forEach.call(mEl.querySelectorAll('.rcard'),function(r){var _isp=r.classList.contains('pkcard'); r.style.display=(_pk?_isp:!_isp)?'':'none';}); var _rh=mEl.querySelector('.rowhead .t'); if(_rh)_rh.textContent=_pk?'Live PK battles':'Rooms heating up'; return; }
+    var _dvc=t.closest('.filters .fchip'); if(_dvc&&mEl.querySelector('.pkcard')){ singleSel(_dvc,_dvc.parentElement); var _pk=/pk/i.test(_dvc.textContent); var _dh=mEl.querySelector('.hero'); if(_dh)_dh.style.display=_pk?'none':''; [].forEach.call(mEl.querySelectorAll('.rcard'),function(r){var _isp=r.classList.contains('pkcard'); r.style.display=(_pk?_isp:!_isp)?'':'none';}); var _car=mEl.querySelector('.carousel'); if(_car){_car.classList.toggle('pkmode',_pk);} var _rh=mEl.querySelector('.rowhead .t'); if(_rh)_rh.textContent=_pk?'Live PK battles':'Rooms heating up'; return; }
     if(_cf==='CC-01T'){var lgc=t.closest('.lgchip'); if(lgc){var grp=lgc.parentElement; [].forEach.call(grp.children,function(c){c.classList&&c.classList.remove('on');}); lgc.classList.add('on'); var key=lgc.getAttribute('data-league')||''; [].forEach.call(mEl.querySelectorAll('.lgroup'),function(g){g.style.display=(!key||g.getAttribute('data-league')===key)?'':'none';}); return;}}
     var ffc=t.closest('.filters .fchip'); if(ffc){var fgrp=ffc.parentElement;[].forEach.call(fgrp.children,function(c){c.classList&&c.classList.remove('on');});ffc.classList.add('on');var fl=(ffc.textContent||'').toLowerCase();var fk=/follow/.test(fl)?'following':/premier/.test(fl)?'prem':/champion/.test(fl)?'champions':'';var rc=mEl.querySelectorAll('.carousel .rcard, .rcard');[].forEach.call(rc,function(r){var cats=(r.getAttribute('data-cat')||'');r.style.display=(!fk||cats.indexOf(fk)>=0)?'':'none';});return;}
     if(_cf==='RW-01'){var bchip=t.closest('.chip'); if(bchip&&bchip.querySelector('.cv')){goTo('wallet');return;}}
@@ -589,7 +813,7 @@ PLAYER_JS = """
       if(_cf==='J3-05'){ if(t.closest('.confirm')){t.closest('.confirm').classList.toggle('on');return;} if(t.closest('.btn')){goTo('coinpayment');return;} return; }
       if(_cf==='J3-06'){ if(t.closest('.btn')){goTo('coinprocessing');return;} return; }
       if(_cf==='J3-07'){ goTo('coinsuccess'); return; }
-      if(_cf==='J3-08'){ var _b8=t.closest('.btn'); if(_b8){ if(/receipt/i.test(_b8.textContent)){goTo('coinreceipt');return;} while(hist.length){var _j8=hist[hist.length-1];var _j8f=((VIEWS[_j8.j]&&VIEWS[_j8.j].screens[_j8.s])||{}).fnum||'';if(/^J3-/.test(_j8f)){hist.pop();}else break;} goBack(); return;} return; }
+      if(_cf==='J3-08'){ var _b8=t.closest('.btn'); if(_b8){ if(/receipt/i.test(_b8.textContent)){goTo('coinreceipt');return;} if(SFLmgrBuying){ SFLmgrBuying=false; SFLmgrEligible=true; while(hist.length){var _hm=hist[hist.length-1];var _fm=((VIEWS[_hm.j]&&VIEWS[_hm.j].screens[_hm.s])||{}).fnum||'';if(/^J3-/.test(_fm)||_fm==='CC-00'){hist.pop();}else break;} var _dcs=ANCH['ccstart']; curJ=FLOWN+_dcs[0]; curS=idxOfFnum(_dcs[0],_dcs[1]); render(); sflToast('5,000 Coins added · Manager unlocked'); return; } while(hist.length){var _j8=hist[hist.length-1];var _j8f=((VIEWS[_j8.j]&&VIEWS[_j8.j].screens[_j8.s])||{}).fnum||'';if(/^J3-/.test(_j8f)){hist.pop();}else break;} goBack(); return;} return; }
       if(_cf==='J3-09'){ if(t.closest('.link')){goTo('support');return;} if(t.closest('.btn')){sflToast('Receipt downloaded');return;} return; }
       if(_cf==='J3-10'){ var _b10c=t.closest('.btn,.link'); if(_b10c){ if(/later/i.test(_b10c.textContent)){goTo('home');return;} goTo('fvconfirm');return;} return; }
       if(_cf==='J3-11'){ var _b11=t.closest('.btn,.link'); if(_b11){ if(/support/i.test(_b11.textContent)){goTo('support');return;} if(/another method/i.test(_b11.textContent)){goTo('coinpayment');return;} goTo('reviewpurchase');return;} return; }
@@ -604,8 +828,8 @@ PLAYER_JS = """
     if(_cf==='MSG-06'){ if(t.closest('.btn')){ var _ge=mEl.querySelector('.giftopt.on .ge'),_gnn=mEl.querySelector('.giftopt.on .gn'),_gcc=mEl.querySelector('.giftopt.on .gc'); SFLchatGift={em:(_ge?_ge.textContent:'🎁').trim(),gn:(_gnn?_gnn.textContent:'Gift').trim(),gp:(_gcc?_gcc.textContent:'').replace(/[^0-9]/g,'')}; while(hist.length){var _h=hist[hist.length-1];var _hf=((VIEWS[_h.j]&&VIEWS[_h.j].screens[_h.s])||{}).fnum||'';if(_hf==='MSG-06'||_hf==='MSG-04'||_hf==='MSG-05'){hist.pop();}else break;} var _dc=ANCH[SFLchatOrigin]||ANCH['chatthread']; curJ=FLOWN+_dc[0]; curS=idxOfFnum(_dc[0],_dc[1]); render(); return;} }
     if(_cf==='G-05U'){ var _ub=t.closest('.back'); if(_ub){ if(/‹|←/.test(_ub.textContent)){goBack();} return; } if(t.closest('.umsg')){goTo('chatthread');return;} if(t.closest('.ugift')){goTo('giftmenu');return;} var _uf=t.closest('.ufollow'); if(_uf){ if(SFLguest){goTo('gate');return;} var _un=((mEl.querySelector('.pn')||{}).textContent||'this fan').replace(/[✓✔]/g,'').trim(); var _on=/following/i.test(_uf.textContent); _uf.textContent=_on?'Follow':'Following'; _uf.style.background=_on?'#C9FF3D':'rgba(255,255,255,.18)'; _uf.style.color=_on?'#0A1400':'#fff'; sflToast(_on?('Unfollowed '+_un):('Following '+_un)); return;} if(t.closest('.listrow')){return;} }
     if(_cf==='GATE-01'){ if(t.closest('.top .back')||t.closest('.altlink')){goBack();return;} var _gt=t.closest('.btn'); if(_gt){ if(/sign in/i.test(_gt.textContent)){goTo('signin');return;} goTo('register');return;} return; }
-    if(_cf==='G-05ED'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.epphoto')){showPhotoSheet();return;} if(t.closest('.epname')){return;} if(t.closest('.btn')){goBack();sflToast('Profile updated');return;} return; }
-    if(_cf==='G-05'){ if(t.closest('.pt .back')){goTo('editprofile');return;} if(t.closest('.mgo')){goTo('managerhq');return;} if(t.closest('.rgo')){goTo('managerhq');return;} var _ml=t.closest('.mgrlink'); if(_ml){goTo(_ml.getAttribute('data-go'));return;} if(t.closest('.rolerow')){return;} if(t.closest('.levelcard')){goTo('fanlevel');return;} var _p5=t.closest('.listrow'); if(_p5){var _p5t=(_p5.textContent||'').toLowerCase(); if(/wallet/.test(_p5t)){goTo('wallet');return;} if(/kit bag/.test(_p5t)){goTo('kitbag');return;} if(/kyc/.test(_p5t)){goTo('kyc');return;} if(/settings/.test(_p5t)){goTo('settings');return;} return;} return; }
+    if(_cf==='G-05ED'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.epphoto')){showPhotoSheet();return;} if(t.closest('.epname')){return;} if(t.closest('.btn')){ var _fe=mEl.querySelector('.epname'); if(_fe&&showNameErr(_fe)){return;} goBack();sflToast('Profile updated');return;} return; }
+    if(_cf==='G-05'){ if(t.closest('.pt .back')){goTo('editprofile');return;} if(t.closest('.mgrupg')){goTo('mgrupgrade');return;} if(t.closest('.mgo')){goTo('managerhq');return;} if(t.closest('.rgo')){goTo('managerhq');return;} var _ml=t.closest('.mgrlink'); if(_ml){goTo(_ml.getAttribute('data-go'));return;} if(t.closest('.rolerow')){return;} if(t.closest('.levelcard')){goTo('fanlevel');return;} var _p5=t.closest('.listrow'); if(_p5){var _p5t=(_p5.textContent||'').toLowerCase(); if(/wallet/.test(_p5t)){goTo('wallet');return;} if(/kit bag/.test(_p5t)){goTo('kitbag');return;} if(/kyc/.test(_p5t)){goTo('kyc');return;} if(/settings/.test(_p5t)){goTo('settings');return;} return;} return; }
     if(_cf==='G-05B'){ if(t.closest('.top .back')){goBack();return;} var _sw=t.closest('.sw'); if(_sw){_sw.classList.toggle('on');return;} var _sl=t.closest('.listrow'); if(_sl){var _st=(_sl.textContent||'').toLowerCase(); if(/email/.test(_st)){showEditSheet('Email','z•••@gmail.com','We\\'ll send a verification link to confirm.');return;} if(/phone/.test(_st)){showEditSheet('Phone','+44 •••• ••• 021','We\\'ll text a verification code.');return;} if(/change password/.test(_st)){goTo('changepw');return;} if(/active devices/.test(_st)){goTo('security');return;} if(/blocked/.test(_st)){goTo('blockedusers');return;} if(/language/.test(_st)){showLanguageSheet();return;} if(/delete account/.test(_st)){goTo('deleteacct');return;} if(/log out/.test(_st)){showLogoutSheet();return;} if(/terms|privacy|guidelines/.test(_st)){goTo('legal');return;} return;} return; }
     if(_cf==='G-05P'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.pwfield')){return;} if(t.closest('.btn')){goBack();sflToast('Password updated');return;} return; }
     if(_cf==='G-05BL'){ if(t.closest('.top .back')){goBack();return;} var _bl=t.closest('.blbtn'); if(_bl){var _row=t.closest('.blrow'); var _nm=((_row.querySelector('div')||{}).textContent||'User'); if(_row)_row.remove(); sflToast('Unblocked'); return;} return; }
@@ -629,18 +853,21 @@ PLAYER_JS = """
           var _zs=mEl.querySelectorAll('.zone'); var _sel=mEl.querySelector('.zone.sel')||_zs[_zs.length-1];
           var _aim=[].indexOf.call(_sel.parentElement.children,_sel); var _dive=Math.floor(Math.random()*_zs.length);
           var _ball=mEl.querySelector('.ball'), _kp=mEl.querySelector('.keeper');
+          if(_ball)_ball.style.animation='none'; if(_kp)_kp.style.animation='none';
+          var _selz=mEl.querySelector('.zone.sel'); if(_selz)_selz.style.animation='none';
           var _delta=function(el,tg){var r=el.getBoundingClientRect(),q=tg.getBoundingClientRect();return [(q.left+q.width/2)-(r.left+r.width/2),(q.top+q.height/2)-(r.top+r.height/2)];};
           if(_ball){var _bd=_delta(_ball,_zs[_aim]); _ball.style.transition='transform .55s cubic-bezier(.25,.85,.4,1)'; _ball.style.transform='translateX(-50%) translate('+_bd[0]+'px,'+_bd[1]+'px) scale(.55)';}
           if(_kp){var _kd=_delta(_kp,_zs[_dive]); _kp.style.transition='transform .4s ease'; _kp.style.transform='translateX(-50%) translate('+_kd[0]+'px,0) scale(1.15)';}
           var _saved=(_dive===_aim); var _l3=mEl.querySelector('.zonelbl'); if(_l3)_l3.textContent=_saved?'🧤 Keeper guesses right!':'⚽ Ball rockets in…';
-          setTimeout(function(){goTo(_saved?'penaltysaved':'penaltygoal');},900);
+          var _fl=mEl.querySelector('.pkflash'); if(_fl){setTimeout(function(){_fl.textContent=_saved?'SAVED!':'GOAL!'; _fl.className='pkflash show '+(_saved?'save':'goal');},430);}
+          setTimeout(function(){goTo(_saved?'penaltysaved':'penaltygoal');},1350);
           return;
         }
         return;
       }
       if(_cf==='MG-02G'){ if(t.closest('.btn')){goTo('penalty');return;} if(t.closest('.altlink')){goTo('gameshub');return;} }
       if(_cf==='MG-02S'){ if(t.closest('.btn')){goTo('penalty');return;} if(t.closest('.altlink')){goTo('gameshub');return;} }
-      if(_cf==='MG-03'){ if(t.closest('.btn')){goTo('wheelspin');return;} }
+      if(_cf==='MG-03'){ if(t.closest('.wheelhub')){goTo('wheelspin');return;} if(t.closest('.btn')){goTo('wheelspin');return;} }
       if(_cf==='MG-03A'){ goTo('wheelresult');return; }
       if(_cf==='MG-04C'){ if(t.closest('.btn')){goTo('wheel');return;} if(t.closest('.altlink')){goTo('gameshub');return;} }
       if(_cf==='MG-04G'){ if(t.closest('.btn')){goTo('kitbag');return;} if(t.closest('.altlink')){goTo('gameshub');return;} }
@@ -669,15 +896,15 @@ PLAYER_JS = """
     var _seatEl=t.closest('.formfield .seat'); if(_seatEl&&!_seatEl.classList.contains('open')){ if(showSeatCard(_seatEl))return; }
     if(_cf==='GL-03V'){ if(t.closest('.rrb.join')){goTo('squadroom');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.seat.open')){goTo('confirmseat');return;} if(t.closest('.htool')){goTo('squadroom');return;} if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
     if(_cf==='GL-05'){ var _pr=t.closest('.posrow'); if(_pr){ if(_pr.querySelector('.pb.open')||_pr.querySelector('.opentag')){goTo('confirmseat');} return; } return; }
-    if(_cf==='GL-05A'){ if(t.closest('.btn')){goTo('fanseated');return;} if(t.closest('.altlink')){goTo('squadroom');return;} return; }
+    if(_cf==='GL-05A'){ if(t.closest('.btn')){ sflToast('Position request sent to host…'); setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='GL-05A')return; sflToast('✅ Host approved — you\\'re on the pitch!'); goTo('fanseated'); },1200); return;} if(t.closest('.altlink')){goTo('squadroom');return;} return; }
     if(_cf==='GL-05B'){ if(t.closest('.rrb.gift')){openGiftSheet();return;} var _lv=t.closest('.rrb'); if(_lv){ if(/🚪|leave|end/i.test(_lv.textContent)){goTo('live');return;} _lv.classList.toggle('on'); return; } if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
     if(_cf==='GL-05C'){ if(t.closest('.btn')){goTo('squadroom');return;} if(t.closest('.altlink')){goTo('liveroom');return;} return; }
     if(_cf==='GL-03Vg'){ var _gb=t.closest('.b'); if(_gb){ if(/create/i.test(_gb.textContent)){goTo('register');return;} if(/sign in/i.test(_gb.textContent)){goTo('signin');return;} } if(t.closest('.altlink')){return;} return; }
     if(_cf==='GL-00'){ if(t.closest('.golivecard')){goTo(SFLguest?'gate':'eligibility');return;} if(t.closest('.roomcard')){goTo('liveroom');return;} var _t0=t.closest('.tab'); if(_t0){singleSel(_t0,_t0.parentElement);return;} }
     if(_cf==='GL-01A'){ if(t.closest('.btn')){goTo('permissions');return;} }
     if(_cf==='GL-01B'){ if(t.closest('.btn')){goTo('golivesetup');return;} if(t.closest('.allow')){return;} }
-    if(_cf==='GL-01'){ if(t.closest('.btn')){goTo('formation');return;} var _sm=t.closest('.smcard'); if(_sm){singleSel(_sm,_sm.parentElement);return;} }
-    if(_cf==='GL-02'){ if(t.closest('.btn')){goTo('prelive');return;} var _fcc=t.closest('.formcard'); if(_fcc){singleSel(_fcc,_fcc.parentElement);return;} }
+    if(_cf==='GL-01'){ if(t.closest('.btn')){goTo('formation');return;} var _sm=t.closest('.smcard'); if(_sm){singleSel(_sm,_sm.parentElement); var _sc=parseInt((_sm.textContent||'').replace(/[^0-9]/g,''),10); if(_sc)SFLseatCount=_sc; return;} }
+    if(_cf==='GL-02'){ var _ms=t.closest('.mseg'); if(_ms){ SFLseatMode=_ms.getAttribute('data-mode')||'pos'; applyFormMode(mEl); return; } var _fcc=t.closest('.formcard'); if(_fcc){ var _fnt=((_fcc.querySelector('.fn')||{}).textContent||'').trim(); if(/^\d/.test(_fnt)){ SFLformation=_fnt; SFLseatMode='pos'; singleSel(_fcc,_fcc.parentElement); applyFormMode(mEl); } else { sflToast('More formations coming soon'); } return; } if(t.closest('.btn')){goTo('prelive');return;} }
     if(_cf==='GL-02A'){ if(t.closest('.rrb')||t.closest('.btn')){goTo('liveroomhost');return;} }
     if(_cf==='GL-03H'){ var _hr=t.closest('.rrb'); if(_hr){var _ht=_hr.textContent||''; if(/manage/i.test(_ht)){goTo('manageseats');return;} if(_hr.classList.contains('pk')||/⚔/.test(_ht)){goTo('pk');return;} if(_hr.classList.contains('gift')||/🎁/.test(_ht)){openGiftSheet();return;} if(/⏹|end|stop/i.test(_ht)){goTo('endlive');return;} return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.seat.open')){goTo('manageseats');return;} if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} }
     if(_cf==='GL-04'){ if(t.closest('.btn')){goTo('endlive');return;} var _orow=t.closest('.optrow'); if(_orow){ if(/·\s*open|close/i.test(_orow.textContent)){return;} goTo('manageparticipant');return;} var _t4=t.closest('.tab,.fillbadge'); if(_t4){singleSel(_t4,_t4.parentElement);return;} }
@@ -696,15 +923,15 @@ PLAYER_JS = """
       if(_cf==='PK-01'){ var _mc=t.closest('.modecard'); if(_mc){var _mct=(_mc.textContent||'').toLowerCase(); if(/quick/.test(_mct)){goTo('pkrandom');return;} if(/id/.test(_mct)){goTo('pkinvite');return;} goTo('live');return;} return; }
       if(_cf==='PK-01B'){ if(t.closest('.btn')){goTo('pkmatchup');return;} return; }
       if(_cf==='PK-01A'){ if(t.closest('.btn')){goTo('pkinvite');return;} if(/cancel search/i.test(t.textContent||'')){goTo('pkmatch');return;} goTo('pkmatchup'); return; }
-      if(_cf==='PK-01C'){ var _ca=t.closest('.a'); if(_ca){ if(_ca.classList.contains('acc')||/accept/i.test(_ca.textContent)){goTo('pkcountdown');return;} goTo('live');return;} return; }
-      if(_cf==='PK-01E'){ var _rb=t.closest('.b'); if(_rb){ if(_rb.classList.contains('ready')||/ready/i.test(_rb.textContent)){goTo('pkcountdown');return;} goTo('pkrandom');return;} return; }
+      if(_cf==='PK-01C'){ var _ca=t.closest('.a'); if(_ca){ if(_ca.classList.contains('acc')||/accept/i.test(_ca.textContent)){goTo('pkbattle');return;} goTo('live');return;} return; }
+      if(_cf==='PK-01E'){ var _rb=t.closest('.b'); if(_rb){ if(_rb.classList.contains('ready')||/ready/i.test(_rb.textContent)){goTo('pkbattle');return;} goTo('pkrandom');return;} return; }
       if(_cf==='PK-02A'){ goTo('pkbattle'); return; }
       if(_cf==='PK-03'){ if(t.closest('.gbtn')){goTo('pkside');return;} if(t.closest('.pktimer')||t.closest('.vid')||t.closest('.scrim')){goTo('pkfinalizing');return;} return; }
       if(_cf==='PK-03A'){ if(t.closest('.btn')){goTo('pkleadchange');return;} if(t.closest('.altlink')){goTo('coinstore');return;} var _gi=t.closest('.gi'); if(_gi){singleSel(_gi,_gi.parentElement);return;} return; }
       if(_cf==='PK-03B'){ goTo('pkfinalizing'); return; }
       if(_cf==='PK-03D'){ goTo('pkwin'); return; }
       if(_cf==='PK-04A'||_cf==='PK-04C'){ var _wb=t.closest('.b'); if(_wb){ if((_wb.classList.contains('re')||/rematch/i.test(_wb.textContent))&&!SFLpkViewer){goTo('pkrematch');return;} goTo('live');return;} return; }
-      if(_cf==='PK-04D'){ if(t.closest('.btn')){goTo('pkcountdown');return;} if(t.closest('.altlink')){goTo('live');return;} return; }
+      if(_cf==='PK-04D'){ if(t.closest('.btn')){goTo('pkbattle');return;} if(t.closest('.altlink')){goTo('live');return;} return; }
     }
     if(_cf.indexOf('PL-')===0){
       var _plbk=t.closest('.top .back, .dnav .back'); if(_plbk){goBack();return;}
@@ -715,7 +942,7 @@ PLAYER_JS = """
       if(_cf==='PL-02A'){ if(t.closest('.btn')){goTo('plbuy');return;} if(t.closest('.altlink')){goTo('market');return;} return; }
       if(_cf==='PL-03'){ if(t.closest('.btn')){goTo('plescrow');return;} if(t.closest('.altlink')){goBack();return;} return; }
       if(_cf==='PL-03A'){ var _b3=t.closest('.btn,.link'); if(_b3){ if(/buy coins/i.test(_b3.textContent)){goTo('coinstore');return;} goTo('market');return;} return; }
-      if(_cf==='PL-04'){ if(t.closest('.link')){goTo('support');return;} goTo('plcomplete'); return; }
+      if(_cf==='PL-04'){ if(t.closest('.link')){goTo('support');return;} if(t.closest('.plcont')){goTo('plcomplete');return;} if(t.closest('.btn')){goTo('plcomplete');return;} return; }
       if(_cf==='PL-04A'){ var _b4=t.closest('.btn,.link'); if(_b4){ if(/wallet/i.test(_b4.textContent)){goTo('wallet');return;} goTo('market');return;} return; }
       if(_cf==='PL-05'){ if(t.closest('.btn')){cleanTo('myplayers', /^PL-0[1-5]$/);return;} if(t.closest('.link')){cleanTo('market', /^PL-0[1-5]$/);return;} return; }
       if(_cf==='PL-06'){ if(t.closest('.prow')){goTo('pllist');return;} var _ptb=t.closest('.tabs i'); if(_ptb){singleSel(_ptb,_ptb.parentElement);return;} return; }
@@ -809,6 +1036,7 @@ PLAYER_JS = """
       if(_cf==='PV-13'){ if(t.closest('.btn')){goTo('wallet');return;} return; }
     }
     if(_cf.indexOf('CC-')===0){
+      if(_cf==='CC-00'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.ccbuy')){SFLmgrBuying=true;goTo('coinstore');return;} if(t.closest('.ccgo')){ if(SFLmgrEligible){goTo('ccstart');return;} sflToast('You need 5,000+ Coins first — tap “Get 5,000 Coins”.'); return;} return; }
       var _ccbk=t.closest('.top .back'); if(_ccbk){ if(_cf==='CC-01T'){goBack();} else {prev();} return; }
       if(t.closest('.searchbar')){return;}
       if(_cf==='CC-01T'){ var _lg=t.closest('.lgchip'); if(_lg){var _grp=_lg.parentElement;[].forEach.call(_grp.children,function(c){c.classList&&c.classList.remove('on');});_lg.classList.add('on');var _key=_lg.getAttribute('data-league')||'';[].forEach.call(mEl.querySelectorAll('.lgroup'),function(g){g.style.display=(!_key||g.getAttribute('data-league')===_key)?'':'none';});return;} var _tr=t.closest('.teamrow'); if(_tr){[].forEach.call(mEl.querySelectorAll('.teamrow'),function(r){r.classList.remove('on');});_tr.classList.add('on'); var _ub=mEl.querySelector('.cta .btn'); if(_ub){var _tn=(_tr.querySelector('.tn')||{}).textContent||''; _ub.textContent='Use '+_tn+' ›';} return;} if(t.closest('.btn')){goTo('ccbasics');return;} return; }
@@ -838,15 +1066,16 @@ PLAYER_JS = """
       if(_cf==='J2-05'){ if(t.closest('.roomtile')){goTo('liveroom');return;} var _b5=t.closest('.btn'); if(_b5){ if(/preview/i.test(_b5.textContent)){goTo(SFLguest?'gate':'club');return;} goTo(SFLguest?'gate':(SFLmember?'clubblocked':'clubapply'));return;} return; }
       if(_cf==='J2-06'){ if(t.closest('.btn')){goTo('clubsubmitted');return;} if(t.closest('.altlink')){goBack();return;} return; }
       if(_cf==='J2-07'){ var _b7=t.closest('.btn'); if(_b7){ var _t7=_b7.textContent.toLowerCase(); if(/application/.test(_t7)){cleanTo('clubapplications',/^J2-0[456]$/);return;} if(/live/.test(_t7)){cleanTo('live',/^J2-0/);return;} cleanTo('clubs',/^J2-0/);return;} return; }
-      if(_cf==='J2-08'){ if(t.closest('.wd-discover')){cleanTo('clubs',/^J2-0/);return;} var _b8=t.closest('.btn'); if(_b8&&/withdraw/i.test(_b8.textContent)){showWithdrawSheet();return;} return; }
-      if(_cf==='J2-10'){ SFLmember=true; var _b10=t.closest('.btn'); if(_b10){ if(/task/i.test(_b10.textContent)){goTo('tasks');return;} goTo('club');return;} return; }
+      if(_cf==='J2-08'){ if(t.closest('.wd-discover')){cleanTo('clubs',/^J2-0/);return;} var _b8=t.closest('.btn'); if(_b8){ if(/enter club/i.test(_b8.textContent)){goTo('clubconfirmed');return;} if(/withdraw/i.test(_b8.textContent)){showWithdrawSheet();return;} } return; }
+      if(_cf==='J2-10'){ var _b10=t.closest('.btn'); if(_b10){ if(/task/i.test(_b10.textContent)){enterAfterJoin('tasks');return;} enterAfterJoin('club');return;} return; }
       if(_cf==='J2-11'){ if(t.closest('.btn')){goTo('clubs');return;} return; }
       if(_cf==='J2-12'){ if(t.closest('.btn')){goTo('clubinvite');return;} return; }
       if(_cf==='J2-13'){ var _b13=t.closest('.btn'); if(_b13){ if(/decline/i.test(_b13.textContent)){goTo('clubdecline');return;} goTo(SFLmember?'clubblocked':'clubinviteaccepted');return;} return; }
       if(_cf==='J2-14'){ var _r14=t.closest('.radio'); if(_r14){singleSel(_r14,_r14.parentElement);return;} var _b14=t.closest('.btn'); if(_b14){ if(/keep/i.test(_b14.textContent)){goBack();return;} goTo('clubs');return;} return; }
-      if(_cf==='J2-15'){ SFLmember=true; if(t.closest('.btn')){goTo('club');return;} return; }
+      if(_cf==='J2-15'){ var _b15=t.closest('.btn'); if(_b15){ if(/task/i.test(_b15.textContent)){enterAfterJoin('tasks');return;} enterAfterJoin('club');return;} return; }
       if(_cf==='J2-18'){ var _b18=t.closest('.btn,.link'); if(_b18){ if(/continue leaving/i.test(_b18.textContent)){goTo('clubleaveconfirm');return;} goBack();return;} return; }
-      if(_cf==='J2-19'){ var _b19=t.closest('.btn'); if(_b19){ if(/leave club/i.test(_b19.textContent)){SFLmember=false;goTo('clubleft');return;} goBack();return;} return; }
+      if(_cf==='J2-19'){ var _b19=t.closest('.btn'); if(_b19){ if(/leave club/i.test(_b19.textContent)){goTo('leavepending');return;} goBack();return;} return; }
+      if(_cf==='J2-LV'){ var _blv=t.closest('.btn'); if(_blv){ var _lvt=_blv.textContent.toLowerCase(); function _lvpop(){ while(hist.length){var _hl=hist[hist.length-1];var _fl=((VIEWS[_hl.j]&&VIEWS[_hl.j].screens[_hl.s])||{}).fnum||'';if(/^J2-(18|19|LV)$/.test(_fl)){hist.pop();}else break;} } if(/complete leaving/.test(_lvt)){ _lvpop(); goTo('clubleft'); return;} if(/withdraw/.test(_lvt)){ _lvpop(); goTo('club'); sflToast('Leave request withdrawn'); return;} _lvpop(); goTo('club'); return;} return; }
       if(_cf==='J2-20'){ var _b20=t.closest('.btn'); if(_b20){ if(/live/i.test(_b20.textContent)){goTo('live');return;} goTo('clubs');return;} return; }
       if(_cf==='J2-17'){ var _b17=t.closest('.btn,.link'); if(_b17){ if(/support/i.test(_b17.textContent)){goTo('support');return;} if(/transfer/i.test(_b17.textContent)){goTo('move');return;} goTo('clubs');return;} return; }
       if(_cf==='J2-22'){ var _b22=t.closest('.btn,.altlink'); if(_b22){ if(/create/i.test(_b22.textContent)){goTo('register');return;} if(/sign in/i.test(_b22.textContent)){goTo('signin');return;} goBack();return;} return; }
@@ -879,9 +1108,9 @@ PLAYER_JS = """
       if(_cf==='RW-01F'){ var _hfc=t.closest('.fchip'); if(_hfc){singleSel(_hfc,_hfc.parentElement);return;} return; }
       if(_cf==='RW-01E'){ if(t.closest('.btn')){goTo('support');return;} return; }
     }
-    if(_cf==='MC-02'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.cp')||t.closest('.linkbox')){sflToast('Invite link copied');return;} if(t.closest('.byidbtn')){goTo('mgraddid');return;} if(t.closest('.row2')){goTo('mgrshare');return;} if(t.closest('.btn')){goTo('mgrhistory');return;} return; }
+    if(_cf==='MC-02'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.cp')||t.closest('.linkbox')){sflToast('🔗 Invite link copied');return;} if(t.closest('.byidbtn')){goTo('mgraddid');return;} if(t.closest('.row2')){showShareSheet();return;} if(t.closest('.btn')){goTo('mgrhistory');return;} return; }
     if(_cf==='MC-02H'){ if(t.closest('.htop .back')){goBack();return;} var _hf=t.closest('.hfilt'); if(_hf){singleSel(_hf,_hf.parentElement);return;} return; }
-    if(_cf==='MC-02A'){ if(t.closest('.htop .back')){goBack();return;} var _msb=t.closest('.btn'); if(_msb){ if(/sfl chat/i.test(_msb.textContent)){goTo('clubchat');return;} sflToast('Invite link copied');return;} if(t.closest('.altlink')){sflToast('Opening share…');return;} return; }
+    if(_cf==='MC-02A'){ if(t.closest('.htop .back')){goBack();return;} var _msb=t.closest('.btn'); if(_msb){ if(/sfl chat/i.test(_msb.textContent)){goTo('clubchat');return;} sflToast('🔗 Invite link copied');return;} if(t.closest('.altlink')){showShareSheet();return;} return; }
     if(_cf==='MC-05'){ if(t.closest('.htop .back')){goBack();return;} var _sc=t.closest('.scout'); if(_sc){var _sb=t.closest('.btn'); if(_sb){var _acc=/accept/i.test(_sb.textContent); var _snm=((_sc.querySelector('.sn')||{}).textContent||'Fan').trim(); _sc.remove(); sflToast(_acc?(_snm+' accepted into the club'):(_snm+' rejected')); if(!mEl.querySelectorAll('.scout').length){var _scr=mEl.querySelector('.scroll'); if(_scr)_scr.innerHTML='<div class="note info" style="margin-top:20px">No pending applications right now.</div>';} return;} } return; }
     if(_cf==='MC-06'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.btn')){goTo('mgrinvitesent');return;} return; }
     if(_cf==='MC-06R'){ if(t.closest('.htop .back')){cleanTo('managerhq', /^MC-0[26]/);return;} var _r6=t.closest('.btn,.altlink'); if(_r6){ if(/another/i.test(_r6.textContent)){goTo('mgraddid');return;} goTo('mgrapplications');return;} return; }
@@ -895,7 +1124,7 @@ PLAYER_JS = """
     if(_cf==='MC-01A'){ if(t.closest('.htop .back')){goBack();return;} return; }
     if(_cf==='MC-01B'){ if(t.closest('.htop .back')){goBack();return;} return; }
     if(_cf==='MC-03'){ if(t.closest('.htop .back')){goBack();return;} var _r3=t.closest('.tabs .tab'); if(_r3){singleSel(_r3,_r3.parentElement);return;} if(t.closest('.btn')){sflToast('350 Coins claimed to Club Wallet');return;} return; }
-    if(_cf==='MC-04'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.search')){return;} var _f4=t.closest('.fchip'); if(_f4){singleSel(_f4,_f4.parentElement);return;} if(t.closest('.fanrow')){goTo('mgrfandetail');return;} return; }
+    if(_cf==='MC-04'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.search')){return;} var _f4=t.closest('.fchip'); if(_f4){ singleSel(_f4,_f4.parentElement); var _fk=(_f4.textContent||'').toLowerCase(); var _fcard=mEl.querySelector('.scroll .card'); if(_fcard){ var _frows=[].slice.call(_fcard.querySelectorAll('.fanrow')); var _pv=function(el,re){var st=el.querySelector('.stats'); var m=st?(st.textContent||'').match(re):null; return m?parseFloat(m[1]):0;}; var _val=function(r){var b=r.querySelector('.fvbadge'); var m=b?(b.textContent||'').match(/([\\d,]+)/):null; return m?parseFloat(m[1].replace(/,/g,'')):0;}; _frows.sort(function(a,b){ if(/active/.test(_fk))return _pv(b,/(\\d+)d/)-_pv(a,/(\\d+)d/); if(/live/.test(_fk))return _pv(b,/([\\d.]+)h/)-_pv(a,/([\\d.]+)h/); if(/newest/.test(_fk))return _pv(a,/(\\d+)d/)-_pv(b,/(\\d+)d/); return _val(b)-_val(a); }); _frows.forEach(function(r){_fcard.appendChild(r);}); } return; } if(t.closest('.fanrow')){goTo('mgrfandetail');return;} return; }
     if(_cf==='MC-04A'){ if(t.closest('.htop .back')){goBack();return;} var _b4a=t.closest('.btn,.altlink'); if(_b4a){ if(/remove/i.test(_b4a.textContent)){goTo('mgrremovefan');return;} if(/chat/i.test(_b4a.textContent)){goTo('chatthread');return;} if(/move/i.test(_b4a.textContent)){goTo('createoffer');return;} } return; }
     if(_cf==='MC-04B'){ if(t.closest('.htop .back')){goBack();return;} var _ro=t.closest('.reasonopt'); if(_ro){singleSel(_ro,_ro.parentElement);return;} var _b4b=t.closest('.btn,.altlink'); if(_b4b){ if(/confirm/i.test(_b4b.textContent)){goBack();sflToast('Fan removed from club');return;} goBack();return;} return; }
     if(_cf.indexOf('ML-')===0){
@@ -989,7 +1218,7 @@ PLAYER_JS = """
       var pkb=(t.closest('.btn,.b,.altlink,.rbtns>*,.winbtns>*')||t); var pkt=(pkb.textContent||'').toLowerCase();
       if(/switch side/.test(pkt)){goTo('coinstore');return;}
       if(/golden boot|send/.test(pkt)&&t.closest('.btn')){goTo('pkbattle');return;}
-      if(/i'?m ready|start|accept/.test(pkt)){goTo('pkcountdown');return;}
+      if(/i'?m ready|start|accept/.test(pkt)){goTo('pkbattle');return;}
       if(/find another/.test(pkt)){goTo('pkrandom');return;}
       if(/rematch/.test(pkt)){goTo('pkrematch');return;}
       if(/exit|stadium|leave|done|home/.test(pkt)){goTo('live');return;}

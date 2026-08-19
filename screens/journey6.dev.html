@@ -76,20 +76,29 @@
 
   /* player card grid */
   .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .pcard{position:relative;border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
-  .pcard .ph{height:150px;background-size:cover;background-position:center 18%;position:relative}
+  .pcard{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(170deg,#1b2233,#10141d);box-shadow:0 12px 26px rgba(10,15,30,.45);border:1px solid rgba(255,255,255,.09)}
+  .pcard .pav{width:92px;height:92px;border-radius:50%;background-size:cover;background-position:center top;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.45);position:relative;z-index:2}
+  .pcard .pn .n{color:#fff}
+  .pcard .pn .t{color:rgba(255,255,255,.82)}
+  .pcard .meta{justify-content:center}
+  .ph::before{content:"";position:absolute;left:0;right:0;bottom:0;height:66px;background:linear-gradient(to top,rgba(8,10,16,.62),transparent);z-index:1;pointer-events:none}
+  .ph::after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 2px,transparent 2px 15px);opacity:.5;pointer-events:none}
+  .pcard .ph{height:158px;position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;padding-top:22px}
   .pcard .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,10,16,.72))}
-  .pcard .pos{position:absolute;top:9px;left:9px;z-index:2;font-size:10px;font-weight:800;color:#fff;background:rgba(10,12,18,.5);backdrop-filter:blur(6px);padding:3px 8px;border-radius:999px}
+  .pcard .pos{position:absolute;top:9px;left:9px;z-index:3;font-size:10px;font-weight:900;color:#3A2600;background:linear-gradient(140deg,#FFD056,#F0A93C);padding:3px 8px;border-radius:8px;box-shadow:0 3px 8px rgba(240,150,20,.45)}
   .pcard .sc{position:absolute;top:9px;right:9px;z-index:2;width:22px;height:22px;font-size:8px;border:1.5px solid rgba(255,255,255,.7)}
   .pcard .pn{position:absolute;left:10px;right:10px;bottom:8px;z-index:2}
   .pcard .pn .n{font-size:14px;font-weight:800;color:#fff}
   .pcard .pn .t{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.8)}
   .pcard .meta{padding:10px 11px;display:flex;align-items:center;gap:7px}
   .pcard .meta .mv{margin-left:auto}
-  .pcard .seller{font-size:10px;font-weight:700;color:var(--t3);padding:0 11px 10px}
+  .pcard .seller{font-size:10px;font-weight:700;color:#8994A6;padding:0 11px 11px;text-align:center}
 
   /* player detail */
-  .dhero{position:relative;height:280px;flex:none;background-size:cover;background-position:center 15%}
+  .dhero{position:relative;height:300px;flex:none;overflow:hidden}
+.dhero::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 78% at 50% 16%,rgba(255,255,255,.24),rgba(255,255,255,0) 56%),radial-gradient(90% 90% at 50% 108%,rgba(6,10,20,.45),transparent 60%);pointer-events:none;z-index:0}
+.dhero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:130px;background:linear-gradient(to top,rgba(8,10,16,.72),transparent);pointer-events:none;z-index:1}
+.dfull{position:absolute;left:0;right:0;bottom:0;height:286px;background-size:auto 100%;background-position:center bottom;background-repeat:no-repeat;z-index:1;pointer-events:none}
   .dhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,16,.1),transparent 34%,rgba(8,10,16,.85))}
   .dhero .dnav{position:absolute;top:16px;left:16px;right:16px;display:flex;z-index:2}
   .dhero .dnav .back{background:rgba(10,12,18,.4);border:none;color:#fff}
@@ -127,7 +136,7 @@
   .balr.new .k{color:var(--t1);font-weight:800}
   .escrow-note{display:flex;gap:9px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:13px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:650;color:#187A42;margin-top:10px}
   .psummary{display:flex;align-items:center;gap:12px;padding:12px;background:#F6F8FC;border-radius:16px;margin:12px 0}
-  .psummary .pi{width:46px;height:46px;border-radius:12px;background-size:cover;background-position:center;flex:none}
+  .psummary .pi{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center top;flex:none;border:2px solid #fff;box-shadow:0 3px 9px rgba(20,30,60,.20)}
   .psummary .pn{font-size:15px;font-weight:800}
   .psummary .pp{font-size:12px;font-weight:700;color:var(--t2)}
   .psummary .pv{margin-left:auto}
@@ -159,7 +168,7 @@
   .sbox .sl{font-size:11px;font-weight:750;color:var(--t2);margin-top:1px}
   .roster{display:flex;flex-direction:column;gap:10px}
   .prow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:var(--shadow-sm)}
-  .prow .pi{width:52px;height:52px;border-radius:12px;background-size:cover;background-position:center;flex:none}
+  .prow .pi{width:52px;height:52px;border-radius:50%;background-size:cover;background-position:center top;flex:none;border:2px solid #fff;box-shadow:0 3px 9px rgba(20,30,60,.20)}
   .prow .pn{font-size:14px;font-weight:800}
   .prow .pp{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:1px}
   .prow .pl2{font-size:11px;font-weight:700;color:var(--t3);margin-top:4px}
@@ -232,22 +241,22 @@
       <div class="scrollarea">
         <div class="pgrid">
           <div class="pcard">
-            <div class="ph" style="background-image:url('assets/fb_host.jpg')"><span class="pos">ST</span><div class="crest cr-blue sc">BW</div><div class="pn"><div class="n">A. Rivera</div><div class="t">Northbridge FC</div></div></div>
+            <div class="ph" style="background:linear-gradient(165deg,#2F7FD1,#17436f)"><span class="pos">ST</span><div class="crest cr-blue sc">BW</div><div class="pav" style="background-image:url('assets/av_11.png')"></div><div class="pn"><div class="n">A. Rivera</div><div class="t">Northbridge FC</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>420</span><span class="mv up">▲ +30</span></div>
             <div class="seller">Sold by Blue Wolves FC</div>
           </div>
           <div class="pcard">
-            <div class="ph" style="background-image:url('assets/fb_m3.jpg')"><span class="pos">CM</span><div class="crest cr-red sc">RD</div><div class="pn"><div class="n">T. Bello</div><div class="t">Southgate United</div></div></div>
+            <div class="ph" style="background:linear-gradient(165deg,#E4362B,#7c1611)"><span class="pos">CM</span><div class="crest cr-red sc">RD</div><div class="pav" style="background-image:url('assets/av_09.png')"></div><div class="pn"><div class="n">T. Bello</div><div class="t">Southgate United</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>310</span><span class="mv flat">0</span></div>
             <div class="seller">Sold by Red District FC</div>
           </div>
           <div class="pcard">
-            <div class="ph" style="background-image:url('assets/fb_m1.jpg')"><span class="pos">LW</span><div class="crest cr-green sc">GF</div><div class="pn"><div class="n">K. Mensah</div><div class="t">Coast City</div></div></div>
+            <div class="ph" style="background:linear-gradient(165deg,#0FB753,#0a6e33)"><span class="pos">LW</span><div class="crest cr-green sc">GF</div><div class="pav" style="background-image:url('assets/av_03.png')"></div><div class="pn"><div class="n">K. Mensah</div><div class="t">Coast City</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>560</span><span class="mv up">▲ +10</span></div>
             <div class="seller">Sold by Greenfield FC</div>
           </div>
           <div class="pcard">
-            <div class="ph" style="background-image:url('assets/fb_m4.jpg')"><span class="pos">GK</span><div class="crest cr-gold sc">RL</div><div class="pn"><div class="n">M. Silva</div><div class="t">Royal Athletic</div></div></div>
+            <div class="ph" style="background:linear-gradient(165deg,#7C4DB8,#3d2470)"><span class="pos">GK</span><div class="crest cr-gold sc">RL</div><div class="pav" style="background-image:url('assets/av_10.png')"></div><div class="pn"><div class="n">M. Silva</div><div class="t">Royal Athletic</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>340</span><span class="mv flat">0</span></div>
             <div class="seller">Sold by Royal Lions FC</div>
           </div>
@@ -278,7 +287,8 @@
   <!-- PL-02 PLAYER DETAIL -->
   <div class="fw"><div class="flabel"><div class="fnum">PL-02</div><div class="fname">Player Detail<span>Value history + W/D/L rules</span></div></div>
   <div class="phone">
-    <div class="dhero" style="background-image:url('assets/fb_host.jpg')">
+    <div class="dhero" style="background:linear-gradient(165deg,#2F7FD1,#123a63)">
+      <div class="dfull" style="background-image:url('assets/av_full_11.png')"></div>
       <div class="dnav"><div class="back">‹</div><span class="mv up trend">▲ Rising</span></div>
       <div class="dinfo"><div class="dn">A. Rivera</div><div class="dt">ST · Northbridge FC <span class="crest cr-blue">BW</span> Blue Wolves FC</div></div>
     </div>
@@ -436,17 +446,17 @@
       <div class="scrollarea">
         <div class="roster">
           <div class="prow">
-            <div class="pi" style="background-image:url('assets/fb_host.jpg')"></div>
+            <div class="pi" style="background-image:url('assets/av_11.png')"></div>
             <div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div><div class="pl2 num">Acquired 420</div></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">450</span></div><div class="pln up">Unreal. +30</div></div>
           </div>
           <div class="prow">
-            <div class="pi" style="background-image:url('assets/fb_m1.jpg')"></div>
+            <div class="pi" style="background-image:url('assets/av_03.png')"></div>
             <div><div class="pn">K. Mensah</div><div class="pp">LW · Coast City</div><div class="pl2 num">Acquired 560</div><span class="listed">● LISTED 560</span></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">560</span></div><div class="pln up">Unreal. 0</div></div>
           </div>
           <div class="prow">
-            <div class="pi" style="background-image:url('assets/fb_m4.jpg')"></div>
+            <div class="pi" style="background-image:url('assets/av_10.png')"></div>
             <div><div class="pn">M. Silva</div><div class="pp">GK · Royal Athletic</div><div class="pl2 num">Acquired 300</div></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">300</span></div><div class="pln" style="color:var(--t3)">Unreal. 0</div></div>
           </div>

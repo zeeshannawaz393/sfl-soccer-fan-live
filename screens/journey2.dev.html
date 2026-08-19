@@ -52,6 +52,9 @@
   .crest{border-radius:22%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;letter-spacing:.5px;position:relative;background:linear-gradient(150deg,var(--ck2),var(--ck) 55%,var(--ckd));box-shadow:inset 0 2px 6px rgba(255,255,255,.35),inset 0 -6px 12px rgba(0,0,0,.28),0 8px 20px color-mix(in srgb,var(--ck) 45%,transparent)}
   .crest::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.32),transparent 42%);pointer-events:none}
   .crest.circ{border-radius:50%}
+  .perk{display:flex;align-items:center;gap:11px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;font-weight:750;color:var(--t1)}
+  .perk:last-child{border:none}
+  .perk .pk{width:28px;height:28px;border-radius:8px;background:#F2FBF5;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px;z-index:5}
   .back,.ico{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:20px;font-weight:800;letter-spacing:-.4px}
@@ -280,18 +283,24 @@
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">My Club</div></div>
     <div class="body">
-      <div style="text-align:center;margin-top:6px;position:relative">
-        <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(15,183,83,.22),transparent 70%);filter:blur(6px)"></div>
-        <div class="crest circ" style="--ck:#0FB753;--ck2:#7CD843;--ckd:#0A7A38;width:84px;height:84px;font-size:34px;margin:0 auto;position:relative">🛡️</div>
-        <div class="h1" style="margin-top:18px">Find your Fan Club</div>
-        <div class="sub" style="margin:9px auto 0;max-width:300px">Join a fan family, complete duties, run into Squad Rooms and push your club up the league.</div>
+      <div style="text-align:center;margin-top:2px;position:relative">
+        <div style="position:absolute;left:50%;top:8px;transform:translateX(-50%);width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(15,183,83,.22),transparent 70%);filter:blur(6px)"></div>
+        <div class="crest circ" style="--ck:#0FB753;--ck2:#7CD843;--ckd:#0A7A38;width:64px;height:64px;font-size:27px;margin:0 auto;position:relative">🛡️</div>
+        <div class="h1" style="margin-top:12px">Join a Fan Club</div>
+        <div class="sub" style="margin:7px auto 0;max-width:300px">Experience the club, not just the sign-up. Each Fan Club should feel like stepping into a real stadium.</div>
       </div>
-      <div class="card" style="margin-top:22px;padding:6px 16px">
-        <div class="valrow" style="border:none"><div class="ic done">✓</div><div class="vt">Club community &amp; announcements</div></div>
-        <div class="valrow"><div class="ic done">✓</div><div class="vt">Squad Room access</div></div>
-        <div class="valrow"><div class="ic done">✓</div><div class="vt">Fan Tasks &amp; rewards</div></div>
-        <div class="valrow" style="border:none"><div class="ic done">✓</div><div class="vt">Club league participation</div></div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin:15px 0 7px">Once you're in as a fan, you can</div>
+      <div class="card" style="padding:2px 15px">
+        <div class="perk"><span class="pk">⚽</span>Earn Coins as a Fan</div>
+        <div class="perk"><span class="pk">🔄</span>Transfer, sign &amp; loan Players</div>
+        <div class="perk"><span class="pk">🎮</span>Play Games &amp; Fan PK Battles</div>
+        <div class="perk"><span class="pk">🎬</span>Watch Football Movies &amp; Shows</div>
+        <div class="perk"><span class="pk">🔴</span>Join Live Match Rooms</div>
+        <div class="perk"><span class="pk">🏆</span>Compete in Fan Challenges</div>
+        <div class="perk"><span class="pk">🎁</span>Send &amp; Receive Fan Gifts</div>
+        <div class="perk"><span class="pk">👥</span>Meet &amp; Follow Other Fans</div>
       </div>
+      <div style="text-align:center;font-size:11.5px;font-weight:750;color:var(--t2);margin-top:12px;line-height:1.5">Fans first · Club atmosphere second · Football fun &amp; rewards third</div>
       <div class="cta">
         <div class="btn">Discover Clubs</div>
         <div class="btn ghost">Enter Recruitment Link</div>
@@ -565,7 +574,7 @@
     </div>
     <div class="cbody">
       <div class="crest cmedal">RD<div class="halo2"></div></div>
-      <div class="ch1">You're in, Ada! 🎊</div>
+      <div class="ch1">Congratulations, Ada! 🎊</div>
       <div class="cscarf">Red District FC · Member</div>
       <div class="csub">Invitation accepted. Jay and 1,200 reds just gained a new voice.</div>
       <div class="cbtns"><div class="btn">Enter Club</div><div class="btn o">Meet the Squad</div></div>
@@ -686,6 +695,19 @@
           <div class="btn ghost">Cancel</div>
         </div>
       </div>
+    </div>
+  </div></div>
+
+  <!-- J2-LV LEAVE REQUEST SENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">J2-LV</div><div class="fname">Leave Request Sent<span>Pending manager approval</span></div></div>
+  <div class="phone club-red ceremony">
+    <div class="rays"></div>
+    <div class="cbody">
+      <div class="crest cmedal">⏳<div class="halo2"></div></div>
+      <div class="ch1">Leave request sent</div>
+      <div class="cscarf">Red District FC</div>
+      <div class="csub">Your club's managers have been notified. One of them will review it — you'll get a notification when they respond. You stay a member until it's approved.</div>
+      <div class="cbtns"><div class="btn">Back to Club</div><div class="btn o">Withdraw Request</div></div>
     </div>
   </div></div>
 

@@ -117,6 +117,17 @@
   .minipitch::before{content:"";position:absolute;left:8px;right:8px;top:50%;height:1px;background:rgba(255,255,255,.35)}
   .minipitch .d{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
   .formcard .fn{font-size:14px;font-weight:800}
+  /* seat-label mode toggle + numbers view */
+  .modeseg{display:flex;gap:6px;background:#EEF1F6;border-radius:13px;padding:4px;margin-bottom:14px}
+  .modeseg .mseg{flex:1;text-align:center;font-size:12.5px;font-weight:800;color:var(--t2);padding:10px;border-radius:10px;cursor:pointer}
+  .modeseg .mseg.on{background:#fff;color:#14161C;box-shadow:var(--shadow-sm)}
+  .numpitch{border-radius:18px;background:repeating-linear-gradient(180deg,var(--pitch1) 0 38px,var(--pitch2) 38px 76px);box-shadow:var(--shadow);padding:18px 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px 8px;justify-items:center;margin-bottom:14px}
+  .numslot{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);border:2px dashed rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;position:relative}
+  .numslot.host{background:var(--gold1);border:2px solid var(--gold1);color:#5A3E00;box-shadow:0 0 0 3px rgba(255,179,0,.32)}
+  .numslot .sl{position:absolute;bottom:-15px;font-size:8px;font-weight:800;color:rgba(255,255,255,.85);white-space:nowrap}
+  .numslot.host .sl{color:#5A3E00;opacity:.9}
+  .numnote{background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700;color:#187A42;margin-bottom:14px}
+  .hostnum{position:absolute;top:-4px;left:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--gold1);color:#5A3E00;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;z-index:4;box-shadow:0 2px 5px rgba(0,0,0,.35)}
 
   /* ===== ROOM ===== */
   .room{position:relative;background:linear-gradient(180deg,#0C1A12,#0A140E)}
@@ -152,10 +163,14 @@
   .seat.open .av{border-style:dashed;border-color:rgba(201,255,61,.9);background:rgba(201,255,61,.12);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
   .seat.open.pulse .av{animation:seatpulse 1.8s infinite}
   .seat .mut{position:absolute;top:32px;right:8px;width:16px;height:16px;border-radius:50%;background:rgba(7,9,13,.7);display:flex;align-items:center;justify-content:center;font-size:8px}
-  .rchat{position:absolute;left:16px;right:70px;bottom:78px;z-index:6}
-  .rchat .cm{background:rgba(5,7,11,.5);backdrop-filter:blur(8px);border-radius:12px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#F7F8FA;display:inline-block;margin-bottom:5px}
+  .rchat{position:absolute;left:16px;right:66px;bottom:74px;z-index:6;max-height:148px;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:5px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24%);mask-image:linear-gradient(180deg,transparent 0,#000 24%)}
+  .rchat::-webkit-scrollbar{display:none}
+  .rchat .cm{background:rgba(5,7,11,.5);backdrop-filter:blur(8px);border-radius:12px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#F7F8FA;display:inline-block;margin-bottom:0;max-width:100%;word-break:break-word}
   .rchat .cm b{font-weight:800}
-  .rchat .join{color:#8CE8AE;font-weight:800}
+  .rchat .join,.rchat .joinmsg{color:#8CE8AE;font-weight:800}
+  .rchat br{display:none}
+  .seat .micind{position:absolute;top:-2px;right:6px;width:19px;height:19px;border-radius:50%;background:rgba(9,20,12,.92);border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:9px;z-index:5;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.4)}
+  .seat .micind.muted{background:rgba(228,54,43,.95);border-color:rgba(255,160,150,.7)}
   .ractbar{position:absolute;left:16px;right:16px;bottom:20px;z-index:6;display:flex;align-items:center;gap:9px}
   .rsay{flex:1;height:44px;border-radius:999px;background:rgba(13,17,24,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;padding:0 16px;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.5)}
   .rrb{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(13,17,24,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);color:#fff}
@@ -215,6 +230,32 @@
   .sumbox .sv{font-size:20px;font-weight:800}.sumbox .sv.gold{color:var(--goldDeep)}
   .sumbox .sl{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
   .taskdone{display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:13px;padding:11px 13px;font-size:12.5px;font-weight:800;color:#187A42;margin-top:12px;width:100%}
+  /* ===== Match Timers (TIME + COUNT DOWN) ===== */
+  .livetmr{position:absolute;top:136px;left:14px;right:14px;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:15px;background:rgba(8,14,9,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(201,255,61,.28);box-shadow:0 8px 22px rgba(0,0,0,.4)}
+  .livetmr ~ .formfield{top:222px}
+  .livetmr:has(.mcchip) ~ .formfield{top:250px}
+  .mclock{display:inline-flex;align-items:flex-end;gap:5px}
+  .mcbox{position:relative;min-width:40px;padding:5px 4px 4px;border-radius:9px;background:linear-gradient(180deg,#1f2a10,#0d1207);border:1px solid rgba(201,255,61,.4);box-shadow:0 4px 12px rgba(0,0,0,.45),inset 0 0 14px rgba(201,255,61,.14);text-align:center}
+  .mcbox .mcv{font-family:'Manrope',sans-serif;font-weight:900;font-size:22px;line-height:1;color:#EAFFC0;letter-spacing:.5px;text-shadow:0 0 10px rgba(201,255,61,.55);font-variant-numeric:tabular-nums;display:block}
+  .mcbox .mcl{display:block;margin-top:3px;font-size:7px;font-weight:800;letter-spacing:1.4px;color:rgba(201,255,61,.62)}
+  .mcsep{font-size:20px;font-weight:900;color:var(--volt);padding-bottom:14px;animation:mcblink 1s steps(1) infinite}
+  @keyframes mcblink{50%{opacity:.25}}
+  .mclock.low .mcv{color:#FFCBC2;text-shadow:0 0 10px rgba(255,110,96,.65)}
+  .mclock.low .mcbox{border-color:rgba(255,110,96,.55)}
+  .mctitle{font-size:8px;font-weight:800;letter-spacing:1.6px;color:rgba(201,255,61,.6);margin-bottom:4px}
+  .mcset{display:flex;gap:5px;align-items:center;margin-top:7px;flex-wrap:wrap}
+  .mcchip{padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:10px;font-weight:800;color:#dff;cursor:pointer}
+  .mcchip.on{background:var(--volt);border-color:var(--volt);color:#16260a}
+  .mcreset{font-size:10px;font-weight:800;color:rgba(255,255,255,.55);cursor:pointer;margin-left:2px}
+  .cdwrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .cdcap{font-size:7px;font-weight:800;letter-spacing:1px;color:rgba(255,255,255,.55)}
+  .cdring{position:relative;width:52px;height:52px;flex:none}
+  .cdring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+  .cdring .cdbg{fill:none;stroke:rgba(255,255,255,.13);stroke-width:6}
+  .cdring .cdfg{fill:none;stroke:#38E0D0;stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(56,224,208,.7));transition:stroke-dashoffset 1s linear}
+  .cdring .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#EAFEFF;text-shadow:0 0 8px rgba(56,224,208,.6)}
+  .cdring.low .cdfg{stroke:#FF6E60;filter:drop-shadow(0 0 6px rgba(255,110,96,.85))}
+  .cdring.low .cdn{color:#FFE2DE}
 </style>
 </head>
 <body>
@@ -222,7 +263,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 7 — Formation Live Rooms</div>
   <h1>Go Live: Formation Rooms</h1>
-  <p>The defining SFL room — Niki-style live, but generic guest seats become football <b>positions</b> (GK, CB, CM, LW, ST…) on a formation pitch. Host broadcasts on video; Fans join open positions as audio guests. Setup &amp; picker are light; the room is a bright pitch. Single-Host rooms show the gold <b>Coins counter only</b> — the Fan Power bar appears only with two valid sides (watchalong Home/Away or a PK), per J8.</p>
+  <p>The defining SFL room — Niki-style live, but generic guest seats become football <b>positions</b> (GK, CB, CM, LW, ST…) on a formation pitch. Host broadcasts on video; Fans join open positions as audio guests. Setup &amp; picker are light; the room is a bright pitch. Single-Host rooms show the gold <b>Coins counter only</b> — the Possession bar appears only with two valid sides (watchalong Home/Away or a PK), per J8.</p>
 </div>
 
 <div class="frames">
@@ -311,6 +352,12 @@
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Pick your formation</div></div>
     <div class="lbody">
+      <div class="modeseg"><div class="mseg on" data-mode="pos">⚽ Positions</div><div class="mseg" data-mode="num">🔢 Numbers</div></div>
+      <div class="numview" style="display:none">
+        <div class="numpitch"></div>
+        <div class="numnote">Guests join by number (2–11). You're always <b>#1</b> as host — you don't pick a position.</div>
+      </div>
+      <div class="posview">
       <div class="bigpitch">
         <div class="mln"></div><div class="mcirc"></div>
         <span class="pn" style="left:22%;top:16%">LW</span><span class="pn" style="left:50%;top:12%">ST</span><span class="pn" style="left:78%;top:16%">RW</span>
@@ -325,6 +372,7 @@
         <div class="formcard"><div class="minipitch"><span class="d" style="left:25%;top:18%"></span><span class="d" style="left:50%;top:14%"></span><span class="d" style="left:75%;top:18%"></span><span class="d" style="left:20%;top:46%"></span><span class="d" style="left:40%;top:50%"></span><span class="d" style="left:60%;top:50%"></span><span class="d" style="left:80%;top:46%"></span><span class="d" style="left:30%;top:74%"></span><span class="d" style="left:50%;top:76%"></span><span class="d" style="left:70%;top:74%"></span><span class="d" style="left:50%;top:92%;background:var(--gold2)"></span></div><div class="fn">3-4-3</div></div>
         <div class="formcard"><div class="minipitch"><span class="d" style="left:35%;top:16%"></span><span class="d" style="left:65%;top:16%"></span><span class="d" style="left:28%;top:44%"></span><span class="d" style="left:50%;top:48%"></span><span class="d" style="left:72%;top:44%"></span><span class="d" style="left:16%;top:72%"></span><span class="d" style="left:34%;top:76%"></span><span class="d" style="left:50%;top:78%"></span><span class="d" style="left:66%;top:76%"></span><span class="d" style="left:84%;top:72%"></span><span class="d" style="left:50%;top:92%;background:var(--gold2)"></span></div><div class="fn">5-3-2</div></div>
         <div class="formcard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--t3)"><div style="font-size:24px">＋</div><div class="fn" style="font-size:11px;color:var(--t2)">More</div></div>
+      </div>
       </div>
       <div class="cta"><div class="btn coral">Preview &amp; Go Live · 4-3-3</div></div>
     </div>
@@ -361,6 +409,10 @@
       <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">👁 856 · 48:12 · 8/11 filled</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
       <div class="htools"><div class="htool">⋯</div><div class="htool">🔄</div></div>
     </div>
+    <div class="livetmr">
+      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="mcset"><span class="mcchip" data-min="30">30m</span><span class="mcchip on" data-min="45">45m</span><span class="mcchip" data-min="90">90m</span><span class="mcreset">↺ Reset</span></div></div>
+      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+    </div>
     <div class="formfield">
       <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
       <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/nadia_t.jpg')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/fb_m3.jpg')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
@@ -368,7 +420,7 @@
       <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm join">⚡ MartaSilva took RW</div><br><div class="cm"><b style="color:#8FE5FF">PitchZed</b> Nadia's cooking 🔥</div></div>
-    <div class="ractbar"><div class="rrb" style="width:auto;padding:0 15px;border-radius:999px;font-size:13px;font-weight:800">⚙️ Manage Seats</div><div class="rrb pk">⚔️ PK Battle</div><div class="rrb" style="margin-left:auto;background:rgba(228,54,43,.6);border:none">⏹</div></div>
+    <div class="ractbar"><div class="rrb" style="width:auto;padding:0 15px;border-radius:999px;font-size:13px;font-weight:800">⚙️ Manage Seats</div><div class="rrb pk">⚔️ PK Battle</div><div class="rrb gift">🎁</div><div class="rrb" style="margin-left:auto;background:rgba(228,54,43,.6);border:none">⏹</div></div>
   </div></div>
 
   <!-- GL-03V VIEWER ROOM -->
@@ -379,6 +431,10 @@
       <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
       <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">Red District FC · 👁 856</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
       <div class="htools"><div class="htool">＋</div></div>
+    </div>
+    <div class="livetmr">
+      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
+      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
     </div>
     <div class="formfield">
       <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
@@ -397,6 +453,10 @@
     <div class="rtop">
       <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
       <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">Red District FC · 👁 856</div></div>
+    </div>
+    <div class="livetmr">
+      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
+      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
     </div>
     <div class="formfield" style="filter:grayscale(.15);opacity:.92">
       <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div class="pos">LW</div></div><div class="seat"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="pos">ST</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div></div></div>
@@ -438,11 +498,11 @@
       <div class="grab"></div>
       <div class="confirmpos">
         <div class="posbadge">RW</div>
-        <h3 style="margin-top:14px">Join as Right Wing?</h3>
-        <div class="sub" style="color:var(--t2)">You'll appear on RobbieOnAir's pitch and can speak when your mic is on.</div>
+        <h3 style="margin-top:14px">Request Right Wing?</h3>
+        <div class="sub" style="color:var(--t2)">Your request is sent to the host/manager. You'll join the pitch once they approve — you'll be notified either way.</div>
       </div>
-      <div class="micnote">🎙️ We'll ask for microphone access so the room can hear you. You can mute anytime.</div>
-      <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn">Allow Mic &amp; Take RW</div><div class="altlink">Choose Another Position</div></div>
+      <div class="micnote">🎙️ On approval we'll ask for microphone access so the room can hear you. You can mute anytime.</div>
+      <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn">Request RW · Notify Host</div><div class="altlink">Choose Another Position</div></div>
     </div></div>
   </div></div>
 
@@ -453,6 +513,10 @@
     <div class="rtop">
       <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
       <div class="rt2"><div class="rname" style="color:var(--gold2)">✓ You're on the pitch · RW</div><div class="rmeta">Tap to mute · Leave Position</div></div>
+    </div>
+    <div class="livetmr">
+      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
+      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
     </div>
     <div class="formfield">
       <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat you spk"><div class="av" style="background-image:url('assets/q1_t.jpg')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">RW</div><div class="nm" style="color:var(--gold2)">You</div></div></div>

@@ -92,6 +92,24 @@
   .rowhead .t{font-size:20px;font-weight:800;letter-spacing:-.4px}
   .rowhead .a{margin-left:auto;font-size:13.5px;font-weight:800;color:var(--volt);display:flex;align-items:center;gap:4px}
   .carousel{display:flex;gap:13px;overflow:hidden;padding-bottom:16px}
+  .carousel.pkmode{flex-direction:column;gap:14px}
+  .rcard.pkvs{width:100%;flex:none;display:flex;position:relative;border-radius:18px;overflow:visible;box-shadow:0 12px 28px rgba(0,0,0,.45);height:158px}
+  .pkvs .pkside{flex:1;position:relative;min-height:158px;background-size:cover;background-position:center top;overflow:hidden}
+  .pkvs .pkside:first-child{border-radius:18px 0 0 18px}
+  .pkvs .pkside:last-child{border-radius:0 18px 18px 0}
+  .pkvs .pkside::before{content:"";position:absolute;inset:0}
+  .pkvs .pkside.red::before{background:linear-gradient(155deg,rgba(255,110,150,.5),rgba(228,54,43,.32) 55%,rgba(10,12,18,.62))}
+  .pkvs .pkside.blue::before{background:linear-gradient(155deg,rgba(120,200,245,.5),rgba(47,127,209,.32) 55%,rgba(10,12,18,.62))}
+  .pkvs .pkseats{position:absolute;top:11px;z-index:2;display:flex;flex-direction:column;gap:5px}
+  .pkvs .pkside.red .pkseats{right:8px}
+  .pkvs .pkside.blue .pkseats{left:8px}
+  .pkvs .pkseats span{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.26);border:1.5px solid rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff}
+  .pkvs .pkvsbadge{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);z-index:4;width:46px;height:46px;border-radius:50%;background:linear-gradient(140deg,#FF3B5F,#B4241B);color:#fff;font-size:18px;font-weight:900;font-style:italic;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(228,54,43,.65);border:3px solid #fff}
+  .pkvs .pktag{position:absolute;top:9px;left:9px;z-index:3}
+  .pkvs .pkviews{position:absolute;top:9px;right:9px;z-index:3;background:rgba(8,10,16,.6);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap}
+  .pkvs .pkbar{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 11px 10px;background:linear-gradient(to top,rgba(6,8,14,.92),rgba(6,8,14,.35) 60%,transparent)}
+  .pkvs .pkbar .nm{font-size:12.5px;font-weight:800;color:#fff;max-width:37%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.85)}
+  .pkvs .pkbar .tm{font-size:10px;font-weight:800;color:#fff;background:rgba(255,255,255,.2);padding:3px 9px;border-radius:999px;white-space:nowrap;flex:none}
   .rcard{flex:none;width:200px;border-radius:20px;overflow:hidden;position:relative;background:var(--deep);box-shadow:0 12px 28px rgba(0,0,0,.4)}
   .rcard .rimg{height:240px;background-size:cover;background-position:center 18%}
   .rcard .rg{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.2),transparent 34%,rgba(5,7,11,.9) 88%)}
@@ -203,32 +221,29 @@
             <div class="rimg" style="background-image:url('assets/fb_m2.jpg')"></div><div class="rg"></div>
             <span class="badge-live sm rl"><i></i>LIVE</span>
           </div>
-          <div class="rcard pkcard" data-cat="pk" style="display:none">
-            <div class="rimg" style="background-image:url('assets/fb_stadium.jpg')"></div><div class="rg"></div>
-            <span class="badge-live sm rl"><i></i>LIVE PK</span>
-            <span class="rv">👁 <span class="num">4.1K</span></span>
-            <div class="rmeta">
-              <div class="rt">⚔️ Blues vs Reds · Derby PK</div>
-              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="rhn">Maria <span class="verified">✔</span></div><div class="rc">1:42 left</div></div></div>
-            </div>
+          <div class="rcard pkvs pkcard" data-cat="pk" style="display:none">
+            <div class="pkside red" style="background-image:url('assets/fb_host.jpg')"><div class="pkseats"><span>1</span><span>2</span><span>+</span></div></div>
+            <div class="pkside blue" style="background-image:url('assets/fb_m2.jpg')"><div class="pkseats"><span>1</span><span>2</span><span>+</span></div></div>
+            <span class="badge-live sm pktag"><i></i>LIVE PK</span>
+            <span class="pkviews">👁 4.1K</span>
+            <div class="pkvsbadge">VS</div>
+            <div class="pkbar"><span class="nm">Maria</span><span class="tm">⏱ 1:42</span><span class="nm" style="text-align:right">Diego</span></div>
           </div>
-          <div class="rcard pkcard" data-cat="pk" style="display:none">
-            <div class="rimg" style="background-image:url('assets/fb_crowd.jpg')"></div><div class="rg"></div>
-            <span class="badge-live sm rl"><i></i>LIVE PK</span>
-            <span class="rv">👁 <span class="num">2.7K</span></span>
-            <div class="rmeta">
-              <div class="rt">⚔️ Reds vs Greens · Cup PK</div>
-              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_m1.jpg')"></div><div><div class="rhn">Jordan <span class="verified">✔</span></div><div class="rc">0:48 left</div></div></div>
-            </div>
+          <div class="rcard pkvs pkcard" data-cat="pk" style="display:none">
+            <div class="pkside red" style="background-image:url('assets/fb_m1.jpg')"><div class="pkseats"><span>1</span><span>+</span><span>+</span></div></div>
+            <div class="pkside blue" style="background-image:url('assets/fb_f1.jpg')"><div class="pkseats"><span>1</span><span>2</span><span>3</span></div></div>
+            <span class="badge-live sm pktag"><i></i>LIVE PK</span>
+            <span class="pkviews">👁 2.7K</span>
+            <div class="pkvsbadge">VS</div>
+            <div class="pkbar"><span class="nm">Jordan</span><span class="tm">⏱ 0:48</span><span class="nm" style="text-align:right">Esther</span></div>
           </div>
-          <div class="rcard pkcard" data-cat="pk" style="display:none">
-            <div class="rimg" style="background-image:url('assets/fb_f3.jpg')"></div><div class="rg"></div>
-            <span class="badge-live sm rl"><i></i>LIVE PK</span>
-            <span class="rv">👁 <span class="num">1.3K</span></span>
-            <div class="rmeta">
-              <div class="rt">⚔️ Blues vs Whites · Friendly PK</div>
-              <div class="rhost"><div class="rav" style="background-image:url('assets/fb_f3.jpg')"></div><div><div class="rhn">Sofia R. <span class="verified">✔</span></div><div class="rc">2:15 left</div></div></div>
-            </div>
+          <div class="rcard pkvs pkcard" data-cat="pk" style="display:none">
+            <div class="pkside red" style="background-image:url('assets/fb_f3.jpg')"><div class="pkseats"><span>1</span><span>2</span><span>+</span></div></div>
+            <div class="pkside blue" style="background-image:url('assets/fb_m3.jpg')"><div class="pkseats"><span>1</span><span>+</span><span>+</span></div></div>
+            <span class="badge-live sm pktag"><i></i>LIVE PK</span>
+            <span class="pkviews">👁 1.3K</span>
+            <div class="pkvsbadge">VS</div>
+            <div class="pkbar"><span class="nm">Sofia R.</span><span class="tm">⏱ 2:15</span><span class="nm" style="text-align:right">Omar</span></div>
           </div>
         </div>
       </div>

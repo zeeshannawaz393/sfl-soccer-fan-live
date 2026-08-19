@@ -106,7 +106,7 @@
   .pkc .cn .mini{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 28%,var(--goldLite),#C88A00);flex:none}
   .pkc.r{flex-direction:row-reverse;text-align:right}
 
-  /* fan power bar */
+  /* possession bar */
   .fpwrap{position:absolute;left:16px;right:16px;bottom:150px;z-index:6}
   .fplabels{display:flex;align-items:center;margin-bottom:8px}
   .fpside{display:flex;align-items:center;gap:8px}
@@ -125,9 +125,12 @@
   .gbtn{flex:1;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
   .gbtn.blue{background:linear-gradient(140deg,#4a91c4,var(--blue))}
   .gbtn.red{background:linear-gradient(140deg,#F0524A,var(--red))}
-  .pkchat{position:absolute;left:16px;right:16px;bottom:78px;z-index:6}
-  .pkchat .cm{background:rgba(5,7,11,.5);backdrop-filter:blur(8px);border-radius:12px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#F7F8FA;display:inline-block;margin-bottom:5px}
+  .pkchat{position:absolute;left:16px;right:16px;bottom:78px;z-index:6;max-height:130px;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:5px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 26%);mask-image:linear-gradient(180deg,transparent 0,#000 26%)}
+  .pkchat::-webkit-scrollbar{display:none}
+  .pkchat .cm{background:rgba(5,7,11,.5);backdrop-filter:blur(8px);border-radius:12px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#F7F8FA;display:inline-block;margin-bottom:0;max-width:100%;word-break:break-word}
   .pkchat .cm b{font-weight:800}
+  .pkchat .joinmsg{color:#8CE8AE;font-weight:800}
+  .pkchat br{display:none}
   .pkchat .lead{background:linear-gradient(100deg,rgba(47,127,209,.7),rgba(20,60,110,.7));border:1px solid rgba(127,182,232,.5);color:#CFE7F8;font-weight:800}
 
   /* radar search */
@@ -235,6 +238,40 @@
   .gi.on{border-color:var(--red);box-shadow:0 0 0 3px rgba(228,54,43,.12);background:#FFF6F5}
   .gi .ge{font-size:22px}.gi .gp{font-size:10px;font-weight:800;color:var(--goldDeep);display:flex;align-items:center;gap:2px}
   .sheetbal{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--goldDeep);background:#FFF7E4;border:1px solid #FFE199;padding:5px 11px;border-radius:999px}
+  /* ===== Match Timers (TIME + COUNT DOWN) ===== */
+  .mclock{display:inline-flex;align-items:flex-end;gap:5px}
+  .mcbox{position:relative;min-width:40px;padding:5px 4px 4px;border-radius:9px;background:linear-gradient(180deg,#1f2a10,#0d1207);border:1px solid rgba(201,255,61,.42);box-shadow:0 4px 12px rgba(0,0,0,.5),inset 0 0 14px rgba(201,255,61,.14);text-align:center}
+  .mcbox .mcv{font-family:'Manrope',sans-serif;font-weight:900;font-size:22px;line-height:1;color:#EAFFC0;letter-spacing:.5px;text-shadow:0 0 10px rgba(201,255,61,.55);font-variant-numeric:tabular-nums;display:block}
+  .mcbox .mcl{display:block;margin-top:3px;font-size:7px;font-weight:800;letter-spacing:1.4px;color:rgba(201,255,61,.62)}
+  .mcsep{font-size:20px;font-weight:900;color:var(--volt);padding-bottom:14px;animation:mcblink 1s steps(1) infinite}
+  @keyframes mcblink{50%{opacity:.25}}
+  .mclock.low .mcv{color:#FFCBC2;text-shadow:0 0 10px rgba(255,110,96,.65)}
+  .mclock.low .mcbox{border-color:rgba(255,110,96,.55)}
+  .pktimer .l{margin-top:5px}
+  .cdwrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .cdcap{font-size:8px;font-weight:800;letter-spacing:1px;color:rgba(255,255,255,.6);text-shadow:0 1px 4px rgba(0,0,0,.5)}
+  .cdring{position:relative;width:52px;height:52px;flex:none}
+  .cdring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+  .cdring .cdbg{fill:none;stroke:rgba(255,255,255,.14);stroke-width:6}
+  .cdring .cdfg{fill:none;stroke:#38E0D0;stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(56,224,208,.75));transition:stroke-dashoffset 1s linear}
+  .cdring .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#EAFEFF;text-shadow:0 0 8px rgba(56,224,208,.6)}
+  .cdring.low .cdfg{stroke:#FF6E60;filter:drop-shadow(0 0 6px rgba(255,110,96,.85))}
+  .cdring.low .cdn{color:#FFE2DE}
+  .pkcd{position:absolute;top:44px;right:14px;z-index:8}
+  .pkstrike{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:radial-gradient(circle at 50% 42%,rgba(228,54,43,.30),rgba(5,7,11,.55));pointer-events:none;animation:pkstin .3s ease}
+  @keyframes pkstin{from{opacity:0}to{opacity:1}}
+  .pkstrike .pkst-word{font-size:42px;font-weight:900;font-style:italic;letter-spacing:3px;color:#FFD54F;text-shadow:0 4px 22px rgba(0,0,0,.7);animation:pkstpulse 1s ease-in-out infinite}
+  @keyframes pkstpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+  .pkstrike .pkst-n{font-size:104px;font-weight:900;color:#fff;line-height:1;text-shadow:0 6px 34px rgba(228,54,43,.85);font-variant-numeric:tabular-nums}
+  .pkstrike .pkst-cap{font-size:11px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.72);margin-top:4px}
+  .pkstrike.hot .pkst-n,.pkstrike.hot .pkst-word{color:#FF6E60}
+  .cdring.big{width:154px;height:154px}
+  .cdring.big .cdbg,.cdring.big .cdfg{stroke-width:4}
+  .cdring.big .cdn{font-size:62px}
+  .cdbig{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .pklenset{display:inline-flex;gap:6px}
+  .pklen{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-size:12px;font-weight:800;color:#dff;cursor:pointer}
+  .pklen.on{background:var(--volt);border-color:var(--volt);color:#16260a}
 </style>
 </head>
 <body>
@@ -242,7 +279,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 9 — PK Battle</div>
   <h1>PK Battle</h1>
-  <p>Host-vs-Host live rivalry: two cameras, club-colour sides, gold Coin totals and the Fan Power bar (J8 engine). Setup screens are light; the matchup, countdown, live battle and full-time reveal are cinematic video. Winner is decided by <b>exact Coin totals</b> (with the winning margin shown), draws are allowed, and there's deliberately no betting on the outcome.</p>
+  <p>Host-vs-Host live rivalry: two cameras, club-colour sides, gold Coin totals and the Possession bar (J8 engine). Setup screens are light; the matchup, countdown, live battle and full-time reveal are cinematic video. Winner is decided by <b>exact Coin totals</b> (with the winning margin shown), draws are allowed, and there's deliberately no betting on the outcome.</p>
 </div>
 
 <div class="frames">
@@ -279,7 +316,7 @@
       </div>
       <div class="modecard">
         <div class="mi" style="background:#F1EBFF">🎯</div>
-        <div style="flex:1"><div class="mn">Challenge by ID</div><div class="md">Enter a Host's SFL User ID &amp; send an invite</div></div>
+        <div style="flex:1"><div class="mn">Challenge by ID or Name</div><div class="md">Enter a Host's SFL User ID or unique display name &amp; invite</div></div>
         <div class="chev">›</div>
       </div>
       <div class="modecard">
@@ -292,17 +329,18 @@
   </div></div>
 
   <!-- PK-01B INVITE BY ID -->
-  <div class="fw"><div class="flabel"><div class="fnum">PK-01B</div><div class="fname">Invite by User ID<span>Scouting-card lookup</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">PK-01B</div><div class="fname">Invite by ID or Name<span>Scouting-card lookup</span></div></div>
   <div class="phone light">
     <div class="top"><div class="back">‹</div><div class="htitle">Challenge a Host</div></div>
     <div class="lbody">
-      <div style="font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px">Host SFL User ID</div>
-      <div class="idfield num">67890<span style="color:var(--coral);font-weight:300">|</span></div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px">Host SFL User ID or @display name</div>
+      <div class="idfield">@Maria<span style="color:var(--coral);font-weight:300">|</span></div>
+      <div style="font-size:11.5px;font-weight:650;color:var(--t2);margin-top:8px;display:flex;align-items:center;gap:6px">🔒 Display names are unique — no two fans share one, so a name finds exactly one Host.</div>
       <div class="scout">
-        <div class="sp" style="background-image:url('assets/cc_cam.jpg')"><span class="lbadge2 slive"><i></i>LIVE</span><div class="sn"><div class="n">Maria · Blue Wolves</div><div class="i num">ID 67890 · Host Lv 14</div></div></div>
+        <div class="sp" style="background-image:url('assets/cc_cam.jpg')"><span class="lbadge2 slive"><i></i>LIVE</span><div class="sn"><div class="n">Maria · Blue Wolves</div><div class="i num">@Maria · ID 67890 · Host Lv 14</div></div></div>
         <div class="sm">✓ Available for PK · Host grade compatible</div>
       </div>
-      <div class="cta"><div class="btn">Send Challenge</div><div class="altlink">Search Another ID</div></div>
+      <div class="cta"><div class="btn">Send Challenge</div><div class="altlink">Search another ID or name</div></div>
     </div>
   </div></div>
 
@@ -347,7 +385,7 @@
     <div class="vscircle">VS</div>
     <div class="rulescard">
       <div class="rc">
-        <div class="rr"><span class="k">Battle length</span><span class="v num">3:00</span></div>
+        <div class="rr"><span class="k">Battle length</span><span class="pklenset"><span class="pklen" data-min="3">3m</span><span class="pklen on" data-min="5">5m</span><span class="pklen" data-min="10">10m</span></span></div>
         <div class="rr"><span class="k">Win by</span><span class="v">Most qualifying support</span></div>
         <div class="rr"><span class="k">Result</span><span class="v">Exact Coin totals decide</span></div>
       </div>
@@ -359,17 +397,17 @@
   <div class="fw"><div class="flabel"><div class="fnum">PK-02A</div><div class="fname">Countdown<span>Server-synced · no gifts before start</span></div></div>
   <div class="phone">
     <div class="countdown"><div class="halves"><div class="cc" style="background-image:url('assets/cc_cam.jpg')"></div><div class="cc" style="background-image:url('assets/fb_host.jpg')"></div></div></div>
-    <div class="cdnum num">3</div>
-    <div class="cdmsg">SUPPORT YOUR SIDE — KICK OFF IN 3</div>
+    <div class="cdbig"><div class="cdring big" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div></div>
+    <div class="cdmsg">SUPPORT YOUR SIDE — KICK OFF COUNTDOWN</div>
   </div></div>
 
   <!-- PK-03 LIVE BATTLE -->
-  <div class="fw"><div class="flabel"><div class="fnum">PK-03</div><div class="fname">Live PK Battle<span>Timer · side Coins · Fan Power · gifts</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">PK-03</div><div class="fname">Live PK Battle<span>Timer · side Coins · Possession · gifts</span></div></div>
   <div class="phone">
     <div class="vid split"><div class="h" style="background-image:url('assets/cc_cam.jpg')"></div><div class="h" style="background-image:url('assets/fb_host.jpg')"></div><div class="seam"></div></div>
     <div class="scrim"></div>
     <div class="livetop"><span class="lbadge"><i></i>LIVE PK</span><span class="vpill">👁 4.1K</span></div>
-    <div class="pktimer"><div class="t num">1:42</div><div class="l">Full time</div></div>
+    <div class="pktimer"><div class="mclock" data-sec="300" data-init="300"><div class="mcbox"><span class="mcv mm">05</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="l">Battle time</div></div>
     <div class="pkcounters">
       <div class="pkc"><div class="crest cr-blue">BL</div><div><div class="nm">Blues · Maria</div><div class="cn"><div class="mini"></div><span class="num">3,120</span></div></div></div>
       <div class="pkc r"><div class="crest cr-red">RD</div><div><div class="nm">Reds · You</div><div class="cn"><span class="num">1,980</span><div class="mini"></div></div></div></div>
@@ -380,7 +418,7 @@
         <div class="fpside r"><div class="crest cr-red">RD</div><div><div class="n">Reds</div><div class="pct num">39%</div></div></div>
       </div>
       <div class="fptrack"><div class="a" style="width:61%"></div><div class="b"></div><div class="tip" style="left:61%"></div></div>
-      <div class="fpcalc">⚡ FAN POWER · calculated from confirmed support</div>
+      <div class="fpcalc">⚡ POSSESSION · calculated from confirmed support</div>
     </div>
     <div class="giftbtns"><div class="gbtn blue">🎁 Gift Blues</div><div class="gbtn red">🎁 Gift Reds</div></div>
     <div class="pkchat"><div class="cm lead">⚡ Blues have taken the lead!</div><br><div class="cm"><b style="color:#FF9FB0">SamRed</b> come on reds 🔴</div></div>
@@ -439,7 +477,7 @@
     </div>
     <div class="winpanel">
       <div class="wintable">
-        <div class="wtr"><span class="k">Fan Power</span><span class="bl num">56%</span><span class="rd num">44%</span></div>
+        <div class="wtr"><span class="k">Possession</span><span class="bl num">56%</span><span class="rd num">44%</span></div>
         <div class="wtr coins"><span class="k">Confirmed Coins</span><span class="bl num">6,340</span><span class="rd num">4,980</span></div>
         <div class="wtr margin"><span class="k">Winning margin</span><span class="v num">Blues by 1,360 Coins</span></div>
       </div>
@@ -458,7 +496,7 @@
     </div>
     <div class="winpanel">
       <div class="wintable">
-        <div class="wtr"><span class="k">Fan Power</span><span class="bl num">50%</span><span class="rd num">50%</span></div>
+        <div class="wtr"><span class="k">Possession</span><span class="bl num">50%</span><span class="rd num">50%</span></div>
         <div class="wtr coins"><span class="k">Confirmed Coins</span><span class="bl num">3,000</span><span class="rd num">3,000</span></div>
       </div>
       <div class="winbtns"><div class="b ex">Return to Live</div><div class="b re" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3)">Rematch</div></div>
@@ -472,7 +510,7 @@
     <div class="sheet-scrim"><div class="sheet">
       <div class="grab"></div>
       <h3>Jordan wants a rematch</h3>
-      <div class="sub" style="color:var(--t2)">A fresh battle — new Battle ID, Coins &amp; Fan Power reset to zero, new timer. Your previous result is saved to history.</div>
+      <div class="sub" style="color:var(--t2)">A fresh battle — new Battle ID, Coins &amp; Possession reset to zero, new timer. Your previous result is saved to history.</div>
       <div class="card" style="padding:4px 15px;margin-top:14px">
         <div style="display:flex;padding:10px 2px;font-size:13.5px;font-weight:700;border-bottom:1px solid var(--line)"><span style="color:var(--t2);font-weight:650">Duration</span><span style="margin-left:auto;font-weight:800" class="num">3:00</span></div>
         <div style="display:flex;padding:10px 2px;font-size:13.5px;font-weight:700"><span style="color:var(--t2);font-weight:650">Both Coins reset</span><span style="margin-left:auto;font-weight:800">0 — 0</span></div>

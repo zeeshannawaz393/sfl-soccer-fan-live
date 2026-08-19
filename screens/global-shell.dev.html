@@ -132,12 +132,29 @@
 
   /* bottom nav pill */
   .navpill{position:absolute;left:14px;right:14px;bottom:16px;height:66px;background:rgba(255,255,255,.86);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 14px 40px rgba(24,40,80,.22);display:flex;align-items:center;justify-content:space-around;padding:0 12px;z-index:20}
-  .nav{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--t3);font-size:9.5px;font-weight:800}
-  .nav .ni{font-size:20px}
-  .nav.on{color:var(--red)}
-  .navc{width:58px;height:58px;border-radius:50%;background:linear-gradient(150deg,var(--red),var(--redDeep));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin-top:-30px;box-shadow:0 10px 26px rgba(228,54,43,.45),inset 0 2px 0 rgba(255,255,255,.3);border:3px solid var(--bg)}
-  .navc .ni{font-size:22px}
-  .navc .nl{font-size:8px;font-weight:800;margin-top:-1px}
+  .nav{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--t3);font-size:9.5px;font-weight:800;letter-spacing:.2px;transition:color .2s;cursor:pointer}
+  .nav .ni{width:42px;height:33px;border-radius:13px;display:flex;align-items:center;justify-content:center;opacity:.62;transition:transform .28s cubic-bezier(.34,1.56,.64,1),background .2s,box-shadow .2s,opacity .2s}
+  .nav .ni svg{width:23px;height:23px;display:block}
+  .nav:active .ni{transform:scale(.9)}
+  .nav.on{color:var(--accent)}
+  .nav.on .ni{opacity:1;color:#fff;transform:translateY(-4px);background:var(--grad);box-shadow:0 9px 18px var(--glow),inset 0 1px 0 rgba(255,255,255,.4);animation:navpop .44s ease}
+  .navpill .nav:nth-child(1){--accent:#E4362B;--grad:linear-gradient(150deg,#FF6E3D,#E4362B);--glow:rgba(228,54,43,.5)}
+  .navpill .nav:nth-child(1) .ni{color:#E4362B}
+  .navpill .nav:nth-child(2){--accent:#2266C9;--grad:linear-gradient(150deg,#4AA0F5,#2266C9);--glow:rgba(47,127,209,.5)}
+  .navpill .nav:nth-child(2) .ni{color:#2266C9}
+  .navpill .nav:nth-child(4){--accent:#7C3AED;--grad:linear-gradient(150deg,#A78BFA,#7C3AED);--glow:rgba(124,58,237,.5)}
+  .navpill .nav:nth-child(4) .ni{color:#7C3AED}
+  .navpill .nav:nth-child(5){--accent:#0EA47D;--grad:linear-gradient(150deg,#2DD4A7,#0EA47D);--glow:rgba(14,164,125,.5)}
+  .navpill .nav:nth-child(5) .ni{color:#0EA47D}
+  @keyframes navpop{0%{transform:translateY(0) scale(.85)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-4px) scale(1)}}
+  .navc{position:relative;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#FF7A5C,#FF4A3D 45%,#B4241B);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin-top:-30px;box-shadow:0 10px 26px rgba(228,54,43,.55),inset 0 2px 0 rgba(255,255,255,.4);border:3px solid var(--bg);animation:navcfloat 2.8s ease-in-out infinite;cursor:pointer}
+  .navc::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(228,54,43,.4);animation:navcring 2.2s ease-out infinite;pointer-events:none}
+  .navc:active{transform:scale(.94)}
+  .navc .ni{height:26px;display:flex;align-items:center;justify-content:center}
+  .navc .ni svg{width:26px;height:26px;display:block}
+  .navc .nl{font-size:8px;font-weight:800;margin-top:1px;letter-spacing:.3px}
+  @keyframes navcfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @keyframes navcring{0%{transform:scale(.8);opacity:.7}100%{transform:scale(1.35);opacity:0}}
 
   /* guest banner */
   .guestbanner{border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#14161C,#2A2F3A);color:#fff;display:flex;align-items:center;gap:12px}
@@ -317,12 +334,17 @@
   .formdot.w{background:var(--volt);color:#123A0A}.formdot.d{background:rgba(255,255,255,.4);color:#fff}.formdot.l{background:rgba(0,0,0,.32);color:#fff}
   .nextfix{display:flex;align-items:center;gap:8px;margin-top:11px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:9px 12px;position:relative;z-index:1;font-size:11.5px;font-weight:800;color:#fff}
   .nextfix .pd{margin-left:auto;color:var(--volt)}
-  .streakstrip{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FFF3E6,#FFE4CC);border:1px solid #FFD3A8;border-radius:15px;padding:11px 13px;box-shadow:var(--shadow-sm)}
-  .streakstrip .sfire{width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,#FF8A3D,#F0510E);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none;box-shadow:0 5px 12px rgba(240,81,14,.35)}
-  .streakstrip .smain{flex:1;min-width:0}
-  .streakstrip .s1{font-size:13.5px;font-weight:800;color:#7A3B12}
-  .streakstrip .s2{font-size:11px;font-weight:700;color:#B4671F;margin-top:1px}
-  .streakstrip .slv{font-size:11.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,#14161C,#2A2F3A);padding:7px 12px;border-radius:999px;flex:none}
+  .streakstrip{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#241016,#3E1510);border:1px solid rgba(255,138,61,.35);border-radius:16px;padding:12px 13px;box-shadow:0 8px 20px rgba(240,81,14,.18),inset 0 1px 0 rgba(255,255,255,.06);position:relative;overflow:hidden}
+  .streakstrip::before{content:"";position:absolute;right:-24px;top:-32px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,61,.4),transparent 70%);pointer-events:none}
+  .streakstrip .sfire{width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,#FFB03D,#F0510E);display:flex;align-items:center;justify-content:center;flex:none;color:#fff;box-shadow:0 6px 14px rgba(240,81,14,.5),inset 0 1px 0 rgba(255,255,255,.4);position:relative;z-index:1}
+  .streakstrip .sfire svg{width:22px;height:22px;display:block}
+  .streakstrip .smain{flex:1;min-width:0;position:relative;z-index:1}
+  .streakstrip .s1{font-size:14px;font-weight:800;color:#FFE9D8;letter-spacing:-.2px}
+  .streakstrip .s2{font-size:10.5px;font-weight:700;color:#D79A78;margin-top:2px}
+  .streakstrip .spips{display:flex;gap:4px;margin-top:7px}
+  .streakstrip .spips i{width:15px;height:6px;border-radius:3px;background:linear-gradient(90deg,#FFB03D,#F0510E);box-shadow:0 1px 3px rgba(240,81,14,.5)}
+  .streakstrip .spips i.pending{background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,176,61,.55)}
+  .streakstrip .slv{font-size:11.5px;font-weight:800;color:#241016;background:linear-gradient(140deg,#FFC24B,#FF8A3D);padding:8px 13px;border-radius:999px;flex:none;position:relative;z-index:1;box-shadow:0 4px 10px rgba(240,81,14,.4)}
   .momrow{display:flex;gap:10px}
   .mom{flex:1;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 8px;box-shadow:var(--shadow-sm);text-align:center}
   .mom .mv{font-size:19px;font-weight:800;letter-spacing:-.5px}
@@ -330,15 +352,26 @@
   .mom .ml{font-size:9.5px;font-weight:750;color:var(--t2);margin-top:3px}
   .mom.lvl{background:linear-gradient(140deg,#14161C,#2A2F3A);border:none}.mom.lvl .mv{color:#fff}.mom.lvl .ml{color:#AEB6C4}
   .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-  .qt{border-radius:16px;padding:13px 14px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+  .qt{border-radius:18px;padding:14px;position:relative;overflow:hidden;min-height:120px;display:flex;flex-direction:column;justify-content:space-between;gap:11px;border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 20px rgba(24,40,80,.10),inset 0 1px 0 rgba(255,255,255,.6)}
+  .qt::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 24px);pointer-events:none}
+  .qt::after{content:"";position:absolute;right:-24px;top:-24px;width:82px;height:82px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),transparent 68%);pointer-events:none}
+  .qt .qtop{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+  .qt .qmed{width:40px;height:40px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)}
+  .qt .qmed svg{width:22px;height:22px;display:block}
   .qt .qi{font-size:24px}
-  .qt .q2{font-size:13.5px;font-weight:800;margin-top:8px}
-  .qt .qs{font-size:11px;font-weight:700;opacity:.8;margin-top:2px}
-  .qt.tasks{background:linear-gradient(140deg,#EAF9F0,#D6F0E0);color:#0A6E33}
-  .qt.rewards{background:linear-gradient(140deg,#FFF7E0,#FFE7B4);color:#8A5A0E}
-  .qt.pred{background:linear-gradient(140deg,#EAF2FF,#D4E4FC);color:#1E5E9E}
-  .qt.players{background:linear-gradient(140deg,#F3EEFF,#E5D9FF);color:#4A2E9E}
-  .qt .qbadge{position:absolute;top:11px;right:11px;background:var(--coral);color:#fff;font-size:10.5px;font-weight:800;min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:flex;align-items:center;justify-content:center}
+  .qt .q2{font-size:14px;font-weight:800;letter-spacing:-.2px;position:relative;z-index:1}
+  .qt .qs{font-size:11px;font-weight:750;opacity:.85;margin-top:3px;position:relative;z-index:1}
+  .qt .qbar{height:6px;border-radius:4px;background:rgba(0,0,0,.12);overflow:hidden;position:relative;z-index:1}
+  .qt .qbar i{display:block;height:100%;border-radius:4px;background:currentColor}
+  .qt.tasks{background:linear-gradient(145deg,#E6FBEF,#C3EFD5);color:#0A7D39}
+  .qt.tasks .qmed{background:linear-gradient(145deg,#16C452,#0A8F3A)}
+  .qt.rewards{background:linear-gradient(145deg,#FFF5D9,#FFE1A0);color:#8A5A0E}
+  .qt.rewards .qmed{background:linear-gradient(145deg,#FFC24B,#E8931F)}
+  .qt.pred{background:linear-gradient(145deg,#E8F1FF,#C9DEFB);color:#1E5E9E}
+  .qt.pred .qmed{background:linear-gradient(145deg,#3E92F0,#2266C9)}
+  .qt.players{background:linear-gradient(145deg,#FFEAEB,#FFCDD1);color:#B4241B}
+  .qt.players .qmed{background:linear-gradient(145deg,#F0524A,#C42017)}
+  .qt .qbadge{position:absolute;top:12px;right:12px;background:var(--coral);color:#fff;font-size:11px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(228,54,43,.4);z-index:2}
 
   .explorelink{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:800;color:var(--blue);background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}
   .dutylist{display:flex;flex-direction:column;gap:8px}
@@ -438,16 +471,16 @@
         <div class="nextfix">⚽ Sat 8PM · Red Fury vs Blue Wolves <span class="pd">Predict ›</span></div>
       </div>
       <div class="streakstrip">
-        <div class="sfire">🔥</div>
-        <div class="smain"><div class="s1">6-day streak</div><div class="s2">Play today to hit 7 — streak bonus unlocks</div></div>
+        <div class="sfire"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.4 2.1c.6 3.1-1.4 4.5-2.7 6.1-1 1.2-1.7 2.7-1 4.3-1.6-.3-2.6-1.7-2.8-3.3C5.5 10.6 4.8 12.3 4.8 14c0 4 3.2 7 7.2 7s7.2-3.2 7.2-7.2c0-5.3-3.8-8.4-5.8-11.7z"/></svg></div>
+        <div class="smain"><div class="s1">6-day streak · 1 to go</div><div class="spips"><i></i><i></i><i></i><i></i><i></i><i></i><i class="pending"></i></div></div>
         <div class="slv">Lv 4 ›</div>
       </div>
       <div class="sec"><div class="st">Your day</div></div>
       <div class="qgrid">
-        <div class="qt tasks"><div class="qbadge">2</div><div class="qi">✅</div><div><div class="q2">Today's Tasks</div><div class="qs">3 of 5 done · +30 Gold</div></div></div>
-        <div class="qt rewards"><div class="qbadge">3</div><div class="qi">🎁</div><div><div class="q2">Rewards</div><div class="qs">3 ready to claim</div></div></div>
-        <div class="qt pred"><div class="qi">🎯</div><div><div class="q2">Predictions</div><div class="qs">2 open · derby closes 80'</div></div></div>
-        <div class="qt players"><div class="qi">⚽</div><div><div class="q2">My Players</div><div class="qs">Squad 6,140 · +310</div></div></div>
+        <div class="qt tasks"><div class="qbadge">2</div><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 3.4h6v3H9z"/><path d="M8.4 13l2.2 2.2 4.9-5.2"/></svg></div><div><div class="q2">Today's Tasks</div><div class="qs">3 of 5 done · +30 Gold</div></div></div><div class="qbar"><i style="width:60%"></i></div></div>
+        <div class="qt rewards"><div class="qbadge">3</div><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v3.6a5 5 0 0 1-10 0z"/><path d="M7 5H4.2v1.8A3 3 0 0 0 7 9.8M17 5h2.8v1.8A3 3 0 0 1 17 9.8"/><path d="M12 12.6V16M9.2 20h5.6M10.4 16.4h3.2"/></svg></div><div><div class="q2">Rewards</div><div class="qs">3 ready to claim</div></div></div><div class="qbar"><i style="width:100%"></i></div></div>
+        <div class="qt pred"><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></div><div><div class="q2">Predictions</div><div class="qs">2 open · derby closes 80'</div></div></div><div class="qbar"><i style="width:42%"></i></div></div>
+        <div class="qt players"><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 3.3l3.4 1.7 3.4-1.7 4 2.7-2.4 3.1H18V21H6V9.1H4.4L2 6z"/><path d="M9.7 4.4a2.5 2.5 0 0 0 4.6 0"/></svg></div><div><div class="q2">My Players</div><div class="qs">Squad 6,140 · +310</div></div></div><div class="qbar"><i style="width:72%"></i></div></div>
       </div>
       <div class="sec"><div class="st">Rooms heating up</div><div class="sa">See all</div></div>
       <div class="liverow">
@@ -458,11 +491,11 @@
       <div style="height:96px"></div>
     </div>
     <div class="navpill">
-      <div class="nav on"><div class="ni">🏠</div>Home</div>
-      <div class="nav"><div class="ni">🔁</div>Market</div>
-      <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
-      <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav"><div class="ni">💬</div>Chats</div>
+      <div class="nav on"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.2V19h12v-8.8"/><path d="M10 19v-5h4v5"/></svg></div>Home</div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h13l-3.3-3.3M20 15.5H7l3.3 3.3"/></svg></div>Market</div>
+      <div class="navc"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5c0-2 4-3.6 9-3.6s9 1.6 9 3.6-4 3.6-9 3.6-9-1.6-9-3.6Z"/><path d="M3 9.5V14c0 2 4 3.6 9 3.6s9-1.6 9-3.6V9.5"/><path d="M8 12.4v3.1M16 12.4v3.1M12 13v3.3"/></svg></div><div class="nl">Stadium</div></div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10.5" rx="5.25"/><path d="M6.5 11v2.2M5.4 12.1h2.2"/><circle cx="15.6" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="18.2" cy="13.6" r="1.05" fill="currentColor" stroke="none"/></svg></div>Games</div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.7A8 8 0 1 1 20.5 11.5Z"/></svg></div>Chats</div>
     </div>
   </div></div>
 
@@ -497,11 +530,11 @@
       <div style="height:80px"></div>
     </div>
     <div class="navpill">
-      <div class="nav on"><div class="ni">🏠</div>Home</div>
-      <div class="nav"><div class="ni">🔁</div>Market</div>
-      <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
-      <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav"><div class="ni">💬</div>Chats</div>
+      <div class="nav on"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.2V19h12v-8.8"/><path d="M10 19v-5h4v5"/></svg></div>Home</div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h13l-3.3-3.3M20 15.5H7l3.3 3.3"/></svg></div>Market</div>
+      <div class="navc"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5c0-2 4-3.6 9-3.6s9 1.6 9 3.6-4 3.6-9 3.6-9-1.6-9-3.6Z"/><path d="M3 9.5V14c0 2 4 3.6 9 3.6s9-1.6 9-3.6V9.5"/><path d="M8 12.4v3.1M16 12.4v3.1M12 13v3.3"/></svg></div><div class="nl">Stadium</div></div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10.5" rx="5.25"/><path d="M6.5 11v2.2M5.4 12.1h2.2"/><circle cx="15.6" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="18.2" cy="13.6" r="1.05" fill="currentColor" stroke="none"/></svg></div>Games</div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.7A8 8 0 1 1 20.5 11.5Z"/></svg></div>Chats</div>
     </div>
   </div></div>
 
@@ -540,11 +573,11 @@
       <div style="height:80px"></div>
     </div>
     <div class="navpill">
-      <div class="nav on"><div class="ni">🏠</div>Home</div>
-      <div class="nav"><div class="ni">🔁</div>Market</div>
-      <div class="navc"><div class="ni">🏟️</div><div class="nl">Stadium</div></div>
-      <div class="nav"><div class="ni">🎮</div>Games</div>
-      <div class="nav" style="opacity:.4"><div class="ni">💬</div>Chats</div>
+      <div class="nav on"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.2V19h12v-8.8"/><path d="M10 19v-5h4v5"/></svg></div>Home</div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h13l-3.3-3.3M20 15.5H7l3.3 3.3"/></svg></div>Market</div>
+      <div class="navc"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5c0-2 4-3.6 9-3.6s9 1.6 9 3.6-4 3.6-9 3.6-9-1.6-9-3.6Z"/><path d="M3 9.5V14c0 2 4 3.6 9 3.6s9-1.6 9-3.6V9.5"/><path d="M8 12.4v3.1M16 12.4v3.1M12 13v3.3"/></svg></div><div class="nl">Stadium</div></div>
+      <div class="nav"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10.5" rx="5.25"/><path d="M6.5 11v2.2M5.4 12.1h2.2"/><circle cx="15.6" cy="11.4" r="1.05" fill="currentColor" stroke="none"/><circle cx="18.2" cy="13.6" r="1.05" fill="currentColor" stroke="none"/></svg></div>Games</div>
+      <div class="nav" style="opacity:.4"><div class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.7A8 8 0 1 1 20.5 11.5Z"/></svg></div>Chats</div>
     </div>
   </div></div>
 
@@ -578,6 +611,9 @@
         <div class="card" style="padding:2px 15px">
           <div class="nrow"><div class="ni club">🔴</div><div style="flex:1"><div class="nt">Red Fury invited you to join</div><div class="nsupport">Tap to view the invitation</div><div class="ntime">12m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni club">🔁</div><div style="flex:1"><div class="nt">Loan offer from Blue Wolves</div><div class="nsupport">Your Manager proposed a move · tap to accept or reject</div><div class="ntime">18m ago</div></div><div class="unread"></div></div>
+          <div class="nrow"><div class="ni reward">✅</div><div style="flex:1"><div class="nt">Seat request approved — you're on the pitch</div><div class="nsupport">Host approved your CM position · tap to take your spot</div><div class="ntime">3m ago</div></div><div class="unread"></div></div>
+          <div class="nrow"><div class="ni live">🚫</div><div style="flex:1"><div class="nt">Seat request declined</div><div class="nsupport">The GK spot was just filled — try another position</div><div class="ntime">6m ago</div></div><div class="unread"></div></div>
+          <div class="nrow"><div class="ni club">🏁</div><div style="flex:1"><div class="nt">Leave request approved by your manager</div><div class="nsupport">Jay approved — tap to complete leaving Red District FC</div><div class="ntime">9m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni money">💠</div><div style="flex:1"><div class="nt">Priya sent you 130 Gold</div><div class="nsupport">Received as Transferred Gold</div><div class="ntime">40m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni reward">🎁</div><div style="flex:1"><div class="nt">You won 20 Coins — reward ready to claim</div><div class="nsupport">Correct prediction · NSH 3–0 MTL</div><div class="ntime">1h ago</div></div><div class="unread"></div></div>
         </div>
@@ -621,6 +657,11 @@
             <div class="stat"><div class="sv num">142</div><div class="sl">Tasks done</div></div>
             <div class="stat"><div class="sv num">38</div><div class="sl">Predictions</div></div>
             <div class="stat"><div class="sv num">4</div><div class="sl">Transfers</div></div>
+          </div>
+          <div class="mgrupg" style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:13px 15px;border-radius:16px;background:linear-gradient(150deg,#241016,#3A1712);border:1px solid rgba(255,138,61,.3);box-shadow:var(--shadow-sm);cursor:pointer">
+            <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#E4362B,#8E1912);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none">👑</div>
+            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:800;color:#FFE9D8">Upgrade to Manager</div><div style="font-size:11px;font-weight:700;color:#D79A78;margin-top:2px">Reach 5,000+ Coins, leave your club, then start your own</div></div>
+            <span style="font-size:10px;font-weight:800;color:#B4740A;background:#FFF3D6;border:1px solid #FBE3B0;padding:4px 9px;border-radius:999px;flex:none">5,000+</span>
           </div>
         </div>
         <div class="pv-mgr">
@@ -696,7 +737,7 @@
       <div class="scroll">
         <div class="lbl">Fan stats</div>
         <div class="statgrid">
-          <div class="stat"><div class="sv value num">8,240</div><div class="sl">Fan Power</div></div>
+          <div class="stat"><div class="sv value num">8,240</div><div class="sl">Possession</div></div>
           <div class="stat"><div class="sv num">Lv 12</div><div class="sl">Fan level</div></div>
           <div class="stat"><div class="sv num">143</div><div class="sl">Gifts sent</div></div>
           <div class="stat"><div class="sv num">61</div><div class="sl">Lives joined</div></div>
