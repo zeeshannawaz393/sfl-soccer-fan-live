@@ -146,6 +146,12 @@
   .method .mn{font-size:13.5px;font-weight:800}
   .method .ms{font-size:11.5px;font-weight:650;color:var(--t2)}
   .method .lock{margin-left:auto;color:var(--green1);font-size:14px}
+  .method.on{border-color:var(--green1);box-shadow:0 0 0 3px rgba(15,183,83,.14)}
+  .csbanner{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FFFBF0,#fff);border:1.5px solid #FFE199;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow-sm)}
+  .csbanner .csico{width:40px;height:40px;border-radius:12px;background:linear-gradient(140deg,var(--gold2),var(--gold1));display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .csbanner .csn{font-size:14px;font-weight:800}
+  .csbanner .css{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .csbanner .csa{margin-left:auto;font-size:12px;font-weight:800;color:var(--goldDeep)}
 
   .confirm{display:flex;align-items:flex-start;gap:10px;margin-top:14px;font-size:13px;line-height:18px;font-weight:700}
   .confirm .cb{width:22px;height:22px;border-radius:7px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
@@ -260,7 +266,7 @@
         <div class="balhero">
           <div class="lab">Your Coin Balance</div>
           <div class="bal"><div class="coin"><span>C</span></div><div class="amt num">1,240<small>Coins</small></div></div>
-          <div class="who"><div class="avatar" style="background-image:url('assets/q1_t.jpg')"></div><div><div class="n">Alex Morgan</div><div class="id num">User ID 12345</div></div></div>
+          <div class="who"><div class="avatar" style="background-image:url('assets/up_12.png')"></div><div><div class="n">Alex Morgan</div><div class="id num">User ID 12345</div></div></div>
         </div>
 
         <div class="recip">
@@ -309,7 +315,7 @@
     <div class="body">
       <div class="rcard">
         <div class="rtop">
-          <div class="avatar" style="background-image:url('assets/fb_f2.jpg')"></div>
+          <div class="avatar" style="background-image:url('assets/up_11.png')"></div>
           <div style="flex:1">
             <div class="rn">Priya S. <span class="verified">✓</span></div>
             <div class="rid num">User ID 67890</div>
@@ -338,9 +344,10 @@
           <div style="font-size:19px;font-weight:800;color:var(--goldDeep)" class="num">$50.00</div>
         </div>
 
-        <div class="recip"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:url('assets/q1_t.jpg') center/cover;flex:none"></div><div><div class="l">Recipient</div><div class="v num">Alex Morgan · ID 12345</div></div></div>
+        <div class="recip"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:url('assets/up_12.png') center/cover;flex:none"></div><div><div class="l">Recipient</div><div class="v num">Alex Morgan · ID 12345</div></div></div>
 
-        <div class="method"><div class="mi"></div><div><div class="mn">Apple Pay</div><div class="ms">Visa •••• 6411</div></div><div class="lock">🔒</div></div>
+        <div class="method on" data-pay="apple"><div class="mi"></div><div><div class="mn">Apple Pay</div><div class="ms">Visa •••• 6411</div></div><div class="lock">🔒</div></div>
+        <div class="method" data-pay="seller"><div class="mi" style="background:linear-gradient(140deg,#FFD54F,#FFB300);color:#5A3E00">🤝</div><div><div class="mn">Buy from Coin Seller</div><div class="ms">Verified desks · bank transfer</div></div><div class="lock" style="color:var(--goldDeep)">›</div></div>
 
         <div class="ptable">
           <div class="prow"><span class="k">Coin amount</span><span class="v num">500 Coins</span></div>

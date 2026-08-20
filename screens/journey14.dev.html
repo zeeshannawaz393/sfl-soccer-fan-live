@@ -43,7 +43,8 @@
   .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 82% 12%,rgba(228,54,43,.42),transparent 60%);pointer-events:none}
   .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background-image:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000);opacity:.5;pointer-events:none}
   .htop{display:flex;align-items:center;gap:12px;position:relative;z-index:2}
-  .back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex:none}
+  .back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t1);flex:none}
+  .hero .back{color:#fff}
   .crest{width:44px;height:44px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;background:linear-gradient(150deg,var(--red),#8E1912);box-shadow:0 4px 14px rgba(228,54,43,.5),inset 0 1px 0 rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.2)}
   .crest.sm{width:34px;height:34px;font-size:15px;border-radius:9px}
   .crest.blue{background:linear-gradient(150deg,#2F7FD1,#164a80);box-shadow:0 4px 14px rgba(47,127,209,.5),inset 0 1px 0 rgba(255,255,255,.25)}
@@ -56,7 +57,8 @@
   .htop .fanview + .hicons{margin-left:8px}
   .hicon{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;position:relative}
   .hicon .dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:1.5px solid #1a0a0a}
-  .htitle{font-size:18px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .htitle{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--t1)}
+  .hero .htitle{color:#fff}
 
   .body{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:14px 16px 0}
   .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
@@ -255,6 +257,15 @@
   .tab.on{background:var(--volt);color:#0A1400}
   .tab .bd{display:inline-block;min-width:16px;height:16px;padding:0 4px;margin-left:4px;border-radius:999px;background:var(--coral);color:#fff;font-size:9px;line-height:16px}
   .tab.on .bd{background:#0A1400;color:var(--volt)}
+  .mgrpill{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:rgba(255,194,61,.16);color:var(--gold);border:1px solid rgba(255,194,61,.32);letter-spacing:.3px}
+  .cmrow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px}
+  .cmrow .cmav{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;flex:none;border:1.5px solid var(--line2)}
+  .cmrow .cmn{font-size:14.5px;font-weight:800}
+  .cmrow .cmm{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .cmkind{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.3px}
+  .cmkind.ask{background:rgba(255,163,26,.14);color:var(--amber);border:1px solid rgba(255,163,26,.32)}
+  .cmkind.invite{background:rgba(255,194,61,.14);color:var(--gold);border:1px solid rgba(255,194,61,.32)}
+  .cmacts{display:flex;gap:8px;flex:none}
 </style>
 </head>
 <body>
@@ -272,7 +283,7 @@
   <!-- MC-00 CLUB SELECTOR -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-00</div><div class="fname">Manager HQ · Club Selector<span>Multi-club · verify permission</span></div></div>
   <div class="phone">
-    <div class="hero"><div class="htop"><div class="selavatar" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hq">Manager HQ</div><div class="cname">Zeeshan N.</div></div><div class="hicons"><div class="hicon">⚙️</div></div></div></div>
+    <div class="hero"><div class="htop"><div class="selavatar" style="background-image:url('assets/up_12.png')"></div><div><div class="hq">Manager HQ</div><div class="cname">Zeeshan N.</div></div><div class="hicons"><div class="hicon">⚙️</div></div></div></div>
     <div class="body">
       <div class="lbl" style="margin-bottom:10px">Your managed clubs</div>
       <div class="scroll">
@@ -287,7 +298,7 @@
   <!-- MC-01 DASHBOARD -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-01</div><div class="fname">Manager Dashboard<span>Scoreboard command view</span></div></div>
   <div class="phone">
-    <div class="hero dash"><div class="htop"><div class="back">‹</div><div class="crest sm">RF</div><div><div class="hq">Manager HQ</div><div class="cname">Red Fury</div></div><div class="fanview">👁 Fan view</div><div class="hicons"><div class="hicon">🔔<span class="dot"></span></div><div class="hicon" style="background-size:cover;background-image:url('assets/fb_host.jpg')"></div></div></div></div>
+    <div class="hero dash"><div class="htop"><div class="back">‹</div><div class="crest sm">RF</div><div><div class="hq">Manager HQ</div><div class="cname">Red Fury</div></div><div class="fanview">👁 Fan view</div><div class="hicons"><div class="hicon">🔔<span class="dot"></span></div><div class="hicon" style="background-size:cover;background-image:url('assets/up_12.png')"></div></div></div></div>
     <div class="body">
       <div class="scroll">
         <div class="row2">
@@ -317,6 +328,7 @@
           <div class="short"><div class="si">🎟️</div><div class="sl">Recruit</div></div>
           <div class="short"><div class="si">🎁</div><div class="sl">Rewards</div></div>
           <div class="short"><div class="si">🔁</div><div class="sl">Approvals</div><span class="badge">2</span></div>
+          <div class="short" data-cmgo="queue"><div class="si">🛡️</div><div class="sl">Co-managers</div><span class="badge" id="cmgr-badge">1</span></div>
         </div>
         <div style="height:14px;flex:none"></div>
       </div>
@@ -467,12 +479,12 @@
       <div style="display:flex;gap:8px;margin-bottom:10px;overflow:hidden"><span class="hfilt on">All</span><span class="hfilt">Accepted</span><span class="hfilt">Rejected</span><span class="hfilt">Expired</span></div>
       <div class="scroll">
         <div class="card" style="padding:2px 14px">
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="hn2">Mikael K.</div><div class="hs2 num">ID 88214 · via link · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f3.jpg')"></div><div style="flex:1"><div class="hn2">Sara V.</div><div class="hs2 num">ID 90551 · by User ID · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="hn2">Diego S.</div><div class="hs2 num">ID 60034 · via QR · 13 Aug</div></div><span class="hstat pend">Pending</span></div>
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="hn2">Jordan A.</div><div class="hs2 num">ID 10022 · via link · 12 Aug</div></div><span class="hstat rej">Rejected</span></div>
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="hn2">Lena R.</div><div class="hs2 num">ID 44120 · by User ID · 11 Aug</div></div><span class="hstat exp">Expired</span></div>
-          <div class="hlog"><div class="ha2" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="hn2">Priya M.</div><div class="hs2 num">ID 67890 · via link · 10 Aug</div></div><span class="hstat ok">Accepted</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_08.png')"></div><div style="flex:1"><div class="hn2">Mikael K.</div><div class="hs2 num">ID 88214 · via link · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_09.png')"></div><div style="flex:1"><div class="hn2">Sara V.</div><div class="hs2 num">ID 90551 · by User ID · 14 Aug</div></div><span class="hstat ok">Accepted</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_10.png')"></div><div style="flex:1"><div class="hn2">Diego S.</div><div class="hs2 num">ID 60034 · via QR · 13 Aug</div></div><span class="hstat pend">Pending</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_01.png')"></div><div style="flex:1"><div class="hn2">Jordan A.</div><div class="hs2 num">ID 10022 · via link · 12 Aug</div></div><span class="hstat rej">Rejected</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_14.png')"></div><div style="flex:1"><div class="hn2">Lena R.</div><div class="hs2 num">ID 44120 · by User ID · 11 Aug</div></div><span class="hstat exp">Expired</span></div>
+          <div class="hlog"><div class="ha2" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="hn2">Priya M.</div><div class="hs2 num">ID 67890 · via link · 10 Aug</div></div><span class="hstat ok">Accepted</span></div>
         </div>
         <div style="height:10px;flex:none"></div>
       </div>
@@ -525,11 +537,11 @@
       <div class="filters" style="margin:11px 0 4px"><span class="fchip on">All</span><span class="fchip">Top Value</span><span class="fchip">Most active</span><span class="fchip">Live hours</span><span class="fchip">Newest</span></div>
       <div class="scroll">
         <div class="card" style="padding:2px 15px">
-          <div class="fanrow"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Marco T.</span><span class="lvbadge">Lv 14</span></div><div class="fid num">ID 44120</div><div class="stats"><span class="mini">🔴 6.2h</span><span class="mini">🔁 4</span><span class="mini">📅 21d</span></div></div><div class="fvbadge num">2,410</div></div>
-          <div class="fanrow"><div class="av" style="background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Lena R.</span><span class="lvbadge">Lv 12</span></div><div class="fid num">ID 51882</div><div class="stats"><span class="mini">🔴 5.4h</span><span class="mini">🔁 2</span><span class="mini">📅 19d</span></div></div><div class="fvbadge num">2,180</div></div>
-          <div class="fanrow"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Diego S.</span><span class="lvbadge">Lv 11</span></div><div class="fid num">ID 60034</div><div class="stats"><span class="mini">🔴 4.8h</span><span class="mini">🔁 3</span><span class="mini">📅 17d</span></div></div><div class="fvbadge num">1,940</div></div>
-          <div class="fanrow"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Priya M.</span><span class="lvbadge">Lv 9</span></div><div class="fid num">ID 67890</div><div class="stats"><span class="mini">🔴 3.1h</span><span class="mini">🔁 1</span><span class="mini">📅 12d</span></div></div><div class="fvbadge num">1,510</div></div>
-          <div class="fanrow"><div class="av" style="background-image:url('assets/fb_m3.jpg')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Tom H.</span><span class="lvbadge">Lv 7</span></div><div class="fid num">ID 71203</div><div class="stats"><span class="mini">🔴 1.2h</span><span class="mini">🔁 0</span><span class="mini">📅 5d</span></div></div><div class="fvbadge num">980</div></div>
+          <div class="fanrow" data-fan="marco" data-fname="Marco T." data-fid="44120" data-av="up_01.png" data-lv="14" data-fv="2,410"><div class="av" style="background-image:url('assets/up_01.png')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Marco T.</span><span class="lvbadge">Lv 14</span></div><div class="fid num">ID 44120</div><div class="stats"><span class="mini">🔴 6.2h</span><span class="mini">🔁 4</span><span class="mini">📅 21d</span></div></div><div class="fvbadge num">2,410</div></div>
+          <div class="fanrow" data-fan="lena" data-fname="Lena R." data-fid="51882" data-av="up_14.png" data-lv="12" data-fv="2,180"><div class="av" style="background-image:url('assets/up_14.png')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Lena R.</span><span class="lvbadge">Lv 12</span></div><div class="fid num">ID 51882</div><div class="stats"><span class="mini">🔴 5.4h</span><span class="mini">🔁 2</span><span class="mini">📅 19d</span></div></div><div class="fvbadge num">2,180</div></div>
+          <div class="fanrow" data-fan="diego" data-fname="Diego S." data-fid="60034" data-av="up_10.png" data-lv="11" data-fv="1,940"><div class="av" style="background-image:url('assets/up_10.png')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Diego S.</span><span class="lvbadge">Lv 11</span></div><div class="fid num">ID 60034</div><div class="stats"><span class="mini">🔴 4.8h</span><span class="mini">🔁 3</span><span class="mini">📅 17d</span></div></div><div class="fvbadge num">1,940</div></div>
+          <div class="fanrow" data-fan="priya" data-fname="Priya M." data-fid="67890" data-av="up_11.png" data-lv="9" data-fv="1,510"><div class="av" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Priya M.</span><span class="lvbadge">Lv 9</span></div><div class="fid num">ID 67890</div><div class="stats"><span class="mini">🔴 3.1h</span><span class="mini">🔁 1</span><span class="mini">📅 12d</span></div></div><div class="fvbadge num">1,510</div></div>
+          <div class="fanrow" data-fan="tom" data-fname="Tom H." data-fid="71203" data-av="up_06.png" data-lv="7" data-fv="980"><div class="av" style="background-image:url('assets/up_06.png')"></div><div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span class="fn">Tom H.</span><span class="lvbadge">Lv 7</span></div><div class="fid num">ID 71203</div><div class="stats"><span class="mini">🔴 1.2h</span><span class="mini">🔁 0</span><span class="mini">📅 5d</span></div></div><div class="fvbadge num">980</div></div>
         </div>
         <div class="note info" style="margin-top:4px">🔒 You see club performance only — never wallet balances, KYC or personal contact details.</div>
         <div style="height:10px;flex:none"></div>
@@ -542,8 +554,8 @@
   <div class="phone">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Fan profile</div></div>
       <div style="display:flex;align-items:center;gap:13px;position:relative;z-index:2;margin-top:12px">
-        <div class="av" style="width:62px;height:62px;background-image:url('assets/fb_f2.jpg')"></div>
-        <div><div style="font-size:18px;font-weight:800">Priya M.</div><div class="fid num" style="font-size:12px">ID 67890 · joined 12 Jul</div><div style="display:flex;gap:7px;margin-top:6px"><span class="lvbadge">Lv 9</span><span class="fvbadge num">Fan Value 1,510</span></div></div>
+        <div class="av" id="cm-av" style="width:62px;height:62px;background-image:url('assets/up_11.png')"></div>
+        <div><div class="cm-name" style="font-size:18px;font-weight:800">Priya M.</div><div class="fid num cm-fid" style="font-size:12px">ID 67890 · joined 12 Jul</div><div style="display:flex;gap:7px;margin-top:6px"><span class="lvbadge cm-lv">Lv 9</span><span class="fvbadge num cm-fv">Fan Value 1,510</span></div></div>
       </div>
     </div>
     <div class="body">
@@ -561,7 +573,7 @@
         <div class="note info">🔒 Wallet balances, KYC and personal contact details are never shown to Managers.</div>
         <div style="height:10px;flex:none"></div>
       </div>
-      <div class="cta"><div class="row2"><div class="btn ghost sm" style="flex:1">💬 Chat</div><div class="btn gold sm" style="flex:1">🔁 Propose Move</div></div><div class="altlink" style="color:var(--coral)">Remove from Club</div></div>
+      <div class="cta"><div class="btn gold" data-cmact="make">Make Manager</div><div class="row2"><div class="btn ghost sm" style="flex:1">💬 Chat</div><div class="btn gold sm" style="flex:1">🔁 Propose Move</div></div><div class="altlink" style="color:var(--coral)">Remove from Club</div></div>
     </div>
   </div></div>
 
@@ -570,7 +582,7 @@
   <div class="phone">
     <div class="hero"><div class="htop"><div class="back">✕</div><div class="htitle">Remove from club</div></div></div>
     <div class="body">
-      <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="av" style="width:44px;height:44px;background-image:url('assets/fb_m3.jpg')"></div><div><div style="font-size:15px;font-weight:800">Tom H.</div><div class="fid num">ID 71203</div></div></div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="av" style="width:44px;height:44px;background-image:url('assets/up_06.png')"></div><div><div style="font-size:15px;font-weight:800">Tom H.</div><div class="fid num">ID 71203</div></div></div>
       <div class="sheet-title">Remove Tom H. from Red Fury?</div>
       <div style="font-size:13px;font-weight:650;color:var(--t2);line-height:19px;margin-top:8px">They lose their Red Fury membership and club seed link. Their SFL account and historical Fan Value are preserved. Tom is notified.</div>
       <div class="lbl" style="margin:16px 0 8px">Reason (required)</div>
@@ -591,7 +603,7 @@
     <div class="body">
       <div class="scroll">
         <div class="scout">
-          <div class="top"><div class="simg" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1;padding-top:4px"><div class="sn">Mikael K.</div><div class="sid">ID 88214</div><div class="srcline" style="padding:6px 0 0">🎟️ via recruitment link · 2h ago</div></div></div>
+          <div class="top"><div class="simg" style="background-image:url('assets/up_08.png')"></div><div style="flex:1;padding-top:4px"><div class="sn">Mikael K.</div><div class="sid">ID 88214</div><div class="srcline" style="padding:6px 0 0">🎟️ via recruitment link · 2h ago</div></div></div>
           <div class="attrs">
             <div class="attr"><div class="an num">9</div><div class="al">Level</div></div>
             <div class="attr fv"><div class="an num">1.6K</div><div class="al">Fan Value</div></div>
@@ -601,7 +613,7 @@
           <div class="sactions"><div class="btn ghost sm" style="flex:1">Reject</div><div class="btn sm" style="flex:2">✓ Accept</div></div>
         </div>
         <div class="scout">
-          <div class="top"><div class="simg" style="background-image:url('assets/fb_f3.jpg')"></div><div style="flex:1;padding-top:4px"><div class="sn">Sara V.</div><div class="sid">ID 90551</div><div class="srcline" style="padding:6px 0 0">🔎 direct User ID invite · 5h ago</div></div></div>
+          <div class="top"><div class="simg" style="background-image:url('assets/up_09.png')"></div><div style="flex:1;padding-top:4px"><div class="sn">Sara V.</div><div class="sid">ID 90551</div><div class="srcline" style="padding:6px 0 0">🔎 direct User ID invite · 5h ago</div></div></div>
           <div class="attrs">
             <div class="attr"><div class="an num">6</div><div class="al">Level</div></div>
             <div class="attr fv"><div class="an num">870</div><div class="al">Fan Value</div></div>
@@ -624,7 +636,7 @@
       <div class="idfield num">67890<span style="color:var(--gold);font-weight:300">|</span></div>
       <div class="lbl" style="margin:18px 0 8px">Found</div>
       <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line2);border-radius:16px;padding:13px">
-        <div class="av" style="width:50px;height:50px;background-image:url('assets/fb_f2.jpg')"></div>
+        <div class="av" style="width:50px;height:50px;background-image:url('assets/up_11.png')"></div>
         <div style="flex:1"><div style="font-size:15px;font-weight:800">Priya M.</div><div class="fid num">ID 67890 · Lv 9 · Fan Value 1,510</div><div style="font-size:11px;font-weight:750;color:var(--volt);margin-top:3px">● No club — available</div></div>
       </div>
       <div class="cta">
@@ -664,7 +676,7 @@
           <div class="tfmove">
             <div class="side"><div class="crest sm blue">BW</div><div class="sl">Blue Wolves</div></div>
             <div class="arr">→</div>
-            <div class="fanmid"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div class="fnm">Marco T.</div></div>
+            <div class="fanmid"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="fnm">Marco T.</div></div>
             <div class="arr">→</div>
             <div class="side"><div class="crest sm">RF</div><div class="sl">Red Fury</div></div>
           </div>
@@ -680,7 +692,7 @@
           <div class="tfmove">
             <div class="side"><div class="crest sm">RF</div><div class="sl">Red Fury</div></div>
             <div class="arr">→</div>
-            <div class="fanmid"><div class="av" style="background-image:url('assets/fb_f1.jpg')"></div><div class="fnm">Lena R.</div></div>
+            <div class="fanmid"><div class="av" style="background-image:url('assets/up_14.png')"></div><div class="fnm">Lena R.</div></div>
             <div class="arr">→</div>
             <div class="side"><div class="crest sm blue">BW</div><div class="sl">Blue Wolves</div></div>
           </div>
@@ -708,7 +720,7 @@
           <div class="tfmove" style="margin-top:2px">
             <div class="side"><div class="crest blue" style="width:44px;height:44px">BW</div><div class="sl">From</div></div>
             <div class="arr">→</div>
-            <div class="fanmid"><div class="av" style="width:58px;height:58px;background-image:url('assets/fb_m1.jpg')"></div><div class="fnm">Marco T.</div></div>
+            <div class="fanmid"><div class="av" style="width:58px;height:58px;background-image:url('assets/up_01.png')"></div><div class="fnm">Marco T.</div></div>
             <div class="arr">→</div>
             <div class="side"><div class="crest" style="width:44px;height:44px">RF</div><div class="sl">To</div></div>
           </div>
@@ -726,6 +738,142 @@
         <div style="height:10px;flex:none"></div>
       </div>
       <div class="cta"><div class="btn">✓ Approve Transfer</div><div class="altlink" style="color:var(--coral)">Reject with reason</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Co-managers · invite &amp; request</div>
+
+  <!-- MC-CM-01 MAKE MANAGER CONFIRM -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-01</div><div class="fname">Make Manager<span>Invite · fan must accept</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Make Manager</div></div></div>
+    <div class="body">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="av cm-av" style="width:50px;height:50px;background-image:url('assets/up_11.png')"></div><div><div class="cm-name" style="font-size:16px;font-weight:800">Priya M.</div><div class="fid num cm-fid">ID 67890 · Lv 9</div></div></div>
+      <div class="sheet-title">Invite Priya M. to manage Red Fury too?</div>
+      <div style="font-size:13px;font-weight:650;color:var(--t2);line-height:19px;margin-top:8px">They stay a Fan. Manager is an added role. They get a notification and must accept before Manager HQ unlocks — never auto-add.</div>
+      <div class="card" style="padding:4px 15px;margin-top:16px">
+        <div class="kv"><span class="k">Club</span><span class="v">Red Fury</span></div>
+        <div class="kv"><span class="k">Role after accept</span><span class="v volt">Fan + Manager</span></div>
+        <div class="kv"><span class="k">HQ access</span><span class="v">Same dugout · shared</span></div>
+      </div>
+      <div class="note amber" style="margin-top:12px">🕐 We will notify them. They can accept or reject. You cannot force the role.</div>
+      <div class="cta"><div class="btn gold" data-cmact="send">Send manager invite</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-02 INVITE SENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-02</div><div class="fname">Manager Invite Sent<span>Awaiting fan</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Invite sent</div></div></div>
+    <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
+      <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🕐</div>
+      <div class="sheet-title" style="margin-top:18px">Waiting on the fan</div>
+      <div class="cm-sub" style="font-size:13.5px;font-weight:650;color:var(--t2);margin-top:8px;max-width:280px">Invite sent to Priya M. Stay here — you will see their decision on this screen.</div>
+      <div class="note amber" style="margin-top:16px;width:100%;text-align:left">🕐 Awaiting fan…</div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-03 FAN ACCEPTED -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-03</div><div class="fname">Fan Is Now a Manager<span>Invite accepted</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Accepted</div></div></div>
+    <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
+      <div style="width:86px;height:86px;border-radius:50%;background:rgba(201,255,61,.14);border:1.5px solid rgba(201,255,61,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🛡️</div>
+      <div class="sheet-title cm-oktitle" style="margin-top:18px">Priya M. is now a manager</div>
+      <div class="cm-oksub" style="font-size:13.5px;font-weight:650;color:var(--t2);margin-top:8px;max-width:280px">They accepted your invite. Fan stays permanent — Manager HQ is now on their profile too.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:18px;text-align:left">
+        <div class="kv"><span class="k">Fan</span><span class="v cm-name">Priya M.</span></div>
+        <div class="kv"><span class="k">Club</span><span class="v">Red Fury</span></div>
+        <div class="kv"><span class="k">Roles</span><span class="v volt">Fan + Manager</span></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn gold" data-cmact="hq">Back to Manager HQ</div><div class="altlink">Fan list</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-Q QUEUE -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-Q</div><div class="fname">Co-manager Requests<span>Accept / decline</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Co-managers</div></div></div>
+    <div class="body">
+      <div class="tabs" style="margin-bottom:10px"><div class="tab on" data-cmtab="ask">Requests <span class="bd" id="cm-askn">1</span></div><div class="tab" data-cmtab="invite">Sent invites <span class="bd" id="cm-invn">0</span></div></div>
+      <div class="note info" id="cm-hint" style="margin-bottom:10px">Fans who asked to become a manager. Accept or reject — they are notified either way.</div>
+      <div class="scroll" id="cm-list" style="gap:10px"></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-F1 FAN INVITE -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F1</div><div class="fname">Manager Invite Received<span>Fan accept / reject</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Manager invite</div></div></div>
+    <div class="body">
+      <div style="width:72px;height:72px;border-radius:18px;background:linear-gradient(150deg,var(--gold),var(--gold2));color:#3A2400;display:flex;align-items:center;justify-content:center;font-size:32px;margin:8px auto 0;box-shadow:0 10px 24px rgba(255,158,27,.35)">🛡️</div>
+      <div class="sheet-title" style="text-align:center;margin-top:16px">Your manager selected you</div>
+      <div style="font-size:13.5px;font-weight:650;color:var(--t2);line-height:19px;margin-top:8px;text-align:center">Jay Malik wants you to become a manager of Red Fury as well. You stay a Fan. Accept to unlock Manager HQ.</div>
+      <div class="card" style="padding:4px 15px;margin-top:16px">
+        <div class="kv"><span class="k">From</span><span class="v">Jay Malik · Manager</span></div>
+        <div class="kv"><span class="k">Club</span><span class="v">Red Fury</span></div>
+        <div class="kv"><span class="k">If you accept</span><span class="v volt">Manager HQ on your profile</span></div>
+      </div>
+      <div class="note info" style="margin-top:12px">Invitation is never automatic. Reject and nothing changes.</div>
+      <div class="cta"><div class="btn gold" data-cmact="accept">Accept · become manager</div><div class="btn ghost" data-cmact="reject">Reject</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-F2 FAN ASK -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F2</div><div class="fname">Ask to Become Manager<span>Fan request</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Become a manager</div></div></div>
+    <div class="body">
+      <div class="sheet-title">Ask to manage this club too?</div>
+      <div style="font-size:13.5px;font-weight:650;color:var(--t2);line-height:19px;margin-top:8px">This is not starting your own club. You stay in Red Fury and ask the current manager to add you as a manager. They can accept or reject.</div>
+      <div class="card" style="padding:4px 15px;margin-top:16px">
+        <div class="kv"><span class="k">Club</span><span class="v">Red Fury</span></div>
+        <div class="kv"><span class="k">Your role now</span><span class="v">Fan · member</span></div>
+        <div class="kv"><span class="k">If accepted</span><span class="v volt">Fan + Manager · HQ unlocks</span></div>
+      </div>
+      <div class="note amber" style="margin-top:12px">🕐 The manager is notified. You get a notification when they decide.</div>
+      <div class="cta"><div class="btn gold" data-cmact="ask">Send request</div><div class="altlink">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-F3 ASK SENT -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F3</div><div class="fname">Manager Request Sent<span>Awaiting manager</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Request sent</div></div></div>
+    <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
+      <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🕐</div>
+      <div class="sheet-title" style="margin-top:18px">Waiting on the manager</div>
+      <div style="font-size:13.5px;font-weight:650;color:var(--t2);margin-top:8px;max-width:280px">Jay Malik is reviewing your request. Stay here — you will see the decision on this screen.</div>
+      <div class="note amber" style="margin-top:16px;width:100%;text-align:left">🕐 Awaiting manager…</div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-F4 ACCEPTED -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F4</div><div class="fname">You Are a Manager<span>HQ unlocked</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">You are in</div></div></div>
+    <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
+      <div style="width:86px;height:86px;border-radius:50%;background:rgba(201,255,61,.14);border:1.5px solid rgba(201,255,61,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🛡️</div>
+      <div class="sheet-title" style="margin-top:18px">You are now a manager</div>
+      <div style="font-size:13.5px;font-weight:650;color:var(--t2);margin-top:8px;max-width:280px">Manager HQ is on your profile. Fan stays permanent — the role is added. Review the dugout anytime.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:18px;text-align:left">
+        <div class="kv"><span class="k">Club</span><span class="v">Red Fury</span></div>
+        <div class="kv"><span class="k">Roles</span><span class="v volt">Fan + Manager</span></div>
+        <div class="kv"><span class="k">HQ</span><span class="v">Unlocked</span></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn gold" data-cmact="hq">Open Manager HQ</div><div class="altlink">View profile</div></div>
+    </div>
+  </div></div>
+
+  <!-- MC-CM-F5 REJECTED -->
+  <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F5</div><div class="fname">Manager Decision<span>Rejected</span></div></div>
+  <div class="phone">
+    <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Decision</div></div></div>
+    <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
+      <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,59,95,.12);border:1.5px solid rgba(255,59,95,.35);display:flex;align-items:center;justify-content:center;font-size:38px">✕</div>
+      <div class="sheet-title" style="margin-top:18px">Not this time</div>
+      <div class="cm-rej" style="font-size:13.5px;font-weight:650;color:var(--t2);margin-top:8px;max-width:280px">The manager invite was declined. You stay a Fan of Red Fury. Nothing else changes.</div>
+      <div class="cta" style="width:100%"><div class="btn ghost">Back to club</div></div>
     </div>
   </div></div>
 

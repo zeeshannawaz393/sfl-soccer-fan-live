@@ -41,12 +41,12 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
-  .back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex:none}
-  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px;color:#fff}
+  .back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t1);flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px;color:var(--t1)}
   .body{flex:1;padding:14px 18px 0;display:flex;flex-direction:column;overflow:hidden}
   .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .scroll>*{flex:none}
-  .h1{font-size:24px;line-height:30px;font-weight:800;letter-spacing:-.6px;color:#fff}
+  .h1{font-size:24px;line-height:30px;font-weight:800;letter-spacing:-.6px;color:var(--t1)}
   .sub{font-size:13.5px;line-height:20px;font-weight:600;color:var(--t2);margin-top:8px}
   .lbl{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--t3);text-transform:uppercase}
   .cta{margin-top:auto;padding:14px 0 22px;display:flex;flex-direction:column;gap:9px}
@@ -106,25 +106,102 @@
   .kv .k{color:var(--t2);font-weight:650}.kv .v{margin-left:auto;font-weight:800;color:#fff}
   .kv .v.coin{color:var(--coin1)}.kv .v.bonus{color:var(--bonus1)}.kv .v.minus{color:var(--coral)}.kv .v.plus{color:var(--volt)}
 
-  /* goalmouth */
-  .pitch{position:relative;border-radius:18px;overflow:hidden;height:300px;background:linear-gradient(180deg,#164023 0%,#0a2312 62%),url('assets/fb_stadium.jpg') center/cover;background-blend-mode:soft-light;border:1px solid var(--line);box-shadow:inset 0 46px 70px -34px rgba(201,255,61,.28),inset 0 -34px 54px rgba(0,0,0,.55)}
-  .pitch::before{content:"";position:absolute;top:-34px;left:50%;transform:translateX(-50%);width:230px;height:150px;background:radial-gradient(closest-side,rgba(255,255,255,.3),transparent);pointer-events:none;z-index:0}
-  .pitch::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,16,.7),transparent 55%)}
-  .goalframe{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:256px;height:126px;border:5px solid #fff;border-bottom:none;border-radius:5px 5px 0 0;box-shadow:0 0 18px rgba(255,255,255,.4),inset 0 0 22px rgba(255,255,255,.08);z-index:1;pointer-events:none}
-  .goalnet{position:absolute;top:25px;left:50%;transform:translateX(-50%);width:248px;height:120px;z-index:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 10px,rgba(255,255,255,.16) 10px 11px),repeating-linear-gradient(0deg,transparent 0 10px,rgba(255,255,255,.16) 10px 11px)}
+  /* Night-match penalty pitch */
+  .mgpk{position:relative;border-radius:20px;overflow:hidden;height:430px;touch-action:none;cursor:crosshair;user-select:none;border:1px solid rgba(255,214,90,.22);box-shadow:inset 0 -50px 80px rgba(0,0,0,.55),0 18px 40px rgba(0,0,0,.45);background:#06110c}
+  .mgpk-sky{position:absolute;inset:0 0 48% 0;pointer-events:none;background:linear-gradient(180deg,#071018 0%,#0c1c28 42%,#12301c 100%)}
+  .mgpk-stars{position:absolute;left:0;right:0;top:0;height:38%;pointer-events:none;opacity:.7;background:
+    radial-gradient(1px 1px at 12% 22%,#fff,transparent),radial-gradient(1px 1px at 28% 12%,#fff,transparent),
+    radial-gradient(1.4px 1.4px at 46% 18%,#ffe9a8,transparent),radial-gradient(1px 1px at 63% 10%,#fff,transparent),
+    radial-gradient(1px 1px at 78% 24%,#fff,transparent),radial-gradient(1.2px 1.2px at 90% 14%,#fff,transparent)}
+  .mgpk-stand{position:absolute;left:-8%;right:-8%;top:0;height:92px;pointer-events:none;background:
+    linear-gradient(180deg,#1a1020 0%,#2a1828 38%,#3a2230 70%,#24141c 100%);
+    clip-path:polygon(0 28%,8% 8%,92% 8%,100% 28%,100% 100%,0 100%)}
+  .mgpk-crowd{position:absolute;left:-4%;right:-4%;top:18px;height:62px;pointer-events:none;opacity:.85;background:
+    repeating-linear-gradient(90deg,#2b1a22 0 6px,#1c2433 6px 11px,#3a2218 11px 16px,#152028 16px 21px,#2a1830 21px 26px);
+    mask-image:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 9px)}
+  .mgpk-beam{position:absolute;top:-20px;width:140px;height:210px;pointer-events:none;opacity:.55;
+    background:linear-gradient(180deg,rgba(255,236,170,.55),rgba(255,220,120,.12) 42%,transparent)}
+  .mgpk-beam.l{left:4%;transform:skewX(-16deg)}.mgpk-beam.r{right:4%;transform:skewX(16deg)}
+  .mgpk-ads{position:absolute;left:0;right:0;top:86px;height:22px;z-index:2;display:flex;pointer-events:none;
+    background:linear-gradient(180deg,#1a1a1a,#0d0d0d);border-top:1px solid rgba(255,255,255,.15);border-bottom:2px solid #0a0a0a}
+  .mgpk-ads span{flex:1;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;letter-spacing:1.2px;color:#C9FF3D}
+  .mgpk-ads span:nth-child(2){color:#FF6E3D;background:rgba(228,54,43,.22)}
+  .mgpk-ads span:nth-child(3){color:#fff;background:rgba(255,255,255,.06)}
+  .mgpk-ads span:nth-child(4){color:#FFD54F}
+  .mgpk-turf{position:absolute;left:-8%;right:-8%;top:108px;bottom:-8%;pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg,#128a38 0 34px,#0d6e2c 34px 68px),
+      linear-gradient(180deg,rgba(0,0,0,.15),transparent 30%);
+    transform:perspective(420px) rotateX(56deg);transform-origin:50% 0;box-shadow:inset 0 40px 60px rgba(0,0,0,.25)}
+  .mgpk-box{position:absolute;left:16%;right:16%;top:168px;bottom:52px;border:2px solid rgba(255,255,255,.28);border-bottom:none;border-radius:3px 3px 0 0;pointer-events:none;z-index:2}
+  .mgpk-six{position:absolute;left:28%;right:28%;top:210px;bottom:52px;border:2px solid rgba(255,255,255,.2);border-bottom:none;pointer-events:none;z-index:2}
+  .mgpk-spot{position:absolute;left:50%;bottom:58px;width:11px;height:11px;margin-left:-5.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 10px rgba(255,255,255,.1),0 0 16px rgba(255,255,255,.25);z-index:2;pointer-events:none}
+  .mgpk-goal{position:absolute;top:112px;left:50%;transform:translateX(-50%);width:328px;height:156px;z-index:3}
+  .mgpk-posts{position:absolute;inset:0;border:8px solid #F7FBFF;border-bottom:none;border-radius:2px 2px 0 0;box-shadow:0 0 24px rgba(255,255,255,.35),inset 0 0 0 1px rgba(0,0,0,.18);pointer-events:none}
+  .mgpk-bar{position:absolute;left:-6px;right:-6px;top:-5px;height:10px;background:linear-gradient(180deg,#fff,#d7dde6);border-radius:4px;box-shadow:0 4px 10px rgba(0,0,0,.35);pointer-events:none}
+  .mgpk-net{position:absolute;inset:8px 8px 0;background:
+    repeating-linear-gradient(90deg,transparent 0 11px,rgba(230,240,255,.22) 11px 12px),
+    repeating-linear-gradient(0deg,transparent 0 11px,rgba(230,240,255,.22) 11px 12px),
+    linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.12));
+    opacity:.95;transition:transform .16s;pointer-events:none}
+  .mgpk-sidenet{position:absolute;top:8px;bottom:0;width:18px;pointer-events:none;opacity:.55;
+    background:repeating-linear-gradient(180deg,transparent 0 10px,rgba(255,255,255,.2) 10px 11px)}
+  .mgpk-sidenet.l{left:-10px;transform:perspective(80px) rotateY(42deg);transform-origin:right}
+  .mgpk-sidenet.r{right:-10px;transform:perspective(80px) rotateY(-42deg);transform-origin:left}
+  .mgpk.bulge .mgpk-net{transform:scale(1.07) translateY(6px)}
+  .mgpk-keeper{position:absolute;z-index:5;width:40px;height:64px;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.55));transition:left .08s linear,top .08s linear}
+  .mgpk-keeper .hd{position:absolute;left:50%;top:0;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0c8a0,#c98a62)}
+  .mgpk-keeper .bd{position:absolute;left:50%;top:15px;width:24px;height:24px;margin-left:-12px;border-radius:6px 6px 4px 4px;background:linear-gradient(180deg,#8B5CF6,#5B21B6);box-shadow:inset 0 1px 0 rgba(255,255,255,.25);animation:mgpk-idle 1.1s ease-in-out infinite}
+  .mgpk-keeper .sh{position:absolute;left:50%;top:38px;width:22px;height:10px;margin-left:-11px;border-radius:2px;background:#1a1a1a}
+  .mgpk-keeper .lg{position:absolute;left:50%;top:46px;width:16px;height:18px;margin-left:-8px;background:linear-gradient(90deg,#f4f4f4 0 6px,transparent 6px 10px,#f4f4f4 10px)}
+  .mgpk-keeper .gl,.mgpk-keeper .gr{position:absolute;top:22px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #111,0 0 8px rgba(255,255,255,.4)}
+  .mgpk-keeper .gl{left:-6px}.mgpk-keeper .gr{right:-6px}
+  .mgpk-keeper.dive{transition:left .38s cubic-bezier(.2,.7,.2,1.15),top .38s,transform .38s}
+  .mgpk-striker{position:absolute;left:50%;bottom:18px;width:28px;height:40px;margin-left:-38px;z-index:5;pointer-events:none;filter:drop-shadow(0 4px 5px rgba(0,0,0,.45));opacity:.9}
+  .mgpk-striker .hd{position:absolute;left:50%;top:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#e6c09a}
+  .mgpk-striker .bd{position:absolute;left:50%;top:11px;width:16px;height:16px;margin-left:-8px;border-radius:4px;background:linear-gradient(180deg,#E4362B,#9B1B14)}
+  .mgpk-striker .lg{position:absolute;left:50%;top:26px;width:13px;height:14px;margin-left:-6.5px;background:linear-gradient(90deg,#111 0 5px,transparent 5px 8px,#111 8px)}
+  .mgpk-ret{position:absolute;z-index:8;width:48px;height:48px;margin:-24px 0 0 -24px;pointer-events:none;opacity:0;border:2px solid #C9FF3D;border-radius:50%;box-shadow:0 0 0 6px rgba(201,255,61,.12),0 0 18px rgba(201,255,61,.55)}
+  .mgpk-ret.on{opacity:1}
+  .mgpk-ret::before,.mgpk-ret::after{content:"";position:absolute;background:#C9FF3D}
+  .mgpk-ret::before{left:50%;top:4px;bottom:4px;width:2px;margin-left:-1px}
+  .mgpk-ret::after{top:50%;left:4px;right:4px;height:2px;margin-top:-1px}
+  .mgpk-trail{position:absolute;inset:0;z-index:4;pointer-events:none}
+  .mgpk-trail b{position:absolute;width:8px;height:8px;margin:-4px;border-radius:50%;background:rgba(201,255,61,.7);box-shadow:0 0 10px rgba(201,255,61,.55)}
+  .mgpk-ball{position:absolute;z-index:8;width:28px;height:28px;border-radius:50%;pointer-events:none;
+    background:
+      radial-gradient(circle at 32% 28%,rgba(255,255,255,.95) 0 18%,transparent 32%),
+      conic-gradient(#111 0 40deg,#f4f4f4 40deg 80deg,#111 80deg 120deg,#f4f4f4 120deg 160deg,#111 160deg 200deg,#f4f4f4 200deg 240deg,#111 240deg 280deg,#f4f4f4 280deg 320deg,#111 320deg 360deg);
+    box-shadow:0 5px 10px rgba(0,0,0,.55),inset -2px -2px 0 rgba(255,255,255,.2)}
+  .mgpk-ball.idle{animation:mgpk-bob 1.15s ease-in-out infinite}
+  .mgpk-ball.spin{animation:mgpk-spin .26s linear infinite}
+  .mgpk-pwr{position:absolute;right:10px;top:128px;bottom:78px;width:28px;z-index:7;opacity:0;pointer-events:none;transition:opacity .18s}
+  .mgpk-pwr.on{opacity:1}
+  .mgpk-pwr-lab{position:absolute;left:-8px;top:-18px;font-size:8px;font-weight:800;letter-spacing:.6px;color:#fff;text-shadow:0 1px 4px #000}
+  .mgpk-pwr-track{position:absolute;inset:0;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.4);background:#0a0e12;box-shadow:0 0 16px rgba(0,0,0,.45)}
+  .mgpk-pwr-track i{position:absolute;left:0;right:0;display:block}
+  .mgpk-pwr-track .z1{bottom:0;height:58%;background:linear-gradient(#2FCB6E,#1a8f46)}
+  .mgpk-pwr-track .z2{bottom:58%;height:24%;background:linear-gradient(#FFD54F,#E09A2C)}
+  .mgpk-pwr-track .z3{bottom:82%;height:18%;background:linear-gradient(#FF3B5F,#B4241B)}
+  .mgpk-pwr-track b{position:absolute;left:-3px;right:-3px;height:6px;border-radius:3px;background:#fff;box-shadow:0 0 10px #fff;bottom:0}
+  .mgpk-ang{position:absolute;left:10px;bottom:78px;z-index:7;font-size:11px;font-weight:800;color:#C9FF3D;text-shadow:0 1px 6px #000;opacity:0;background:rgba(0,0,0,.45);padding:4px 8px;border-radius:8px;border:1px solid rgba(201,255,61,.25)}
+  .mgpk-ang.on{opacity:1}
+  .mgpk-prompt{position:absolute;left:8px;right:8px;bottom:12px;text-align:center;font-size:13px;font-weight:800;color:#fff;z-index:9;text-shadow:0 2px 10px #000;pointer-events:none}
+  .mgpk-prompt.big{bottom:auto;top:48%;font-size:28px;letter-spacing:-.4px}
+  .mgpk-flash{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 28%,rgba(201,255,61,.5),transparent 58%)}
+  .mgpk-flash.on{animation:mgpk-fl .45s ease}
+  .mgpk.shake{animation:mgpk-shake .38s cubic-bezier(.36,.07,.19,.97)}
+  @keyframes mgpk-idle{50%{transform:translateY(-2px)}}
+  @keyframes mgpk-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes mgpk-spin{to{transform:rotate(360deg) scale(var(--sc,1))}}
+  @keyframes mgpk-fl{0%{opacity:1}100%{opacity:0}}
+  @keyframes mgpk-shake{10%{transform:translate(-3px,1px)}30%{transform:translate(4px,-2px)}50%{transform:translate(-3px,2px)}70%{transform:translate(3px,-1px)}100%{transform:translate(0,0)}}
+  .pitch{position:relative;border-radius:18px;overflow:hidden;height:300px;background:linear-gradient(180deg,#164023 0%,#0a2312 62%),url('assets/fb_stadium.jpg') center/cover;background-blend-mode:soft-light;border:1px solid var(--line)}
   .pkflash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:900;font-style:italic;letter-spacing:1px;z-index:6;opacity:0;pointer-events:none;text-shadow:0 4px 18px rgba(0,0,0,.7)}
   .pkflash.show{animation:pkflash 1.1s ease forwards}
   @keyframes pkflash{0%{opacity:0;transform:scale(.5) rotate(-6deg)}22%{opacity:1;transform:scale(1.14) rotate(-3deg)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05)}}
-  @keyframes zpulse{0%,100%{box-shadow:0 0 18px rgba(201,255,61,.5),inset 0 0 14px rgba(201,255,61,.22)}50%{box-shadow:0 0 34px rgba(201,255,61,.85),inset 0 0 22px rgba(201,255,61,.4)}}
-  @keyframes ksway{0%,100%{transform:translateX(-50%) rotate(-5deg)}50%{transform:translateX(-50%) rotate(5deg)}}
-  @keyframes bbob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
-  .zones{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:250px;height:120px;display:flex;gap:5px;padding:6px}
-  .zone{flex:1;border-radius:10px;border:2px dashed rgba(201,255,61,.45);display:flex;align-items:flex-start;justify-content:center;padding-top:6px;font-size:20px;cursor:pointer;transition:transform .15s ease,background .2s ease;background:rgba(201,255,61,.05)}
-  .zone:active{transform:scale(.97)}
-  .zone.sel{background:rgba(201,255,61,.22);border-style:solid;border-color:var(--volt);color:#fff;animation:zpulse 1.1s ease-in-out infinite}
-  .keeper{position:absolute;top:44px;left:50%;transform:translateX(-50%);font-size:46px;z-index:3;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));transition:transform .42s cubic-bezier(.5,-0.3,.3,1.3);animation:ksway 2.4s ease-in-out infinite}
-  .ball{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:34px;z-index:2;filter:drop-shadow(0 4px 5px rgba(0,0,0,.5));transition:transform .42s cubic-bezier(.4,0,.2,1);animation:bbob 1.8s ease-in-out infinite}
-  .zonelbl{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;font-weight:800;color:#fff;z-index:3;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+  .pkflash.goal{color:#C9FF3D}
+  .pkflash.save{color:#FF6E60}
 
   /* result celebrate */
   .celebrate{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:30px}
@@ -138,19 +215,45 @@
   .settlecard{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px 16px;text-align:left}
 
   /* wheel */
-  .wheelwrap{position:relative;width:266px;height:266px;margin:8px auto}
-  .wheeldisc{width:100%;height:100%;position:relative;border-radius:50%}
-  .wheeldisc svg{display:block;width:100%;height:100%;filter:drop-shadow(0 10px 22px rgba(0,0,0,.55))}
-  .wheelptr{position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:24px solid #E4362B;z-index:5;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
-  .wheeldisc{width:250px;height:250px;border-radius:50%;border:6px solid var(--panel3);box-shadow:0 0 0 4px rgba(201,255,61,.25),0 0 40px rgba(138,92,246,.3);position:relative;background:conic-gradient(
-     var(--wheelP) 0 45deg,#1E5E9E 45deg 90deg,var(--coin2) 90deg 135deg,#6A3CD6 135deg 180deg,var(--wheelB) 180deg 225deg,#B8860B 225deg 270deg,#4A2E9E 270deg 315deg,var(--bonus2) 315deg 360deg)}
+  .wheelarena{background:
+    radial-gradient(80% 42% at 50% 18%,rgba(201,255,61,.10),transparent 62%),
+    radial-gradient(70% 36% at 50% 8%,rgba(138,92,246,.16),transparent 58%),
+    linear-gradient(#0b1410,#080A10 58%)}
+  .wheelwrap{position:relative;width:268px;height:268px;margin:2px auto 4px;touch-action:none}
+  .wheelwrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;background:repeating-linear-gradient(90deg,rgba(18,178,74,.18) 0 14px,rgba(10,125,52,.10) 14px 28px);mask:radial-gradient(circle,transparent 46%,#000 47%);-webkit-mask:radial-gradient(circle,transparent 46%,#000 47%);pointer-events:none}
+  .wheeldisc{width:100%;height:100%;position:relative;border-radius:50%;cursor:pointer;will-change:transform}
+  .wheeldisc svg{display:block;width:100%;height:100%;filter:drop-shadow(0 12px 26px rgba(0,0,0,.58))}
+  .wheelptr{position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:24px solid #E4362B;z-index:5;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5));transform-origin:50% 0}
+  .wheelptr.tick{animation:wptrtick .08s ease}
+  @keyframes wptrtick{0%{transform:translateX(-50%) rotate(0)}50%{transform:translateX(-50%) rotate(-14deg)}100%{transform:translateX(-50%) rotate(0)}}
   .wheeldisc.spinning{animation:wheelspin 2.6s cubic-bezier(.15,.6,.2,1) forwards}
   .wheelseg{position:absolute;top:50%;left:50%;font-size:11px;font-weight:800;color:#fff;transform-origin:0 0}
-  .wheelhub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:radial-gradient(circle at 40% 32%,#FF6E4D,#E4362B 55%,#B4241B);border:4px solid #fff;box-shadow:0 6px 18px rgba(228,54,43,.55),inset 0 2px 0 rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;letter-spacing:.5px;z-index:4;cursor:pointer}
+  .wheelhub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 38% 30%,#2a3344,#12161e 70%);border:3px solid #E09A2C;box-shadow:0 6px 16px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:22px;z-index:4;pointer-events:none}
   .prizetable{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .pt{display:flex;align-items:center;gap:10px;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 12px;font-size:12.5px;font-weight:800;color:#EDEAF3;box-shadow:0 5px 14px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.10);transition:transform .15s}
   .pt:active{transform:scale(.97)}
   .pt .sw{width:17px;height:17px;border-radius:6px;flex:none;box-shadow:0 2px 7px rgba(0,0,0,.45),inset 0 1.5px 0 rgba(255,255,255,.45)}
+  .wchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:6px}
+  .wchip{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px 0 5px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;letter-spacing:.1px;box-shadow:0 4px 10px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .12s,box-shadow .12s}
+  .wchip .wlogo{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-style:normal;font-weight:900;background:rgba(255,255,255,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.5);line-height:1}
+  .wchip.c50{background:linear-gradient(140deg,#A78BFA,#7C3AED)}
+  .wchip.c10{background:linear-gradient(140deg,#4AA0F5,#1E5E9E)}
+  .wchip.c100{background:linear-gradient(140deg,#FFE08A,#E09A2C);color:#3A2600}
+  .wchip.cgift{background:linear-gradient(140deg,#C4B5FD,#6A3CD6)}
+  .wchip.c30{background:linear-gradient(140deg,#60A5FA,#2563EB)}
+  .wchip.crare{background:linear-gradient(140deg,#F6CE6B,#B8860B);color:#3A2600}
+  .wchip.cfree{background:linear-gradient(140deg,#C9FF3D,#6B9A14);color:#0A1400}
+  .wchip.cnone{background:linear-gradient(140deg,#5EEAD4,#0F766E)}
+  .wchip.on{transform:scale(1.06);box-shadow:0 0 0 2px #fff,0 0 16px rgba(201,255,61,.5)}
+  .wforce{margin:10px 2px 2px;display:flex;align-items:center;gap:8px}
+  .wforce .wl{font-size:9px;font-weight:800;letter-spacing:.7px;color:#C9FF3D}
+  .wforce-rail{flex:1;height:18px;border-radius:999px;position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.28);background:#0a0e12;
+    background-image:linear-gradient(90deg,#1a8f46 0 58%,#E09A2C 58% 82%,#B4241B 82% 100%)}
+  .wforce-rail b{position:absolute;top:-2px;bottom:-2px;width:9px;margin-left:-4px;border-radius:3px;background:#fff;box-shadow:0 0 10px #fff;left:50%}
+  .wforce.lock .wforce-rail{box-shadow:0 0 0 2px rgba(201,255,61,.4)}
+  .wforce.lock b{background:#C9FF3D;box-shadow:0 0 14px #C9FF3D}
+  .wprompt{text-align:center;font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 8px #000;margin:6px 0 2px}
+  .wnote{text-align:center;font-size:10px;font-weight:700;color:var(--t3);margin-top:4px}
 
   /* odds table */
   .odds{border-radius:14px;overflow:hidden;border:1px solid var(--line)}
@@ -214,16 +317,16 @@
       </div>
       <div class="scroll">
         <div class="tile penalty">
-          <div class="tclass">⚽ Skill + chance</div>
+          <div class="tclass">⚽ Skill · angle &amp; power</div>
           <div class="tcost"><div class="gc">C</div>10 / shot</div>
-          <div class="ti"><div class="tn">Penalty Shootout</div><div class="tp">Win up to 50 Bonus Coins</div></div>
+          <div class="ti"><div class="tn">Penalty Shootout</div><div class="tp">Drag angle · tap bouncing power</div></div>
           <div class="tplay">Play ▸</div>
         </div>
         <div class="tile wheel">
           <div class="miniwheel"></div>
-          <div class="tclass">🎲 Chance</div>
+          <div class="tclass">🎲 Force · real rundown</div>
           <div class="tcost"><div class="gc">C</div>20 / spin</div>
-          <div class="ti"><div class="tn">Spin the Wheel</div><div class="tp">Win Bonus Coins &amp; gifts</div></div>
+          <div class="ti"><div class="tn">Spin the Wheel</div><div class="tp">Lock force · watch it slow</div></div>
           <div class="tplay" style="background:linear-gradient(140deg,var(--wheelP),#6A3CD6);color:#fff">Play ▸</div>
         </div>
         <div class="lbl">Today's session</div>
@@ -245,7 +348,7 @@
     <div class="top"><div class="back">‹</div><div class="htitle">Penalty · odds</div></div>
     <div class="body">
       <div class="scroll">
-        <div class="note info">Every outcome is decided by our server <b>before</b> the ball moves — the animation just shows the result. We never use the animation to pick a winner.</div>
+        <div class="note info"><b>How to shoot.</b> Drag in the goal to set your <b>angle</b>. Then tap the bouncing bar to lock <b>power</b> — green is clean, red flies over. Corners are harder to save.</div>
         <div class="lbl">Outcomes for a 10-Coin shot</div>
         <div class="odds">
           <div class="oddr head"><span class="c1">Outcome</span><span class="c2">Chance</span><span class="c3">Prize</span></div>
@@ -301,27 +404,50 @@
 
   <div class="divider">Penalty Shootout</div>
 
-  <!-- MG-02 PENALTY AIM -->
-  <div class="fw"><div class="flabel"><div class="fnum">MG-02</div><div class="fname">Penalty · Aim<span>Target locks · server commits</span></div></div>
+  <!-- MG-02 PENALTY AIM + POWER -->
+  <div class="fw"><div class="flabel"><div class="fnum">MG-02</div><div class="fname">Penalty · Aim &amp; Power<span>Drag angle · tap bouncing power</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Penalty Shootout</div><div class="balchip" style="margin-left:auto;flex:none;padding:6px 10px"><div class="gc">C</div><div class="bv num">1,240</div></div></div>
     <div class="body">
-      <div class="pitch" style="margin-bottom:12px">
-        <div class="goalnet"></div>
-        <div class="goalframe"></div>
-        <div class="zones"><div class="zone">↖</div><div class="zone">⬆</div><div class="zone sel">↗</div></div>
-        <div class="keeper">🧤</div>
-        <div class="ball">⚽</div>
-        <div class="pkflash"></div>
-        <div class="zonelbl">Pick a corner · tap Shoot</div>
+      <div class="mgpk" id="mgpk" data-pk="1">
+        <div class="mgpk-sky"></div>
+        <div class="mgpk-stars"></div>
+        <div class="mgpk-stand"></div>
+        <div class="mgpk-crowd"></div>
+        <div class="mgpk-beam l"></div>
+        <div class="mgpk-beam r"></div>
+        <div class="mgpk-ads"><span>SFL</span><span>RED FURY</span><span>LIVE</span><span>VOLT</span><span>SFL</span></div>
+        <div class="mgpk-turf"></div>
+        <div class="mgpk-box"></div>
+        <div class="mgpk-six"></div>
+        <div class="mgpk-spot"></div>
+        <div class="mgpk-goal">
+          <div class="mgpk-sidenet l"></div>
+          <div class="mgpk-sidenet r"></div>
+          <div class="mgpk-net"></div>
+          <div class="mgpk-posts"></div>
+          <div class="mgpk-bar"></div>
+        </div>
+        <div class="mgpk-keeper" id="mgpk-keeper"><i class="hd"></i><i class="gl"></i><i class="gr"></i><i class="bd"></i><i class="sh"></i><i class="lg"></i></div>
+        <div class="mgpk-trail" id="mgpk-trail"></div>
+        <div class="mgpk-ret" id="mgpk-ret"></div>
+        <div class="mgpk-striker"><i class="hd"></i><i class="bd"></i><i class="lg"></i></div>
+        <div class="mgpk-ball idle" id="mgpk-ball"></div>
+        <div class="mgpk-pwr" id="mgpk-pwr">
+          <div class="mgpk-pwr-lab">POWER</div>
+          <div class="mgpk-pwr-track"><i class="z1"></i><i class="z2"></i><i class="z3"></i><b id="mgpk-needle"></b></div>
+        </div>
+        <div class="mgpk-ang" id="mgpk-ang">ANGLE · 90°</div>
+        <div class="mgpk-flash" id="mgpk-flash"></div>
+        <div class="mgpk-prompt" id="mgpk-prompt">1/2 · DRAG anywhere to set ANGLE</div>
       </div>
-      <div class="session" style="margin-bottom:12px">
+      <div class="session" style="margin:10px 0 8px">
         <div class="sc"><div class="sv num">3</div><div class="sl">Shots</div></div>
         <div class="sc"><div class="sv num">30</div><div class="sl">Entry</div></div>
         <div class="sc"><div class="sv num">60</div><div class="sl">Gross</div></div>
         <div class="sc"><div class="sv net num">+30</div><div class="sl">Net</div></div>
       </div>
-      <div class="cta" style="margin-top:0"><div class="btn">Shoot · 10 Coins</div><div class="altlink">View odds &amp; rules</div></div>
+      <div class="cta" style="margin-top:0"><div class="altlink">View odds &amp; rules</div></div>
     </div>
   </div></div>
 
@@ -365,26 +491,29 @@
   <div class="divider">Spin the Wheel</div>
 
   <!-- MG-03 WHEEL READY -->
-  <div class="fw"><div class="flabel"><div class="fnum">MG-03</div><div class="fname">Wheel · Ready<span>Prizes readable before spin</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">MG-03</div><div class="fname">Wheel · Power &amp; Spin<span>Force bar · real rundown</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Spin the Wheel</div><div class="balchip" style="margin-left:auto;flex:none;padding:6px 10px"><div class="gc">C</div><div class="bv num">1,240</div></div></div>
-    <div class="body">
-      <div class="wheelwrap">
-        <div class="wheelptr"></div>
-        <div class="wheeldisc"><svg viewBox="0 0 220 220" width="100%" height="100%"><defs><radialGradient id="gGold" cx="50%" cy="32%" r="72%"><stop offset="0" stop-color="#FFDE86"/><stop offset="1" stop-color="#E09A2C"/></radialGradient><radialGradient id="gRim" cx="50%" cy="28%" r="78%"><stop offset="0" stop-color="#F6CE6B"/><stop offset="1" stop-color="#9C6413"/></radialGradient></defs><circle cx="110" cy="110" r="107" fill="url(#gRim)"/><circle cx="110" cy="110" r="99" fill="#17111c"/><circle cx="110.0" cy="7.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="149.4" cy="14.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="182.8" cy="37.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="205.2" cy="70.6" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="213.0" cy="110.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="205.2" cy="149.4" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="182.8" cy="182.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="149.4" cy="205.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="110.0" cy="213.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="70.6" cy="205.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="37.2" cy="182.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="14.8" cy="149.4" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="7.0" cy="110.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="14.8" cy="70.6" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="37.2" cy="37.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="70.6" cy="14.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><path d="M110,110 L110.0,18.0 A92,92 0 0 1 175.1,44.9 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L175.1,44.9 A92,92 0 0 1 202.0,110.0 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L202.0,110.0 A92,92 0 0 1 175.1,175.1 Z" fill="#F6EEDD" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L175.1,175.1 A92,92 0 0 1 110.0,202.0 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L110.0,202.0 A92,92 0 0 1 44.9,175.1 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L44.9,175.1 A92,92 0 0 1 18.0,110.0 Z" fill="#F6EEDD" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L18.0,110.0 A92,92 0 0 1 44.9,44.9 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L44.9,44.9 A92,92 0 0 1 110.0,18.0 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><text x="132.2" y="56.4" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(22.5 132.2 56.4)" font-family="Manrope,sans-serif">50</text><text x="163.6" y="87.8" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(67.5 163.6 87.8)" font-family="Manrope,sans-serif">Extra Spin</text><text x="163.6" y="132.2" fill="#5A3E00" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(292.5 163.6 132.2)" font-family="Manrope,sans-serif">100</text><text x="132.2" y="163.6" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(337.5 132.2 163.6)" font-family="Manrope,sans-serif">Gift</text><text x="87.8" y="163.6" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(382.5 87.8 163.6)" font-family="Manrope,sans-serif">30</text><text x="56.4" y="132.2" fill="#5A3E00" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(427.5 56.4 132.2)" font-family="Manrope,sans-serif">Jackpot</text><text x="56.4" y="87.8" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(292.5 56.4 87.8)" font-family="Manrope,sans-serif">10</text><text x="87.8" y="56.4" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(337.5 87.8 56.4)" font-family="Manrope,sans-serif">Try Again</text><circle cx="110" cy="110" r="30" fill="#17111c" stroke="#E09A2C" stroke-width="2.5"/></svg></div>
+    <div class="body wheelarena">
+      <div class="wheelwrap" id="mgwh" data-wh="1">
+        <div class="wheelptr" id="mgwh-ptr"></div>
+        <div class="wheeldisc" id="mgwh-disc"><svg viewBox="0 0 220 220" width="100%" height="100%"><defs><radialGradient id="gGold" cx="50%" cy="32%" r="72%"><stop offset="0" stop-color="#FFDE86"/><stop offset="1" stop-color="#E09A2C"/></radialGradient><radialGradient id="gRim" cx="50%" cy="28%" r="78%"><stop offset="0" stop-color="#F6CE6B"/><stop offset="1" stop-color="#9C6413"/></radialGradient></defs><circle cx="110" cy="110" r="107" fill="url(#gRim)"/><circle cx="110" cy="110" r="99" fill="#17111c"/><circle cx="110.0" cy="7.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="149.4" cy="14.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="182.8" cy="37.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="205.2" cy="70.6" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="213.0" cy="110.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="205.2" cy="149.4" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="182.8" cy="182.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="149.4" cy="205.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="110.0" cy="213.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="70.6" cy="205.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="37.2" cy="182.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="14.8" cy="149.4" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="7.0" cy="110.0" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="14.8" cy="70.6" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="37.2" cy="37.2" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><circle cx="70.6" cy="14.8" r="3.4" fill="#FFEBAd" stroke="#B9852A" stroke-width="0.8"/><path d="M110,110 L110.0,18.0 A92,92 0 0 1 175.1,44.9 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L175.1,44.9 A92,92 0 0 1 202.0,110.0 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L202.0,110.0 A92,92 0 0 1 175.1,175.1 Z" fill="#F6EEDD" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L175.1,175.1 A92,92 0 0 1 110.0,202.0 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L110.0,202.0 A92,92 0 0 1 44.9,175.1 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L44.9,175.1 A92,92 0 0 1 18.0,110.0 Z" fill="#F6EEDD" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L18.0,110.0 A92,92 0 0 1 44.9,44.9 Z" fill="url(#gGold)" stroke="#C9972F" stroke-width="1.3"/><path d="M110,110 L44.9,44.9 A92,92 0 0 1 110.0,18.0 Z" fill="#2E2438" stroke="#C9972F" stroke-width="1.3"/><text x="132.2" y="56.4" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(22.5 132.2 56.4)" font-family="Manrope,sans-serif">50</text><text x="163.6" y="87.8" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(67.5 163.6 87.8)" font-family="Manrope,sans-serif">Extra Spin</text><text x="163.6" y="132.2" fill="#5A3E00" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(292.5 163.6 132.2)" font-family="Manrope,sans-serif">100</text><text x="132.2" y="163.6" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(337.5 132.2 163.6)" font-family="Manrope,sans-serif">Gift</text><text x="87.8" y="163.6" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(382.5 87.8 163.6)" font-family="Manrope,sans-serif">30</text><text x="56.4" y="132.2" fill="#5A3E00" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(427.5 56.4 132.2)" font-family="Manrope,sans-serif">Jackpot</text><text x="56.4" y="87.8" fill="#3A2600" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(292.5 56.4 87.8)" font-family="Manrope,sans-serif">10</text><text x="87.8" y="56.4" fill="#F6D98A" font-size="11.5" font-weight="800" text-anchor="middle" dominant-baseline="central" transform="rotate(337.5 87.8 56.4)" font-family="Manrope,sans-serif">Try Again</text><circle cx="110" cy="110" r="30" fill="#17111c" stroke="#E09A2C" stroke-width="2.5"/></svg></div>
+        <div class="wheelhub">⚽</div>
       </div>
-      <div class="prizetable" style="margin-top:6px">
-        <div class="pt"><span class="sw" style="background:var(--wheelP)"></span>50 Bonus</div>
-        <div class="pt"><span class="sw" style="background:#1E5E9E"></span>10 Bonus</div>
-        <div class="pt"><span class="sw" style="background:var(--coin2)"></span>100 Bonus</div>
-        <div class="pt"><span class="sw" style="background:#6A3CD6"></span>🎁 Kit gift</div>
-        <div class="pt"><span class="sw" style="background:var(--wheelB)"></span>30 Bonus</div>
-        <div class="pt"><span class="sw" style="background:#B8860B"></span>🎁 Rare gift</div>
-        <div class="pt"><span class="sw" style="background:#4A2E9E"></span>Free spin</div>
-        <div class="pt"><span class="sw" style="background:var(--bonus2)"></span>No prize</div>
+      <div class="wforce" id="mgwh-force"><span class="wl">FORCE</span><div class="wforce-rail"><b id="mgwh-needle"></b></div><span class="wl">MAX</span></div>
+      <div class="wprompt" id="mgwh-prompt">TAP Spin to lock FORCE — wheel winds up, then dies on friction</div>
+      <div class="wchips">
+        <div class="wchip c50" data-seg="0"><i class="wlogo">C</i>50</div>
+        <div class="wchip c10" data-seg="6"><i class="wlogo">C</i>10</div>
+        <div class="wchip c100" data-seg="2"><i class="wlogo">C</i>100</div>
+        <div class="wchip cgift" data-seg="3"><i class="wlogo">🎁</i>Kit</div>
+        <div class="wchip c30" data-seg="4"><i class="wlogo">C</i>30</div>
+        <div class="wchip crare" data-seg="5"><i class="wlogo">★</i>Rare</div>
+        <div class="wchip cfree" data-seg="1"><i class="wlogo">↻</i>Free</div>
+        <div class="wchip cnone" data-seg="7"><i class="wlogo">×</i>Miss</div>
       </div>
-      <div class="note info" style="margin-top:12px">Equal-size segments have equal odds. "Free spin" gives you another spin — no Coins charged.</div>
-      <div class="cta" style="margin-top:0"><div class="btn purple">Spin · 20 Coins</div></div>
+      <div class="wnote">Equal segments · Free spin is not charged</div>
+      <div class="cta" style="margin-top:10px"><div class="btn purple" id="mgwh-spin">Spin · 20 Coins</div></div>
     </div>
   </div></div>
 

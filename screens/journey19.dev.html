@@ -40,8 +40,8 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 
   .top{padding:18px 18px 0;display:flex;align-items:center;gap:11px}
-  .back,.ico{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex:none}
-  .htitle{font-size:19px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .back,.ico{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t1);flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--t1)}
   .hicons{margin-left:auto;display:flex;gap:8px}
   .body{flex:1;padding:14px 16px 0;display:flex;flex-direction:column;overflow:hidden}
   .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:0}
@@ -224,11 +224,11 @@
       <div class="search">🔍 Search messages</div>
       <div class="filters"><span class="fchip on">All</span><span class="fchip">Unread</span><span class="fchip">Club</span><span class="fchip">Managers</span><span class="fchip">Requests <span class="bd">2</span></span></div>
       <div class="scroll">
-        <div class="crow"><div class="crest">RF</div><div style="flex:1"><div class="cn">Red Fury · Club Chat <span class="rolechip club">Club</span></div><div class="cp">Jordan: Big watchalong tonight—be there!</div></div><div class="cmeta"><div class="ct">2m</div><div class="unread num">5</div></div></div>
-        <div class="crow"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_m1.jpg')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Jordan <span class="rolechip mgr">Manager</span></div><div class="cp">You: Thanks for the gift! <span class="tick">✓✓</span></div></div><div class="cmeta"><div class="ct">14m</div></div></div>
-        <div class="crow"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_f2.jpg')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cp">possession was unreal 🔥</div></div><div class="cmeta"><div class="ct">1h</div><div class="unread num">2</div></div></div>
-        <div class="crow"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cp miss">📞 Missed video call</div></div><div class="cmeta"><div class="ct">3h</div></div></div>
-        <div class="crow"><div class="av" style="width:50px;height:50px;background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cp">🎁 Golden Boot sent</div></div><div class="cmeta"><div class="ct">1d</div></div></div>
+        <div class="crow" data-goto="clubchat"><div class="crest">RF</div><div style="flex:1"><div class="cn">Red Fury · Club Chat <span class="rolechip club">Club</span></div><div class="cp">Jordan: Big watchalong tonight—be there!</div></div><div class="cmeta"><div class="ct">2m</div><div class="unread num">5</div></div></div>
+        <div class="crow" data-goto="chatthread"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/up_01.png')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Jordan <span class="rolechip mgr">Manager</span></div><div class="cp">You: Thanks for the gift! <span class="tick">✓✓</span></div></div><div class="cmeta"><div class="ct">14m</div></div></div>
+        <div class="crow" data-goto="chatthread"><div class="cav"><div class="av" style="width:50px;height:50px;background-image:url('assets/up_11.png')"></div><div class="dot"></div></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cp">possession was unreal 🔥</div></div><div class="cmeta"><div class="ct">1h</div><div class="unread num">2</div></div></div>
+        <div class="crow" data-goto="chatthread"><div class="av" style="width:50px;height:50px;background-image:url('assets/up_13.png')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cp miss">📞 Missed video call</div></div><div class="cmeta"><div class="ct">3h</div></div></div>
+        <div class="crow" data-goto="chatthread"><div class="av" style="width:50px;height:50px;background-image:url('assets/up_14.png')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cp">🎁 Golden Boot sent</div></div><div class="cmeta"><div class="ct">1d</div></div></div>
       </div>
     </div>
   </div></div>
@@ -240,10 +240,10 @@
     <div class="body">
       <div class="search">🔍 Name or User ID</div>
       <div class="lbl" style="margin:16px 0 10px">Your club</div>
-      <div class="uresult"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="un">Jordan · Manager</div><div class="ui num">ID 10022 · Red Fury</div></div><div class="act msg">Message</div></div>
-      <div class="uresult"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="un">Priya S.</div><div class="ui num">ID 67890 · Red Fury</div></div><div class="act msg">Message</div></div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/up_01.png')"></div><div style="flex:1"><div class="un">Jordan · Manager</div><div class="ui num">ID 10022 · Red Fury</div></div><div class="act msg">Message</div></div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="un">Priya S.</div><div class="ui num">ID 67890 · Red Fury</div></div><div class="act msg">Message</div></div>
       <div class="lbl" style="margin:8px 0 10px">Found by ID · different club</div>
-      <div class="uresult"><div class="av" style="background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="un">Diego S.</div><div class="ui num">ID 60034 · Blue Wolves</div></div><div class="act req">Request</div></div>
+      <div class="uresult"><div class="av" style="background-image:url('assets/up_10.png')"></div><div style="flex:1"><div class="un">Diego S.</div><div class="ui num">ID 60034 · Blue Wolves</div></div><div class="act req">Request</div></div>
       <div class="dnote info" style="margin-top:8px">Fans in another club receive a <b>message request</b> first — they choose whether to accept. Wallet balances are never shown here.</div>
     </div>
   </div></div>
@@ -255,13 +255,13 @@
     <div class="body">
       <div class="scroll">
         <div class="reqcard">
-          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/fb_m2.jpg')"></div><div style="flex:1"><div class="rn">Diego S.</div><div class="rc num">ID 60034 · Blue Wolves</div><div class="shared">🔵 Met in Matchday Watchalong</div></div></div>
+          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/up_10.png')"></div><div style="flex:1"><div class="rn">Diego S.</div><div class="rc num">ID 60034 · Blue Wolves</div><div class="shared">🔵 Met in Matchday Watchalong</div></div></div>
           <div class="rmsg">"Great shout in the party earlier — up for a chat about the derby?"</div>
           <div class="racts"><div class="btn ghost sm">Delete</div><div class="btn sm">Accept</div></div>
           <div style="text-align:center;margin-top:9px;font-size:11.5px;font-weight:750;color:var(--coral)">Block &amp; Report</div>
         </div>
         <div class="reqcard">
-          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/fb_f3.jpg')"></div><div style="flex:1"><div class="rn">Sara V.</div><div class="rc num">ID 90551 · Night City</div><div class="shared">🆔 Found by User ID</div></div></div>
+          <div class="rh"><div class="av" style="width:46px;height:46px;background-image:url('assets/up_09.png')"></div><div style="flex:1"><div class="rn">Sara V.</div><div class="rc num">ID 90551 · Night City</div><div class="shared">🆔 Found by User ID</div></div></div>
           <div class="rmsg">"Hey! Saw your Fan Value, big respect 👏"</div>
           <div class="racts"><div class="btn ghost sm">Delete</div><div class="btn sm">Accept</div></div>
         </div>
@@ -275,7 +275,7 @@
   <!-- MSG-04 THREAD -->
   <div class="fw"><div class="flabel"><div class="fnum">MSG-04</div><div class="fname">One-to-One Chat<span>Delivery states · gift card</span></div></div>
   <div class="phone">
-    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cs">● Online</div></div><div class="callbtn">📞</div><div class="callbtn">📹</div></div>
+    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cs">● Online</div></div><div class="callbtn">📞</div><div class="callbtn">📹</div></div>
     <div class="msgs">
       <div class="sysmsg">Request accepted · you can now message &amp; call</div>
       <div class="recvwrap"><div class="bubble recv">possession was unreal tonight 🔥</div><div class="bmeta" style="justify-content:flex-start">9:32 PM</div></div>
@@ -291,7 +291,7 @@
   <div class="phone">
     <div class="top"><div class="back">✕</div><div class="htitle">Send a Gift</div></div>
     <div class="body">
-      <div style="display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:14px"><div class="av" style="width:40px;height:40px;background-image:url('assets/fb_f2.jpg')"></div><div><div style="font-size:13.5px;font-weight:800">To Priya S.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">Recipient locked to this chat</div></div><div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:13px;font-weight:800;color:var(--gold1)">🪙 1,240</div></div>
+      <div style="display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:14px"><div class="av" style="width:40px;height:40px;background-image:url('assets/up_11.png')"></div><div><div style="font-size:13.5px;font-weight:800">To Priya S.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">Recipient locked to this chat</div></div><div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:13px;font-weight:800;color:var(--gold1)">🪙 1,240</div></div>
       <div class="giftgrid">
         <div class="giftopt"><div class="ge">🧣</div><div class="gn">Scarf</div><div class="gc">🪙 20</div></div>
         <div class="giftopt on"><div class="ge">🥇</div><div class="gn">Golden Boot</div><div class="gc">🪙 199</div></div>
@@ -308,7 +308,7 @@
   <!-- MSG-04B BLOCKED / FAILED -->
   <div class="fw"><div class="flabel"><div class="fnum">MSG-04B</div><div class="fname">Failed &amp; Blocked States<span>Honest, non-revealing</span></div></div>
   <div class="phone">
-    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cs" style="color:var(--t3)">Last seen recently</div></div><div class="callbtn" style="opacity:.4">📞</div><div class="callbtn" style="opacity:.4">📹</div></div>
+    <div class="chdr"><div class="back">‹</div><div class="av" style="background-image:url('assets/up_13.png')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cs" style="color:var(--t3)">Last seen recently</div></div><div class="callbtn" style="opacity:.4">📞</div><div class="callbtn" style="opacity:.4">📹</div></div>
     <div class="msgs">
       <div class="sentwrap"><div class="bubble sent">you around for a call?</div><div class="bmeta"><span>8:01 PM</span><span>✓ Sent</span></div></div>
       <div class="sentwrap"><div class="bubble sent" style="opacity:.7">hello?</div><div class="bmeta failmeta"><span>8:14 PM</span><span>⚠ Failed · Tap to retry</span></div></div>
@@ -441,10 +441,10 @@
     <div class="body">
       <div class="filters"><span class="fchip on">All</span><span class="fchip">Missed</span><span class="fchip">Voice</span><span class="fchip">Video</span></div>
       <div class="scroll">
-        <div class="callrow"><div class="av" style="background-image:url('assets/fb_f2.jpg')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cd">↗ Outgoing · Voice · 4:12</div></div><div class="cb">📞</div></div>
-        <div class="callrow"><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cd miss">↙ Missed · Video</div></div><div class="cb" style="color:var(--coral)">📹</div></div>
-        <div class="callrow"><div class="av" style="background-image:url('assets/fb_m1.jpg')"></div><div style="flex:1"><div class="cn">Jordan</div><div class="cd">↙ Incoming · Voice · 8:30</div></div><div class="cb">📞</div></div>
-        <div class="callrow"><div class="av" style="background-image:url('assets/fb_f1.jpg')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cd">↗ Outgoing · Video · 12:04</div></div><div class="cb">📹</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="cn">Priya S.</div><div class="cd">↗ Outgoing · Voice · 4:12</div></div><div class="cb">📞</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/up_13.png')"></div><div style="flex:1"><div class="cn">Mo A.</div><div class="cd miss">↙ Missed · Video</div></div><div class="cb" style="color:var(--coral)">📹</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/up_01.png')"></div><div style="flex:1"><div class="cn">Jordan</div><div class="cd">↙ Incoming · Voice · 8:30</div></div><div class="cb">📞</div></div>
+        <div class="callrow"><div class="av" style="background-image:url('assets/up_14.png')"></div><div style="flex:1"><div class="cn">Lena R.</div><div class="cd">↗ Outgoing · Video · 12:04</div></div><div class="cb">📹</div></div>
       </div>
       <div class="dnote info" style="margin-bottom:16px">🔒 We store call times &amp; durations only — never audio or video. Calls aren't recorded.</div>
     </div>

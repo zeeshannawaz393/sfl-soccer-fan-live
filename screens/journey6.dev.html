@@ -76,8 +76,8 @@
 
   /* player card grid */
   .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .pcard{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(170deg,#1b2233,#10141d);box-shadow:0 12px 26px rgba(10,15,30,.45);border:1px solid rgba(255,255,255,.09)}
-  .pcard .pav{width:92px;height:92px;border-radius:50%;background-size:cover;background-position:center top;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.45);position:relative;z-index:2}
+  .pcard{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(170deg,#1b2233,#10141d);box-shadow:0 12px 26px rgba(10,15,30,.45);border:1px solid rgba(255,255,255,.09);cursor:pointer}
+  .pcard .pav{width:92px;height:92px;border-radius:50%;background-color:transparent;background-size:230% auto;background-position:center 2%;background-repeat:no-repeat;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.45);position:relative;z-index:2}
   .pcard .pn .n{color:#fff}
   .pcard .pn .t{color:rgba(255,255,255,.82)}
   .pcard .meta{justify-content:center}
@@ -94,20 +94,45 @@
   .pcard .meta .mv{margin-left:auto}
   .pcard .seller{font-size:10px;font-weight:700;color:#8994A6;padding:0 11px 11px;text-align:center}
 
-  /* player detail */
-  .dhero{position:relative;height:300px;flex:none;overflow:hidden}
-.dhero::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 78% at 50% 16%,rgba(255,255,255,.24),rgba(255,255,255,0) 56%),radial-gradient(90% 90% at 50% 108%,rgba(6,10,20,.45),transparent 60%);pointer-events:none;z-index:0}
-.dhero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:130px;background:linear-gradient(to top,rgba(8,10,16,.72),transparent);pointer-events:none;z-index:1}
-.dfull{position:absolute;left:0;right:0;bottom:0;height:286px;background-size:auto 100%;background-position:center bottom;background-repeat:no-repeat;z-index:1;pointer-events:none}
-  .dhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,16,.1),transparent 34%,rgba(8,10,16,.85))}
-  .dhero .dnav{position:absolute;top:16px;left:16px;right:16px;display:flex;z-index:2}
-  .dhero .dnav .back{background:rgba(10,12,18,.4);border:none;color:#fff}
-  .dhero .trend{margin-left:auto;align-self:center}
-  .dhero .dinfo{position:absolute;left:18px;right:18px;bottom:14px;z-index:2}
-  .dhero .dn{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
-  .dhero .dt{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-top:3px;display:flex;align-items:center;gap:7px}
+  /* player detail — stadium bleeds under the status bar; head stays fully on-canvas */
+  .phone.bleed > .sfl-statusbar{
+    position:absolute;top:0;left:0;right:0;height:50px;background:transparent;color:#F4F6FA;z-index:600;
+  }
+  .dhero{
+    position:relative;height:398px;flex:none;overflow:hidden;
+    background:
+      radial-gradient(58% 46% at 50% 28%,rgba(64,154,232,.38),transparent 64%),
+      linear-gradient(180deg,#1E5CAD 0%,#164888 46%,#0E3060 100%);
+  }
+  .dhero::before{
+    content:"";position:absolute;left:50%;bottom:58px;width:170px;height:20px;
+    transform:translateX(-50%);pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse,rgba(4,12,28,.38) 0%,transparent 72%);
+  }
+  .dhero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:76px;pointer-events:none;z-index:2;
+    background:linear-gradient(to top,rgba(8,22,44,.48),transparent);
+  }
+  .dfull{
+    position:absolute;left:0;right:0;top:52px;bottom:0;z-index:1;pointer-events:none;
+    background-size:auto 118%;background-position:center top;background-repeat:no-repeat;
+    filter:drop-shadow(0 16px 20px rgba(6,18,40,.28));
+  }
+  .dhero .dnav{position:absolute;top:54px;left:16px;right:16px;display:flex;z-index:3}
+  .dhero .dnav .back{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.26);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .dhero .trend{margin-left:auto;align-self:center;box-shadow:0 6px 16px rgba(15,183,83,.22)}
+  .dhero .dinfo{position:absolute;left:18px;right:18px;bottom:18px;z-index:3}
+  .dhero .dn{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;text-shadow:0 2px 14px rgba(8,16,32,.45)}
+  .dhero .dt{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);margin-top:3px;display:flex;align-items:center;gap:7px}
   .dhero .dt .crest{width:18px;height:18px;font-size:7px}
-  .dbody{flex:1;overflow:hidden;padding:16px 20px 0;display:flex;flex-direction:column;gap:12px}
+  .dhero[data-art="rivera"] .dfull{background-image:url('assets/pl_nobg_rivera.png')}
+  .dhero[data-art="bello"]{background:radial-gradient(58% 46% at 50% 28%,rgba(255,110,90,.34),transparent 64%),linear-gradient(180deg,#E85A4A 0%,#B01E18 48%,#6E1010 100%)}
+  .dhero[data-art="bello"] .dfull{background-image:url('assets/pl_nobg_bello.png')}
+  .dhero[data-art="mensah"]{background:radial-gradient(58% 46% at 50% 28%,rgba(90,230,140,.32),transparent 64%),linear-gradient(180deg,#1BC462 0%,#0C8A40 48%,#075528 100%)}
+  .dhero[data-art="mensah"] .dfull{background-image:url('assets/pl_nobg_mensah.png')}
+  .dhero[data-art="silva"]{background:radial-gradient(58% 46% at 50% 28%,rgba(180,140,255,.32),transparent 64%),linear-gradient(180deg,#8B62D4 0%,#5A2F96 48%,#2E1658 100%)}
+  .dhero[data-art="silva"] .dfull{background-image:url('assets/pl_nobg_silva.png')}
+  .dbody{flex:1;overflow:hidden;padding:18px 20px 0;display:flex;flex-direction:column;gap:12px;background:var(--bg);border-radius:22px 22px 0 0;position:relative;z-index:4;box-shadow:0 -8px 24px rgba(16,28,56,.08)}
   .valblock{display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,#FFF7E4,#fff);border:1px solid #FFE199;border-radius:16px;padding:14px}
   .valblock .coin{width:40px;height:40px;font-size:14px}
   .valblock .vl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--goldDeep);text-transform:uppercase;display:flex;align-items:center;gap:5px}
@@ -136,7 +161,7 @@
   .balr.new .k{color:var(--t1);font-weight:800}
   .escrow-note{display:flex;gap:9px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:13px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:650;color:#187A42;margin-top:10px}
   .psummary{display:flex;align-items:center;gap:12px;padding:12px;background:#F6F8FC;border-radius:16px;margin:12px 0}
-  .psummary .pi{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center top;flex:none;border:2px solid #fff;box-shadow:0 3px 9px rgba(20,30,60,.20)}
+  .psummary .pi{width:46px;height:46px;border-radius:50%;background-color:transparent;background-size:230% auto;background-position:center 2%;background-repeat:no-repeat;flex:none;border:2px solid #fff;box-shadow:0 3px 9px rgba(20,30,60,.20)}
   .psummary .pn{font-size:15px;font-weight:800}
   .psummary .pp{font-size:12px;font-weight:700;color:var(--t2)}
   .psummary .pv{margin-left:auto}
@@ -178,12 +203,33 @@
   .prow .pln{font-size:11.5px;font-weight:800;margin-top:3px}
   .prow .pln.up{color:var(--green1)}.prow .pln.down{color:var(--coral)}
   .prow .listed{font-size:9px;font-weight:800;color:#0FA04C;background:#F2FBF5;border:1px solid #BFE9CE;padding:2px 7px;border-radius:999px;margin-top:4px;display:inline-block}
+  .prow .listed.loan{color:#9A6A00;background:#FFF7E4;border-color:#FFE199}
+  .dutybar{background:linear-gradient(135deg,#FFFBF0,#fff);border:1.5px solid #FFE199;border-radius:14px;padding:11px 13px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+  .dutybar .dh{font-size:10.5px;font-weight:800;letter-spacing:.45px;color:var(--goldDeep);text-transform:uppercase}
+  .dutybar .dd{font-size:13px;font-weight:750;color:var(--t1);margin-top:3px;line-height:18px}
+  .dutypills{display:flex;gap:8px;margin-top:9px}
+  .dutyp{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 8px;text-align:center}
+  .dutyp .n{font-size:16px;font-weight:800}
+  .dutyp .l{font-size:10px;font-weight:750;color:var(--t2);margin-top:1px}
+  .dutyp.ok{border-color:#BFE9CE;background:#F2FBF5}
+  .dutyp.ok .n{color:#187A42}
+  .actopt{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:13px 14px;box-shadow:var(--shadow-sm);margin-top:10px}
+  .actopt .ai{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .actopt .at{font-size:15px;font-weight:800}
+  .actopt .ad{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px}
+  .actopt .chev{margin-left:auto;color:var(--t3);font-size:18px;font-weight:800}
+  .actopt.on{border-color:var(--green1);box-shadow:0 0 0 3px rgba(15,183,83,.14)}
+  .pcard .lbadge{position:absolute;top:36px;left:9px;z-index:3;font-size:9px;font-weight:800;color:#5A3E00;background:linear-gradient(140deg,#FFD54F,#FFB300);padding:2px 7px;border-radius:999px}
+  .durrow{display:flex;gap:8px;margin-top:8px}
+  .durchip{flex:1;height:42px;border-radius:12px;border:1.5px solid var(--line);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+  .durchip small{font-size:10px;font-weight:650;color:var(--t2)}
+  .durchip.on{border-color:var(--amber);background:#FFFBF2;box-shadow:0 0 0 3px rgba(245,158,11,.14)}
 
   /* celebrate/state */
   .celebrate{align-items:center;text-align:center;display:flex;flex-direction:column}
   .celebrate .cta{width:100%}
   .revealcard{position:relative;width:150px;height:190px;border-radius:18px;overflow:hidden;margin:4px auto 0;box-shadow:0 16px 40px rgba(20,30,60,.24);border:2px solid var(--gold1)}
-  .revealcard .rp{position:absolute;inset:0;background-size:cover;background-position:center 15%}
+  .revealcard .rp{position:absolute;inset:0;background-size:contain;background-position:center bottom;background-repeat:no-repeat}
   .revealcard .rg{position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,10,16,.85))}
   .revealcard .rn{position:absolute;left:10px;right:10px;bottom:10px;z-index:2}
   .revealcard .rn .n{font-size:15px;font-weight:800;color:#fff}
@@ -204,7 +250,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 6 — Player Transfer Market (light)</div>
   <h1>Transfer Market</h1>
-  <p>Buy &amp; sell virtual players in the light system. Player Value is the <b>app-set sale price</b> (never a wallet balance — shown with a tooltip), moves on real W/D/L (+30/+10/0), and every transfer runs through escrow. P/L is <b>Unrealized</b> until a sale completes. Coins-only. Player photos are licensed-imagery stand-ins.</p>
+  <p>Buy, <b>transfer</b> and <b>loan</b> virtual players in the light system. Each Fan’s weekly duty is to list <b>at least 2 players for transfer</b> and <b>2 for loan</b> on the Transfer Market. Player Value is the <b>app-set price</b> (never a wallet balance), moves on real W/D/L (+30/+10/0), and every permanent transfer runs through escrow. P/L is <b>Unrealized</b> until a sale completes. Coins-only.</p>
 </div>
 
 <div class="frames">
@@ -237,28 +283,28 @@
     <div class="top"><div class="back">‹</div><div class="htitle">Transfer Market</div><div class="coinbal"><div class="coin">C</div><span class="num">1,240</span></div></div>
     <div class="body">
       <div class="plsearch" style="height:44px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm);display:flex;align-items:center;padding:0 14px;gap:9px;font-size:13.5px;font-weight:600;color:var(--t3);margin-bottom:11px">🔍 Search player, team or position</div>
-      <div class="fchips" style="margin-bottom:12px"><span class="fchip on">All</span><span class="fchip">Forwards</span><span class="fchip">Midfield</span><span class="fchip">Defence</span><span class="fchip">Rising ▲</span></div>
+      <div class="fchips" style="margin-bottom:12px"><span class="fchip on" data-plfilter="all">All</span><span class="fchip" data-plfilter="transfer">Transfer</span><span class="fchip" data-plfilter="loan">Loan</span><span class="fchip" data-plfilter="fwd">Forwards</span><span class="fchip" data-plfilter="mid">Midfield</span></div>
       <div class="scrollarea">
         <div class="pgrid">
-          <div class="pcard">
-            <div class="ph" style="background:linear-gradient(165deg,#2F7FD1,#17436f)"><span class="pos">ST</span><div class="crest cr-blue sc">BW</div><div class="pav" style="background-image:url('assets/av_11.png')"></div><div class="pn"><div class="n">A. Rivera</div><div class="t">Northbridge FC</div></div></div>
+          <div class="pcard" data-pl="rivera" data-kind="transfer" data-pos="fwd">
+            <div class="ph" style="background:linear-gradient(165deg,#2F7FD1,#17436f)"><span class="pos">ST</span><div class="crest cr-blue sc">BW</div><div class="pav" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div class="pn"><div class="n">A. Rivera</div><div class="t">Northbridge FC</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>420</span><span class="mv up">▲ +30</span></div>
-            <div class="seller">Sold by Blue Wolves FC</div>
+            <div class="seller">Transfer · Blue Wolves FC</div>
           </div>
-          <div class="pcard">
-            <div class="ph" style="background:linear-gradient(165deg,#E4362B,#7c1611)"><span class="pos">CM</span><div class="crest cr-red sc">RD</div><div class="pav" style="background-image:url('assets/av_09.png')"></div><div class="pn"><div class="n">T. Bello</div><div class="t">Southgate United</div></div></div>
+          <div class="pcard" data-pl="bello" data-kind="transfer" data-pos="mid">
+            <div class="ph" style="background:linear-gradient(165deg,#E4362B,#7c1611)"><span class="pos">CM</span><div class="crest cr-red sc">RD</div><div class="pav" style="background-image:url('assets/pl_nobg_bello.png')"></div><div class="pn"><div class="n">T. Bello</div><div class="t">Southgate United</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>310</span><span class="mv flat">0</span></div>
-            <div class="seller">Sold by Red District FC</div>
+            <div class="seller">Transfer · Red District FC</div>
           </div>
-          <div class="pcard">
-            <div class="ph" style="background:linear-gradient(165deg,#0FB753,#0a6e33)"><span class="pos">LW</span><div class="crest cr-green sc">GF</div><div class="pav" style="background-image:url('assets/av_03.png')"></div><div class="pn"><div class="n">K. Mensah</div><div class="t">Coast City</div></div></div>
-            <div class="meta"><span class="valchip"><div class="coin">C</div>560</span><span class="mv up">▲ +10</span></div>
-            <div class="seller">Sold by Greenfield FC</div>
+          <div class="pcard" data-pl="mensah" data-kind="loan" data-pos="fwd">
+            <div class="ph" style="background:linear-gradient(165deg,#0FB753,#0a6e33)"><span class="pos">LW</span><span class="lbadge">LOAN</span><div class="crest cr-green sc">GF</div><div class="pav" style="background-image:url('assets/pl_nobg_mensah.png')"></div><div class="pn"><div class="n">K. Mensah</div><div class="t">Coast City</div></div></div>
+            <div class="meta"><span class="valchip"><div class="coin">C</div>80</span><span class="mv up">1 week</span></div>
+            <div class="seller">Loan · Greenfield FC · returns 27 Aug</div>
           </div>
-          <div class="pcard">
-            <div class="ph" style="background:linear-gradient(165deg,#7C4DB8,#3d2470)"><span class="pos">GK</span><div class="crest cr-gold sc">RL</div><div class="pav" style="background-image:url('assets/av_10.png')"></div><div class="pn"><div class="n">M. Silva</div><div class="t">Royal Athletic</div></div></div>
+          <div class="pcard" data-pl="silva" data-kind="transfer" data-pos="def">
+            <div class="ph" style="background:linear-gradient(165deg,#7C4DB8,#3d2470)"><span class="pos">GK</span><div class="crest cr-gold sc">RL</div><div class="pav" style="background-image:url('assets/pl_nobg_silva.png')"></div><div class="pn"><div class="n">M. Silva</div><div class="t">Royal Athletic</div></div></div>
             <div class="meta"><span class="valchip"><div class="coin">C</div>340</span><span class="mv flat">0</span></div>
-            <div class="seller">Sold by Royal Lions FC</div>
+            <div class="seller">Transfer · Royal Lions FC</div>
           </div>
         </div>
       </div>
@@ -286,9 +332,9 @@
 
   <!-- PL-02 PLAYER DETAIL -->
   <div class="fw"><div class="flabel"><div class="fnum">PL-02</div><div class="fname">Player Detail<span>Value history + W/D/L rules</span></div></div>
-  <div class="phone">
-    <div class="dhero" style="background:linear-gradient(165deg,#2F7FD1,#123a63)">
-      <div class="dfull" style="background-image:url('assets/av_full_11.png')"></div>
+  <div class="phone bleed">
+    <div class="dhero" data-art="rivera">
+      <div class="dfull" style="background-image:url('assets/pl_nobg_rivera.png')"></div>
       <div class="dnav"><div class="back">‹</div><span class="mv up trend">▲ Rising</span></div>
       <div class="dinfo"><div class="dn">A. Rivera</div><div class="dt">ST · Northbridge FC <span class="crest cr-blue">BW</span> Blue Wolves FC</div></div>
     </div>
@@ -351,7 +397,7 @@
     <div class="sheet-scrim"><div class="sheet">
       <div class="grab"></div>
       <h3>Buy via escrow</h3>
-      <div class="psummary"><div class="pi" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div><span class="valchip pv"><div class="coin">C</div>420</span></div>
+      <div class="psummary"><div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div><span class="valchip pv"><div class="coin">C</div>420</span></div>
       <div class="card" style="padding:4px 15px">
         <div class="balr"><span class="k">Player price</span><span class="v num">420 Coins</span></div>
         <div class="balr"><span class="k">Current balance</span><span class="v num">1,240 Coins</span></div>
@@ -416,7 +462,7 @@
   <div class="fw"><div class="flabel"><div class="fnum">PL-05</div><div class="fname">Purchase Complete<span>New value baseline</span></div></div>
   <div class="phone">
     <div class="body celebrate">
-      <div class="revealcard"><div class="rp" style="background-image:url('assets/fb_host.jpg')"></div><div class="rg"></div><div class="rn"><div class="n">A. Rivera</div><div class="t">ST · Northbridge FC</div></div></div>
+      <div class="revealcard"><div class="rp" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div class="rg"></div><div class="rn"><div class="n">A. Rivera</div><div class="t">ST · Northbridge FC</div></div></div>
       <div class="vbadge" style="margin-top:14px">✓ Transfer complete</div>
       <div class="h1" style="margin-top:8px">Joined your squad!</div>
       <div class="sub">A. Rivera · from Blue Wolves FC</div>
@@ -441,47 +487,146 @@
         <div class="sbox"><div class="sv gold num">6,140</div><div class="sl">Squad value</div></div>
         <div class="sbox"><div class="sv up num">+310</div><div class="sl">Unrealized P/L</div></div>
       </div>
+      <div class="dutybar" id="pl-duty">
+        <div class="dh">Fan duty this week</div>
+        <div class="dd">List at least 2 players for transfer and 2 for loan on the Transfer Market.</div>
+        <div class="dutypills">
+          <div class="dutyp" id="pl-duty-t"><div class="n num">0/2</div><div class="l">Transfers</div></div>
+          <div class="dutyp" id="pl-duty-l"><div class="n num">0/2</div><div class="l">Loans</div></div>
+        </div>
+      </div>
       <div style="display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:750;color:#187A42">🛡️ 18 players · squad minimum 18 · seeded from Man United</div>
-      <div class="tabs" style="margin-bottom:12px"><i class="on">All</i><i>Available</i><i>Listed</i><i>Pending</i></div>
+      <div class="tabs" style="margin-bottom:12px"><i class="on" data-pltab="all">All</i><i data-pltab="avail">Available</i><i data-pltab="listed">Listed</i><i data-pltab="pending">Pending</i></div>
       <div class="scrollarea">
         <div class="roster">
-          <div class="prow">
-            <div class="pi" style="background-image:url('assets/av_11.png')"></div>
+          <div class="prow" data-pl="rivera">
+            <div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div>
             <div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div><div class="pl2 num">Acquired 420</div></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">450</span></div><div class="pln up">Unreal. +30</div></div>
           </div>
-          <div class="prow">
-            <div class="pi" style="background-image:url('assets/av_03.png')"></div>
-            <div><div class="pn">K. Mensah</div><div class="pp">LW · Coast City</div><div class="pl2 num">Acquired 560</div><span class="listed">● LISTED 560</span></div>
+          <div class="prow" data-pl="mensah">
+            <div class="pi" style="background-image:url('assets/pl_nobg_mensah.png')"></div>
+            <div><div class="pn">K. Mensah</div><div class="pp">LW · Coast City</div><div class="pl2 num">Acquired 560</div></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">560</span></div><div class="pln up">Unreal. 0</div></div>
           </div>
-          <div class="prow">
-            <div class="pi" style="background-image:url('assets/av_10.png')"></div>
+          <div class="prow" data-pl="silva">
+            <div class="pi" style="background-image:url('assets/pl_nobg_silva.png')"></div>
             <div><div class="pn">M. Silva</div><div class="pp">GK · Royal Athletic</div><div class="pl2 num">Acquired 300</div></div>
             <div class="side"><div class="cv"><div class="coin">C</div><span class="num">300</span></div><div class="pln" style="color:var(--t3)">Unreal. 0</div></div>
+          </div>
+          <div class="prow" data-pl="okonkwo">
+            <div class="pi" style="background-image:url('assets/av_02.png')"></div>
+            <div><div class="pn">D. Okonkwo</div><div class="pp">CB · Iron Valley</div><div class="pl2 num">Acquired 380</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">410</span></div><div class="pln up">Unreal. +30</div></div>
+          </div>
+          <div class="prow" data-pl="fernandez">
+            <div class="pi" style="background-image:url('assets/av_05.png')"></div>
+            <div><div class="pn">L. Fernández</div><div class="pp">CM · Coast City</div><div class="pl2 num">Acquired 470</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">440</span></div><div class="pln" style="color:var(--red,#E4362B)">Unreal. −30</div></div>
+          </div>
+          <div class="prow" data-pl="park">
+            <div class="pi" style="background-image:url('assets/av_07.png')"></div>
+            <div><div class="pn">J. Park</div><div class="pp">RW · Northbridge FC</div><div class="pl2 num">Acquired 520</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">560</span></div><div class="pln up">Unreal. +40</div></div>
+          </div>
+          <div class="prow" data-pl="almeida">
+            <div class="pi" style="background-image:url('assets/av_01.png')"></div>
+            <div><div class="pn">T. Almeida</div><div class="pp">RB · Royal Athletic</div><div class="pl2 num">Acquired 260</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">280</span></div><div class="pln up">Unreal. +20</div></div>
+          </div>
+          <div class="prow" data-pl="berg">
+            <div class="pi" style="background-image:url('assets/av_09.png')"></div>
+            <div><div class="pn">S. Berg</div><div class="pp">ST · Coast City</div><div class="pl2 num">Acquired 640</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">700</span></div><div class="pln up">Unreal. +60</div></div>
+          </div>
+          <div class="prow" data-pl="costa">
+            <div class="pi" style="background-image:url('assets/av_04.png')"></div>
+            <div><div class="pn">R. Costa</div><div class="pp">LB · Iron Valley</div><div class="pl2 num">Acquired 300</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">300</span></div><div class="pln" style="color:var(--t3)">Unreal. 0</div></div>
+          </div>
+          <div class="prow" data-pl="diallo">
+            <div class="pi" style="background-image:url('assets/av_06.png')"></div>
+            <div><div class="pn">N. Diallo</div><div class="pp">CDM · Northbridge FC</div><div class="pl2 num">Acquired 410</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">450</span></div><div class="pln up">Unreal. +40</div></div>
+          </div>
+          <div class="prow" data-pl="obello">
+            <div class="pi" style="background-image:url('assets/av_08.png')"></div>
+            <div><div class="pn">O. Bello</div><div class="pp">CB · Coast City</div><div class="pl2 num">Acquired 350</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">330</span></div><div class="pln" style="color:var(--red,#E4362B)">Unreal. −20</div></div>
+          </div>
+          <div class="prow" data-pl="vlasic">
+            <div class="pi" style="background-image:url('assets/av_03.png')"></div>
+            <div><div class="pn">E. Vlašić</div><div class="pp">CF · Royal Athletic</div><div class="pl2 num">Acquired 580</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">620</span></div><div class="pln up">Unreal. +40</div></div>
+          </div>
+          <div class="prow" data-pl="sanchez">
+            <div class="pi" style="background-image:url('assets/av_11.png')"></div>
+            <div><div class="pn">P. Sánchez</div><div class="pp">CAM · Iron Valley</div><div class="pl2 num">Acquired 500</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">540</span></div><div class="pln up">Unreal. +40</div></div>
+          </div>
+          <div class="prow" data-pl="rossi">
+            <div class="pi" style="background-image:url('assets/av_02.png')"></div>
+            <div><div class="pn">G. Rossi</div><div class="pp">GK · Northbridge FC</div><div class="pl2 num">Acquired 240</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">240</span></div><div class="pln" style="color:var(--t3)">Unreal. 0</div></div>
+          </div>
+          <div class="prow" data-pl="kante">
+            <div class="pi" style="background-image:url('assets/av_05.png')"></div>
+            <div><div class="pn">H. Kanté</div><div class="pp">CM · Coast City</div><div class="pl2 num">Acquired 430</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">470</span></div><div class="pln up">Unreal. +40</div></div>
+          </div>
+          <div class="prow" data-pl="mendy">
+            <div class="pi" style="background-image:url('assets/av_07.png')"></div>
+            <div><div class="pn">F. Mendy</div><div class="pp">RM · Royal Athletic</div><div class="pl2 num">Acquired 360</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">390</span></div><div class="pln up">Unreal. +30</div></div>
+          </div>
+          <div class="prow" data-pl="ibrahim">
+            <div class="pi" style="background-image:url('assets/av_09.png')"></div>
+            <div><div class="pn">Z. Ibrahim</div><div class="pp">LM · Iron Valley</div><div class="pl2 num">Acquired 320</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">300</span></div><div class="pln" style="color:var(--red,#E4362B)">Unreal. −20</div></div>
+          </div>
+          <div class="prow" data-pl="nkunku">
+            <div class="pi" style="background-image:url('assets/av_06.png')"></div>
+            <div><div class="pn">C. Nkunku</div><div class="pp">CF · Northbridge FC</div><div class="pl2 num">Acquired 610</div></div>
+            <div class="side"><div class="cv"><div class="coin">C</div><span class="num">660</span></div><div class="pln up">Unreal. +50</div></div>
           </div>
         </div>
       </div>
     </div>
   </div></div>
 
-  <!-- PL-07 LIST FOR SALE -->
-  <div class="fw"><div class="flabel"><div class="fnum">PL-07</div><div class="fname">List for Sale<span>App-set price (anti-manipulation)</span></div></div>
+  <!-- PL-06A PLAYER ACTIONS -->
+  <div class="fw"><div class="flabel"><div class="fnum">PL-06A</div><div class="fname">Player actions<span>Transfer · Loan · or unlist</span></div></div>
   <div class="phone">
     <div class="body" style="filter:blur(1.5px);opacity:.5"><div class="h1">My Players</div></div>
     <div class="sheet-scrim"><div class="sheet">
       <div class="grab"></div>
-      <h3>List player for sale</h3>
-      <div class="psummary"><div class="pi" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div></div>
+      <h3>Move this player</h3>
+      <div class="psummary"><div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div><span class="valchip pv"><div class="coin">C</div>450</span></div>
+      <div class="actopt" data-plact="transfer"><div class="ai" style="background:linear-gradient(140deg,#E9F9EF,#fff);color:var(--green1)">⇄</div><div><div class="at">Transfer</div><div class="ad">Permanent sale at the app-set value</div></div><div class="chev">›</div></div>
+      <div class="actopt" data-plact="loan"><div class="ai" style="background:linear-gradient(140deg,#FFF7E4,#fff);color:var(--goldDeep)">🕐</div><div><div class="at">Loan</div><div class="ad">Temporary listing · they return after the term</div></div><div class="chev">›</div></div>
+      <div class="tipnote" style="margin-top:12px">Fan duty: list 2 transfers and 2 loans this week. You keep ownership until a buyer completes escrow (transfer) or the loan term ends.</div>
+      <div class="cta" style="margin-top:12px;margin-bottom:0"><div class="altlink">Cancel</div></div>
+    </div></div>
+  </div></div>
+
+  <!-- PL-07 LIST FOR TRANSFER -->
+  <div class="fw"><div class="flabel"><div class="fnum">PL-07</div><div class="fname">List for Transfer<span>Permanent · app-set price</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(1.5px);opacity:.5"><div class="h1">My Players</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>List for transfer</h3>
+      <div class="psummary"><div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div></div>
       <div class="card" style="padding:4px 15px">
+        <div class="balr"><span class="k">Type</span><span class="v">Permanent transfer</span></div>
         <div class="balr"><span class="k">Acquired for</span><span class="v num">420 Coins</span></div>
         <div class="balr"><span class="k">Current app value</span><span class="v num">450 Coins</span></div>
         <div class="balr plus"><span class="k">Unrealized P/L</span><span class="v num">+30 Coins</span></div>
         <div class="balr new" style="border:none"><span class="k">Listing price</span><span class="v num">450 Coins</span></div>
       </div>
-      <div class="tipnote" style="margin-top:10px">ⓘ Listings use the app-set value — this protects the value engine and blocks price manipulation. Profit is realized only after the sale completes.</div>
-      <div style="display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-top:8px;font-size:11.5px;font-weight:750;color:#187A42">🛡️ Squad 19 → 18 after sale · stays at the minimum 18</div>
-      <div class="cta" style="margin-top:12px;margin-bottom:0"><div class="btn">List at 450 Coins</div><div class="altlink">Cancel</div></div>
+      <div class="tipnote" style="margin-top:10px">ⓘ Transfer listings use the app-set value — this protects the value engine and blocks price manipulation. Profit is realized only after the sale completes.</div>
+      <div style="display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-top:8px;font-size:11.5px;font-weight:750;color:#187A42">🛡️ Squad stays at 18 until a buyer completes escrow</div>
+      <div class="cta" style="margin-top:12px;margin-bottom:0"><div class="btn">List transfer at 450 Coins</div><div class="altlink">Cancel</div></div>
     </div></div>
   </div></div>
 
@@ -489,17 +634,61 @@
   <div class="fw"><div class="flabel"><div class="fnum">PL-08</div><div class="fname">Listing Live<span>Owned until buyer completes escrow</span></div></div>
   <div class="phone">
     <div class="body celebrate">
-      <div class="revealcard"><div class="rp" style="background-image:url('assets/fb_host.jpg')"></div><div class="rg"></div>
+      <div class="revealcard"><div class="rp" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div class="rg"></div>
         <div style="position:absolute;top:8px;left:8px;z-index:3;font-size:9px;font-weight:800;color:#fff;background:var(--green1);padding:3px 8px;border-radius:999px">● LIVE LISTING</div>
         <div class="rn"><div class="n">A. Rivera</div><div class="t">450 Coins</div></div></div>
-      <div class="h1" style="margin-top:16px">Your player is listed</div>
+      <div class="h1" style="margin-top:16px">Listed for transfer</div>
       <div class="sub">Visible in the Market now · you keep ownership until a buyer completes escrow.</div>
       <div class="card" style="width:100%;padding:4px 16px;margin-top:16px;text-align:left">
+        <div class="balr"><span class="k">Type</span><span class="v">Permanent transfer</span></div>
         <div class="balr"><span class="k">Listing price</span><span class="v num">450 Coins</span></div>
         <div class="balr"><span class="k">Listed</span><span class="v num">14 Aug · 21:20</span></div>
         <div class="balr new" style="border:none"><span class="k">Listing ID</span><span class="v" style="font-family:ui-monospace,monospace">LST-8890</span></div>
       </div>
-      <div class="cta"><div class="btn ghost">View in Market</div><div class="link" style="color:var(--t2)">Unlist Player</div></div>
+      <div class="cta"><div class="btn ghost">View in Market</div><div class="link" data-plact="unlist" style="color:var(--t2)">Unlist Player</div></div>
+    </div>
+  </div></div>
+
+  <!-- PL-07L LIST FOR LOAN -->
+  <div class="fw"><div class="flabel"><div class="fnum">PL-07L</div><div class="fname">List for Loan<span>Temporary · fee + term</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(1.5px);opacity:.5"><div class="h1">My Players</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>List for loan</h3>
+      <div class="psummary"><div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div></div>
+      <div style="font-size:12px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin:4px 0 2px">Loan term</div>
+      <div class="durrow">
+        <div class="durchip" data-loan="1 match">1 match<small>Next fixture</small></div>
+        <div class="durchip on" data-loan="1 week">1 week<small>Returns 27 Aug</small></div>
+        <div class="durchip" data-loan="1 season">1 season<small>Until 31 May</small></div>
+      </div>
+      <div class="card" style="padding:4px 15px;margin-top:12px">
+        <div class="balr"><span class="k">Type</span><span class="v">Temporary loan</span></div>
+        <div class="balr"><span class="k">Current app value</span><span class="v num">450 Coins</span></div>
+        <div class="balr new" style="border:none"><span class="k">Loan fee</span><span class="v num">70 Coins</span></div>
+      </div>
+      <div class="tipnote" style="margin-top:10px">ⓘ You keep ownership. The loanee pays the app-set fee. The player returns to your squad when the term ends.</div>
+      <div class="cta" style="margin-top:12px;margin-bottom:0"><div class="btn gold">List loan · 70 Coins</div><div class="altlink">Cancel</div></div>
+    </div></div>
+  </div></div>
+
+  <!-- PL-08L LOAN LISTING LIVE -->
+  <div class="fw"><div class="flabel"><div class="fnum">PL-08L</div><div class="fname">Loan listing live<span>Owned · returns after term</span></div></div>
+  <div class="phone">
+    <div class="body celebrate">
+      <div class="revealcard"><div class="rp" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div class="rg"></div>
+        <div style="position:absolute;top:8px;left:8px;z-index:3;font-size:9px;font-weight:800;color:#5A3E00;background:linear-gradient(140deg,#FFD54F,#FFB300);padding:3px 8px;border-radius:999px">● LOAN LISTING</div>
+        <div class="rn"><div class="n">A. Rivera</div><div class="t">70 Coins · 1 week</div></div></div>
+      <div class="h1" style="margin-top:16px">Listed for loan</div>
+      <div class="sub">Visible under Loan on the Market. You keep this player — they return when the term ends.</div>
+      <div class="card" style="width:100%;padding:4px 16px;margin-top:16px;text-align:left">
+        <div class="balr"><span class="k">Type</span><span class="v">Temporary loan</span></div>
+        <div class="balr"><span class="k">Loan fee</span><span class="v num">70 Coins</span></div>
+        <div class="balr"><span class="k">Term</span><span class="v">1 week · returns 27 Aug</span></div>
+        <div class="balr new" style="border:none"><span class="k">Listing ID</span><span class="v" style="font-family:ui-monospace,monospace">LON-4412</span></div>
+      </div>
+      <div class="cta"><div class="btn ghost">View in Market</div><div class="link" data-plact="unlist" style="color:var(--t2)">Unlist Player</div></div>
     </div>
   </div></div>
 
@@ -525,7 +714,7 @@
       <div style="display:flex;align-items:center;gap:16px;margin-top:8px">
         <div class="crest cr-blue" style="width:44px;height:44px;font-size:13px">BW</div>
         <div style="font-size:22px;color:var(--t3)">→</div>
-        <div class="revealcard" style="width:96px;height:120px;margin:0"><div class="rp" style="background-image:url('assets/fb_host.jpg')"></div><div class="rg"></div></div>
+        <div class="revealcard" style="width:96px;height:120px;margin:0"><div class="rp" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div class="rg"></div></div>
         <div style="font-size:22px;color:var(--t3)">→</div>
         <div class="crest cr-red" style="width:44px;height:44px;font-size:13px">RD</div>
       </div>
@@ -561,7 +750,7 @@
   function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
   document.querySelectorAll('.phone').forEach(function(p){
     if(p.querySelector(':scope > .sfl-statusbar'))return;
-    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    var dark=p.classList.contains('bleed')||lum(getComputedStyle(p).backgroundColor)<0.5;
     p.insertBefore(build(dark),p.firstChild);
   });
 })();

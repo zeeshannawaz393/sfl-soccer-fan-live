@@ -83,6 +83,11 @@
   .kycrow .badge{margin-left:auto;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px}
   .kycrow .badge.ok{color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE}
   .kycrow .badge.pend{color:var(--amber);background:#FFFBF2;border:1px solid #FDE4B8}
+  .bucket.trade{background:linear-gradient(135deg,#EEF6FF,#DCEEFF);border:1px solid #B8D4F5}
+  .bucket.trade .bn{color:#1E5E96}.bucket.trade .br{color:#3D7AB5}.bucket.trade .bal{color:#1E5E96}
+  .bucket.trade .ab{background:#fff;border:1px solid #B8D4F5;color:#1E5E96}
+  .bucket.trade .ab.primary{background:linear-gradient(140deg,#4AA0F5,#1E5E9E);color:#fff;border:none}
+  .csentry{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:var(--shadow-sm);font-size:13px;font-weight:800}
 
   /* rules table */
   .ruletable{border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:#fff}
@@ -210,6 +215,13 @@
           <div class="bal num">1,240<small>Coins</small></div>
           <div class="acts"><div class="ab primary">Buy Coins</div><div class="ab">Convert</div></div>
         </div>
+        <div class="csentry" data-go="csellers">🤝 Buy from a Coin Seller<span style="margin-left:auto;color:var(--t3)">›</span></div>
+        <div class="bucket trade" id="cs-trade-bucket" style="display:none">
+          <div class="bh"><div class="g-coin gly" style="background:linear-gradient(140deg,#4AA0F5,#1E5E9E);color:#fff;box-shadow:none">T</div><div><div class="bn">Trading inventory</div><div class="br">Seller desk · not spendable</div></div></div>
+          <div class="bal num"><span id="cs-w-av">8,400</span><small>Available</small></div>
+          <div class="rulenote" style="font-size:11px;font-weight:700;color:#1E5E96;margin-top:8px;background:rgba(47,127,209,.08);border-radius:10px;padding:8px 10px">Reserved <b class="num" id="cs-w-rs">500</b> · locked on open orders. Wallet Coins above stay separate.</div>
+          <div class="acts"><div class="ab primary" data-go="csdesk">Open desk</div><div class="ab" data-go="csinv">Restock</div></div>
+        </div>
         <div class="bucket gold">
           <div class="bh"><div class="g-gold gly">G</div><div><div class="bn">Gold</div><div class="br">Convert · transfer · withdraw</div></div></div>
           <div class="bal num">860<small>Gold</small></div>
@@ -308,7 +320,7 @@
       <div class="lbl">Recipient SFL User ID</div>
       <div class="idfield num">67890<span style="color:var(--gold1);font-weight:300">|</span></div>
       <div class="reccard" style="margin-top:14px">
-        <div class="av" style="background-image:url('assets/fb_m4.jpg')"></div>
+        <div class="av" style="background-image:url('assets/up_08.png')"></div>
         <div style="flex:1"><div class="rn">Mikael K.</div><div class="ri num">ID 67890 · Blue Wolves · Lv 9</div></div>
         <div class="ok">✓</div>
       </div>
@@ -321,7 +333,7 @@
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Amount to send</div></div>
     <div class="lbody">
-      <div class="reccard" style="margin-bottom:14px"><div class="av" style="background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div class="rn">Mikael K.</div><div class="ri num">ID 67890</div></div></div>
+      <div class="reccard" style="margin-bottom:14px"><div class="av" style="background-image:url('assets/up_08.png')"></div><div style="flex:1"><div class="rn">Mikael K.</div><div class="ri num">ID 67890</div></div></div>
       <div class="cvpanel to" style="text-align:center"><div class="cvl" style="justify-content:center"><div class="g-gold gly">G</div>Sending Gold</div><div class="amt num" style="text-align:center">200</div></div>
       <div class="card" style="padding:4px 15px;margin-top:12px">
         <div class="balr"><span class="k">Earned Gold available</span><span class="v num">860</span></div>

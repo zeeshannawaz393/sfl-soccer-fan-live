@@ -138,14 +138,15 @@
   .nav:active .ni{transform:scale(.9)}
   .nav.on{color:var(--accent)}
   .nav.on .ni{opacity:1;color:#fff;transform:translateY(-4px);background:var(--grad);box-shadow:0 9px 18px var(--glow),inset 0 1px 0 rgba(255,255,255,.4);animation:navpop .44s ease}
+  .nav.on .ni svg{color:#fff}
   .navpill .nav:nth-child(1){--accent:#E4362B;--grad:linear-gradient(150deg,#FF6E3D,#E4362B);--glow:rgba(228,54,43,.5)}
-  .navpill .nav:nth-child(1) .ni{color:#E4362B}
+  .navpill .nav:nth-child(1):not(.on) .ni{color:#E4362B}
   .navpill .nav:nth-child(2){--accent:#2266C9;--grad:linear-gradient(150deg,#4AA0F5,#2266C9);--glow:rgba(47,127,209,.5)}
-  .navpill .nav:nth-child(2) .ni{color:#2266C9}
+  .navpill .nav:nth-child(2):not(.on) .ni{color:#2266C9}
   .navpill .nav:nth-child(4){--accent:#7C3AED;--grad:linear-gradient(150deg,#A78BFA,#7C3AED);--glow:rgba(124,58,237,.5)}
-  .navpill .nav:nth-child(4) .ni{color:#7C3AED}
+  .navpill .nav:nth-child(4):not(.on) .ni{color:#7C3AED}
   .navpill .nav:nth-child(5){--accent:#0EA47D;--grad:linear-gradient(150deg,#2DD4A7,#0EA47D);--glow:rgba(14,164,125,.5)}
-  .navpill .nav:nth-child(5) .ni{color:#0EA47D}
+  .navpill .nav:nth-child(5):not(.on) .ni{color:#0EA47D}
   @keyframes navpop{0%{transform:translateY(0) scale(.85)}55%{transform:translateY(-7px) scale(1.16)}100%{transform:translateY(-4px) scale(1)}}
   .navc{position:relative;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#FF7A5C,#FF4A3D 45%,#B4241B);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin-top:-30px;box-shadow:0 10px 26px rgba(228,54,43,.55),inset 0 2px 0 rgba(255,255,255,.4);border:3px solid var(--bg);animation:navcfloat 2.8s ease-in-out infinite;cursor:pointer}
   .navc::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(228,54,43,.4);animation:navcring 2.2s ease-out infinite;pointer-events:none}
@@ -196,33 +197,100 @@
   .nrow .nsupport{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:2px;line-height:15px}
   .nrow .ntime{font-size:10.5px;font-weight:700;color:var(--t3);margin-top:3px}
   .nrow .unread{width:9px;height:9px;border-radius:50%;background:var(--blue);flex:none;margin-top:6px}
+  .nacts{display:flex;gap:8px;margin-top:9px}
+  .nbtn{height:32px;padding:0 14px;border-radius:999px;display:flex;align-items:center;font-size:12px;font-weight:800}
+  .nbtn.ok{background:linear-gradient(140deg,#0FB753,#7CD843);color:#fff}
+  .nbtn.no{background:#fff;color:#E4362B;border:1.5px solid #FFD2CE}
+  .nstatus{font-size:11.5px;font-weight:800;margin-top:8px}
+  .nstatus.ok{color:#0A8F40}.nstatus.no{color:#E4362B}
   .daygroup{font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
 
   /* ===== PROFILE ===== */
-  .phero{padding:18px 18px 16px;background:linear-gradient(150deg,var(--red),var(--redDeep));position:relative;overflow:hidden}
-  .phero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 90% at 82% 0%,rgba(255,255,255,.18),transparent 55%);pointer-events:none}
+  .phone.bleed > .sfl-statusbar{
+    position:absolute;top:0;left:0;right:0;height:50px;
+    background:transparent;color:#F4F6FA;z-index:600;
+  }
+  .phero{
+    padding:18px 18px 22px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(70% 80% at 88% -10%,rgba(255,255,255,.16),transparent 52%),
+      linear-gradient(165deg,#F0483C 0%,#C81E18 48%,#8E1210 100%);
+  }
+  .phero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;
+    background:repeating-linear-gradient(115deg,transparent 0 18px,rgba(255,255,255,.16) 18px 19px);
+  }
+  .phone.bleed .phero{padding-top:58px}
   .phero .pt{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
-  .phero .pav{width:70px;height:70px;border:3px solid rgba(255,255,255,.6);box-shadow:0 6px 18px rgba(0,0,0,.25)}
-  .phero .pn{font-size:20px;font-weight:800;color:#fff}
-  .phero .pid{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85);margin-top:2px;font-family:ui-monospace,monospace}
-  .phero .pbadges{display:flex;gap:6px;margin-top:7px}
-  .phero .pb{font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)}
-  .rolecard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 15px;box-shadow:var(--shadow-sm)}
-  .rolerow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:750}
+  .phero .pav{
+    width:76px;height:76px;border:3px solid #fff;
+    box-shadow:0 0 0 3px rgba(255,255,255,.18),0 10px 22px rgba(60,8,8,.28);
+    background-color:#7A1612;
+  }
+  .phero .pn{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.4px}
+  .phero .pid{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.78);margin-top:3px;font-family:ui-monospace,monospace}
+  .phero .pbadges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .phero .pb{font-size:10px;font-weight:800;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.26)}
+  .phero .pt .back{
+    background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;
+    box-shadow:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  }
+  .phone.profile .body{
+    position:relative;z-index:2;margin-top:-16px;padding-top:16px;
+    background:var(--bg);border-radius:22px 22px 0 0;
+    box-shadow:0 -10px 28px rgba(40,8,8,.12);
+  }
+  /* follower / following bar */
+  .followbar{display:flex;align-items:center;justify-content:center;margin-top:16px;position:relative;z-index:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:10px 6px}
+  .followbar .fcount{flex:1;text-align:center;cursor:pointer;padding:2px 0}
+  .followbar .fcount:active{opacity:.7}
+  .followbar .fcv{font-size:21px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+  .followbar .fcl{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.78);margin-top:2px}
+  .followbar .fcdiv{width:1px;height:30px;background:rgba(255,255,255,.24)}
+  /* follower / following list */
+  .foltabs{display:flex;background:#EEF1F6;border-radius:12px;padding:4px;margin-bottom:12px}
+  .foltab{flex:1;text-align:center;font-size:13px;font-weight:800;color:var(--t2);padding:9px;border-radius:9px;cursor:pointer}
+  .foltab.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .folrow{display:flex;align-items:center;gap:12px;padding:9px 2px;cursor:pointer}
+  .folrow .folav{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;flex:none;background-color:#DCE2EC}
+  .folrow .foln{font-size:14px;font-weight:800;color:var(--t1)}
+  .folrow .folmeta{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .folbtn{margin-left:auto;font-size:12px;font-weight:800;padding:8px 15px;border-radius:999px;background:var(--volt,#C9FF3D);color:#0A1400;cursor:pointer;flex:none}
+  .folbtn.on{background:#F0F2F7;color:var(--t2);border:1px solid var(--line)}
+  /* gift showcase / badge wall */
+  .showrow{display:flex;align-items:center;gap:10px;padding:12px 2px;cursor:pointer}
+  .showrow+.showrow{border-top:1px solid var(--line)}
+  .showrow .shl{font-size:13px;font-weight:800;color:var(--t1);flex:none}
+  .showrow .shicons{display:flex;gap:7px;flex:1;justify-content:flex-end}
+  .showrow .shico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#F0F2F7;border:1px solid var(--line)}
+  .showrow .shico.badge{background:linear-gradient(150deg,#EAF0FF,#DCE7FF);border-color:#CBD9FB}
+  .showrow .arr{color:var(--t3);font-size:16px;flex:none}
+  /* collection viewer (badges / gifts) */
+  .collgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .collitem{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px 11px;text-align:center;box-shadow:var(--shadow-sm);position:relative}
+  .collitem .ce{font-size:34px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.14))}
+  .collitem .cnm{font-size:11.5px;font-weight:800;color:var(--t1);margin-top:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .collitem .cct{font-size:10.5px;font-weight:800;color:var(--coral);margin-top:3px}
+  .collitem .cct.date{color:var(--t2)}
+  .collitem.locked{opacity:.5;filter:grayscale(1)}
+  .collitem.locked .clk{position:absolute;top:7px;right:8px;font-size:11px}
+  .collsum{display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:750;color:#187A42}
+  .rolecard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:6px 14px;box-shadow:var(--shadow-sm)}
+  .rolerow{display:flex;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:750}
   .rolerow:last-child{border:none}
-  .rolerow .ri{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
-  .rolerow .ri.fan{background:#F0F7FF;color:var(--blue)}
+  .rolerow .ri{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .rolerow .ri.fan{background:#EAF9EF;color:#0A8F40}
   .rolerow .ri.mgr{background:#FFF7E4;color:var(--coinDeep)}
-  .rolerow .ri.host{background:#FFF0F3;color:var(--coral)}
+  .rolerow .ri.host{background:#F3EEFF;color:var(--violet)}
   .rolerow .rtag{margin-left:auto;font-size:10.5px;font-weight:800;color:var(--t3)}
   .rolerow .rtag.perm{color:#0A8F40}.rolerow .rtag.live{color:var(--coral)}
-  .rolerow .rgo{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--blue);background:#F0F7FF;padding:5px 11px;border-radius:999px}
-  .levelcard{background:linear-gradient(135deg,#14161C,#2A2F3A);border-radius:16px;padding:15px 16px;color:#fff}
+  .rolerow .rgo{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--red);background:#FFF0EF;padding:5px 11px;border-radius:999px}
+  .levelcard{background:linear-gradient(150deg,#171A22,#2A2430);border-radius:18px;padding:15px 16px;color:#fff;box-shadow:var(--shadow-sm)}
   .levelcard .lh{display:flex;align-items:center}
-  .levelcard .lv{font-size:22px;font-weight:800}
-  .levelcard .lp{margin-left:auto;font-size:12px;font-weight:750;color:#B7C0CE}
-  .levelcard .lbar{height:8px;border-radius:999px;background:rgba(255,255,255,.16);margin:12px 0 8px;overflow:hidden}
-  .levelcard .lbar i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),#B388FF);border-radius:999px}
+  .levelcard .lv{font-size:20px;font-weight:800;letter-spacing:-.3px}
+  .levelcard .lp{margin-left:auto;font-size:11.5px;font-weight:750;color:#C4CBD6}
+  .levelcard .lbar{height:7px;border-radius:999px;background:rgba(255,255,255,.12);margin:12px 0 8px;overflow:hidden}
+  .levelcard .lbar i{display:block;height:100%;background:linear-gradient(90deg,#F3CC55,#E4362B);border-radius:999px}
   .levelcard .lmeta{display:flex;font-size:11px;font-weight:700;color:#B7C0CE}
   .pvswitch{display:flex;gap:8px;margin-bottom:12px;background:#EDEFF4;border-radius:13px;padding:4px}
   .pvopt{flex:1;text-align:center;padding:9px;border-radius:10px;font-size:13px;font-weight:800;color:var(--t2);cursor:pointer}
@@ -239,16 +307,33 @@
   .mgrhqcard .mtgt .mtl{display:flex;font-size:11px;font-weight:750;color:rgba(255,255,255,.85);margin-bottom:5px}
   .mgrhqcard .mtbar{height:7px;border-radius:4px;background:rgba(255,255,255,.22);overflow:hidden}
   .mgrhqcard .mtbar i{display:block;height:100%;background:#fff;border-radius:4px}
-  .statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
-  .stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 10px;box-shadow:var(--shadow-sm)}
-  .stat .sv{font-size:19px;font-weight:800;letter-spacing:-.5px}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:6px;box-shadow:var(--shadow-sm)}
+  .stat{background:transparent;border:none;border-radius:14px;padding:12px 8px;text-align:center}
+  .stat .sv{font-size:18px;font-weight:800;letter-spacing:-.4px}
   .stat .sv.value{color:var(--value)}
-  .stat .sl{font-size:10px;font-weight:750;color:var(--t2);margin-top:2px}
+  .stat .sl{font-size:10px;font-weight:750;color:var(--t2);margin-top:3px}
   .listrow{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700}
   .listrow:last-child{border:none}
-  .listrow .li{width:20px;text-align:center}
+  .listrow .li{width:28px;height:28px;border-radius:9px;background:#F3F5FA;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
   .listrow .arr{margin-left:auto;color:var(--t3)}
   .listrow.danger{color:var(--coral)}
+  .phone.profile .pv-fan{display:flex;flex-direction:column;gap:12px}
+  .cmgrask,.mgrupg{
+    display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:16px;
+    box-shadow:var(--shadow-sm);cursor:pointer;
+  }
+  .cmgrask{background:linear-gradient(150deg,#2A2108,#16120A);border:1px solid rgba(255,194,61,.28)}
+  .cmgrask .ci,.mgrupg .ci{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+  .cmgrask .ci{background:linear-gradient(150deg,#FFC23D,#FF9E1B);color:#3A2400}
+  .cmgrask .ct{font-size:13.5px;font-weight:800;color:#FFE1A0}
+  .cmgrask .cs{font-size:11px;font-weight:700;color:#D4B06A;margin-top:2px}
+  .cmgrask .arr,.mgrupg .arr{margin-left:auto;font-size:16px;color:#D4B06A}
+  .cmgrpend{padding:12px 15px;border-radius:14px;background:#FFF7E4;border:1px solid #F3D48A;font-size:12.5px;font-weight:750;color:#8A6200}
+  .mgrupg{background:linear-gradient(150deg,#241016,#3A1712);border:1px solid rgba(255,138,61,.3)}
+  .mgrupg .ci{background:linear-gradient(150deg,#E4362B,#8E1912)}
+  .mgrupg .ct{font-size:13.5px;font-weight:800;color:#FFE9D8}
+  .mgrupg .cs{font-size:11px;font-weight:700;color:#D79A78;margin-top:2px}
+  .mgrupg .tag{font-size:10px;font-weight:800;color:#B4740A;background:#FFF3D6;border:1px solid #FBE3B0;padding:4px 9px;border-radius:999px;flex:none}
 
   /* settings toggle */
   .sw{width:42px;height:24px;border-radius:999px;background:#DDE3ED;position:relative;flex:none}
@@ -450,14 +535,14 @@
   <!-- G-02 FAN HOME -->
   <div class="fw"><div class="flabel"><div class="fnum">G-02</div><div class="fname">Fan Home<span>5-tab nav · stadium centre</span></div></div>
   <div class="phone">
-    <div class="hbar"><div class="av ha" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="coinpill">🪙 1,240</div><div class="hicon">🔔<span class="dot"></span></div></div></div>
+    <div class="hbar"><div class="av ha" style="background-image:url('assets/up_12.png')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="coinpill">🪙 1,240</div><div class="hicon">🔔<span class="dot"></span></div></div></div>
     <div class="hscroll">
       <div class="hfollow">
-        <div class="hfol"><div class="fav" style="background-image:url('assets/fb_m1.jpg')"></div><div class="flv">LIVE</div><div class="fn">Jay M.</div></div>
-        <div class="hfol"><div class="fav" style="background-image:url('assets/fb_f1.jpg')"></div><div class="flv">LIVE</div><div class="fn">Lena</div></div>
-        <div class="hfol"><div class="fav" style="background-image:url('assets/fb_m2.jpg')"></div><div class="flv">LIVE</div><div class="fn">Diego</div></div>
-        <div class="hfol off"><div class="fav" style="background-image:url('assets/fb_f2.jpg')"></div><div class="fn" style="margin-top:6px">Priya</div></div>
-        <div class="hfol off"><div class="fav" style="background-image:url('assets/fb_m4.jpg')"></div><div class="fn" style="margin-top:6px">Mikael</div></div>
+        <div class="hfol"><div class="fav" style="background-image:url('assets/up_01.png')"></div><div class="flv">LIVE</div><div class="fn">Jay M.</div></div>
+        <div class="hfol"><div class="fav" style="background-image:url('assets/up_14.png')"></div><div class="flv">LIVE</div><div class="fn">Lena</div></div>
+        <div class="hfol"><div class="fav" style="background-image:url('assets/up_13.png')"></div><div class="flv">LIVE</div><div class="fn">James</div></div>
+        <div class="hfol off"><div class="fav" style="background-image:url('assets/up_11.png')"></div><div class="fn" style="margin-top:6px">Emma</div></div>
+        <div class="hfol off"><div class="fav" style="background-image:url('assets/up_08.png')"></div><div class="fn" style="margin-top:6px">Michael</div></div>
         <div class="hfol add"><div class="fav">+</div><div class="fn" style="margin-top:6px">Find</div></div>
       </div>
       <div class="hchips">
@@ -480,7 +565,7 @@
         <div class="qt tasks"><div class="qbadge">2</div><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 3.4h6v3H9z"/><path d="M8.4 13l2.2 2.2 4.9-5.2"/></svg></div><div><div class="q2">Today's Tasks</div><div class="qs">3 of 5 done · +30 Gold</div></div></div><div class="qbar"><i style="width:60%"></i></div></div>
         <div class="qt rewards"><div class="qbadge">3</div><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v3.6a5 5 0 0 1-10 0z"/><path d="M7 5H4.2v1.8A3 3 0 0 0 7 9.8M17 5h2.8v1.8A3 3 0 0 1 17 9.8"/><path d="M12 12.6V16M9.2 20h5.6M10.4 16.4h3.2"/></svg></div><div><div class="q2">Rewards</div><div class="qs">3 ready to claim</div></div></div><div class="qbar"><i style="width:100%"></i></div></div>
         <div class="qt pred"><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></div><div><div class="q2">Predictions</div><div class="qs">2 open · derby closes 80'</div></div></div><div class="qbar"><i style="width:42%"></i></div></div>
-        <div class="qt players"><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 3.3l3.4 1.7 3.4-1.7 4 2.7-2.4 3.1H18V21H6V9.1H4.4L2 6z"/><path d="M9.7 4.4a2.5 2.5 0 0 0 4.6 0"/></svg></div><div><div class="q2">My Players</div><div class="qs">Squad 6,140 · +310</div></div></div><div class="qbar"><i style="width:72%"></i></div></div>
+        <div class="qt players"><div class="qtop"><div class="qmed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 3.3l3.4 1.7 3.4-1.7 4 2.7-2.4 3.1H18V21H6V9.1H4.4L2 6z"/><path d="M9.7 4.4a2.5 2.5 0 0 0 4.6 0"/></svg></div><div><div class="q2">My Players</div><div class="qs">Duty · 2 transfer + 2 loan</div></div></div><div class="qbar"><i style="width:0%"></i></div></div>
       </div>
       <div class="sec"><div class="st">Rooms heating up</div><div class="sa">See all</div></div>
       <div class="liverow">
@@ -502,7 +587,7 @@
   <!-- G-02M MANAGER HOME -->
   <div class="fw"><div class="flabel"><div class="fnum">G-02M</div><div class="fname">Manager Home<span>HQ shortcut · pending badges</span></div></div>
   <div class="phone">
-    <div class="hbar"><div class="av ha" style="background-image:url('assets/fb_host.jpg')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="hqbtn"><span class="sh">🛡️</span> HQ</div><div class="hicon">🔔<span class="dot"></span></div></div></div>
+    <div class="hbar"><div class="av ha" style="background-image:url('assets/up_12.png')"></div><div><div class="hgreet">Welcome back</div><div class="hname">Zeeshan</div></div><div class="hicons"><div class="hqbtn"><span class="sh">🛡️</span> HQ</div><div class="hicon">🔔<span class="dot"></span></div></div></div>
     <div class="hscroll">
       <div class="clubcard" style="background:linear-gradient(135deg,#14161C,#2A2F3A)">
         <div class="cc"><div class="ccrest" style="background:linear-gradient(150deg,var(--red),var(--redDeep))">RF</div><div style="flex:1"><div class="cn">Manager HQ · Red Fury</div><div class="cm">388 Fans · Tier 2 · 28.4K club wallet</div></div><div class="cgo">Enter ›</div></div>
@@ -608,7 +693,37 @@
       <div class="filters" style="margin-bottom:12px"><span class="fchip on">All</span><span class="fchip">Club</span><span class="fchip">Money</span><span class="fchip">Rewards</span><span class="fchip">Account</span></div>
       <div class="scroll">
         <div class="daygroup">Today</div>
-        <div class="card" style="padding:2px 15px">
+        <div class="card" style="padding:2px 15px" id="n-today">
+          <div class="nrow" data-cmgr="invite" id="n-cmgr-invite">
+            <div class="ni club">🛡️</div>
+            <div style="flex:1">
+              <div class="nt">Manager asked you to become a manager</div>
+              <div class="nsupport">Jay Malik · Red Fury · accept or reject</div>
+              <div class="nacts"><div class="nbtn ok" data-cmdec="accept">Accept</div><div class="nbtn no" data-cmdec="reject">Reject</div></div>
+              <div class="ntime">Just now</div>
+            </div>
+            <div class="unread"></div>
+          </div>
+          <div class="nrow" data-ploffer="rivera" data-kind="transfer">
+            <div class="ni money">⚽</div>
+            <div style="flex:1">
+              <div class="nt">Priya wants A. Rivera</div>
+              <div class="nsupport">Transfer · 450 Coins in escrow · approve to complete the sale</div>
+              <div class="nacts"><div class="nbtn ok" data-pldec="approve">Approve</div><div class="nbtn no" data-pldec="reject">Reject</div></div>
+              <div class="ntime">Just now</div>
+            </div>
+            <div class="unread"></div>
+          </div>
+          <div class="nrow" data-ploffer="mensah" data-kind="loan">
+            <div class="ni money">🕐</div>
+            <div style="flex:1">
+              <div class="nt">Luis wants K. Mensah on loan</div>
+              <div class="nsupport">Loan · 80 Coins fee · 1 week · approve to lend</div>
+              <div class="nacts"><div class="nbtn ok" data-pldec="approve">Approve</div><div class="nbtn no" data-pldec="reject">Reject</div></div>
+              <div class="ntime">2m ago</div>
+            </div>
+            <div class="unread"></div>
+          </div>
           <div class="nrow"><div class="ni club">🔴</div><div style="flex:1"><div class="nt">Red Fury invited you to join</div><div class="nsupport">Tap to view the invitation</div><div class="ntime">12m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni club">🔁</div><div style="flex:1"><div class="nt">Loan offer from Blue Wolves</div><div class="nsupport">Your Manager proposed a move · tap to accept or reject</div><div class="ntime">18m ago</div></div><div class="unread"></div></div>
           <div class="nrow"><div class="ni reward">✅</div><div style="flex:1"><div class="nt">Seat request approved — you're on the pitch</div><div class="nsupport">Host approved your CM position · tap to take your spot</div><div class="ntime">3m ago</div></div><div class="unread"></div></div>
@@ -632,9 +747,10 @@
 
   <!-- G-05 PROFILE -->
   <div class="fw"><div class="flabel"><div class="fnum">G-05</div><div class="fname">Profile / My Stats<span>Additive roles · Level Points</span></div></div>
-  <div class="phone" data-nav="home">
+  <div class="phone profile bleed" data-nav="home">
     <div class="phero">
-      <div class="pt"><div class="av pav" style="background-image:url('assets/fb_host.jpg')"></div><div style="flex:1"><div class="pn">Zeeshan N.</div><div class="pid num">User ID 12345</div><div class="pbadges"><span class="pb">Lv 4</span><span class="pb">Red Fury</span></div></div><div class="back" style="background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3);color:#fff">✎</div></div>
+      <div class="pt"><div class="av pav" style="background-image:url('assets/up_12.png')"></div><div style="flex:1"><div class="pn">Zeeshan N.</div><div class="pid num">User ID 12345</div><div class="pbadges"><span class="pb">Lv 4</span><span class="pb">Red Fury</span></div></div><div class="back">✎</div></div>
+      <div class="followbar"><div class="fcount" data-tab="followers"><div class="fcv num">347</div><div class="fcl">Followers</div></div><div class="fcdiv"></div><div class="fcount" data-tab="following"><div class="fcv num">304</div><div class="fcl">Following</div></div></div>
     </div>
     <div class="body">
       <div class="scroll">
@@ -650,7 +766,7 @@
             <div class="lbar"><i style="width:62%"></i></div>
             <div class="lmeta"><span class="num">1,240 / 2,000 Level Points</span><span style="margin-left:auto">Next: Lv 5</span></div>
           </div>
-          <div class="statgrid" style="margin-top:12px">
+          <div class="statgrid">
             <div class="stat"><div class="sv num">21</div><div class="sl">Active days</div></div>
             <div class="stat"><div class="sv num">6.2h</div><div class="sl">Live/week</div></div>
             <div class="stat"><div class="sv value num">1,510</div><div class="sl">Fan Value</div></div>
@@ -658,10 +774,16 @@
             <div class="stat"><div class="sv num">38</div><div class="sl">Predictions</div></div>
             <div class="stat"><div class="sv num">4</div><div class="sl">Transfers</div></div>
           </div>
-          <div class="mgrupg" style="display:flex;align-items:center;gap:12px;margin-top:12px;padding:13px 15px;border-radius:16px;background:linear-gradient(150deg,#241016,#3A1712);border:1px solid rgba(255,138,61,.3);box-shadow:var(--shadow-sm);cursor:pointer">
-            <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,#E4362B,#8E1912);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none">👑</div>
-            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:800;color:#FFE9D8">Upgrade to Manager</div><div style="font-size:11px;font-weight:700;color:#D79A78;margin-top:2px">Reach 5,000+ Coins, leave your club, then start your own</div></div>
-            <span style="font-size:10px;font-weight:800;color:#B4740A;background:#FFF3D6;border:1px solid #FBE3B0;padding:4px 9px;border-radius:999px;flex:none">5,000+</span>
+          <div class="cmgrask">
+            <div class="ci">🛡️</div>
+            <div style="flex:1;min-width:0"><div class="ct">Ask to become a manager</div><div class="cs">Stay in this club · current manager accepts or rejects</div></div>
+            <span class="arr">›</span>
+          </div>
+          <div class="cmgrpend" style="display:none">🕐 Manager request pending · you will be notified</div>
+          <div class="mgrupg">
+            <div class="ci">👑</div>
+            <div style="flex:1;min-width:0"><div class="ct">Upgrade to Manager</div><div class="cs">Reach 5,000+ Coins, leave your club, then start your own</div></div>
+            <span class="tag">5,000+</span>
           </div>
         </div>
         <div class="pv-mgr">
@@ -685,9 +807,15 @@
             <div class="listrow mgrlink" data-go="mgrcommission"><span class="li">💰</span>Commission &amp; Club Finances<span class="arr">›</span></div>
           </div>
         </div>
-        <div class="lbl" style="margin-top:12px">Account</div>
+        <div class="lbl">Collection</div>
+        <div class="card" style="padding:2px 15px">
+          <div class="showrow" data-go="progression"><span class="shl">Badge Wall (4)</span><div class="shicons"><span class="shico badge">🏅</span><span class="shico badge">🎖️</span><span class="shico badge">🥇</span><span class="shico badge">⭐</span></div><span class="arr">›</span></div>
+          <div class="showrow" data-go="kitbag"><span class="shl">Gift Showcase (26)</span><div class="shicons"><span class="shico">🌹</span><span class="shico">🧤</span><span class="shico">🏆</span><span class="shico">🐐</span></div><span class="arr">›</span></div>
+        </div>
+        <div class="lbl">Account</div>
         <div class="card" style="padding:2px 15px">
           <div class="listrow"><span class="li">◆</span>Wallet<span class="arr">›</span></div>
+          <div class="listrow cslink"><span class="li">🤝</span>Coin Seller<span class="arr">›</span></div>
           <div class="listrow"><span class="li">🎒</span>Kit Bag<span class="arr">›</span></div>
           <div class="listrow"><span class="li">🛡️</span>KYC · Verified<span class="arr">›</span></div>
           <div class="listrow"><span class="li">⚙️</span>Settings<span class="arr">›</span></div>
@@ -704,7 +832,7 @@
     <div class="body">
       <div style="display:flex;flex-direction:column;align-items:center;margin-top:10px">
         <div style="position:relative;width:96px;height:96px">
-          <div class="avatar epavatar" style="width:96px;height:96px;border-radius:50%;background-image:url('assets/fb_host.jpg')"></div>
+          <div class="avatar epavatar" style="width:96px;height:96px;border-radius:50%;background-image:url('assets/up_12.png')"></div>
           <div class="epphoto" style="position:absolute;right:-2px;bottom:-2px;width:32px;height:32px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid #fff;cursor:pointer">📷</div>
         </div>
         <div class="epphoto" style="margin-top:11px;font-size:12.5px;font-weight:800;color:var(--coral);cursor:pointer">Change display picture</div>
@@ -722,11 +850,12 @@
     <div class="phero">
       <div class="pt" style="justify-content:space-between"><div class="back">‹</div><div class="back">⋯</div></div>
       <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:2px 0 8px">
-        <div class="av pav" style="width:84px;height:84px;background-image:url('assets/fb_f2.jpg')"></div>
+        <div class="av pav" style="width:84px;height:84px;background-image:url('assets/up_07.png')"></div>
         <div class="pn" style="font-size:20px;margin-top:10px">Lucia M. <span style="color:#8FD0FF">✓</span></div>
         <div class="pid num">User ID 55021</div>
         <div class="pbadges" style="justify-content:center"><span class="pb">Lv 12</span><span class="pb">Red District FC</span><span class="pb">🔥 14-day</span></div>
       </div>
+      <div class="followbar"><div class="fcount" data-tab="followers"><div class="fcv num">1,204</div><div class="fcl">Followers</div></div><div class="fcdiv"></div><div class="fcount" data-tab="following"><div class="fcv num">286</div><div class="fcl">Following</div></div></div>
       <div style="display:flex;gap:8px;padding:2px 2px 2px">
         <div class="ufollow" style="flex:1;text-align:center;padding:11px;border-radius:12px;background:#C9FF3D;color:#0A1400;font-weight:800;font-size:13px;cursor:pointer">Follow</div>
         <div class="umsg" style="flex:1;text-align:center;padding:11px;border-radius:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:800;font-size:13px;cursor:pointer">💬 Message</div>
@@ -744,6 +873,11 @@
           <div class="stat"><div class="sv num">28</div><div class="sl">Positions played</div></div>
           <div class="stat"><div class="sv num">210</div><div class="sl">Active days</div></div>
         </div>
+        <div class="lbl">Collection</div>
+        <div class="card" style="padding:2px 15px">
+          <div class="showrow" data-go="badge"><span class="shl">Badge Wall (7)</span><div class="shicons"><span class="shico badge">🏅</span><span class="shico badge">🎖️</span><span class="shico badge">🥇</span><span class="shico badge">🔥</span></div><span class="arr">›</span></div>
+          <div class="showrow" data-go="gifts"><span class="shl">Gift Showcase (143)</span><div class="shicons"><span class="shico">🌹</span><span class="shico">💎</span><span class="shico">🏆</span><span class="shico">🚀</span></div><span class="arr">›</span></div>
+        </div>
         <div class="lbl">Club</div>
         <div class="card" style="padding:2px 15px">
           <div class="listrow"><span class="li">🛡️</span>Red District FC · Fan<span class="arr">›</span></div>
@@ -756,6 +890,84 @@
           <div class="listrow"><span class="li">🎮</span>Won a Penalty mini-game<span class="arr">›</span></div>
         </div>
         <div style="height:6px"></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- G-05F FOLLOWERS / FOLLOWING -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05F</div><div class="fname">Followers &amp; Following<span>Tap a name to open their profile</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Zeeshan N.</div></div>
+    <div class="body">
+      <div class="foltabs"><div class="foltab on" data-tab="followers">Followers · 347</div><div class="foltab" data-tab="following">Following · 304</div></div>
+      <div class="scroll">
+        <div class="follist" data-list="followers">
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_07.png')"></div><div style="flex:1"><div class="foln">Lucia M. <span style="color:#3FA9F5">✓</span></div><div class="folmeta">@LuciaM · Red District FC</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_01.png')"></div><div style="flex:1"><div class="foln">JJ Okafor</div><div class="folmeta">@jj_okafor · Red Fury</div></div><div class="folbtn">Follow</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_04.png')"></div><div style="flex:1"><div class="foln">Nadia T.</div><div class="folmeta">@nadia · Blue Wolves</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_08.png')"></div><div style="flex:1"><div class="foln">Mikael K.</div><div class="folmeta">@mikk · Red Fury</div></div><div class="folbtn">Follow</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_09.png')"></div><div style="flex:1"><div class="foln">Sara V.</div><div class="folmeta">@sarav · Green City</div></div><div class="folbtn">Follow</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_05.png')"></div><div style="flex:1"><div class="foln">Kojo A.</div><div class="folmeta">@kojo9 · Red District FC</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="foln">Priya M.</div><div class="folmeta">@priyam · Red Fury</div></div><div class="folbtn">Follow</div></div>
+        </div>
+        <div class="follist" data-list="following" style="display:none">
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_13.png')"></div><div style="flex:1"><div class="foln">RobbieOnAir <span style="color:#3FA9F5">✓</span></div><div class="folmeta">@robbie · Host · Red District FC</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_07.png')"></div><div style="flex:1"><div class="foln">Lucia M. <span style="color:#3FA9F5">✓</span></div><div class="folmeta">@LuciaM · Red District FC</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/cc_cam.jpg')"></div><div style="flex:1"><div class="foln">Maria · Blue Wolves</div><div class="folmeta">@maria · Manager</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_04.png')"></div><div style="flex:1"><div class="foln">Nadia T.</div><div class="folmeta">@nadia · Blue Wolves</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_10.png')"></div><div style="flex:1"><div class="foln">Diego S.</div><div class="folmeta">@diegos · Green City</div></div><div class="folbtn on">Following</div></div>
+          <div class="folrow"><div class="folav" style="background-image:url('assets/up_05.png')"></div><div style="flex:1"><div class="foln">Kojo A.</div><div class="folmeta">@kojo9 · Red District FC</div></div><div class="folbtn on">Following</div></div>
+        </div>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- G-05GW GIFT SHOWCASE -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05GW</div><div class="fname">Gift Showcase<span>View-only · gifts owned</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Gift Showcase</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="collsum">🎁 26 gifts collected · received &amp; unlocked in live rooms</div>
+        <div class="collgrid">
+          <div class="collitem"><div class="ce">🌹</div><div class="cnm">Rose</div><div class="cct">×12</div></div>
+          <div class="collitem"><div class="ce">⚽</div><div class="cnm">Football</div><div class="cct">×8</div></div>
+          <div class="collitem"><div class="ce">🧤</div><div class="cnm">Gloves</div><div class="cct">×5</div></div>
+          <div class="collitem"><div class="ce">🎆</div><div class="cnm">Fireworks</div><div class="cct">×4</div></div>
+          <div class="collitem"><div class="ce">🏆</div><div class="cnm">Trophy</div><div class="cct">×3</div></div>
+          <div class="collitem"><div class="ce">🚀</div><div class="cnm">Rocket</div><div class="cct">×3</div></div>
+          <div class="collitem"><div class="ce">🍀</div><div class="cnm">Lucky Clover</div><div class="cct">×2</div></div>
+          <div class="collitem"><div class="ce">🥇</div><div class="cnm">Champions Cup</div><div class="cct">×2</div></div>
+          <div class="collitem"><div class="ce">💎</div><div class="cnm">Diamond</div><div class="cct">×1</div></div>
+          <div class="collitem"><div class="ce">🐐</div><div class="cnm">GOAT</div><div class="cct">×1</div></div>
+          <div class="collitem"><div class="ce">🎽</div><div class="cnm">Captain Band</div><div class="cct">×1</div></div>
+          <div class="collitem"><div class="ce">🐉</div><div class="cnm">Dragon</div><div class="cct">×1</div></div>
+        </div>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- G-05BW BADGE WALL -->
+  <div class="fw"><div class="flabel"><div class="fnum">G-05BW</div><div class="fname">Badge Wall<span>View-only · milestones</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Badge Wall</div></div>
+    <div class="body">
+      <div class="scroll">
+        <div class="collsum">🏅 4 of 9 badges earned · keep playing to unlock more</div>
+        <div class="collgrid">
+          <div class="collitem"><div class="ce">🥇</div><div class="cnm">First Gift</div><div class="cct date">Earned</div></div>
+          <div class="collitem"><div class="ce">🎖️</div><div class="cnm">100 Lives</div><div class="cct date">Earned</div></div>
+          <div class="collitem"><div class="ce">🔥</div><div class="cnm">30-Day Streak</div><div class="cct date">Earned</div></div>
+          <div class="collitem"><div class="ce">⭐</div><div class="cnm">Level 10</div><div class="cct date">Earned</div></div>
+          <div class="collitem locked"><span class="clk">🔒</span><div class="ce">🏆</div><div class="cnm">Club Champion</div><div class="cct date">Locked</div></div>
+          <div class="collitem locked"><span class="clk">🔒</span><div class="ce">🧤</div><div class="cnm">Golden Glove</div><div class="cct date">Locked</div></div>
+          <div class="collitem locked"><span class="clk">🔒</span><div class="ce">👑</div><div class="cnm">Top Fan</div><div class="cct date">Locked</div></div>
+          <div class="collitem locked"><span class="clk">🔒</span><div class="ce">🎯</div><div class="cnm">100 Predictions</div><div class="cct date">Locked</div></div>
+          <div class="collitem locked"><span class="clk">🔒</span><div class="ce">💎</div><div class="cnm">VIP Legend</div><div class="cct date">Locked</div></div>
+        </div>
+        <div style="height:8px"></div>
       </div>
     </div>
   </div></div>
@@ -846,8 +1058,8 @@
     <div class="body">
       <div class="scroll">
         <div class="card" style="padding:2px 15px">
-          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/fb_m4.jpg')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Mo A.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 88214</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
-          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/dk_t.jpg')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">J. Kopa</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 60034</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
+          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/up_13.png')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Mo A.</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 88214</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
+          <div class="blrow" style="display:flex;align-items:center;gap:11px;padding:11px 2px"><div class="avatar" style="width:38px;height:38px;background-image:url('assets/up_06.png')"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">J. Kopa</div><div style="font-size:11px;font-weight:700;color:var(--t3)">ID 60034</div></div><div class="blbtn" style="font-size:12px;font-weight:800;color:var(--coral);cursor:pointer">Unblock</div></div>
         </div>
         <div class="note info" style="margin-top:12px">Blocked users can't message, call or gift you.</div>
       </div>
@@ -1049,7 +1261,7 @@
   function build(dark){var sb=document.createElement('div');sb.className='sfl-statusbar';sb.style.color=dark?'#F4F6FA':'#0E1016';sb.innerHTML='<span class="sfl-time">9:41</span><div class="sfl-notch"></div><span class="sfl-sys">'+SIG+WIFI+BAT+'</span>';return sb;}
   document.querySelectorAll('.phone').forEach(function(p){
     if(p.querySelector(':scope > .sfl-statusbar'))return;
-    var dark=lum(getComputedStyle(p).backgroundColor)<0.5;
+    var dark=p.classList.contains('bleed')||lum(getComputedStyle(p).backgroundColor)<0.5;
     p.insertBefore(build(dark),p.firstChild);
   });
 })();

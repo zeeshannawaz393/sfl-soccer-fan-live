@@ -102,17 +102,26 @@
   .goalbox .posts{position:absolute;inset:0;border:6px solid #fff;border-bottom:none;border-radius:5px 5px 0 0;box-shadow:0 0 18px rgba(255,255,255,.15)}
   .goalbox .net{position:absolute;inset:6px 6px 0 6px;background:repeating-linear-gradient(90deg,transparent 0 15px,rgba(255,255,255,.13) 15px 16px),repeating-linear-gradient(0deg,transparent 0 15px,rgba(255,255,255,.13) 15px 16px);transition:transform .12s}
   .goalbox.bulge .net{transform:scale(1.06) translateY(4px)}
-  .crosshair{position:absolute;top:0;width:34px;height:34px;margin-left:-17px;margin-top:-17px;z-index:6;pointer-events:none;transition:opacity .2s}
-  .crosshair::before,.crosshair::after{content:"";position:absolute;background:var(--volt);box-shadow:0 0 8px rgba(201,255,61,.9)}
-  .crosshair::before{left:50%;top:0;width:2px;height:100%;margin-left:-1px}
-  .crosshair::after{top:50%;left:0;height:2px;width:100%;margin-top:-1px}
-  .crosshair i{position:absolute;inset:5px;border:2px solid var(--volt);border-radius:50%;box-shadow:0 0 10px rgba(201,255,61,.7)}
-  .keeper{position:absolute;z-index:5;font-size:40px;width:44px;height:44px;text-align:center;line-height:44px;transition:left .42s cubic-bezier(.3,.7,.35,1.25),top .42s cubic-bezier(.3,.7,.35,1.25),transform .42s ease;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
-  .pball{position:absolute;z-index:7;font-size:30px;width:32px;height:32px;text-align:center;line-height:32px;transition:opacity .15s}
-  .pgauge{position:absolute;right:12px;bottom:14px;top:14px;width:20px;border-radius:12px;background:rgba(0,0,0,.45);border:1px solid var(--line2);overflow:hidden;z-index:6;opacity:0;transition:opacity .2s}
-  .pgauge .fill{position:absolute;left:0;right:0;bottom:0;height:0%;background:linear-gradient(to top,var(--green) 0%,var(--green) 55%,var(--coin2) 78%,var(--coral) 92%)}
-  .pgauge .safe{position:absolute;left:0;right:0;bottom:0;height:90%;border-top:2px dashed rgba(255,255,255,.35)}
+  .reticle{position:absolute;z-index:7;width:42px;height:42px;margin:-21px 0 0 -21px;pointer-events:none;opacity:0}
+  .reticle.show{opacity:1}
+  .reticle i{position:absolute;inset:0;border:2px solid var(--volt);border-radius:50%;box-shadow:0 0 12px rgba(201,255,61,.5)}
+  .reticle::before,.reticle::after{content:"";position:absolute;background:var(--volt)}
+  .reticle::before{left:50%;top:3px;bottom:3px;width:2px;margin-left:-1px}
+  .reticle::after{top:50%;left:3px;right:3px;height:2px;margin-top:-1px}
+  .cring{position:absolute;z-index:7;border-radius:50%;border:2.5px solid var(--volt);pointer-events:none;transform:translate(-50%,-50%);opacity:0}
+  .cring.show{opacity:1}
+  .cring.ok{border-color:var(--green)}
+  .cring.hot{border-color:var(--coral)}
+  .keeper{position:absolute;z-index:5;font-size:40px;width:44px;height:44px;text-align:center;line-height:44px;transition:left .38s cubic-bezier(.2,.7,.2,1.15),top .38s cubic-bezier(.2,.7,.2,1.15),transform .38s ease;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+  .pball{position:absolute;z-index:8;font-size:30px;width:32px;height:32px;text-align:center;line-height:32px;transition:opacity .15s}
+  .pgauge{position:absolute;right:12px;bottom:70px;top:58px;width:26px;border-radius:14px;background:#0a0e12;border:2px solid rgba(255,255,255,.35);overflow:hidden;z-index:6;opacity:0;transition:opacity .2s}
+  .pgauge .fill{position:absolute;left:-3px;right:-3px;height:6px;border-radius:3px;background:#fff;box-shadow:0 0 10px #fff;bottom:0}
+  .pgauge .safe{position:absolute;left:0;right:0;bottom:0;height:58%;background:linear-gradient(#2FCB6E,#1a8f46)}
+  .pgauge .mid{position:absolute;left:0;right:0;bottom:58%;height:24%;background:linear-gradient(#FFD54F,#E09A2C)}
+  .pgauge .hotz{position:absolute;left:0;right:0;bottom:82%;height:18%;background:linear-gradient(#FF3B5F,#B4241B)}
   .pgauge.show{opacity:1}
+  .pball.idle{animation:pbbob 1.15s ease-in-out infinite}
+  @keyframes pbbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
   .pprompt{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:13px;font-weight:800;color:#fff;z-index:8;text-shadow:0 1px 6px rgba(0,0,0,.9);letter-spacing:.2px}
   .pflash{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(201,255,61,.35),transparent 60%);opacity:0;z-index:4;pointer-events:none}
   .pflash.on{animation:pflash .5s ease}
@@ -130,10 +139,18 @@
   .wheelseg span{position:absolute;left:50%;top:16px;transform:translateX(-50%);font-size:10.5px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);white-space:nowrap}
   .wheelhub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:var(--panel);border:3px solid var(--volt);display:flex;align-items:center;justify-content:center;font-size:22px;z-index:2;pointer-events:none}
   .wheelhint{text-align:center;font-size:11.5px;font-weight:750;color:var(--t3);margin-top:-2px}
-  .prizetable{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-  .pt{display:flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:11.5px;font-weight:750}
-  .pt .sw{width:12px;height:12px;border-radius:3px;flex:none}
-  .pt.hit{border-color:var(--volt);background:rgba(201,255,61,.12)}
+  .prizetable{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+  .pt{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px 0 5px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.2);transition:transform .12s,box-shadow .12s}
+  .pt .sw{display:none}
+  .pt .wlogo{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-style:normal;font-weight:900;background:rgba(255,255,255,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+  .pt.hit{transform:scale(1.06);box-shadow:0 0 0 2px #fff,0 0 16px rgba(201,255,61,.5)}
+  .wforce.lock .wforce-rail{box-shadow:0 0 0 2px rgba(201,255,61,.4)}
+  .wforce.lock b{background:var(--volt);box-shadow:0 0 14px var(--volt)}
+  .wforce{margin:8px 2px 2px;display:flex;align-items:center;gap:8px}
+  .wforce .wl{font-size:9px;font-weight:800;letter-spacing:.7px;color:var(--volt)}
+  .wforce-rail{flex:1;height:16px;border-radius:999px;position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.28);background:#0a0e12;
+    background-image:linear-gradient(90deg,#1a8f46 0 58%,#E09A2C 58% 82%,#B4241B 82% 100%)}
+  .wforce-rail b{position:absolute;top:-2px;bottom:-2px;width:8px;margin-left:-4px;border-radius:3px;background:#fff;box-shadow:0 0 10px #fff;left:50%}
 
   .odds{border-radius:14px;overflow:hidden;border:1px solid var(--line)}
   .oddr{display:flex;padding:10px 13px;font-size:12.5px;font-weight:700;border-bottom:1px solid var(--line);background:var(--panel)}
@@ -179,7 +196,7 @@
 <div class="stage-head">
   <div class="kicker">Soccer Fan Live · Football Arcade</div>
   <h1>Mini-Games — Playable</h1>
-  <p><b>Penalty</b> is a skill game: an aim reticle sweeps the goal — tap to lock your corner — then a power meter rises, tap to strike. Beat the keeper’s dive. <b>Wheel</b> is a real flick: drag &amp; throw it, momentum and friction decide where it stops. Coins are spent, Bonus Coins are won, every result splits entry vs net.</p>
+  <p><b>Penalty</b> is a skill kick: drag in the goal to set your <b>angle</b>, then tap the bouncing bar to lock <b>power</b>. Red is too much. <b>Wheel</b> is a real flick: drag &amp; throw it, momentum and friction decide where it stops.</p>
 </div>
 
 <div class="phone">
@@ -285,10 +302,10 @@
       '<div style="margin-bottom:12px">'+balbar()+'</div>'+
       '<div class="scroll">'+
         '<div class="tile penalty" data-act="penalty">'+
-          '<div class="tclass">⚽ Skill · aim &amp; power</div>'+
+          '<div class="tclass">⚽ Skill · angle &amp; power</div>'+
           '<div class="tcost"><div class="gc">C</div>10 / shot</div>'+
           '<div class="bigemoji">🥅</div>'+
-          '<div class="ti"><div class="tn">Penalty Shootout</div><div class="tp">Aim, power up, beat the keeper</div></div>'+
+          '<div class="ti"><div class="tn">Penalty Shootout</div><div class="tp">Drag angle · tap bouncing power</div></div>'+
           '<div class="tplay">Play ▸</div>'+
         '</div>'+
         '<div class="tile wheel" data-act="wheel">'+
@@ -310,7 +327,7 @@
     return head('How to play')+
     '<div class="body"><div class="scroll">'+
       '<div class="lbl">Penalty Shootout · skill</div>'+
-      '<div class="note info"><b>1.</b> An aim reticle sweeps across the goal — tap to lock your corner.<br><b>2.</b> A power meter rises — tap to strike. Stay under the red or you blaze it over the bar.<br><b>3.</b> The keeper dives. Pick a corner away from the dive and it flies in.</div>'+
+      '<div class="note info"><b>1.</b> Drag inside the goal to set your <b>angle</b> — corners are hardest to save and easiest to miss.<br><b>2.</b> Tap the bouncing <b>power</b> bar. Green is a clean strike, yellow is hot, red flies over the bar.<br><b>3.</b> Beat the keeper. Low power down the middle is a Panenka.</div>'+
       '<div class="lbl">Penalty prizes (Bonus Coins)</div>'+
       '<div class="odds">'+
         '<div class="oddr head"><span class="c1">Result</span><span class="c2">How</span><span class="c3">Prize</span></div>'+
@@ -330,19 +347,20 @@
   // ============================================================
   //  PENALTY  — real skill: aim sweep + power meter + keeper dive
   // ============================================================
-  var pen = { phase:'idle', aimX:0.5, dir:1, power:0, pdir:1, useTicket:false };
+  var pen = { phase:'idle', aimX:0.5, aimY:0.42, power:0, comp:1, hist:[], t0:0, useTicket:false };
 
   SCREENS.penalty = function(){
     return head('Penalty Shootout','<div class="balchip" style="margin-left:auto;flex:none;padding:6px 10px"><div class="gc">C</div><div class="bv num" id="pcoins">'+fmt(S.coins)+'</div></div>')+
     '<div class="body">'+
-      '<div class="pfield" id="pfield" data-act="pentap">'+
+      '<div class="pfield" id="pfield">'+
         '<div class="goalbox" id="goalbox"><div class="posts"></div><div class="net"></div></div>'+
         '<div class="keeper" id="keeper">🧤</div>'+
-        '<div class="crosshair" id="crosshair"><i></i></div>'+
-        '<div class="pgauge" id="pgauge"><div class="safe"></div><div class="fill" id="pfill"></div></div>'+
-        '<div class="pball" id="pball">⚽</div>'+
+        '<div class="reticle" id="reticle"><i></i></div>'+
+        '<div class="cring" id="cring"></div>'+
+        '<div class="pgauge" id="pgauge"><div class="safe"></div><div class="mid"></div><div class="hotz"></div><div class="fill" id="pfill"></div></div>'+
+        '<div class="pball idle" id="pball">⚽</div>'+
         '<div class="pflash" id="pflash"></div>'+
-        '<div class="pprompt" id="pprompt">TAP to lock your aim</div>'+
+        '<div class="pprompt" id="pprompt">1/2 · DRAG in the goal to set ANGLE</div>'+
       '</div>'+
       '<div style="height:12px"></div>'+ sessionRow()+
       '<div class="cta" style="margin-top:12px">'+
@@ -352,15 +370,14 @@
   };
 
   AFTER.penalty = function(){
-    // starting positions
-    var f=el('pfield'), gb=el('goalbox'), keeper=el('keeper'), ball=el('pball'), ch=el('crosshair');
-    if(!f) return;
-    // place keeper centre of goal, ball on the spot
+    var f=el('pfield'); if(!f) return;
     layoutPenalty();
-    pen.phase='aim'; pen.aimX=0.5; pen.dir=1; pen.power=0; pen.pdir=1; pen.busy=false; pen.useTicket=false;
-    el('pgauge').classList.remove('show');
-    setPrompt('TAP to lock your aim');
-    aimLoop();
+    pen.phase='aim'; pen.aimX=0.5; pen.aimY=0.42; pen.power=0.5; pen.comp=1; pen.hist=[]; pen.busy=false; pen.useTicket=false; pen.dragging=false; pen.moved=0;
+    var g=el('pgauge'), r=el('reticle'), c=el('cring');
+    if(g) g.classList.remove('show'); if(r) r.classList.remove('show'); if(c) c.classList.remove('show','ok','hot');
+    pen.phase='aim'; pen.dragging=false; pen.moved=0;
+    setPrompt('1/2 · DRAG in the goal to set ANGLE');
+    bindPenField();
   };
 
   function layoutPenalty(){
@@ -370,101 +387,109 @@
     keeper.style.left=(m.gl+m.gw/2-22)+'px'; keeper.style.top=(m.gt+m.gh*0.52)+'px'; keeper.style.transform='';
     ball.style.left=(f.clientWidth/2-16)+'px'; ball.style.top=(f.clientHeight-42)+'px'; ball.style.opacity='1'; ball.style.transform='scale(1)';
   }
-  // geometry relative to the pitch (rect-based so CSS translateX(-50%) is accounted for)
   function goalMetrics(){
     var f=el('pfield'), gb=el('goalbox');
     var fr=f.getBoundingClientRect(), gr=gb.getBoundingClientRect();
     return { gl:gr.left-fr.left, gt:gr.top-fr.top, gw:gr.width, gh:gr.height };
   }
-
-  function aimLoop(){
-    if(pen.phase!=='aim') return;
-    pen.aimX += pen.dir*0.011;
-    if(pen.aimX>0.92){pen.aimX=0.92;pen.dir=-1;} if(pen.aimX<0.08){pen.aimX=0.08;pen.dir=1;}
-    var m=goalMetrics(), ch=el('crosshair');
-    if(ch){ ch.style.left=(m.gl+pen.aimX*m.gw)+'px'; ch.style.top=(m.gt+m.gh*0.40)+'px'; }
-    reqRaf(aimLoop);
+  function aimFromEvt(e){
+    var f=el('pfield'), gb=el('goalbox'); if(!f||!gb) return {x:0.5,y:0.45};
+    var fr=f.getBoundingClientRect(), gr=gb.getBoundingClientRect();
+    var x=(e.clientX-fr.left-(gr.left-fr.left))/gr.width;
+    var y=(e.clientY-fr.top-(gr.top-fr.top))/gr.height;
+    return {x:clamp(x,-0.12,1.12), y:clamp(y,-0.12,1.12)};
   }
-  function powerLoop(){
-    if(pen.phase!=='power') return;
-    pen.power += pen.pdir*0.018;
-    if(pen.power>1){pen.power=1;pen.pdir=-1;} if(pen.power<0.05){pen.power=0.05;pen.pdir=1;}
-    var fill=el('pfill'); if(fill) fill.style.height=(pen.power*100)+'%';
-    reqRaf(powerLoop);
-  }
-
-  function penTap(){
-    if(pen.phase==='aim'){
-      // lock the aim, immediately start the power meter — 2nd tap will strike
-      pen.phase='power';
+  function bindPenField(){
+    var f=el('pfield'); if(!f||f._bound) return; f._bound=true;
+    f.addEventListener('pointerdown',function(e){
+      e.preventDefault(); try{f.setPointerCapture(e.pointerId);}catch(err){}
+      if(pen.busy) return;
+      if(pen.phase==='aim'){ pen.dragging=true; pen.moved=0; updatePenAim(e); }
+      else if(pen.phase==='power'){ pen.phase='strike'; strike(); }
+    });
+    f.addEventListener('pointermove',function(e){
+      if(e.pointerType==='mouse'&&!(e.buttons&1)) return;
+      if(pen.phase==='aim'&&pen.dragging) updatePenAim(e);
+    });
+    function up(){
+      if(pen.phase!=='aim'||!pen.dragging) return;
+      pen.dragging=false;
+      if(pen.moved<2){ setPrompt('1/2 · DRAG in the goal to set ANGLE'); return; }
+      pen.phase='power'; pen.t0=performance.now();
       el('pgauge').classList.add('show');
-      setPrompt('TAP to STRIKE — stop under the red');
-      powerLoop();
-    } else if(pen.phase==='power'){
-      pen.phase='strike';
-      strike();
+      setPrompt('2/2 · TAP to lock POWER — mind the red');
+      bouncePenPower();
     }
+    f.addEventListener('pointerup',up); f.addEventListener('pointercancel',up);
+  }
+  function updatePenAim(e){
+    var a=aimFromEvt(e); pen.aimX=a.x; pen.aimY=a.y; pen.moved++; pen.hist.push({t:performance.now(),x:a.x,y:a.y}); if(pen.hist.length>40) pen.hist.shift();
+    var m=goalMetrics(), r=el('reticle');
+    if(r){ r.style.left=(m.gl+clamp(a.x,-0.12,1.12)*m.gw)+'px'; r.style.top=(m.gt+clamp(a.y,-0.12,1.12)*m.gh)+'px'; r.classList.add('show'); }
+  }
+  function bouncePenPower(){
+    if(pen.phase!=='power') return;
+    var t=(performance.now()-pen.t0)/1000, cyc=(t*1.45)%2, p=cyc<1?cyc:2-cyc;
+    pen.power=0.10+p*0.90;
+    pen.comp=pen.power>0.86?0.7:pen.power<0.22?0.55:0.22;
+    var fill=el('pfill'); if(fill) fill.style.bottom=(pen.power*100)+'%';
+    reqRaf(bouncePenPower);
   }
 
   function strike(){
-    // ---- entry validation & charge (once) ----
+    if(pen.busy) return; pen.busy=true;
     if(S.coins<10 && S.tickets<=0){ go('insufficient'); return; }
     if(S.playsToday>=S.dailyLimit){ go('limit'); return; }
     pen.useTicket = (S.coins<10 && S.tickets>0);
     if(pen.useTicket){ S.tickets--; } else { S.coins-=10; }
     var pc=el('pcoins'); if(pc) pc.textContent=fmt(S.coins);
 
-    var m=goalMetrics(), f=el('pfield'), ball=el('pball'), keeper=el('keeper'), ch=el('crosshair');
-    if(ch) ch.style.opacity='0';
+    var m=goalMetrics(), ball=el('pball'), keeper=el('keeper');
+    var r=el('reticle'), c=el('cring'), g=el('pgauge');
+    if(r) r.classList.remove('show'); if(c) c.classList.remove('show'); if(g) g.classList.remove('show');
     setPrompt('');
 
-    var aimX=pen.aimX, power=pen.power;
-    var shotHeight = clamp(power, 0, 1);                // power → height of shot
-    var edge = Math.min(aimX, 1-aimX);                 // 0 = post .. 0.5 = centre
-
-    // ---- risk: too much power blazes it over; aiming at the post drags it wide ----
+    var aimX=pen.aimX, aimY=pen.aimY, power=pen.power, comp=pen.comp;
+    var scatter=comp*0.16+Math.max(0,power-0.82)*0.24;
+    var fx=aimX+(Math.random()-0.5)*scatter*2, fy=aimY+(Math.random()-0.5)*scatter*1.5;
+    var now=performance.now(), older=null;
+    for(var i=pen.hist.length-1;i>=0;i--){ if(now-pen.hist[i].t>160){ older=pen.hist[i]; break; } }
+    var src=older||{x:aimX,y:aimY};
+    var flick=older&&(Math.abs(older.x-aimX)>0.14||Math.abs(older.y-aimY)>0.14);
+    var readP=flick?0.28:0.52;
+    var kxN, kyN;
+    if(Math.random()>readP){ kxN=src.x<0.5?0.64+Math.random()*0.26:0.08+Math.random()*0.26; kyN=0.28+Math.random()*0.48; }
+    else { kxN=clamp(src.x+(Math.random()-0.5)*0.14,0.06,0.94); kyN=clamp(src.y+(Math.random()-0.5)*0.16,0.08,0.92); }
     var over=false, wide=false;
-    if(power>0.97) over=true;
-    else if(power>0.82 && Math.random() < (power-0.82)/0.20) over=true;
-    if(!over && edge<0.14 && Math.random() < (0.14-edge)/0.14*0.65) wide=true;
-
-    // ---- keeper dives to a RANDOM side (the genuine chance element) ----
-    var keeperX = 0.12 + Math.random()*0.76;
-    var reach = 0.26 - 0.08*power;                     // pace beats the keeper
-    var dist = Math.abs(aimX-keeperX);
-
+    if(fy<-0.04||(power>0.93&&fy<0.18&&Math.random()<0.5+comp*0.3)) over=true;
+    else if(fx<-0.03||fx>1.03) wide=true;
+    fx=clamp(fx,-0.08,1.08); fy=clamp(fy,-0.12,1.08);
+    var corner=Math.min(Math.min(fx,1-fx),Math.min(fy,1-fy));
+    var reach=0.20-power*0.05-(0.12-Math.min(0.12,corner))*1.1;
+    if(fy>0.32&&fy<0.68) reach+=0.05;
+    var dx=fx-kxN, dy=(fy-kyN)*0.72, dist=Math.sqrt(dx*dx+dy*dy);
+    var panenka=power<0.42&&Math.abs(aimX-0.5)<0.14&&aimY>0.28&&aimY<0.72;
     var out;
-    if(over)       out={key:'missed',   label:'Over the bar', prize:0, miss:'over'};
-    else if(wide)  out={key:'missed',   label:'Wide',         prize:0, miss:'wide'};
-    else if(dist<reach) out={key:'saved',label:'Saved',       prize:0};
-    else if(edge<0.11 && power>0.55 && dist>0.30) out={key:'topcorner',label:'Top corner',prize:50};
-    else if(dist>0.28 || (edge<0.20 && power>0.55)) out={key:'great',label:'Great finish',prize:20};
-    else           out={key:'standard',label:'Standard goal',prize:10};
-    var saved=(out.key==='saved');
-    var missed=(out.key==='missed');
+    if(over) out={key:'missed',label:'Over the bar',prize:0,miss:'over'};
+    else if(wide) out={key:'missed',label:'Wide',prize:0,miss:'wide'};
+    else if(dist<reach) out={key:'saved',label:'Saved',prize:0};
+    else if(panenka) out={key:'great',label:'Panenka',prize:20};
+    else if(corner<0.11&&power>0.52&&dist>0.26) out={key:'topcorner',label:'Top corner',prize:50};
+    else if(dist>0.26||corner<0.16) out={key:'great',label:'Great finish',prize:20};
+    else out={key:'standard',label:'Standard goal',prize:10};
 
-    // targets in px
-    var tx = m.gl + (wide ? (aimX<0.5?-0.04:1.04) : aimX)*m.gw - 16;
-    var ty = over ? (m.gt-40) : (m.gt + (1-clamp(shotHeight,0,1))*m.gh - 10);
-    // keeper dives to keeperX at a height near the shot (capped mid for realism)
-    var kx = m.gl + keeperX*m.gw - 22;
-    var kyH = clamp(shotHeight,0,0.6);
-    var ky = m.gt + (1-kyH)*m.gh*0.9;
-    keeper.style.left=kx+'px'; keeper.style.top=ky+'px';
-    keeper.style.transform='rotate('+(keeperX<0.5?-20:20)+'deg) scale(1.12)';
+    var tx=m.gl+(wide?(aimX<0.5?-0.04:1.04):fx)*m.gw-16;
+    var ty=over?(m.gt-40):(m.gt+fy*m.gh-10);
+    keeper.style.left=(m.gl+kxN*m.gw-22)+'px'; keeper.style.top=(m.gt+kyN*m.gh-10)+'px';
+    keeper.style.transform='rotate('+(kxN<0.5?-28:28)+'deg) scale(1.1)';
 
-    // ball flight via rAF arc
     var sx=parseFloat(ball.style.left), sy=parseFloat(ball.style.top);
-    var dur=680, t0=null, arc=90+power*40;
+    var dur=620, t0=null, arc=panenka?110:80+power*40;
     function fly(ts){
       if(!t0)t0=ts; var t=clamp((ts-t0)/dur,0,1);
-      var e=t;
-      var x=sx+(tx-sx)*e;
-      var y=sy+(ty-sy)*e - arc*Math.sin(Math.PI*e);
-      var sc=1-0.45*e;
-      ball.style.left=x+'px'; ball.style.top=y+'px'; ball.style.transform='scale('+sc+')';
-      if(t<1){ reqRaf(fly); }
-      else { impact(out); }
+      ball.style.left=(sx+(tx-sx)*t)+'px'; ball.style.top=(sy+(ty-sy)*t-arc*Math.sin(Math.PI*t))+'px';
+      ball.style.transform='scale('+(1-0.45*t)+')';
+      if(t<1) reqRaf(fly); else impact(out);
     }
     reqRaf(fly);
   }
@@ -551,7 +576,7 @@
   // ============================================================
   //  WHEEL  — real flick: angular velocity + friction + snap
   // ============================================================
-  var wheel = { rot:0, busy:false, vel:0, dragging:false, lastAng:0, lastT:0, moved:0 };
+  var wheel = { rot:0, busy:false, vel:0, dragging:false, lastAng:0, lastT:0, moved:0, power:0.5, t0:0 };
   var doFlick=null;
 
   SCREENS.wheel = function(){
@@ -560,17 +585,19 @@
       var ang=i*45+22.5;
       segs+='<div class="wheelseg" style="transform:rotate('+ang+'deg)"><span>'+shortLabel(WHEEL[i])+'</span></div>';
     }
+    var icons={b50:'C',b10:'C',b100:'C',gkit:'🎁',b30:'C',grare:'★',free:'↻',none:'×'};
+    var shorts={b50:'50',b10:'10',b100:'100',gkit:'Kit',b30:'30',grare:'Rare',free:'Free',none:'Miss'};
     var pt='';
-    WHEEL.forEach(function(w){ pt+='<div class="pt" data-seg="'+w.key+'"><span class="sw" style="background:'+w.color+'"></span>'+w.label+'</div>'; });
+    WHEEL.forEach(function(w){ pt+='<div class="pt" data-seg="'+w.key+'" style="background:'+w.color+'"><i class="wlogo">'+(icons[w.key]||'')+'</i>'+shorts[w.key]+'</div>'; });
     return head('Spin the Wheel','<div class="balchip" style="margin-left:auto;flex:none;padding:6px 10px"><div class="gc">C</div><div class="bv num" id="wcoins">'+fmt(S.coins)+'</div></div>')+
     '<div class="body"><div class="scroll">'+
       '<div class="wheelwrap" id="wheelwrap">'+
         '<div class="wheelptr" id="wptr"></div>'+
         '<div class="wheeldisc" id="disc" style="transform:rotate('+wheel.rot+'deg)">'+segs+'<div class="wheelhub">⚽</div></div>'+
       '</div>'+
-      '<div class="wheelhint" id="whint">👆 Drag the wheel and throw it — or tap Spin</div>'+
+      '<div class="wforce"><span class="wl">FORCE</span><div class="wforce-rail"><b id="wneedle"></b></div><span class="wl">MAX</span></div>'+
+      '<div class="wheelhint" id="whint">TAP Spin to lock FORCE — or drag the wheel and throw it</div>'+
       '<div class="prizetable">'+pt+'</div>'+
-      '<div class="note info">8 equal segments = equal odds. Where the wheel’s momentum stops is your prize — no pre-set result.</div>'+
     '</div>'+
     '<div class="cta" style="margin-top:0"><div class="btn purple" id="spinbtn" data-act="spin">'+(S.freeSpin>0?'Spin · FREE':'Spin · 20 Coins')+'</div></div></div>';
   };
@@ -606,7 +633,16 @@
     window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
     // cleanup on next nav
     wheelCleanup=function(){ window.removeEventListener('mousemove',move); window.removeEventListener('touchmove',move); window.removeEventListener('mouseup',up); window.removeEventListener('touchend',up); };
-    doFlick=function(){ if(W.busy) return; if(S.freeSpin<=0 && S.coins<20){ go('insufficient'); return; } var v=(Math.random()<0.5?-1:1)*(26+Math.random()*12); startInertia(v); };
+    W.t0=performance.now();
+    function bounceForce(){
+      if(W.busy||cur!=='wheel') return;
+      var t=(performance.now()-W.t0)/1000, cyc=(t*1.35)%2, p=cyc<1?cyc:2-cyc;
+      W.power=0.12+p*0.88;
+      var n=el('wneedle'); if(n) n.style.left=(W.power*100)+'%';
+      reqRaf(bounceForce);
+    }
+    bounceForce();
+    doFlick=function(){ if(W.busy) return; if(S.freeSpin<=0 && S.coins<20){ go('insufficient'); return; } var dir=Math.random()<0.5?-1:1; startInertia(dir*(18+W.power*36)); };
   };
   var wheelCleanup=null;
 
@@ -615,18 +651,34 @@
     var free=S.freeSpin>0;
     if(free){ S.freeSpin--; } else { S.coins-=20; }
     var wc=el('wcoins'); if(wc) wc.textContent=fmt(S.coins);
-    var hint=el('whint'); if(hint) hint.textContent='Spinning…';
-    var disc=el('disc'), ptr=el('wptr');
+    var hint=el('whint'); if(hint) hint.textContent='Winding up…';
+    var disc=el('disc'), ptr=el('wptr'), forceEl=mount.querySelector('.wforce');
+    if(forceEl) forceEl.classList.add('lock');
     disc.style.transition='none';
-    var vel=clamp(v0,-42,42); if(Math.abs(vel)<16) vel=(vel<0?-1:1)*16;
-    var lastSeg=segAtTop(W.rot);
-    function frame(){
-      W.rot+=vel; vel*=0.986;
+    var peak=clamp(v0,-54,54); if(Math.abs(peak)<16) peak=(peak<0?-1:1)*16;
+    var sign=peak<0?-1:1; peak=Math.abs(peak);
+    var accelMs=160+W.power*260, drag=0.988-(1-W.power)*0.008;
+    var last=performance.now(), t0=last, vel=0, phase='accel', lastSeg=segAtTop(W.rot);
+    function mark(idx){
+      var key=(WHEEL[idx]||{}).key;
+      [].forEach.call(mount.querySelectorAll('.pt'),function(c){ c.classList.toggle('hit', c.getAttribute('data-seg')===key); });
+    }
+    function frame(ts){
+      var dt=Math.min((ts-last)/16.67, 2.4); last=ts;
+      if(phase==='accel'){
+        var u=Math.min(1,(ts-t0)/accelMs);
+        vel=sign*peak*u*u*(3-2*u);
+        if(u>=1){ vel=sign*peak; phase='coast'; if(hint) hint.textContent='Friction is eating the speed…'; }
+      } else {
+        vel*=Math.pow(drag, dt);
+        if(Math.abs(vel)<7) vel*=Math.pow(0.94, dt);
+      }
+      W.rot+=vel*dt;
       disc.style.transform='rotate('+W.rot+'deg)';
       var seg=segAtTop(W.rot);
-      if(seg!==lastSeg){ lastSeg=seg; if(ptr){ ptr.classList.remove('tick'); void ptr.offsetWidth; ptr.classList.add('tick'); } }
-      if(Math.abs(vel)>0.28){ reqRaf(frame); }
-      else { snapSettle(free); }
+      if(seg!==lastSeg){ lastSeg=seg; mark(seg); if(ptr){ ptr.classList.remove('tick'); void ptr.offsetWidth; ptr.classList.add('tick'); } }
+      if(phase==='coast'&&Math.abs(vel)<=0.28) snapSettle(free);
+      else reqRaf(frame);
     }
     reqRaf(frame);
   }
@@ -760,7 +812,7 @@
     var el2=e.target.closest('[data-act]'); if(!el2) return;
     var act=el2.getAttribute('data-act');
     switch(act){
-      case 'pentap': penTap(); break;
+      case 'pentap': break;
       case 'back':
         if(cur==='penaltyResult'||cur==='wheelResult'||cur==='insufficient'||cur==='limit'||cur==='history'||cur==='kitbag'||cur==='penalty'||cur==='wheel') go('hub');
         else if(cur==='rules') go(prevRules||'hub');
