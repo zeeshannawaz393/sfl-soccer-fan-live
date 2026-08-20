@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFL — Coin Seller</title>
+<style>
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('assets/manrope.woff2') format('woff2')}
+  :root{
+    --bg:#F4F6FB;--card:#FFFFFF;--line:#ECEEF5;
+    --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
+    --green1:#0FB753;--green2:#7CD843;
+    --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;
+    --coral:#FF416C;--red:#E4362B;--amber:#F59E0B;--cyan:#1FA8FF;--violet:#6A3CD6;
+    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --goldglow:0 8px 22px rgba(255,179,0,.32);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  body{background:#E7ECF6;background-image:radial-gradient(58% 32% at 12% 0%,rgba(255,179,0,.12),transparent 60%),radial-gradient(50% 32% at 90% 6%,rgba(15,183,83,.09),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
+  .num{font-variant-numeric:tabular-nums}
+  .page-head{max-width:1900px;margin:0 auto 46px}
+  .kicker{font-size:13px;font-weight:800;letter-spacing:4px;color:var(--goldDeep);text-transform:uppercase}
+  .page-head h1{margin-top:8px;font-size:50px;line-height:1.05;font-weight:800;letter-spacing:-1.6px;color:#10121A}
+  .page-head p{font-size:15px;line-height:23px;color:#5A6272;margin-top:14px;max-width:820px;font-weight:550}
+  .frames{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;max-width:1980px;margin:0 auto}
+  .fw{display:flex;flex-direction:column;gap:15px}
+  .flabel{display:flex;align-items:center;gap:11px;max-width:390px}
+  .fnum{min-width:52px;height:26px;padding:0 8px;border-radius:8px;background:linear-gradient(140deg,var(--gold1),var(--gold2));color:#5A3E00;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;box-shadow:var(--goldglow);flex:none}
+  .fname{font-size:15px;font-weight:800;letter-spacing:-.2px;color:#10121A}
+  .fname span{display:block;font-size:12px;font-weight:600;color:#707786;margin-top:2px}
+  .phone{width:390px;height:844px;flex:none;border-radius:46px;overflow:hidden;position:relative;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 44px 96px rgba(20,30,60,.18);border:1px solid #D7DDEA}
+  .divider{flex-basis:100%;display:flex;align-items:center;gap:14px;margin:34px 0 4px;font-size:20px;font-weight:800;letter-spacing:-.3px;color:#10121A}
+  .divider::after{content:"";flex:1;height:1.5px;background:#CDD5E4;border-radius:1px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes shimmer{0%{transform:translateX(-70%)}100%{transform:translateX(70%)}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+
+  .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px;z-index:5}
+  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .body{flex:1;padding:16px 20px 0;display:flex;flex-direction:column;overflow:hidden}
+  .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .h1{font-size:24px;line-height:30px;font-weight:800;letter-spacing:-.5px}
+  .sub{font-size:13.5px;line-height:20px;font-weight:600;color:var(--t2);margin-top:8px}
+  .cta{margin-top:auto;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
+  .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.34)}
+  .btn.gold{background:linear-gradient(140deg,var(--gold2),var(--gold1));color:#5A3E00;box-shadow:var(--goldglow)}
+  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.danger{background:#fff;color:var(--red);border:1.5px solid #FFD2CE;box-shadow:var(--shadow-sm)}
+  .btn.dis{background:#EEF1F6;color:var(--t3);box-shadow:none}
+  .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
+  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .coin{border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#7A5400;background:radial-gradient(circle at 35% 28%,#FFE99A,#FFC42E 52%,#C88A00);box-shadow:inset 0 2px 4px rgba(255,255,255,.7),inset 0 -5px 9px rgba(120,80,0,.4)}
+  .warn{display:flex;gap:9px;border-radius:13px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:700}
+  .warn.y{background:#FFFBF2;border:1px solid #FDE4B8;color:#8A6410}
+  .warn.b{background:#F0F7FF;border:1px solid #CEE4FA;color:#1E5E96}
+  .warn.g{background:#F2FBF5;border:1px solid #BFE9CE;color:#187A42}
+  .warn.r{background:#FFF5F4;border:1px solid #FFD2CE;color:#B4241B}
+
+  .filters{display:flex;gap:7px}
+  .fchip{height:32px;padding:0 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--t2);display:flex;align-items:center;box-shadow:var(--shadow-sm)}
+  .fchip.on{background:var(--t1);color:#fff;border-color:transparent}
+
+  .srow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 13px;box-shadow:var(--shadow-sm)}
+  .srow.off{opacity:.55}
+  .sav{width:48px;height:48px;border-radius:50%;background-size:cover;background-position:center;flex:none;position:relative}
+  .sav .dot{position:absolute;right:0;bottom:0;width:12px;height:12px;border-radius:50%;border:2px solid #fff;background:#0FB753}
+  .sav .dot.off{background:#A6ADBC}
+  .sn{font-size:14.5px;font-weight:800;display:flex;align-items:center;gap:5px}
+  .vbadge{font-size:10px;font-weight:800;color:#1E5E96;background:#E8F3FF;border:1px solid #C5DFF8;padding:2px 7px;border-radius:999px}
+  .smeta{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .srate{margin-left:auto;text-align:right}
+  .srate .rv{font-size:14px;font-weight:800;color:var(--goldDeep)}
+  .srate .rs{font-size:10.5px;font-weight:700;color:var(--t3)}
+  .sbtn{height:32px;padding:0 12px;border-radius:999px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center}
+  .srow.off .sbtn{background:#EEF1F6;color:var(--t3)}
+
+  .hero{border-radius:20px;padding:16px;background:linear-gradient(135deg,#1A1204,#3A2A08 55%,#5A4310);color:#fff}
+  .hero .lab{font-size:11px;font-weight:750;letter-spacing:.6px;color:#E6C87A;text-transform:uppercase}
+  .amtchip{height:38px;padding:0 14px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:13px;font-weight:800;display:inline-flex;align-items:center}
+  .amtchip.on{border-color:var(--green1);box-shadow:0 0 0 3px rgba(15,183,83,.14)}
+  .amtrow{display:flex;flex-wrap:wrap;gap:8px}
+  .idfield{height:54px;border-radius:16px;background:#fff;border:1.5px solid var(--line);display:flex;align-items:center;padding:0 16px;font-size:18px;font-weight:800;letter-spacing:1px;box-shadow:var(--shadow-sm)}
+  .idfield.on{border-color:var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.1)}
+  .ptable{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .prow{display:flex;align-items:center;padding:12px 15px;font-size:13.5px;font-weight:700;border-bottom:1px solid var(--line)}
+  .prow .k{color:var(--t2);font-weight:650}
+  .prow .v{margin-left:auto;font-weight:800}
+  .prow.total{background:linear-gradient(120deg,#FFFBF0,#fff)}
+  .prow.total .k{color:var(--t1);font-weight:800}
+  .prow.total .v{font-size:18px}
+
+  .sheet-scrim{position:absolute;inset:0;background:rgba(10,14,20,.5);z-index:6;display:flex;align-items:flex-end}
+  .sheet{background:#fff;border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
+  .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 14px}
+  .sheet h3{font-size:20px;font-weight:800}
+
+  .stages{display:flex;flex-direction:column}
+  .stage{display:flex;gap:14px;position:relative;padding-bottom:22px}
+  .stage:last-child{padding-bottom:0}
+  .stage .sd{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:1}
+  .stage .sd.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .stage .sd.now{background:#fff;border:2.5px solid var(--gold1);color:var(--gold1)}
+  .stage .sd.now::after{content:"";position:absolute;width:32px;height:32px;border-radius:50%;border:2.5px solid transparent;border-top-color:var(--gold1);animation:spin 1s linear infinite}
+  .stage .sd.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
+  .stage::before{content:"";position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--line)}
+  .stage:last-child::before{display:none}
+  .stage .st{font-size:14px;font-weight:800}
+  .stage.wait .st{color:var(--t3)}
+  .stage .ss{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px}
+
+  .state{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:28px}
+  .sic{width:82px;height:82px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;background:#EEF1F6;border:1.5px solid var(--line)}
+  .sic.g{background:#F2FBF5;border-color:#BFE9CE}.sic.r{background:#FFF5F4;border-color:#FFD2CE}.sic.y{background:#FFFBF2;border-color:#FDE4B8}.sic.gold{background:#FFF7E4;border-color:#FFE199}
+  .stars{display:flex;gap:8px;margin-top:14px}
+  .star{width:40px;height:40px;border-radius:12px;background:#fff;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px}
+  .star.on{background:#FFF7E4;border-color:#FFE199}
+
+  .statg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 13px;box-shadow:var(--shadow-sm)}
+  .stat .k{font-size:11px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.4px}
+  .stat .v{font-size:20px;font-weight:800;margin-top:4px;letter-spacing:-.4px}
+  .invsplit{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .inv{border-radius:16px;padding:13px;border:1px solid var(--line)}
+  .inv.av{background:linear-gradient(135deg,#F2FBF5,#fff);border-color:#BFE9CE}
+  .inv.rs{background:linear-gradient(135deg,#FFFBF2,#fff);border-color:#FDE4B8}
+  .inv .k{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase}
+  .inv.av .k{color:#187A42}.inv.rs .k{color:#8A6410}
+  .inv .v{font-size:22px;font-weight:800;margin-top:4px}
+
+  .tx{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .tx:last-child{border:none}
+  .tx .ti{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;background:#F4F6FB;flex:none}
+  .tx .tn{font-size:13.5px;font-weight:800}
+  .tx .ts{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .tx .tv{margin-left:auto;text-align:right;font-size:13.5px;font-weight:800}
+  .pill{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px}
+  .pill.ok{color:#0FA04C;background:#E9F9EF}.pill.wait{color:#B4740A;background:#FFF3D6}.pill.bad{color:#B4241B;background:#FFF0EE}
+
+  .paybox{background:#111;color:#fff;border-radius:16px;padding:14px 15px}
+  .paybox .k{font-size:11px;font-weight:750;color:#C9B071;letter-spacing:.4px;text-transform:uppercase}
+  .paybox .v{font-size:15px;font-weight:800;margin-top:3px}
+  .copy{margin-left:auto;font-size:11px;font-weight:800;color:#7CD843}
+
+  .ben{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:var(--shadow-sm)}
+  .ben .bi{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#FFF7E4;flex:none}
+  .ben .bn{font-size:13.5px;font-weight:800}.ben .bs{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:2px}
+  .input{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 15px;font-size:14.5px;font-weight:700;box-shadow:var(--shadow-sm)}
+  .input .ph{color:var(--t3);font-weight:600}
+  .fl{font-size:11.5px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .chk{width:22px;height:22px;border-radius:7px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+  .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--t2);padding:20px}
+  .skel{height:74px;border-radius:16px;background:linear-gradient(90deg,#EEF1F6 25%,#F7F8FB 50%,#EEF1F6 75%);background-size:200% 100%;animation:shimmer 1.2s infinite}
+  .pkg{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px 12px;text-align:center;box-shadow:var(--shadow-sm)}
+  .pkg.on{border-color:var(--green1);box-shadow:0 0 0 3px rgba(15,183,83,.14)}
+  .pkgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .nt{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .nt:last-child{border:none}
+  .nt .nd{width:36px;height:36px;border-radius:11px;background:#FFF7E4;display:flex;align-items:center;justify-content:center;flex:none}
+  .nt .nn{font-size:13.5px;font-weight:800}.nt .ns{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:2px}
+  .proof{border:1.5px dashed #CDD5E4;border-radius:16px;background:#fff;min-height:92px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;box-shadow:var(--shadow-sm)}
+  .proof .pl{font-size:13.5px;font-weight:800}.proof .ps{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:3px}
+  .proof.on{border-style:solid;border-color:#BFE9CE;padding:0;overflow:hidden;display:block}
+  .proofshot{background:linear-gradient(160deg,#0F1724,#1A2436);color:#fff;padding:12px 14px;text-align:left}
+  .proofshot .pk{font-size:10px;font-weight:800;letter-spacing:.5px;color:#9AE6B4;text-transform:uppercase}
+  .proofshot .pv{font-size:22px;font-weight:800;margin-top:4px}
+  .proofshot .pr{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;color:#C5D0E0;margin-top:8px}
+  .prooffoot{padding:9px 13px;font-size:12px;font-weight:800;color:#187A42;background:#F2FBF5}
+</style>
+</head>
+<body>
+<div class="page-head">
+  <div class="kicker">Soccer Fan Live · Coin Seller</div>
+  <h1>Coin Seller</h1>
+  <p>P2P top-up beside Apple Pay. Buyer wallet Coins stay separate from a seller’s <b>trading inventory</b>. Creating an order <b>reserves</b> coins until the trade completes, cancels, expires, or is rejected.</p>
+</div>
+
+<div class="frames">
+
+  <div class="divider">Buy from a Coin Seller</div>
+
+  <!-- CS-01 MARKET -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-01</div><div class="fname">Seller marketplace<span>Verified desks · live rates</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Coin Sellers</div><div class="back" style="margin-left:auto">🧾</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="warn b">Official store is 10 Coins = $1.00. Sellers may offer a better rate via bank transfer.</div>
+        <div class="filters">
+          <div class="fchip on" data-csfilter="all">All</div>
+          <div class="fchip" data-csfilter="online">Online</div>
+          <div class="fchip" data-csfilter="best">Best rate</div>
+        </div>
+        <div class="srow" data-seller="maya">
+          <div class="sav" style="background-image:url('assets/up_03.png')"><i class="dot"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="sn">Maya Chen <span class="vbadge">✓ Verified</span></div>
+            <div class="smeta">★ 4.97 · 2,841 sales · 12,400 avail</div>
+          </div>
+          <div class="srate"><div class="rv num">10.4 / $</div><div class="rs">online</div></div>
+        </div>
+        <div class="srow" data-seller="luis">
+          <div class="sav" style="background-image:url('assets/up_07.png')"><i class="dot"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="sn">Luis Ortega <span class="vbadge">✓ Verified</span></div>
+            <div class="smeta">★ 4.91 · 1,102 sales · 3,200 avail</div>
+          </div>
+          <div class="srate"><div class="rv num">10.2 / $</div><div class="rs">online</div></div>
+        </div>
+        <div class="srow" data-seller="kenji">
+          <div class="sav" style="background-image:url('assets/up_05.png')"><i class="dot"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="sn">Kenji Sato <span class="vbadge">✓ Verified</span></div>
+            <div class="smeta">★ 4.70 · 88 sales · 900 avail</div>
+          </div>
+          <div class="srate"><div class="rv num">10.0 / $</div><div class="rs">online</div></div>
+        </div>
+        <div class="srow off" data-seller="nia">
+          <div class="sav" style="background-image:url('assets/up_09.png')"><i class="dot off"></i></div>
+          <div style="flex:1;min-width:0">
+            <div class="sn">Nia Okonkwo <span class="vbadge">✓ Verified</span></div>
+            <div class="smeta">★ 4.88 · 640 sales · 8,000 avail</div>
+          </div>
+          <div class="srate"><div class="rv num">10.1 / $</div><div class="rs">offline</div></div>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:10px"><div class="altlink" data-csgo="coinstore">Back to official store</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-01L LOADING -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-01L</div><div class="fname">Marketplace · Loading<span>Skeleton while desks load</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Coin Sellers</div></div>
+    <div class="body"><div class="scrollarea"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></div>
+  </div></div>
+
+  <!-- CS-01E EMPTY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-01E</div><div class="fname">Marketplace · Empty<span>No online desks</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Coin Sellers</div></div>
+    <div class="body">
+      <div class="empty">
+        <div class="sic">🪙</div>
+        <div class="h1" style="margin-top:14px">No sellers online</div>
+        <div class="sub">Try the official Coin Store, or check back in a few minutes.</div>
+      </div>
+      <div class="cta"><div class="btn" data-csgo="coinstore">Buy in Coin Store</div><div class="btn ghost" data-csgo="csellers">Refresh</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-01X ERROR -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-01X</div><div class="fname">Marketplace · Error<span>Couldn’t load desks</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Coin Sellers</div></div>
+    <div class="body">
+      <div class="state">
+        <div class="sic r">!</div>
+        <div class="h1">Couldn’t load sellers</div>
+        <div class="sub">Check your connection. Your wallet is unchanged.</div>
+        <div class="cta" style="width:100%"><div class="btn" data-csgo="csellers">Try again</div><div class="btn ghost" data-csgo="coinstore">Official store</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-02 DETAIL -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-02</div><div class="fname">Seller detail<span>Amount · rate · request</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Seller</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="srow" style="box-shadow:none">
+          <div class="sav cs-av" style="background-image:url('assets/up_03.png')"><i class="dot"></i></div>
+          <div style="flex:1">
+            <div class="sn cs-name">Maya Chen <span class="vbadge">✓ Verified</span></div>
+            <div class="smeta cs-meta">★ 4.97 · 2,841 completed · Online</div>
+          </div>
+        </div>
+        <div class="invsplit">
+          <div class="inv av"><div class="k">Available</div><div class="v num cs-avail">12,400</div></div>
+          <div class="inv rs"><div class="k">Reserved</div><div class="v num">1,100</div></div>
+        </div>
+        <div>
+          <div class="fl">Coin amount</div>
+          <div class="amtrow">
+            <div class="amtchip" data-amt="100">100</div>
+            <div class="amtchip on" data-amt="500">500</div>
+            <div class="amtchip" data-amt="1000">1,000</div>
+            <div class="amtchip" data-amt="2000">2,000</div>
+          </div>
+        </div>
+        <div>
+          <div class="fl">Custom amount</div>
+          <div class="idfield on" id="cs-custom">500</div>
+        </div>
+        <div class="ptable">
+          <div class="prow"><span class="k">Seller rate</span><span class="v num cs-rate">10.4 Coins / $1</span></div>
+          <div class="prow"><span class="k">Official store</span><span class="v num">$50.00</span></div>
+          <div class="prow"><span class="k">You pay seller</span><span class="v num cs-usd">$48.08</span></div>
+          <div class="prow"><span class="k">Payment</span><span class="v">Bank transfer</span></div>
+          <div class="prow total"><span class="k">Due if accepted</span><span class="v num cs-usd2">$48.08</span></div>
+        </div>
+        <div class="warn y">Seller must accept before you pay. Those coins move to <b>Reserved</b> on their desk.</div>
+      </div>
+      <div class="cta"><div class="btn" data-csgo="csconfirm">Create purchase request</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-02C CONFIRM SHEET -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-02C</div><div class="fname">Confirm request<span>Reserve happens here</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(2px);opacity:.45;padding-top:24px"><div class="h1">Seller</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>Reserve 500 Coins?</h3>
+      <div class="sub" style="margin-top:6px">Maya’s desk will lock 500 trading coins for you. If she declines or the order expires, they return to Available.</div>
+      <div class="ptable" style="margin-top:14px">
+        <div class="prow"><span class="k">Order</span><span class="v num">ORD-2901</span></div>
+        <div class="prow"><span class="k">Amount</span><span class="v num">500 Coins</span></div>
+        <div class="prow total"><span class="k">You will pay</span><span class="v num">$48.08</span></div>
+      </div>
+      <div class="cta" style="margin-top:16px;margin-bottom:0">
+        <div class="btn" data-csact="create">Send request</div>
+        <div class="btn ghost" data-csgo="cseller">Not now</div>
+      </div>
+    </div></div>
+  </div></div>
+
+  <!-- CS-03 PENDING -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-03</div><div class="fname">Pending seller<span>Waiting to accept</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Order ORD-2901</div></div>
+    <div class="body">
+      <div class="stages" style="margin-top:8px">
+        <div class="stage"><div class="sd done">✓</div><div><div class="st">Request created</div><div class="ss">500 Coins reserved on Maya’s desk</div></div></div>
+        <div class="stage"><div class="sd now"></div><div><div class="st">Waiting for Maya</div><div class="ss">Usually under 3 minutes when online</div></div></div>
+        <div class="stage wait"><div class="sd wait">◦</div><div><div class="st">Pay by bank transfer</div></div></div>
+        <div class="stage wait"><div class="sd wait">◦</div><div><div class="st">Coins credited to you</div></div></div>
+      </div>
+      <div class="warn b cs-live" style="margin-top:16px">Maya is reviewing your request. Do not send money yet.</div>
+      <div class="cta"><div class="btn danger" data-csact="cancel">Cancel order</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-04 PAY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-04</div><div class="fname">Payment instructions<span>Pay the seller, not SFL</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Pay Maya</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="warn g">Maya accepted. Send exactly $48.08, then mark it sent.</div>
+        <div class="paybox">
+          <div style="display:flex;align-items:center"><div><div class="k">Bank</div><div class="v">Metro Commercial</div></div></div>
+          <div style="display:flex;align-items:center;margin-top:12px"><div><div class="k">Account name</div><div class="v">M. Chen</div></div><div class="copy" data-csact="copy">Copy</div></div>
+          <div style="display:flex;align-items:center;margin-top:12px"><div><div class="k">Account number</div><div class="v num">8821 4409 2217</div></div><div class="copy" data-csact="copy">Copy</div></div>
+          <div style="display:flex;align-items:center;margin-top:12px"><div><div class="k">Reference</div><div class="v num">ORD-2901</div></div><div class="copy" data-csact="copy">Copy</div></div>
+        </div>
+        <div class="ptable">
+          <div class="prow"><span class="k">Amount</span><span class="v num">500 Coins</span></div>
+          <div class="prow total"><span class="k">Transfer</span><span class="v num">$48.08</span></div>
+        </div>
+        <div>
+          <div class="fl">Payment proof</div>
+          <div class="proof" id="cs-proof" data-csact="attach">
+            <div><div class="pl">📷 Attach payment screenshot</div><div class="ps">Bank app confirmation with ORD-2901</div></div>
+          </div>
+        </div>
+        <div class="warn y">SFL never sees this transfer. Wrong reference can delay credit.</div>
+      </div>
+      <div class="cta"><div class="btn dis" id="cs-send" data-csact="needproof">Attach screenshot to continue</div><div class="altlink" data-csact="cancel">Cancel order</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-04S MARK SENT SHEET -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-04S</div><div class="fname">Mark payment sent<span>Buyer attestation</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(2px);opacity:.4;padding-top:24px"><div class="h1">Pay Maya</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>Confirm you paid</h3>
+      <div class="sub">Only tap this after the $48.08 transfer left your bank. Maya will then confirm.</div>
+      <div class="cta" style="margin-top:16px;margin-bottom:0">
+        <div class="btn" data-csact="sent">Yes, payment sent</div>
+        <div class="btn ghost" data-csgo="cspay">Go back</div>
+      </div>
+    </div></div>
+  </div></div>
+
+  <!-- CS-05 WAITING CONFIRM -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-05</div><div class="fname">Payment sent<span>Seller checking</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">ORD-2901</div></div>
+    <div class="body">
+      <div class="stages" style="margin-top:8px">
+        <div class="stage"><div class="sd done">✓</div><div><div class="st">Maya accepted</div></div></div>
+        <div class="stage"><div class="sd done">✓</div><div><div class="st">You sent proof</div><div class="ss">Screenshot · $48.08 · Metro Commercial</div></div></div>
+        <div class="stage"><div class="sd now"></div><div><div class="st">Maya checking your screenshot</div><div class="ss">Matching reference ORD-2901…</div></div></div>
+        <div class="stage wait"><div class="sd wait">◦</div><div><div class="st">Coins released to you</div></div></div>
+      </div>
+      <div class="warn b cs-live" style="margin-top:16px">Proof submitted. Waiting for Maya to confirm the transfer.</div>
+    </div>
+  </div></div>
+
+  <!-- CS-06 TRANSFER -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-06</div><div class="fname">Coins transferring<span>Reserved → your wallet</span></div></div>
+  <div class="phone">
+    <div class="body">
+      <div style="text-align:center;margin-top:18px">
+        <div class="coin" style="width:72px;height:72px;font-size:26px;margin:0 auto">C</div>
+        <div class="h1" style="margin-top:16px">Releasing your Coins</div>
+        <div class="sub">Maya confirmed $48.08. Reserved inventory is moving into your spendable wallet.</div>
+      </div>
+      <div class="stages" style="margin-top:22px">
+        <div class="stage"><div class="sd done">✓</div><div><div class="st">Payment confirmed</div></div></div>
+        <div class="stage"><div class="sd now"></div><div><div class="st">Unlocking reserved Coins</div><div class="ss">500 trading → your balance</div></div></div>
+        <div class="stage wait"><div class="sd wait">◦</div><div><div class="st">Order complete</div></div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-07 DONE -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-07</div><div class="fname">Order completed<span>Wallet credited</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic g">✓</div>
+      <div class="h1">500 Coins added</div>
+      <div class="sub">From Maya Chen · ORD-2901. These are spendable wallet Coins — not seller inventory.</div>
+      <div class="ptable" style="width:100%;margin-top:16px;text-align:left">
+        <div class="prow"><span class="k">Previous wallet</span><span class="v num">1,240</span></div>
+        <div class="prow"><span class="k">Purchased</span><span class="v num" style="color:var(--green1)">+500</span></div>
+        <div class="prow total"><span class="k">New wallet</span><span class="v num">1,740 Coins</span></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csrate">Rate Maya</div><div class="btn ghost" data-csgo="coinstore">Back to Buy Coins</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-08 RATE -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-08</div><div class="fname">Rate the trade<span>After success only</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Rate Maya</div></div>
+    <div class="body">
+      <div style="text-align:center;margin-top:12px">
+        <div class="sav" style="width:72px;height:72px;margin:0 auto;background-image:url('assets/up_03.png')"></div>
+        <div class="h1" style="margin-top:12px">How was this trade?</div>
+        <div class="sub">500 Coins · $48.08 · ORD-2901</div>
+        <div class="stars">
+          <div class="star on">★</div><div class="star on">★</div><div class="star on">★</div><div class="star on">★</div><div class="star on">★</div>
+        </div>
+      </div>
+      <div class="input" style="margin-top:18px"><span class="ph">Fast and clear instructions…</span></div>
+      <div class="cta"><div class="btn" data-csact="rated">Submit review</div><div class="altlink" data-csgo="coinstore">Skip</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-09 CANCELLED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-09</div><div class="fname">Cancelled<span>Reserve released</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic y">✕</div>
+      <div class="h1">Order cancelled</div>
+      <div class="sub">ORD-2901 is closed. Maya’s 500 reserved Coins are Available again. You were not charged.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csellers">Find another seller</div><div class="btn ghost" data-csgo="cshistory">View history</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-10 EXPIRED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-10</div><div class="fname">Expired<span>Window closed</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic y">⏱</div>
+      <div class="h1">Order expired</div>
+      <div class="sub">No payment was confirmed in time. Reserved coins returned to Maya’s Available balance.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csellers">Start again</div><div class="btn ghost" data-csgo="support">Contact support</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-11 REJECTED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-11</div><div class="fname">Rejected<span>Seller declined</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic r">!</div>
+      <div class="h1">Seller declined</div>
+      <div class="sub">Maya couldn’t take this order. Nothing left your bank. Try Luis — he’s online with 3,200 available.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csellers">Browse sellers</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-12 BUYER HISTORY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-12</div><div class="fname">Your seller orders<span>Purchases from desks</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Seller orders</div></div>
+    <div class="body">
+      <div class="filters" style="margin-bottom:4px">
+        <div class="fchip on" data-csfilter="all">All</div>
+        <div class="fchip" data-csfilter="pend">Pending</div>
+        <div class="fchip" data-csfilter="done">Done</div>
+        <div class="fchip" data-csfilter="out">Closed</div>
+      </div>
+      <div class="scrollarea" style="gap:0">
+        <div class="tx" data-csgo="csdone">
+          <div class="ti">🪙</div>
+          <div><div class="tn">Maya Chen · 500 Coins</div><div class="ts">ORD-2901 · today</div></div>
+          <div class="tv"><div class="num">$48.08</div><span class="pill ok">Completed</span></div>
+        </div>
+        <div class="tx" data-csgo="cspending">
+          <div class="ti">⏳</div>
+          <div><div class="tn">Luis Ortega · 100 Coins</div><div class="ts">ORD-2894 · waiting</div></div>
+          <div class="tv"><div class="num">$9.80</div><span class="pill wait">Pending</span></div>
+        </div>
+        <div class="tx" data-csgo="cscancelled">
+          <div class="ti">✕</div>
+          <div><div class="tn">Kenji Sato · 200 Coins</div><div class="ts">ORD-2881 · cancelled</div></div>
+          <div class="tv"><div class="num">$20.00</div><span class="pill bad">Cancelled</span></div>
+        </div>
+        <div class="tx" data-csgo="csfailed">
+          <div class="ti">!</div>
+          <div><div class="tn">Nia Okonkwo · 1,000</div><div class="ts">ORD-2870 · failed check</div></div>
+          <div class="tv"><div class="num">$99.01</div><span class="pill bad">Failed</span></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-13 FAILED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-13</div><div class="fname">Failed<span>Payment mismatch</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic r">!</div>
+      <div class="h1">Payment didn’t match</div>
+      <div class="sub">Maya couldn’t match ORD-2870. Reserved coins were released. If you sent money, open support with the receipt.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="support">Contact support</div><div class="btn ghost" data-csgo="cshistory">Back to history</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Become a Coin Seller</div>
+
+  <!-- CS-20 BENEFITS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-20</div><div class="fname">Become a seller<span>Benefits · apply</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Coin Seller</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="h1">Sell Coins to fans</div>
+        <div class="sub">A separate trading inventory — never mixed with the Coins you spend in rooms and games.</div>
+        <div class="ben"><div class="bi">🏦</div><div><div class="bn">Your own desk</div><div class="bs">Set a live rate and get paid by bank transfer.</div></div></div>
+        <div class="ben"><div class="bi">🔒</div><div><div class="bn">Reserved, not spent</div><div class="bs">Open orders lock inventory until they settle.</div></div></div>
+        <div class="ben"><div class="bi">⭐</div><div><div class="bn">Ratings that matter</div><div class="bs">Verified badge after KYC and first 10 trades.</div></div></div>
+        <div class="warn y">You buy trading coins from SFL first. Those coins can only be sold — they are not spendable in the app.</div>
+      </div>
+      <div class="cta"><div class="btn gold" data-csgo="csapply">Apply to sell</div><div class="altlink" data-csgo="csellers">Browse as a buyer</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-21 APPLY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-21</div><div class="fname">Application form<span>KYC + payout</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Apply</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="fl">Display name</div>
+        <div class="input">Alex Morgan</div>
+        <div class="fl">Payout bank</div>
+        <div class="input">Metro Commercial · •••• 2217</div>
+        <div class="fl">Why you want to sell</div>
+        <div class="input"><span class="ph">I top up fans in my region…</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:12.5px;font-weight:700"><span class="chk">✓</span>I agree trading inventory is not spendable in SFL and reserved coins cannot be withdrawn.</div>
+      </div>
+      <div class="cta"><div class="btn" data-csact="apply">Submit application</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-22 PENDING APPLY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-22</div><div class="fname">Application pending<span>Review in progress</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic y">◔</div>
+      <div class="h1">Application in review</div>
+      <div class="sub">We check KYC and payout details. You’ll get a notification when a decision lands.</div>
+      <div class="cta" style="width:100%">
+        <div class="btn" data-csgo="csapproved">Simulate approve</div>
+        <div class="btn ghost" data-csgo="csappreject">Simulate reject</div>
+        <div class="altlink" data-csgo="home">Back home</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-23 APPROVED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-23</div><div class="fname">Seller approved<span>Desk unlocked</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic g">✓</div>
+      <div class="h1">You’re a Coin Seller</div>
+      <div class="sub">Buy trading inventory next. Those coins sit in Available until a fan’s order reserves them.</div>
+      <div class="cta" style="width:100%"><div class="btn gold" data-csgo="csinv">Buy trading coins</div><div class="btn ghost" data-csgo="csdesk">Open seller desk</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-24 REJECTED APP -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-24</div><div class="fname">Application rejected<span>Can reapply</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic r">✕</div>
+      <div class="h1">Application declined</div>
+      <div class="sub">Payout details didn’t match KYC. You can update the form and apply again in 7 days.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csapply">Edit &amp; reapply</div><div class="btn ghost" data-csgo="support">Talk to support</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-25 SUSPENDED -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-25</div><div class="fname">Seller suspended<span>Desk frozen</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic r">⏸</div>
+      <div class="h1">Desk suspended</div>
+      <div class="sub">New buy requests are blocked. Open reserved orders still settle. Available inventory is frozen.</div>
+      <div class="invsplit" style="width:100%;margin-top:8px;text-align:left">
+        <div class="inv av"><div class="k">Frozen available</div><div class="v num">8,400</div></div>
+        <div class="inv rs"><div class="k">Still reserved</div><div class="v num">500</div></div>
+      </div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="support">Resolve with support</div></div>
+    </div>
+  </div></div>
+
+  <div class="divider">Seller desk</div>
+
+  <!-- CS-30 DASHBOARD -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-30</div><div class="fname">Seller dashboard<span>Inventory ≠ wallet</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Seller desk</div><div class="back" style="margin-left:auto">🔔</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="hero">
+          <div class="lab">Trading inventory · not spendable</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:8px"><div class="coin" style="width:36px;height:36px;font-size:14px">C</div><div class="num" style="font-size:32px;font-weight:800" id="cs-desk-total">8,900</div></div>
+          <div style="font-size:12px;font-weight:700;color:#C9B071;margin-top:4px">Available + Reserved · your wallet Coins stay at 1,240</div>
+        </div>
+        <div class="invsplit">
+          <div class="inv av"><div class="k">Available</div><div class="v num" id="cs-desk-av">8,400</div></div>
+          <div class="inv rs"><div class="k">Reserved</div><div class="v num" id="cs-desk-rs">500</div></div>
+        </div>
+        <div class="statg">
+          <div class="stat"><div class="k">Sold total</div><div class="v num">12,840</div></div>
+          <div class="stat"><div class="k">Sales today</div><div class="v num">3</div></div>
+          <div class="stat"><div class="k">Earnings</div><div class="v num">$842</div></div>
+          <div class="stat"><div class="k">Rating</div><div class="v">4.97 ★</div></div>
+        </div>
+        <div class="srow" data-csgo="csrequests"><div style="flex:1"><div class="sn">Pending requests</div><div class="smeta">1 buyer waiting · 500 reserved</div></div><div class="sbtn">Open</div></div>
+        <div class="srow" data-csgo="cssell"><div style="flex:1"><div class="sn">Sell to a User ID</div><div class="smeta">Direct transfer from inventory</div></div><div class="sbtn">Sell</div></div>
+        <div class="srow" data-csgo="csinv"><div style="flex:1"><div class="sn">Buy trading coins</div><div class="smeta">Restock inventory from SFL</div></div><div class="sbtn">Stock</div></div>
+        <div class="srow" data-csgo="cstx"><div style="flex:1"><div class="sn">Transactions</div><div class="smeta">Purchases · sales · closed</div></div><span style="color:var(--t3);font-weight:800">›</span></div>
+        <div class="srow" data-csgo="cscust"><div style="flex:1"><div class="sn">Customers</div><div class="smeta">186 fans bought from you</div></div><span style="color:var(--t3);font-weight:800">›</span></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-31 REQUESTS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-31</div><div class="fname">Pending requests<span>Accept or decline</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Requests</div></div>
+    <div class="body">
+      <div class="srow" data-csgo="csreq">
+        <div class="sav" style="background-image:url('assets/up_12.png')"><i class="dot"></i></div>
+        <div style="flex:1"><div class="sn">Alex Morgan</div><div class="smeta">500 Coins · $48.08 · 4m ago</div></div>
+        <span class="pill wait">New</span>
+      </div>
+      <div class="empty" style="flex:none;padding-top:28px">
+        <div class="sub">Accepting locks these 500 from Available into Reserved.</div>
+      </div>
+      <div class="cta"><div class="altlink" data-csgo="csdesk">Back to desk</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-32 REQUEST DETAIL -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-32</div><div class="fname">Request detail<span>Seller decision</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">ORD-2901</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="srow"><div class="sav" style="background-image:url('assets/up_12.png')"></div><div><div class="sn">Alex Morgan · ID 12345</div><div class="smeta">Fan Lv 12 · Red District FC</div></div></div>
+        <div class="ptable">
+          <div class="prow"><span class="k">Coins</span><span class="v num">500</span></div>
+          <div class="prow"><span class="k">Alex pays you</span><span class="v num">$48.08</span></div>
+          <div class="prow"><span class="k">Your available</span><span class="v num">8,400 → 7,900</span></div>
+          <div class="prow total"><span class="k">Then reserved</span><span class="v num">500 + 500</span></div>
+        </div>
+        <div class="warn y">Decline returns the hold immediately. Don’t accept if you can’t take bank transfer now.</div>
+      </div>
+      <div class="cta">
+        <div class="btn" data-csact="accept">Accept &amp; reserve</div>
+        <div class="btn danger" data-csgo="csreject">Decline</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-33 SELLER CONFIRM PAY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-33</div><div class="fname">Confirm payment in<span>Release reserved coins</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm payment</div></div>
+    <div class="body">
+      <div class="warn b">Alex marked $48.08 as sent. Check Metro Commercial before you release.</div>
+      <div class="ptable" style="margin-top:12px">
+        <div class="prow"><span class="k">Expected</span><span class="v num">$48.08</span></div>
+        <div class="prow"><span class="k">Reference</span><span class="v num">ORD-2901</span></div>
+        <div class="prow total"><span class="k">Release</span><span class="v num">500 Coins</span></div>
+      </div>
+      <div class="cta">
+        <div class="btn" data-csact="confirm-pay">Payment received · release</div>
+        <div class="btn ghost" data-csgo="csfailed">Payment doesn’t match</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-34 TX -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-34</div><div class="fname">Seller transactions<span>Inventory movements</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Transactions</div></div>
+    <div class="body">
+      <div class="filters">
+        <div class="fchip on">All</div>
+        <div class="fchip">Sales</div>
+        <div class="fchip">Stock</div>
+        <div class="fchip">Closed</div>
+      </div>
+      <div class="scrollarea" style="gap:0">
+        <div class="tx"><div class="ti">↓</div><div><div class="tn">Sold to Alex</div><div class="ts">ORD-2901 · completed</div></div><div class="tv num" style="color:var(--green1)">−500</div></div>
+        <div class="tx"><div class="ti">⏳</div><div><div class="tn">Reserved · Priya</div><div class="ts">ORD-2899 · pending</div></div><div class="tv num" style="color:#B4740A">500 hold</div></div>
+        <div class="tx"><div class="ti">↑</div><div><div class="tn">Bought inventory</div><div class="ts">INV-104 · SFL stock</div></div><div class="tv num">+2,000</div></div>
+        <div class="tx"><div class="ti">✕</div><div><div class="tn">Released · Kenji order</div><div class="ts">ORD-2881 · cancelled</div></div><div class="tv num">+200</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-35 CUSTOMERS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-35</div><div class="fname">Customers<span>Repeat buyers</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Customers</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="srow"><div class="sav" style="background-image:url('assets/up_12.png')"></div><div style="flex:1"><div class="sn">Alex Morgan</div><div class="smeta">4 orders · $192.20</div></div><div class="smeta">★ 5.0</div></div>
+        <div class="srow"><div class="sav" style="background-image:url('assets/up_11.png')"></div><div style="flex:1"><div class="sn">Priya S.</div><div class="smeta">2 orders · $96.16</div></div><div class="smeta">★ 5.0</div></div>
+        <div class="srow"><div class="sav" style="background-image:url('assets/up_08.png')"></div><div style="flex:1"><div class="sn">Jonah Hale</div><div class="smeta">1 order · $9.80</div></div><div class="smeta">★ 4.0</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- CS-36 NOTIFS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-36</div><div class="fname">Seller notifications<span>Trade events</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Alerts</div></div>
+    <div class="body">
+      <div class="scrollarea" style="gap:0">
+        <div class="nt" data-csgo="csreq"><div class="nd">🆕</div><div><div class="nn">New purchase request</div><div class="ns">Alex wants 500 Coins · ORD-2901</div></div></div>
+        <div class="nt" data-csgo="csconfirm-pay"><div class="nd">💸</div><div><div class="nn">Payment marked sent</div><div class="ns">Check $48.08 · Metro Commercial</div></div></div>
+        <div class="nt" data-csgo="csdone"><div class="nd">✅</div><div><div class="nn">Payment confirmed</div><div class="ns">500 Coins released to Alex</div></div></div>
+        <div class="nt"><div class="nd">📥</div><div><div class="nn">Coins received</div><div class="ns">Buyer wallet +500 · your reserved −500</div></div></div>
+        <div class="nt" data-csgo="cscancelled"><div class="nd">✕</div><div><div class="nn">Order cancelled</div><div class="ns">500 returned to Available</div></div></div>
+        <div class="nt" data-csgo="csexpired"><div class="nd">⏱</div><div><div class="nn">Order expired</div><div class="ns">Hold released · ORD-2888</div></div></div>
+        <div class="nt" data-csgo="csapproved"><div class="nd">🏅</div><div><div class="nn">Seller approved</div><div class="ns">Your desk is live</div></div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="divider">Sell Coins · Buy inventory</div>
+
+  <!-- CS-40 SELL ID -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-40</div><div class="fname">Sell · Buyer ID<span>Direct desk sale</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Sell Coins</div></div>
+    <div class="body">
+      <div class="sub" style="margin-top:0">Transfer from <b>Available trading coins</b> to a fan’s wallet. You collect payment outside SFL.</div>
+      <div class="fl" style="margin-top:16px">Buyer User ID</div>
+      <div class="idfield on">67890</div>
+      <div class="invsplit" style="margin-top:14px">
+        <div class="inv av"><div class="k">Available to sell</div><div class="v num">8,400</div></div>
+        <div class="inv rs"><div class="k">Reserved</div><div class="v num">500</div></div>
+      </div>
+      <div class="cta"><div class="btn" data-csgo="csverify">Find buyer</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-41 VERIFY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-41</div><div class="fname">Verify buyer<span>Wrong-ID guard</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm buyer</div></div>
+    <div class="body">
+      <div class="srow">
+        <div class="sav" style="background-image:url('assets/up_11.png')"></div>
+        <div><div class="sn">Priya S. <span class="vbadge">✓</span></div><div class="smeta">User ID 67890 · Red District FC</div></div>
+      </div>
+      <div class="warn y" style="margin-top:14px">Coins leave your trading inventory and become Priya’s spendable wallet Coins. This cannot be undone.</div>
+      <div class="cta"><div class="btn" data-csgo="csamount">Yes, this is Priya</div><div class="btn ghost" data-csgo="cssell">Search again</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-41X NOT FOUND -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-41X</div><div class="fname">Buyer not found<span>Error state</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic r">?</div>
+      <div class="h1">No fan with that ID</div>
+      <div class="sub">Check the User ID. Nothing left your inventory.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="cssell">Try another ID</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-42 AMOUNT -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-42</div><div class="fname">Sell amount<span>Price at your rate</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Amount</div></div>
+    <div class="body">
+      <div class="amtrow">
+        <div class="amtchip">100</div><div class="amtchip on">500</div><div class="amtchip">1,000</div>
+      </div>
+      <div class="idfield on" style="margin-top:12px">500</div>
+      <div class="ptable" style="margin-top:14px">
+        <div class="prow"><span class="k">Your rate</span><span class="v num">10.4 / $1</span></div>
+        <div class="prow"><span class="k">Priya receives</span><span class="v num">500 Coins</span></div>
+        <div class="prow total"><span class="k">Collect from Priya</span><span class="v num">$48.08</span></div>
+      </div>
+      <div class="cta"><div class="btn" data-csgo="cssellconfirm">Continue</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-43 CONFIRM SELL -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-43</div><div class="fname">Confirm transfer<span>Inventory → wallet</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Confirm</div></div>
+    <div class="body">
+      <div class="ptable">
+        <div class="prow"><span class="k">From</span><span class="v">Your Available</span></div>
+        <div class="prow"><span class="k">To</span><span class="v">Priya · 67890</span></div>
+        <div class="prow"><span class="k">After</span><span class="v num">8,400 → 7,900</span></div>
+        <div class="prow total"><span class="k">Send</span><span class="v num">500 Coins</span></div>
+      </div>
+      <div class="warn r" style="margin-top:14px">Only confirm after you have Priya’s $48.08. SFL will not reverse this.</div>
+      <div class="cta"><div class="btn" data-csact="sell">Confirm transfer</div><div class="btn ghost" data-csgo="csdesk">Cancel</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-44 SELL RECEIPT -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-44</div><div class="fname">Sale receipt<span>Inventory movement</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic g">✓</div>
+      <div class="h1">500 Coins sent</div>
+      <div class="sub">Priya’s wallet +500. Your Available −500. Receipt SL-4410.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csdesk">Back to desk</div><div class="btn ghost" data-csgo="cstx">View transactions</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-50 INVENTORY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-50</div><div class="fname">Buy trading coins<span>Restock desk</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Trading inventory</div></div>
+    <div class="body">
+      <div class="scrollarea">
+        <div class="inv av"><div class="k">Current available</div><div class="v num">8,400 Coins</div></div>
+        <div class="warn b">These packages credit <b>trading inventory only</b>. They will not appear in your spendable wallet.</div>
+        <div class="pkgrid">
+          <div class="pkg" data-inv="500"><div class="coin" style="width:36px;height:36px;margin:0 auto 8px;font-size:13px">C</div><div style="font-size:18px;font-weight:800" class="num">500</div><div style="font-size:13px;font-weight:800;color:var(--goldDeep)" class="num">$50</div></div>
+          <div class="pkg on" data-inv="2000"><div class="coin" style="width:36px;height:36px;margin:0 auto 8px;font-size:13px">C</div><div style="font-size:18px;font-weight:800" class="num">2,000</div><div style="font-size:13px;font-weight:800;color:var(--goldDeep)" class="num">$200</div></div>
+          <div class="pkg" data-inv="5000"><div class="coin" style="width:36px;height:36px;margin:0 auto 8px;font-size:13px">C</div><div style="font-size:18px;font-weight:800" class="num">5,000</div><div style="font-size:13px;font-weight:800;color:var(--goldDeep)" class="num">$500</div></div>
+          <div class="pkg" data-inv="10000"><div class="coin" style="width:36px;height:36px;margin:0 auto 8px;font-size:13px">C</div><div style="font-size:18px;font-weight:800" class="num">10,000</div><div style="font-size:13px;font-weight:800;color:var(--goldDeep)" class="num">$1,000</div></div>
+        </div>
+      </div>
+      <div class="cta"><div class="btn gold" data-csgo="csinvpay">Buy 2,000 trading · $200</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-51 INV PAY -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-51</div><div class="fname">Inventory checkout<span>Official SFL stock</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Review stock</div></div>
+    <div class="body">
+      <div class="ptable">
+        <div class="prow"><span class="k">Package</span><span class="v num">2,000 trading</span></div>
+        <div class="prow"><span class="k">Destination</span><span class="v">Seller inventory</span></div>
+        <div class="prow"><span class="k">Wallet Coins</span><span class="v">Unchanged</span></div>
+        <div class="prow total"><span class="k">Pay SFL</span><span class="v num">$200.00</span></div>
+      </div>
+      <div class="cta"><div class="btn" data-csact="buystock">Pay with Apple Pay</div><div class="btn ghost" data-csgo="csinv">Change package</div></div>
+    </div>
+  </div></div>
+
+  <!-- CS-52 INV SUCCESS -->
+  <div class="fw"><div class="flabel"><div class="fnum">CS-52</div><div class="fname">Inventory added<span>Available up</span></div></div>
+  <div class="phone">
+    <div class="body state">
+      <div class="sic gold">C</div>
+      <div class="h1">+2,000 trading</div>
+      <div class="sub">Available 8,400 → 10,400. Your spendable wallet is still 1,240 Coins.</div>
+      <div class="cta" style="width:100%"><div class="btn" data-csgo="csdesk">Open desk</div></div>
+    </div>
+  </div></div>
+
+</div>
+</body>
+</html>
