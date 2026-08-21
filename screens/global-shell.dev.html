@@ -43,7 +43,7 @@
 
   /* shared light */
   .top{padding:16px 18px 0;display:flex;align-items:center;gap:11px}
-  .back,.ico{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .back,.ico{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
   .body{flex:1;padding:14px 16px 0;display:flex;flex-direction:column;overflow:hidden}
   .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
@@ -52,13 +52,13 @@
   .cta{margin-top:auto;padding:14px 0 22px;display:flex;flex-direction:column;gap:9px}
   .cta .btn{width:100%}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
-  .card{background:#fff;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .card{background:var(--card);border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
   .btn{height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 10px 24px rgba(15,183,83,.26)}
   .btn.blue{background:linear-gradient(140deg,var(--blue),#2569b0);box-shadow:0 10px 24px rgba(47,127,209,.26)}
   .btn.gold{background:linear-gradient(140deg,var(--coin1),var(--coin2));color:#5A3E00}
   .btn.red{background:linear-gradient(140deg,var(--red),var(--redDeep));box-shadow:0 10px 24px rgba(228,54,43,.26)}
-  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
-  .btn.coral{background:#fff;color:var(--coral);border:1.5px solid #FBD5DD}
+  .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.coral{background:var(--card);color:var(--coral);border:1.5px solid #FBD5DD}
   .btn.sm{height:44px;font-size:13.5px;border-radius:12px}
   .av{border-radius:50%;background-size:cover;background-position:center;flex:none}
   .note{display:block;border-radius:12px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:700}
@@ -66,6 +66,9 @@
   .note.amber{background:#FFF7E6;border:1px solid #FBE3B0;color:var(--amberDeep)}
   .note.coral{background:#FFF0F3;border:1px solid #FBD5DD;color:#C42A47}
   .note.green{background:#F3FCF6;border:1px solid #BFE9CE;color:#0A7D39}
+  .taskinfo{display:flex;gap:8px;align-items:flex-start;background:#F4FBF0;border:1px solid #BFE9CE;border-radius:13px;padding:10px 12px;font-size:11.5px;line-height:16px;font-weight:700;color:#0A7D39}
+  .liveearn-snack{display:flex;align-items:center;gap:7px;background:linear-gradient(120deg,#FFF7E4,#FFEDBF);border:1px solid #FFE199;border-radius:999px;padding:8px 13px;font-size:12px;line-height:16px;font-weight:800;color:#5A3E00;box-shadow:0 4px 14px rgba(255,179,0,.18)}
+  .liveearn-snack b{color:#3A2400;font-weight:800}
   .kv{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700}
   .kv:last-child{border:none}
   .kv .k{color:var(--t2);font-weight:650}.kv .v{margin-left:auto;font-weight:800}
@@ -100,8 +103,8 @@
   .hbar .hgreet{font-size:11px;font-weight:700;color:var(--t2)}
   .hbar .hname{font-size:16px;font-weight:800;letter-spacing:-.3px}
   .hbar .hicons{margin-left:auto;display:flex;gap:8px}
-  .coinpill{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:800;color:var(--coinDeep);box-shadow:var(--shadow-sm)}
-  .hicon{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:var(--shadow-sm);position:relative}
+  .coinpill{display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:13px;font-weight:800;color:var(--coinDeep);box-shadow:var(--shadow-sm)}
+  .hicon{width:38px;height:38px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:var(--shadow-sm);position:relative}
   .hicon .dot{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:1.5px solid #fff}
   .hqbtn{display:flex;align-items:center;gap:6px;background:linear-gradient(140deg,#14161C,#2A2F3A);color:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;box-shadow:var(--shadow-sm)}
   .hqbtn .sh{color:var(--coin1)}
@@ -117,7 +120,7 @@
   .clubcard .prog{height:7px;border-radius:999px;background:rgba(255,255,255,.22);margin-top:12px;position:relative;z-index:1;overflow:hidden}
   .clubcard .prog i{display:block;height:100%;background:#fff;border-radius:999px}
   .modrow{display:flex;gap:11px}
-  .mod{flex:1;background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;box-shadow:var(--shadow-sm)}
+  .mod{flex:1;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px;box-shadow:var(--shadow-sm)}
   .mod .mi{font-size:20px}
   .mod .mt{font-size:12.5px;font-weight:800;margin-top:7px}
   .mod .ms{font-size:11px;font-weight:700;color:var(--t2);margin-top:2px}
@@ -172,18 +175,18 @@
   .gfx-cta{margin-top:13px;background:#FFF6E5;border:1px solid #FFE1AE;border-radius:11px;padding:9px;text-align:center;font-size:11.5px;font-weight:800;color:#8A5A12}
   .gclubrow{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
   .gclubrow::-webkit-scrollbar{display:none}
-  .gclub{flex:none;width:92px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 8px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+  .gclub{flex:none;width:92px;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 8px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
   .gclub .crest{width:42px;height:42px;font-size:13px}
   .gcn{font-size:11.5px;font-weight:800;line-height:1.15}
   .gcm{font-size:10px;font-weight:700;color:var(--green1)}
   .guestwhy{margin-top:14px;background:linear-gradient(135deg,#F4EEFF,#EAF1FF);border:1px solid #E2E7F5;border-radius:15px;padding:13px 14px}
   .gwt{font-size:12.5px;font-weight:800;color:var(--t1)}
   .gwrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
-  .gwchip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;color:var(--t2)}
+  .gwchip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;color:var(--t2)}
 
   /* ===== NOTIFICATIONS ===== */
   .filters{display:flex;gap:7px;overflow:hidden}
-  .fchip{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-sm)}
+  .fchip{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:999px;box-shadow:var(--shadow-sm)}
   .fchip.on{background:#14161C;color:#fff;border-color:#14161C}
   .nrow{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:flex-start}
   .nrow:last-child{border:none}
@@ -200,7 +203,7 @@
   .nacts{display:flex;gap:8px;margin-top:9px}
   .nbtn{height:32px;padding:0 14px;border-radius:999px;display:flex;align-items:center;font-size:12px;font-weight:800}
   .nbtn.ok{background:linear-gradient(140deg,#0FB753,#7CD843);color:#fff}
-  .nbtn.no{background:#fff;color:#E4362B;border:1.5px solid #FFD2CE}
+  .nbtn.no{background:var(--card);color:#E4362B;border:1.5px solid #FFD2CE}
   .nstatus{font-size:11.5px;font-weight:800;margin-top:8px}
   .nstatus.ok{color:#0A8F40}.nstatus.no{color:#E4362B}
   .daygroup{font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
@@ -213,8 +216,10 @@
   .phero{
     padding:18px 18px 22px;position:relative;overflow:hidden;
     background:
-      radial-gradient(70% 80% at 88% -10%,rgba(255,255,255,.16),transparent 52%),
-      linear-gradient(165deg,#F0483C 0%,#C81E18 48%,#8E1210 100%);
+      radial-gradient(80% 70% at 92% -8%,rgba(255,255,255,.20),transparent 52%),
+      radial-gradient(60% 50% at 8% 100%,rgba(0,0,0,.28),transparent 55%),
+      linear-gradient(165deg,#F0483C 0%,#D42820 38%,#C81E18 58%,#8E1210 100%);
+    box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
   }
   .phero::before{
     content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;
@@ -241,7 +246,7 @@
     box-shadow:0 -10px 28px rgba(40,8,8,.12);
   }
   /* follower / following bar */
-  .followbar{display:flex;align-items:center;justify-content:center;margin-top:16px;position:relative;z-index:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:10px 6px}
+  .followbar{display:flex;align-items:center;justify-content:center;margin-top:16px;position:relative;z-index:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:10px 6px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(60,8,8,.22),inset 0 1px 0 rgba(255,255,255,.16)}
   .followbar .fcount{flex:1;text-align:center;cursor:pointer;padding:2px 0}
   .followbar .fcount:active{opacity:.7}
   .followbar .fcv{font-size:21px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
@@ -250,7 +255,7 @@
   /* follower / following list */
   .foltabs{display:flex;background:#EEF1F6;border-radius:12px;padding:4px;margin-bottom:12px}
   .foltab{flex:1;text-align:center;font-size:13px;font-weight:800;color:var(--t2);padding:9px;border-radius:9px;cursor:pointer}
-  .foltab.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .foltab.on{background:var(--card);color:var(--t1);box-shadow:var(--shadow-sm)}
   .folrow{display:flex;align-items:center;gap:12px;padding:9px 2px;cursor:pointer}
   .folrow .folav{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;flex:none;background-color:#DCE2EC}
   .folrow .foln{font-size:14px;font-weight:800;color:var(--t1)}
@@ -258,16 +263,16 @@
   .folbtn{margin-left:auto;font-size:12px;font-weight:800;padding:8px 15px;border-radius:999px;background:var(--volt,#C9FF3D);color:#0A1400;cursor:pointer;flex:none}
   .folbtn.on{background:#F0F2F7;color:var(--t2);border:1px solid var(--line)}
   /* gift showcase / badge wall */
-  .showrow{display:flex;align-items:center;gap:10px;padding:12px 2px;cursor:pointer}
+  .showrow{display:flex;align-items:center;gap:10px;padding:12px 2px;cursor:pointer;transition:background .12s;border-radius:12px;margin:0 -2px;padding-left:4px;padding-right:4px}
   .showrow+.showrow{border-top:1px solid var(--line)}
   .showrow .shl{font-size:13px;font-weight:800;color:var(--t1);flex:none}
   .showrow .shicons{display:flex;gap:7px;flex:1;justify-content:flex-end}
-  .showrow .shico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#F0F2F7;border:1px solid var(--line)}
-  .showrow .shico.badge{background:linear-gradient(150deg,#EAF0FF,#DCE7FF);border-color:#CBD9FB}
+  .showrow .shico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:linear-gradient(145deg,#F0F2F7,#E8ECF4);border:1px solid var(--line);box-shadow:0 2px 6px rgba(24,40,80,.06)}
+  .showrow .shico.badge{background:linear-gradient(150deg,#EAF0FF,#DCE7FF);border-color:#CBD9FB;box-shadow:0 2px 8px rgba(47,127,209,.12)}
   .showrow .arr{color:var(--t3);font-size:16px;flex:none}
   /* collection viewer (badges / gifts) */
   .collgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .collitem{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px 11px;text-align:center;box-shadow:var(--shadow-sm);position:relative}
+  .collitem{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px 11px;text-align:center;box-shadow:var(--shadow-sm);position:relative}
   .collitem .ce{font-size:34px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.14))}
   .collitem .cnm{font-size:11.5px;font-weight:800;color:var(--t1);margin-top:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .collitem .cct{font-size:10.5px;font-weight:800;color:var(--coral);margin-top:3px}
@@ -275,26 +280,26 @@
   .collitem.locked{opacity:.5;filter:grayscale(1)}
   .collitem.locked .clk{position:absolute;top:7px;right:8px;font-size:11px}
   .collsum{display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:750;color:#187A42}
-  .rolecard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:6px 14px;box-shadow:var(--shadow-sm)}
-  .rolerow{display:flex;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:750}
+  .rolecard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 14px;box-shadow:var(--shadow-sm)}
+  .rolerow{display:flex;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:750;transition:background .1s;border-radius:10px;margin:0 -2px;padding-left:4px;padding-right:4px}
   .rolerow:last-child{border:none}
-  .rolerow .ri{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .rolerow .ri{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;box-shadow:0 2px 8px rgba(24,40,80,.08)}
   .rolerow .ri.fan{background:#EAF9EF;color:#0A8F40}
   .rolerow .ri.mgr{background:#FFF7E4;color:var(--coinDeep)}
   .rolerow .ri.host{background:#F3EEFF;color:var(--violet)}
   .rolerow .rtag{margin-left:auto;font-size:10.5px;font-weight:800;color:var(--t3)}
   .rolerow .rtag.perm{color:#0A8F40}.rolerow .rtag.live{color:var(--coral)}
   .rolerow .rgo{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--red);background:#FFF0EF;padding:5px 11px;border-radius:999px}
-  .levelcard{background:linear-gradient(150deg,#171A22,#2A2430);border-radius:18px;padding:15px 16px;color:#fff;box-shadow:var(--shadow-sm)}
+  .levelcard{background:linear-gradient(150deg,#171A22,#252030 55%,#2A2430);border-radius:18px;padding:15px 16px;color:#fff;box-shadow:0 10px 28px rgba(20,22,28,.32),inset 0 1px 0 rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
   .levelcard .lh{display:flex;align-items:center}
   .levelcard .lv{font-size:20px;font-weight:800;letter-spacing:-.3px}
   .levelcard .lp{margin-left:auto;font-size:11.5px;font-weight:750;color:#C4CBD6}
-  .levelcard .lbar{height:7px;border-radius:999px;background:rgba(255,255,255,.12);margin:12px 0 8px;overflow:hidden}
-  .levelcard .lbar i{display:block;height:100%;background:linear-gradient(90deg,#F3CC55,#E4362B);border-radius:999px}
+  .levelcard .lbar{height:7px;border-radius:999px;background:rgba(255,255,255,.12);margin:12px 0 8px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.25)}
+  .levelcard .lbar i{display:block;height:100%;background:linear-gradient(90deg,#F3CC55,#E4362B);border-radius:999px;box-shadow:0 0 12px rgba(228,54,43,.45),0 0 6px rgba(243,204,85,.35)}
   .levelcard .lmeta{display:flex;font-size:11px;font-weight:700;color:#B7C0CE}
   .pvswitch{display:flex;gap:8px;margin-bottom:12px;background:#EDEFF4;border-radius:13px;padding:4px}
   .pvopt{flex:1;text-align:center;padding:9px;border-radius:10px;font-size:13px;font-weight:800;color:var(--t2);cursor:pointer}
-  .pvopt.on{background:#fff;color:var(--t1);box-shadow:var(--shadow-sm)}
+  .pvopt.on{background:var(--card);color:var(--t1);box-shadow:var(--shadow-sm)}
   .pvopt.on.mgr{background:var(--red);color:#fff}
   .pv-mgr{display:none}
   .mgrhqcard{background:linear-gradient(150deg,var(--red),var(--redDeep));border-radius:16px;padding:15px 16px;color:#fff;box-shadow:var(--shadow-sm)}
@@ -307,16 +312,21 @@
   .mgrhqcard .mtgt .mtl{display:flex;font-size:11px;font-weight:750;color:rgba(255,255,255,.85);margin-bottom:5px}
   .mgrhqcard .mtbar{height:7px;border-radius:4px;background:rgba(255,255,255,.22);overflow:hidden}
   .mgrhqcard .mtbar i{display:block;height:100%;background:#fff;border-radius:4px}
-  .statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:6px;box-shadow:var(--shadow-sm)}
+  .statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px;box-shadow:var(--shadow-sm)}
   .stat{background:transparent;border:none;border-radius:14px;padding:12px 8px;text-align:center}
+  .stat:nth-child(odd){background:linear-gradient(180deg,rgba(244,246,251,.85),transparent)}
+  .stat:nth-child(3n+2){background:linear-gradient(180deg,rgba(234,240,255,.55),transparent)}
   .stat .sv{font-size:18px;font-weight:800;letter-spacing:-.4px}
   .stat .sv.value{color:var(--value)}
   .stat .sl{font-size:10px;font-weight:750;color:var(--t2);margin-top:3px}
-  .listrow{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700}
+  .listrow{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;transition:background .1s}
   .listrow:last-child{border:none}
-  .listrow .li{width:28px;height:28px;border-radius:9px;background:#F3F5FA;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
-  .listrow .arr{margin-left:auto;color:var(--t3)}
+  .listrow .li{width:28px;height:28px;border-radius:9px;background:linear-gradient(145deg,#F3F5FA,#ECEEF5);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none;box-shadow:0 2px 6px rgba(24,40,80,.06);border:1px solid rgba(24,40,80,.04)}
+  .listrow .arr{margin-left:auto;color:var(--t3);font-size:15px;opacity:.7}
   .listrow.danger{color:var(--coral)}
+  .acclist{padding:2px 12px 2px 8px}
+  .acclist .listrow{padding:12px 8px 12px 4px;gap:11px}
+  .acclist .listrow .li{width:42px;height:42px;border-radius:12px;font-size:22px;line-height:1}
   .phone.profile .pv-fan{display:flex;flex-direction:column;gap:12px}
   .cmgrask,.mgrupg{
     display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:16px;
@@ -342,7 +352,7 @@
   .sw.on i{left:20px}
   .radio{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #DDE3ED}
   .radio.on{border-color:var(--green1);background:radial-gradient(circle,var(--green1) 42%,transparent 46%)}
-  .setgrp{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .setgrp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
 
   /* KYC */
   .ksteps{display:flex;flex-direction:column;margin:2px 0}
@@ -350,7 +360,7 @@
   .kstep:last-child{padding-bottom:0}
   .kstep .kd{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;z-index:1}
   .kstep .kd.done{background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
-  .kstep .kd.now{background:#fff;border:2.5px solid var(--gold1);color:var(--goldRich)}
+  .kstep .kd.now{background:var(--card);border:2.5px solid var(--gold1);color:var(--goldRich)}
   .kstep .kd.wait{background:#EEF1F6;color:var(--t3);border:2px solid var(--line)}
   .kstep::before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--line)}
   .kstep:last-child::before{display:none}
@@ -372,21 +382,21 @@
 
   /* support */
   .catgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .cat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm)}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm)}
   .cat .ci{font-size:20px}.cat .ct{font-size:13px;font-weight:800;margin-top:7px}.cat .cs{font-size:10.5px;font-weight:700;color:var(--t2);margin-top:2px}
-  .ticket{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm)}
+  .ticket{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:var(--shadow-sm)}
   .ticket .tst{font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px}
   .ticket .tst.open{background:#F0F7FF;color:var(--blue)}
   .ticket .tst.review{background:#FFF7E6;color:var(--amberDeep)}
   .tmsg{border-radius:14px;padding:12px 14px;font-size:13px;font-weight:600;line-height:19px;max-width:82%}
-  .tmsg.them{background:#fff;border:1px solid var(--line);color:var(--t1);align-self:flex-start;box-shadow:var(--shadow-sm)}
+  .tmsg.them{background:var(--card);border:1px solid var(--line);color:var(--t1);align-self:flex-start;box-shadow:var(--shadow-sm)}
   .tmsg.you{background:linear-gradient(140deg,var(--blue),#2569b0);color:#fff;align-self:flex-end}
   .tmeta{font-size:10px;font-weight:700;color:var(--t3);margin-top:3px}
 
   /* universal states */
   .obanner{background:#14161C;color:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:750}
   .obanner .od{width:8px;height:8px;border-radius:50%;background:var(--coral)}
-  .skel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm)}
+  .skel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm)}
   .sk{background:linear-gradient(90deg,#EEF1F7 25%,#F6F8FC 50%,#EEF1F7 75%);background-size:600px 100%;animation:shimmer 1.4s infinite;border-radius:8px}
   .sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--t2);background:#F3F5FA;border:1px solid var(--line);padding:5px 11px;border-radius:999px}
 
@@ -431,7 +441,7 @@
   .streakstrip .spips i.pending{background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,176,61,.55)}
   .streakstrip .slv{font-size:11.5px;font-weight:800;color:#241016;background:linear-gradient(140deg,#FFC24B,#FF8A3D);padding:8px 13px;border-radius:999px;flex:none;position:relative;z-index:1;box-shadow:0 4px 10px rgba(240,81,14,.4)}
   .momrow{display:flex;gap:10px}
-  .mom{flex:1;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px 8px;box-shadow:var(--shadow-sm);text-align:center}
+  .mom{flex:1;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 8px;box-shadow:var(--shadow-sm);text-align:center}
   .mom .mv{font-size:19px;font-weight:800;letter-spacing:-.5px}
   .mom .mv.val{color:var(--value)}.mom .mv.str{color:#FF7A1A}
   .mom .ml{font-size:9.5px;font-weight:750;color:var(--t2);margin-top:3px}
@@ -458,9 +468,9 @@
   .qt.players .qmed{background:linear-gradient(145deg,#F0524A,#C42017)}
   .qt .qbadge{position:absolute;top:12px;right:12px;background:var(--coral);color:#fff;font-size:11px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(228,54,43,.4);z-index:2}
 
-  .explorelink{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:800;color:var(--blue);background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}
+  .explorelink{display:flex;align-items:center;justify-content:center;gap:7px;font-size:12.5px;font-weight:800;color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}
   .dutylist{display:flex;flex-direction:column;gap:8px}
-  .duty{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 13px;box-shadow:var(--shadow-sm)}
+  .duty{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 13px;box-shadow:var(--shadow-sm)}
   .duty .dchk{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:transparent}
   .duty.done .dchk{background:var(--green1);border-color:var(--green1);color:#fff}
   .duty .dt{flex:1;font-size:13px;font-weight:800}
@@ -468,7 +478,7 @@
   .duty .dm{font-size:11px;font-weight:700;color:var(--t2)}
   .duty .dgo{color:var(--t3);font-weight:800}
   .hchips{display:flex;gap:8px;margin:2px 0 11px}
-  .hchips .hchip{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 10px;border-radius:999px;font-size:12.5px;font-weight:800;background:#fff;border:1px solid var(--line);color:var(--t2);box-shadow:var(--shadow-sm)}
+  .hchips .hchip{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 10px;border-radius:999px;font-size:12.5px;font-weight:800;background:var(--card);border:1px solid var(--line);color:var(--t2);box-shadow:var(--shadow-sm)}
   .hchips .hchip.on{background:var(--t1);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(10,12,18,.18)}
 </style>
 </head>
@@ -597,7 +607,9 @@
         <div class="mod"><div class="mi">🔁</div><div class="mt">Approvals</div><div class="ms">Transfer / loan</div><div class="mbadge">2</div></div>
       </div>
       <div class="note amber">🎯 Club target 940/1000 — 6 days left. 60 points to unlock the monthly reward.</div>
+      <div class="taskinfo">🎁 Receive 10,000+ coin gifts from another fan in a 1-week period · Go Live 2h daily to earn +200 coins/day</div>
       <div class="sec"><div class="st">🛡️ Manager duties today</div><div class="sa">3 of 6</div></div>
+      <div class="liveearn-snack">🪙 You received <b>200 coins</b> from <b>Jay Malik</b> for completing today's 2-hour live</div>
       <div class="dutylist">
         <div class="duty done"><div class="dchk">✓</div><div class="dt">Set today's club task</div></div>
         <div class="duty done"><div class="dchk">✓</div><div class="dt">Pin a match-day announcement</div></div>
@@ -674,7 +686,7 @@
       <div style="margin-top:16px;width:88px;height:88px;border-radius:26px;background:linear-gradient(150deg,#C9FF3D,#0FB753);display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 16px 36px rgba(15,183,83,.4)">🔒</div>
       <div class="h1" style="margin-top:18px;font-size:23px">Create an account to continue</div>
       <div class="sub" style="max-width:290px;margin-top:8px">You're browsing as a guest. Sign up free to unlock everything below — browsing stays open either way.</div>
-      <div style="width:100%;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);padding:4px 10px;margin-top:22px">
+      <div style="width:100%;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);padding:4px 10px;margin-top:22px">
         <div style="display:flex;align-items:center;gap:13px;padding:13px 6px;border-bottom:1px solid var(--line)"><div style="width:42px;height:42px;border-radius:13px;background:#FDECEC;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🛡️</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Join a fan club</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Squad rooms, feed &amp; club chat</div></div></div>
         <div style="display:flex;align-items:center;gap:13px;padding:13px 6px;border-bottom:1px solid var(--line)"><div style="width:42px;height:42px;border-radius:13px;background:#EAF3FF;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🎯</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Predict, vote &amp; play</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Predictions, awards &amp; mini-games</div></div></div>
         <div style="display:flex;align-items:center;gap:13px;padding:13px 6px"><div style="width:42px;height:42px;border-radius:13px;background:#FFF6E0;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🎁</div><div style="text-align:left"><div style="font-size:14px;font-weight:800">Gift, earn &amp; trade</div><div style="font-size:11.5px;font-weight:700;color:var(--t2)">Send gifts, earn Gold &amp; trade players</div></div></div>
@@ -694,6 +706,15 @@
       <div class="scroll">
         <div class="daygroup">Today</div>
         <div class="card" style="padding:2px 15px" id="n-today">
+          <div class="nrow" data-tourn="afcon" id="n-tourn-afcon">
+            <div class="ni reward">🏆</div>
+            <div style="flex:1">
+              <div class="nt">AFCON 2026 registration opens — register your country</div>
+              <div class="nsupport">Tournament Coin Rewards · 500 Coins entry · tap to register</div>
+              <div class="ntime">Just now</div>
+            </div>
+            <div class="unread"></div>
+          </div>
           <div class="nrow" data-cmgr="invite" id="n-cmgr-invite">
             <div class="ni club">🛡️</div>
             <div style="flex:1">
@@ -813,7 +834,7 @@
           <div class="showrow" data-go="kitbag"><span class="shl">Gift Showcase (26)</span><div class="shicons"><span class="shico">🌹</span><span class="shico">🧤</span><span class="shico">🏆</span><span class="shico">🐐</span></div><span class="arr">›</span></div>
         </div>
         <div class="lbl">Account</div>
-        <div class="card" style="padding:2px 15px">
+        <div class="card acclist">
           <div class="listrow"><span class="li">◆</span>Wallet<span class="arr">›</span></div>
           <div class="listrow cslink"><span class="li">🤝</span>Coin Seller<span class="arr">›</span></div>
           <div class="listrow"><span class="li">🎒</span>Kit Bag<span class="arr">›</span></div>
@@ -838,7 +859,7 @@
         <div class="epphoto" style="margin-top:11px;font-size:12.5px;font-weight:800;color:var(--coral);cursor:pointer">Change display picture</div>
       </div>
       <div class="lbl" style="margin-top:22px">Display name</div>
-      <div class="epname" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:var(--t1);outline:none">Zeeshan N.</div>
+      <div class="epname" contenteditable="true" style="height:46px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:var(--t1);outline:none">Zeeshan N.</div>
       <div style="font-size:11.5px;font-weight:700;color:var(--t3);margin-top:8px">This is the name other fans see. Your User ID stays the same.</div>
       <div class="cta"><div class="btn">Save Changes</div></div>
     </div>
@@ -979,19 +1000,19 @@
     <div class="body">
       <div class="scroll">
         <div class="lbl">Upcoming · Red Fury FC</div>
-        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:var(--card)">
           <div style="height:92px;background:url('assets/fb_crowd.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:var(--coral,#E4362B);padding:3px 8px;border-radius:6px">WATCH PARTY</span></div>
           <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Matchday Watch Party</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Sat 8PM · vs Blue Wolves · 128 going</div><div class="btn evjoin" style="margin-top:10px">Join Event</div></div>
         </div>
-        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:var(--card)">
           <div style="height:92px;background:url('assets/fb_stadium.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#7A2BFF;padding:3px 8px;border-radius:6px">PK TOURNAMENT</span></div>
           <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Derby PK Tournament</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Sun 6PM · 16 clubs · knockout</div><div class="btn evjoin" style="margin-top:10px">Enter Tournament</div></div>
         </div>
-        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:var(--card)">
           <div style="height:92px;background:url('assets/fb_m3.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#0FA04C;padding:3px 8px;border-radius:6px">PREDICTION LEAGUE</span></div>
           <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Weekly Prediction League</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Predict 5 fixtures · prize pool 500 Gold</div><div class="btn evjoin" style="margin-top:10px">Join League</div></div>
         </div>
-        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:#fff">
+        <div class="evcard" style="border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);margin-bottom:12px;background:var(--card)">
           <div style="height:92px;background:url('assets/fb_f1.jpg') center/cover;position:relative"><span style="position:absolute;top:8px;left:8px;font-size:9px;font-weight:800;color:#fff;background:#C99000;padding:3px 8px;border-radius:6px">RECRUITMENT DRIVE</span></div>
           <div style="padding:11px 13px"><div style="font-size:15px;font-weight:800">Fan Recruitment Drive</div><div style="font-size:12px;font-weight:700;color:var(--t2);margin-top:3px">Recruit 5 fans this week · club bonus</div><div class="btn evjoin" style="margin-top:10px">Take Part</div></div>
         </div>
@@ -1041,11 +1062,11 @@
     <div class="top"><div class="back">‹</div><div class="htitle">Change password</div></div>
     <div class="body">
       <div class="lbl" style="margin-top:6px">Current password</div>
-      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••</div>
       <div class="lbl" style="margin-top:14px">New password</div>
-      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
       <div class="lbl" style="margin-top:14px">Confirm new password</div>
-      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
+      <div class="pwfield" contenteditable="true" style="height:46px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:16px;font-weight:800;color:var(--t3);outline:none">••••••••••</div>
       <div style="font-size:11.5px;font-weight:700;color:var(--t3);margin-top:10px">At least 8 characters, with a number and a symbol.</div>
       <div class="cta"><div class="btn">Update Password</div></div>
     </div>

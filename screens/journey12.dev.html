@@ -37,7 +37,7 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
-  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
   .htitle small{display:block;font-size:12px;font-weight:650;color:var(--t2);margin-top:1px}
   .lbody{flex:1;padding:16px 20px 0;display:flex;flex-direction:column;overflow:hidden}
@@ -46,9 +46,9 @@
   .cta{margin-top:auto;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
   .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.32)}
   .btn.gold{background:linear-gradient(140deg,var(--gold2),var(--gold1));color:#5A3E00;box-shadow:0 8px 22px rgba(255,179,0,.35)}
-  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
-  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
   .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
   .coin{border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#7A5400;background:radial-gradient(circle at 35% 28%,var(--goldLite),#FFC42E 52%,#C88A00)}
@@ -180,18 +180,26 @@
   .thd .pos{width:20px}.thd .tn{flex:1;margin-left:32px}.thd .col{width:24px;text-align:center}
 
   /* club grade */
-  .gradehero{border-radius:22px;overflow:hidden;position:relative;padding:20px 18px;text-align:center;background:radial-gradient(120% 80% at 50% 0%,rgba(228,54,43,.2),transparent 60%),linear-gradient(180deg,#12141A,#0C0E14)}
-  .gradebadge{width:104px;height:118px;margin:0 auto;position:relative;background:linear-gradient(160deg,#FFE99A,var(--gold1) 55%,#B77F00);clip-path:polygon(50% 0,100% 22%,100% 66%,50% 100%,0 66%,0 22%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#5A3E00;box-shadow:0 12px 30px rgba(255,179,0,.4)}
-  .gradebadge .gl{font-size:10px;font-weight:800;letter-spacing:2px}
-  .gradebadge .gg{font-size:52px;font-weight:800;line-height:1}
-  .gradehero .cn{font-size:17px;font-weight:800;color:#fff;margin-top:14px}
-  .gradehero .rk{font-size:13px;font-weight:750;color:#FFC9C2;margin-top:3px}
-  .gtarget{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm)}
+  .gradehero{border-radius:22px;overflow:hidden;position:relative;padding:22px 18px 20px;text-align:center;background:radial-gradient(90% 70% at 50% -10%,rgba(255,179,0,.22),transparent 55%),radial-gradient(80% 60% at 50% 100%,rgba(228,54,43,.18),transparent 50%),linear-gradient(180deg,#1A1210 0%,#0E1016 55%,#080A10 100%);box-shadow:0 16px 40px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.06);border:1px solid rgba(255,179,0,.12)}
+  .gradehero::before{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 44%,rgba(255,255,255,.07) 50%,transparent 56%);animation:shimmer 4s infinite;pointer-events:none}
+  .gradehero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(228,54,43,.14),transparent 45%);pointer-events:none}
+  .gradebadge{width:104px;height:118px;margin:0 auto;position:relative;z-index:1;background:linear-gradient(160deg,#FFE99A,var(--gold1) 55%,#B77F00);clip-path:polygon(50% 0,100% 22%,100% 66%,50% 100%,0 66%,0 22%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#5A3E00;box-shadow:0 0 0 2px rgba(255,220,100,.25),0 0 28px rgba(255,179,0,.5),0 12px 30px rgba(255,179,0,.38);filter:drop-shadow(0 4px 12px rgba(228,54,43,.22))}
+  .gradebadge::before{content:"";position:absolute;inset:8%;background:linear-gradient(180deg,rgba(255,255,255,.32),transparent);clip-path:polygon(50% 0,100% 22%,100% 66%,50% 100%,0 66%,0 22%);pointer-events:none}
+  .gradebadge .gl{font-size:10px;font-weight:800;letter-spacing:2px;position:relative;z-index:1}
+  .gradebadge .gg{font-size:52px;font-weight:800;line-height:1;position:relative;z-index:1}
+  .gradehero .cn{font-size:17px;font-weight:800;color:#fff;margin-top:14px;position:relative;z-index:1;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+  .gradehero .rk{font-size:13px;font-weight:750;color:#FFC9C2;margin-top:3px;position:relative;z-index:1}
+  .gtarget{position:relative;background:linear-gradient(155deg,#F4FBF0 0%,#EAF8E2 45%,#F8FAF5 100%);border:1px solid rgba(15,183,83,.28);border-top:3px solid var(--green1);border-radius:16px;padding:14px 14px 13px;box-shadow:0 6px 20px rgba(15,183,83,.12),inset 0 1px 0 rgba(255,255,255,.8)}
   .gtarget .gt2{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:800}
   .gtarget .gt2 span{font-size:12px;font-weight:800;color:var(--valueDeep)}
-  .gtarget .gbar{height:10px;border-radius:999px;background:#EAEEF5;overflow:hidden;margin-top:9px}
-  .gtarget .gbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--value),var(--green2))}
+  .gtarget .gbar{height:11px;border-radius:999px;background:#D8EDCE;overflow:hidden;margin-top:9px;box-shadow:inset 0 1px 3px rgba(0,0,0,.06)}
+  .gtarget .gbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green1),var(--green2));box-shadow:0 0 12px rgba(77,179,38,.5),0 0 4px rgba(15,183,83,.35)}
   .gtarget .gu{font-size:11px;font-weight:700;color:var(--t2);margin-top:8px}
+  .gradestatus{display:flex;align-items:flex-start;gap:10px;padding:12px 13px!important;background:linear-gradient(155deg,#F0F5FC,#fff);border-color:rgba(47,127,209,.22)!important}
+  .gradestatus .gsicon{width:36px;height:36px;flex:none;border-radius:11px;background:linear-gradient(140deg,rgba(47,127,209,.14),rgba(47,127,209,.06));border:1px solid rgba(47,127,209,.2);display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
+  .gradestatus .gstxt{flex:1;min-width:0;font-size:12.5px;font-weight:750;color:var(--t2);line-height:1.45}
+  .gradestatus .gstxt b{color:var(--valueDeep)}
+  .gradecta .btn.ghost{background:linear-gradient(180deg,#fff,#F8F9FC);border:1.5px solid var(--line);box-shadow:0 4px 14px rgba(24,40,80,.10),inset 0 1px 0 rgba(255,255,255,.9)}
 
   /* prize checklist */
   .pzrow{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:750}
@@ -203,6 +211,58 @@
   /* celebrate */
   .celebrate{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:36px}
   .celebrate .cta{width:100%}
+
+  /* tournament coin rewards (TR) */
+  .tourcard{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow-sm);margin-bottom:10px}
+  .tourcard .ti{width:46px;height:46px;border-radius:14px;background:linear-gradient(140deg,#1E5AA0,#0E3B6E);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none;color:#fff}
+  .tourcard .tn2{font-size:14.5px;font-weight:800}
+  .tourcard .ts{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+  .tourcard .tact{margin-left:auto;flex:none;font-size:11px;font-weight:800;padding:7px 12px;border-radius:999px;background:linear-gradient(140deg,var(--green1),var(--green2));color:#fff}
+  .tourcard.soon{opacity:.72}.tourcard.soon .tact{background:var(--card);color:var(--t3);border:1.5px solid var(--line)}
+  .tourcard.reg .tact{background:linear-gradient(140deg,var(--gold2),var(--gold1));color:#5A3E00}
+  .tourhero2{border-radius:22px;padding:20px 18px;background:linear-gradient(135deg,#0E3B6E,#1E5AA0 55%,#2F7FD1);color:#fff;box-shadow:0 14px 34px rgba(14,59,110,.28);text-align:center}
+  .tourhero2 .th2{font-size:40px}
+  .tourhero2 .tt2{font-size:20px;font-weight:800;margin-top:10px;letter-spacing:-.4px}
+  .tourhero2 .ts2{font-size:13px;font-weight:700;color:rgba(255,255,255,.78);margin-top:6px;line-height:20px}
+  .countrypill{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow-sm)}
+  .countrypill .cf2{font-size:32px;line-height:1}
+  .countrypill .cn2{font-size:17px;font-weight:800}
+  .countrypill .cs2{font-size:12px;font-weight:700;color:var(--t2);margin-top:2px}
+  .countrypill .lock{margin-left:auto;font-size:11px;font-weight:800;color:var(--t2);background:#F0F2F7;padding:5px 10px;border-radius:999px}
+  .balr{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:750}
+  .balr:last-child{border:none}
+  .balr .k{color:var(--t2)}.balr .v{font-weight:800;font-variant-numeric:tabular-nums}
+  .balr.minus .v{color:var(--coral)}.balr.new .v{color:var(--green1)}
+  .feenote{font-size:11.5px;font-weight:700;color:var(--t2);display:flex;gap:8px;align-items:flex-start;margin-top:10px;line-height:18px}
+  .grouppill{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .grouppill span{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:#F0F2F7;border:1px solid var(--line)}
+  .grouppill span.you{background:linear-gradient(140deg,#FFF7E4,#fff);border-color:#FFE199;color:var(--goldDeep)}
+  .fixcard2{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:12px}
+  .fixcard2 .vs{font-size:13px;font-weight:800;color:var(--t2);margin:0 4px}
+  .fixcard2 .fx{flex:1;text-align:center;font-size:14px;font-weight:800}
+  .fixcard2 .fd{font-size:11px;font-weight:700;color:var(--t3);margin-top:2px}
+  .payouthero{border-radius:20px;padding:22px 18px;text-align:center;background:linear-gradient(135deg,#0A2818,#0F9A46 55%,#7CD843);color:#fff;box-shadow:0 14px 34px rgba(15,154,70,.25)}
+  .payouthero .pa{font-size:36px;font-weight:800;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .payouthero .pa .coin{width:28px;height:28px;font-size:12px}
+  .payouthero .pd{font-size:13px;font-weight:700;color:rgba(255,255,255,.82);margin-top:6px;line-height:20px}
+  .squadrow{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:var(--shadow-sm);margin-bottom:9px;position:relative}
+  .squadrow .spi{width:48px;height:48px;border-radius:50%;background-size:cover;background-position:center top;flex:none;border:2px solid #fff;box-shadow:0 3px 9px rgba(20,30,60,.18)}
+  .squadrow .spn{font-size:14px;font-weight:800}
+  .squadrow .spp{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:1px}
+  .squadrow .injbadge{position:absolute;top:8px;left:8px;font-size:14px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+  .squadrow.injured{opacity:.62}
+  .squadrow .spst{margin-left:auto;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px}
+  .squadrow .spst.ok{color:#0A8F40;background:#EAF9F0;border:1px solid #BFE9CE}
+  .squadrow .spst.out{color:var(--coral);background:#FFF3F5;border:1px solid #FFCEDA}
+  .ruleslist{font-size:13.5px;font-weight:750;line-height:22px;color:var(--t1)}
+  .ruleslist li{margin-bottom:10px;margin-left:18px}
+  .ruleslist b{color:var(--goldDeep)}
+  .sheet-scrim{position:absolute;inset:0;background:rgba(10,14,20,.5);z-index:6;display:flex;align-items:flex-end}
+  .sheet{background:var(--card);border-radius:22px 22px 0 0;padding:8px 20px 28px;width:100%;box-shadow:0 -12px 40px rgba(20,30,60,.18)}
+  .sheet .grab{width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 14px}
+  .sheet h3{font-size:17px;font-weight:800;text-align:center;margin-bottom:14px}
+  .tournnote{font-size:11px;font-weight:700;color:var(--t2);background:#F0F2F7;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px;line-height:17px}
+  .tournbadge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:var(--goldDeep);background:#FFF7E4;border:1px solid #FFE199;padding:4px 9px;border-radius:999px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -225,7 +285,7 @@
       <div class="hubgrid">
         <div class="hubcard lvl"><div class="hi">🛡️</div><div class="hn">My Level</div><div class="hv num">Level 4 · 62%</div></div>
         <div class="hubcard league"><div class="hi">🏆</div><div class="hn">Fan Club League</div><div class="hv num">Red Fury · #2</div></div>
-        <div class="hubcard tour"><div class="hi">🌍</div><div class="hn">Tournaments</div><div class="hv">World Cup · Group C</div></div>
+        <div class="hubcard tour"><div class="hi">🌍</div><div class="hn">Tournaments</div><div class="hv">Register · AFCON 2026</div></div>
         <div class="hubcard grade"><div class="hi">🅰️</div><div class="hn">Club Grade</div><div class="hv">Grade A · 94% target</div></div>
       </div>
       <div class="card" style="padding:13px 14px;margin-top:14px;font-size:12.5px;font-weight:700;color:var(--t2);display:flex;align-items:center;gap:8px">⏱ August league closes in <b style="color:var(--coral)">6d 14h</b></div>
@@ -353,6 +413,182 @@
     </div>
   </div></div>
 
+  <div class="divider">Tournament Coin Rewards</div>
+
+  <!-- TR-01 TOURNAMENT HUB -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-01</div><div class="fname">Tournament Hub<span>International · opt-in Coin Rewards</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Tournaments<small>Coin Rewards · separate from Fan Value</small></div></div>
+    <div class="lbody">
+      <div class="sub" style="margin-top:0">Register your profile country before kickoff. Match results pay Coins to eligible squad players — Fan Value tracks separately.</div>
+      <div class="scrollarea" style="margin-top:14px">
+        <div class="tourcard reg"><div class="ti">🏆</div><div><div class="tn2" data-tname>AFCON 2026</div><div class="ts">Registration open · Group stage</div></div><div class="tact">Register</div></div>
+        <div class="tourcard"><div class="ti">🌍</div><div><div class="tn2">FIFA World Cup 2026</div><div class="ts">Opens Dec 2026</div></div><div class="tact">Coming soon</div></div>
+        <div class="tourcard soon"><div class="ti">⚽</div><div><div class="tn2">Women's World Cup</div><div class="ts">Opens 2027</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🦁</div><div><div class="tn2">Women's AFCON</div><div class="ts">Opens 2026</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌏</div><div><div class="tn2">Asia Cup</div><div class="ts">Opens 2027</div></div><div class="tact">Soon</div></div>
+      </div>
+      <div class="tournnote">ℹ️ This is an opt-in <b>Tournament Coin Rewards</b> journey. Real Fan Value / Player Value results are tracked separately.</div>
+    </div>
+  </div></div>
+
+  <!-- TR-02 NOTIFICATION DETAIL -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-02</div><div class="fname">Registration Notice<span>From notification tap</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Tournament</div></div>
+    <div class="lbody">
+      <div class="scrollarea">
+        <div class="tourhero2"><div class="th2">🏆</div><div class="tt2" data-tname>AFCON 2026</div><div class="ts2">Registration is open — register your country and join a real tournament group before the first match.</div></div>
+        <div class="card" style="padding:14px 16px;margin-top:14px">
+          <div class="lbl" style="margin-bottom:0">What you get</div>
+          <div style="font-size:13.5px;font-weight:750;line-height:22px;color:var(--t2);margin-top:8px">• Placed in a group like the real tournament<br>• Coin payouts on your country's results<br>• Win: +100 × eligible squad players<br>• Draw: +40 × eligible players<br>• Entry fee: <b style="color:var(--goldDeep)">500 Coins</b></div>
+        </div>
+      </div>
+      <div class="cta"><div class="btn">Register for AFCON 2026</div><div class="altlink ruleslink">View Coin Reward rules</div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-03 CONFIRM COUNTRY -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-03</div><div class="fname">Confirm Country<span>From profile · 500 Coin fee</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Register country</div></div>
+    <div class="lbody">
+      <div class="h1" style="font-size:22px">Your tournament country</div>
+      <div class="sub">Must match your profile country. You compete for this nation throughout the tournament.</div>
+      <div class="countrypill" style="margin-top:16px"><div class="cf2">🇳🇬</div><div><div class="cn2" data-tcountry>Nigeria 🇳🇬</div><div class="cs2">From your profile · cannot change after registration</div></div><div class="lock">🔒 Locked</div></div>
+      <div class="card" style="padding:4px 16px;margin-top:14px">
+        <div class="balr"><span class="k">Entry fee</span><span class="v"><span class="coin" style="width:16px;height:16px;font-size:8px;display:inline-flex;vertical-align:middle;margin-right:4px">C</span><span data-tfee class="num">500</span> Coins</span></div>
+        <div class="balr"><span class="k">Your balance</span><span class="v num" data-tbal>1,240</span></div>
+        <div class="balr new"><span class="k">Balance after</span><span class="v num" data-tafter>740</span></div>
+      </div>
+      <div class="feenote">💡 One-time registration per tournament. Coins are deducted when you confirm payment on the next screen.</div>
+      <div class="cta"><div class="btn">Continue to payment</div><div class="altlink ruleslink">View reward rules</div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-04 PAYMENT CONFIRM -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-04</div><div class="fname">Payment Confirm<span>Deduct 500 Coins (mock)</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(1.5px);opacity:.5;padding:22px 20px"><div class="h1">Confirm payment</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>Confirm registration</h3>
+      <div class="countrypill" style="margin-bottom:12px"><div class="cf2">🇳🇬</div><div><div class="cn2" data-tname>AFCON 2026</div><div class="cs2" data-tcountry>Nigeria 🇳🇬</div></div></div>
+      <div class="card" style="padding:4px 15px">
+        <div class="balr"><span class="k">Current balance</span><span class="v num" data-tbal>1,240</span></div>
+        <div class="balr minus"><span class="k">Registration fee</span><span class="v num">−<span data-tfee>500</span> Coins</span></div>
+        <div class="balr new"><span class="k">Balance after</span><span class="v num" data-tafter>740</span></div>
+      </div>
+      <div class="cta" style="margin-top:14px;margin-bottom:0"><div class="btn">Pay 500 Coins &amp; Register</div><div class="altlink">Go back</div></div>
+    </div></div>
+  </div></div>
+
+  <!-- TR-05 SUCCESS / GROUP -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-05</div><div class="fname">Registration Success<span>Group C placement</span></div></div>
+  <div class="phone">
+    <div class="lbody celebrate">
+      <div style="font-size:44px">🎉</div>
+      <div class="h1" style="margin-top:12px">You're registered!</div>
+      <div class="sub"><span data-tcountry>Nigeria 🇳🇬</span> · <span data-tname>AFCON 2026</span></div>
+      <div class="card" style="width:100%;padding:16px;margin-top:16px;text-align:center">
+        <div style="font-size:11px;font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.5px">Your group</div>
+        <div style="font-size:22px;font-weight:800;margin-top:6px">GROUP C</div>
+        <div class="grouppill"><span class="you">🇳🇬 Nigeria</span><span>🇪🇬 Egypt</span><span>🇬🇭 Ghana</span><span>🇨🇲 Cameroon</span></div>
+      </div>
+      <div class="tournbadge">✓ 500 Coins paid · Ref TR-AF26-NG</div>
+      <div class="cta" style="margin-top:16px"><div class="btn">Open tournament dashboard</div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-06 TOURNAMENT DASHBOARD -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-06</div><div class="fname">My Tournament<span>Standings · next fixture</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle" data-tname>AFCON 2026<small>Group C · Coin Rewards active</small></div></div>
+    <div class="lbody">
+      <div class="scrollarea">
+        <div class="fixcard2"><div class="crest cr-green">NG</div><div class="fx"><div>🇳🇬 Nigeria vs 🇪🇬 Egypt</div><div class="fd">Next · Sat 18:00 · Matchday 2</div></div></div>
+        <div class="grouplabel" style="margin-top:14px">GROUP C STANDINGS</div>
+        <div class="ttable">
+          <div class="thd"><span class="pos">#</span><span class="tn">Team</span><span class="col">P</span><span class="col">W</span><span class="col">D</span><span class="col">L</span><span class="col">Pts</span></div>
+          <div class="ttr q"><span class="pos num">1</span><div class="crest cr-green">NG</div><span class="tn">Nigeria · You</span><span class="col num">1</span><span class="col num">1</span><span class="col num">0</span><span class="col num">0</span><span class="col pts num">3</span></div>
+          <div class="ttr q"><span class="pos num">2</span><div class="crest cr-gold">EG</div><span class="tn">Egypt</span><span class="col num">1</span><span class="col num">1</span><span class="col num">0</span><span class="col num">0</span><span class="col pts num">3</span></div>
+          <div class="ttr"><span class="pos num">3</span><div class="crest cr-red">GH</div><span class="tn">Ghana</span><span class="col num">1</span><span class="col num">0</span><span class="col num">0</span><span class="col num">1</span><span class="col pts num">0</span></div>
+          <div class="ttr"><span class="pos num">4</span><div class="crest cr-violet">CM</div><span class="tn">Cameroon</span><span class="col num">1</span><span class="col num">0</span><span class="col num">0</span><span class="col num">1</span><span class="col pts num">0</span></div>
+        </div>
+        <div class="card" style="padding:13px 14px;margin-top:12px;font-size:12.5px;font-weight:750;color:var(--t2)">Last result: <b style="color:var(--green1)">Nigeria 2–1 Ghana</b> · tap below to see your Coin payout</div>
+      </div>
+      <div class="cta"><div class="btn gold">View match Coin payout</div><div class="altlink">My tournament squad · <span class="ruleslink">Rules</span></div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-07 MATCH PAYOUT -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-07</div><div class="fname">Match Coin Payout<span>Win · eligible players only</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Match reward</div></div>
+    <div class="lbody">
+      <div class="scrollarea">
+        <div class="payouthero">
+          <div style="font-size:12px;font-weight:800;letter-spacing:2px;opacity:.85">NIGERIA WON!</div>
+          <div class="pa"><div class="coin">C</div><span class="num" data-tpayout>700</span></div>
+          <div class="pd">+100 Coins × <span data-telig>7</span> eligible squad players<br>Injured players excluded from multiplier</div>
+        </div>
+        <div class="card" style="padding:4px 16px;margin-top:14px">
+          <div class="balr"><span class="k">Result</span><span class="v">Win · Nigeria 2–1 Ghana</span></div>
+          <div class="balr"><span class="k">Rate</span><span class="v">+100 Coins × eligible</span></div>
+          <div class="balr"><span class="k">Eligible players</span><span class="v num" data-telig>7</span></div>
+          <div class="balr"><span class="k">Injured (excluded)</span><span class="v num">4</span></div>
+          <div class="balr new"><span class="k">Coins credited</span><span class="v num">+<span data-tpayout>700</span></span></div>
+        </div>
+        <div class="tournnote">Fan Club League variant: +3 pts win → 3 × 100 × eligible players (same injury rule).</div>
+      </div>
+      <div class="cta"><div class="btn">Back to dashboard</div><div class="altlink">View my tournament squad</div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-08 MY TOURNAMENT SQUAD -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-08</div><div class="fname">Tournament Squad<span>Injury badges during tournament</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">My tournament team<small><span data-telig>7</span> eligible · 4 injured</small></div></div>
+    <div class="lbody">
+      <div class="sub" style="margin-top:0">Only non-injured squad players count toward Coin multipliers. Fan Value tracks real results separately.</div>
+      <div class="scrollarea" style="margin-top:12px">
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_12.png')"></div><div><div class="spn">A. Okonkwo</div><div class="spp">ST · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_02.png')"></div><div><div class="spn">K. Mensah</div><div class="spp">CM · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow injured"><div class="injbadge">🩹</div><div class="spi" style="background-image:url('assets/up_06.png')"></div><div><div class="spn">T. Bello</div><div class="spp">CB · Nigeria</div></div><div class="spst out">Injured</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_11.png')"></div><div><div class="spn">Maya Chen</div><div class="spp">RW · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow injured"><div class="injbadge">🩹</div><div class="spi" style="background-image:url('assets/up_04.png')"></div><div><div class="spn">L. Ortega</div><div class="spp">LB · Nigeria</div></div><div class="spst out">Injured</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_09.png')"></div><div><div class="spn">Priya S.</div><div class="spp">CAM · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_07.png')"></div><div><div class="spn">Jay Malik</div><div class="spp">GK · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow injured"><div class="injbadge">🩹</div><div class="spi" style="background-image:url('assets/up_03.png')"></div><div><div class="spn">R. Silva</div><div class="spp">RM · Nigeria</div></div><div class="spst out">Injured</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_14.png')"></div><div><div class="spn">N. Adeyemi</div><div class="spp">CDM · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_15.png')"></div><div><div class="spn">F. Nwosu</div><div class="spp">LW · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+        <div class="squadrow injured"><div class="injbadge">🩹</div><div class="spi" style="background-image:url('assets/up_08.png')"></div><div><div class="spn">D. Kone</div><div class="spp">RB · Nigeria</div></div><div class="spst out">Injured</div></div>
+        <div class="squadrow"><div class="spi" style="background-image:url('assets/up_10.png')"></div><div><div class="spn">S. Park</div><div class="spp">CF · Nigeria</div></div><div class="spst ok">Eligible</div></div>
+      </div>
+      <div class="cta"><div class="altlink ruleslink">View Coin reward rules</div></div>
+    </div>
+  </div></div>
+
+  <!-- TR-09 RULES SHEET -->
+  <div class="fw"><div class="flabel"><div class="fnum">TR-09</div><div class="fname">Coin Reward Rules<span>Sheet · win/draw/loss</span></div></div>
+  <div class="phone">
+    <div class="body" style="filter:blur(1.5px);opacity:.5;padding:22px 20px"><div class="h1">Tournament dashboard</div></div>
+    <div class="sheet-scrim"><div class="sheet">
+      <div class="grab"></div>
+      <h3>Tournament Coin Rewards</h3>
+      <ul class="ruleslist">
+        <li><b>Registration:</b> 500 Coins · one country per tournament (profile country)</li>
+        <li><b>Win:</b> +100 Coins × eligible squad players (non-injured)</li>
+        <li><b>Draw:</b> +40 Coins × eligible players</li>
+        <li><b>Loss:</b> 0 Coins</li>
+        <li><b>Injured players</b> are excluded from the multiplier during the tournament</li>
+        <li><b>Fan Club League variant:</b> +3 pts win → 3 × 100 × eligible players</li>
+      </ul>
+      <div class="tournnote" style="margin-top:14px">Separate from Fan Value and Player Value — those track real performance metrics independently.</div>
+      <div class="cta" style="margin-top:14px;margin-bottom:0"><div class="btn ghost">Got it</div></div>
+    </div></div>
+  </div></div>
+
   <div class="divider">Tournaments &amp; Grade</div>
 
   <!-- PR-03 TOURNAMENT TABLE -->
@@ -390,9 +626,9 @@
           <div class="gbar"><i style="width:94%"></i></div>
           <div class="gu num">940 / 1,000 <b style="color:var(--t1)">club points</b> · 60 to go</div>
         </div>
-        <div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:750;color:var(--t2)">⬆️ On track to <b style="color:var(--valueDeep)">maintain Grade A</b> — confirmed at month end</div>
+        <div class="gradestatus card"><div class="gsicon">⬆️</div><div class="gstxt">On track to <b>maintain Grade A</b> — confirmed at month end</div></div>
       </div>
-      <div class="cta"><div class="btn ghost">View Grade Rules</div><div class="altlink">View Prize Eligibility</div></div>
+      <div class="cta gradecta"><div class="btn ghost">View Grade Rules</div><div class="altlink">View Prize Eligibility</div></div>
     </div>
   </div></div>
 

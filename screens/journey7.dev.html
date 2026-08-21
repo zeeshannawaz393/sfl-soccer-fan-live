@@ -38,7 +38,7 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
-  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
   .coinbal{margin-left:auto;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:linear-gradient(120deg,#FFF7E4,#FFEDBF);border:1px solid #FFE199;font-size:13px;font-weight:800;color:var(--goldDeep)}
   .coinbal .coin{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#5A3E00;background:radial-gradient(circle at 35% 28%,var(--goldLite),#C88A00)}
@@ -48,13 +48,13 @@
   .cta{margin-top:auto;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
   .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.32)}
   .btn.coral{background:linear-gradient(140deg,var(--coral),#FF7A3B);box-shadow:0 12px 26px rgba(255,59,95,.3)}
-  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .btn.danger{background:#fff;color:var(--red);border:1.5px solid #FFD2CE;box-shadow:var(--shadow-sm)}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
   .altlink b{color:var(--green1)}
-  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
   .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
-  .inp{height:52px;border-radius:14px;background:#fff;border:1.5px solid var(--line);display:flex;align-items:center;padding:0 15px;font-size:15px;font-weight:700;box-shadow:var(--shadow-sm)}
+  .inp{height:52px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);display:flex;align-items:center;padding:0 15px;font-size:15px;font-weight:700;box-shadow:var(--shadow-sm)}
   .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
 
   /* stadium hub */
@@ -91,8 +91,14 @@
   .permcard .pi{width:40px;height:40px;border-radius:12px;background:#F3F5FA;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
   .permcard .pn{font-size:14px;font-weight:800}
   .permcard .pd{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:1px}
-  .permcard .allow{margin-left:auto;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));padding:8px 14px;border-radius:999px}
-  .permcard .done{margin-left:auto;font-size:12.5px;font-weight:800;color:#0FA04C}
+  .permcard .allow{margin-left:auto;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));padding:8px 14px;border-radius:999px;flex:none;cursor:pointer}
+  .permcard .done{margin-left:auto;font-size:12.5px;font-weight:800;color:#0FA04C;flex:none}
+  .permcard .later{margin-left:auto;font-size:12.5px;font-weight:800;color:var(--t2);background:#F3F5FA;border:1px solid var(--line);padding:8px 14px;border-radius:999px;flex:none;cursor:pointer}
+  .permcard .deferred{margin-left:auto;font-size:12px;font-weight:750;color:var(--t3);flex:none}
+  .btn.disabled{opacity:.42;pointer-events:none;filter:saturate(.65);box-shadow:none}
+  .permdots{display:flex;justify-content:center;align-items:center;gap:6px;margin:14px 0 2px}
+  .permdots i{width:6px;height:6px;border-radius:999px;background:#D7DDEA;transition:width .2s}
+  .permdots i.on{width:18px;background:linear-gradient(140deg,var(--green1),var(--green2))}
 
   /* setup */
   .coverpick{display:flex;gap:12px;align-items:center;margin-bottom:16px}
@@ -318,7 +324,7 @@
 
   /* sheet */
   .sheet-scrim{position:absolute;inset:0;background:rgba(5,7,11,.55);z-index:8;display:flex;align-items:flex-end}
-  .sheet{background:#fff;border-radius:26px 26px 0 0;width:100%;padding:12px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.4);color:var(--t1)}
+  .sheet{background:var(--card);border-radius:26px 26px 0 0;width:100%;padding:12px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.4);color:var(--t1)}
   .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 14px}
   .sheet h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
   .sheet .sh2{font-size:12.5px;font-weight:700;color:var(--t2);margin-top:4px}
@@ -454,14 +460,15 @@
   <div class="fw"><div class="flabel"><div class="fnum">GL-01B</div><div class="fname">Camera &amp; Mic Permissions<span>Contextual · with preview</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Set up your room</div></div>
-    <div class="lbody">
+    <div class="lbody permsetup">
       <div class="campreview"><span class="cl">📷 Camera preview</span></div>
-      <div style="margin-top:16px">
-        <div class="permcard"><div class="pi">📷</div><div style="flex:1"><div class="pn">Camera</div><div class="pd">Required for your host video</div></div><div class="done">✓ Allowed</div></div>
-        <div class="permcard"><div class="pi">🎙️</div><div style="flex:1"><div class="pn">Microphone</div><div class="pd">Required for live audio</div></div><div class="allow">Allow</div></div>
-        <div class="permcard"><div class="pi">🔔</div><div style="flex:1"><div class="pn">Notifications</div><div class="pd">Recommended for session alerts</div></div><div class="allow" style="background:#F3F5FA;color:var(--t2)">Later</div></div>
+      <div class="permlist" style="margin-top:16px">
+        <div class="permcard" data-perm="camera"><div class="pi">📷</div><div style="flex:1"><div class="pn">Camera</div><div class="pd">Required for your host video</div></div><div class="done" data-perm-act>✓ Allowed</div></div>
+        <div class="permcard" data-perm="mic"><div class="pi">🎙️</div><div style="flex:1"><div class="pn">Microphone</div><div class="pd">Required for live audio</div></div><div class="allow" data-perm-act>Allow</div></div>
+        <div class="permcard" data-perm="notif"><div class="pi">🔔</div><div style="flex:1"><div class="pn">Notifications</div><div class="pd">Recommended for session alerts</div></div><div class="later" data-perm-act>Later</div></div>
       </div>
-      <div class="cta"><div class="btn">Continue</div></div>
+      <div class="permdots" aria-hidden="true"><i></i><i class="on"></i><i></i><i></i></div>
+      <div class="cta"><div class="btn disabled">Continue</div></div>
     </div>
   </div></div>
 

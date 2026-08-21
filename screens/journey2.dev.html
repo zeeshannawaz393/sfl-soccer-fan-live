@@ -56,7 +56,7 @@
   .perk:last-child{border:none}
   .perk .pk{width:28px;height:28px;border-radius:8px;background:#F2FBF5;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px;z-index:5}
-  .back,.ico{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .back,.ico{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:20px;font-weight:800;letter-spacing:-.4px}
   .body{flex:1;padding:22px 20px 0;display:flex;flex-direction:column;overflow:hidden}
   .h1{font-size:26px;line-height:31px;font-weight:800;letter-spacing:-.6px}
@@ -64,7 +64,7 @@
   .cta{margin-top:auto;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
   .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.34)}
   .btn.club{background:linear-gradient(140deg,var(--ck2),var(--ck) 70%);box-shadow:0 12px 28px color-mix(in srgb,var(--ck) 50%,transparent);--glow:color-mix(in srgb,var(--ck) 45%,transparent);animation:breathe 2.8s infinite}
-  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .btn.danger{background:#fff;color:var(--red);border:1.5px solid #FFD2CE;box-shadow:var(--shadow-sm)}
   .btn.sm{height:44px;font-size:14px}
   .link{font-size:13.5px;font-weight:800;color:#0FA04C;text-align:center}
@@ -94,7 +94,7 @@
   .consent.g{background:#F2FBF5;border-color:#BFE9CE;color:#187A42}
   .consent.y{background:#FFFBF2;border-color:#FDE4B8;color:#8A6410}
   .consent.r{background:#FFF5F4;border-color:#FFD2CE;color:#C22318}
-  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
   .sect{font-size:14px;font-weight:800;letter-spacing:-.2px;margin:2px 0 11px;display:flex;align-items:center;color:#2A3140}
   .sect span{margin-left:auto;font-size:12px;font-weight:750;color:#0FA04C}
   .facestack{display:flex}
@@ -125,9 +125,9 @@
   .ctab{font-size:14px;font-weight:750;color:var(--t3);padding-bottom:10px;position:relative}
   .ctab.on{color:var(--t1);font-weight:800}
   .ctab.on::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--green1),var(--green2))}
-  .searchbar{height:46px;border-radius:14px;background:#fff;border:1.5px solid var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.10);display:flex;align-items:center;padding:0 14px;gap:9px;font-size:14px;font-weight:600;color:var(--t1)}
+  .searchbar{height:46px;border-radius:14px;background:var(--card);border:1.5px solid var(--green1);box-shadow:0 0 0 4px rgba(15,183,83,.10);display:flex;align-items:center;padding:0 14px;gap:9px;font-size:14px;font-weight:600;color:var(--t1)}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .fchip{font-size:12.5px;font-weight:750;color:var(--t2);background:#fff;border:1.5px solid var(--line);padding:7px 12px;border-radius:999px;display:inline-flex;gap:5px;align-items:center}
+  .fchip{font-size:12.5px;font-weight:750;color:var(--t2);background:var(--card);border:1.5px solid var(--line);padding:7px 12px;border-radius:999px;display:inline-flex;gap:5px;align-items:center}
   .fchip.on{color:#0FA04C;border-color:#9FDDB4;background:#F2FBF5}
   .recent{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--t2)}
   .recent .ic{color:var(--t3)}
@@ -137,6 +137,7 @@
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--ck) 34%,transparent) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.5) 72%,#0B0D13 100%)}
   .hero .hnav{position:absolute;top:16px;left:16px;right:16px;display:flex;z-index:3}
   .hero .hnav .back{background:rgba(10,12,18,.4);border:none;color:#fff;backdrop-filter:blur(6px)}
+  .hero .hnav .clubmore{cursor:pointer;position:relative;z-index:4}
   .hero .hbadge{position:absolute;left:20px;bottom:-30px;z-index:4;width:78px;height:78px;font-size:21px;border:4px solid var(--bg)}
   .hero .hbadge::before{content:"";position:absolute;inset:-6px;border-radius:26%;background:conic-gradient(var(--ck2),#fff,var(--ck),var(--ck2));z-index:-1;filter:blur(2px);opacity:.55;animation:spin 6s linear infinite}
   .hero .hmeta{position:absolute;left:112px;right:18px;bottom:12px;z-index:3}
@@ -197,7 +198,7 @@
   .qa{background:#fff;border-radius:15px;box-shadow:var(--shadow-sm);padding:12px 4px 9px;text-align:center;border:1px solid var(--line)}
   .qa .qi{font-size:21px}
   .qa .ql{font-size:11px;font-weight:750;color:var(--t2);margin-top:4px}
-  .feed-item{background:#fff;border-radius:16px;box-shadow:var(--shadow-sm);padding:12px 13px;margin-bottom:10px;border:1px solid var(--line)}
+  .feed-item{background:var(--card);border-radius:16px;box-shadow:var(--shadow-sm);padding:12px 13px;margin-bottom:10px;border:1px solid var(--line)}
   .feed-item .fh{display:flex;align-items:center;gap:9px;margin-bottom:7px}
   .feed-item .fh .avatar,.feed-item .fh .crest{width:30px;height:30px;font-size:11px}
   .feed-item .fn{font-size:13px;font-weight:800}
@@ -215,7 +216,7 @@
 
   /* sheet */
   .sheet-scrim{position:absolute;inset:0;background:rgba(10,14,20,.5);z-index:6;display:flex;align-items:flex-end}
-  .sheet{background:#fff;border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
+  .sheet{background:var(--card);border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
   .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 16px}
   .sheet h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
   .sheet p{font-size:13.5px;line-height:20px;font-weight:600;color:var(--t2);margin-top:9px}
@@ -264,6 +265,44 @@
   .glrow .gav{width:32px;height:32px;border-radius:50%;background-size:cover;background-position:center;background-color:#DDE3ED;flex:none}
   .glrow .gn{font-size:13px;font-weight:800;flex:1}
   .glrow .gg{font-size:12px;font-weight:800;color:#B08900;display:flex;align-items:center;gap:5px}
+
+  /* ===== J2-16 Club Home — Member (scoped via .clubhome) ===== */
+  .phone.clubhome .hero::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 50% 110%,rgba(0,0,0,.55),transparent 58%),radial-gradient(80% 60% at 0% 0%,color-mix(in srgb,var(--ck) 28%,transparent),transparent 50%),radial-gradient(70% 50% at 100% 20%,rgba(8,10,16,.35),transparent 55%);pointer-events:none}
+  .phone.clubhome .hero::after{background:linear-gradient(180deg,color-mix(in srgb,var(--ck) 38%,transparent) 0%,rgba(8,10,16,.08) 28%,rgba(8,10,16,.62) 68%,var(--bg) 100%)}
+  .phone.clubhome .hero .hname{letter-spacing:-.45px;text-shadow:0 2px 16px rgba(0,0,0,.55),0 0 24px color-mix(in srgb,var(--ck) 35%,transparent)}
+  .phone.clubhome .hero .hsub{font-size:12px;font-weight:750;color:rgba(255,255,255,.88);letter-spacing:.15px}
+  .phone.clubhome .hero .hbadge{box-shadow:inset 0 2px 6px rgba(255,255,255,.35),inset 0 -6px 12px rgba(0,0,0,.28),0 10px 28px color-mix(in srgb,var(--ck) 55%,transparent),0 0 0 4px color-mix(in srgb,var(--bg) 92%,transparent)}
+  .phone.clubhome .sp-member{padding:5px 12px;font-size:10.5px;font-weight:800;letter-spacing:.35px;border:1px solid rgba(255,255,255,.22);box-shadow:0 4px 14px rgba(15,183,83,.38),inset 0 1px 0 rgba(255,255,255,.28);backdrop-filter:blur(8px)}
+  .phone.clubhome .detailbody{padding-top:40px}
+  .phone.clubhome .detailbody>.card{position:relative;overflow:hidden;border-radius:17px;border:1.5px solid color-mix(in srgb,var(--gold1) 42%,#fff)!important;background:linear-gradient(145deg,#FFF8E8 0%,#FFFCF4 42%,#fff 100%)!important;box-shadow:0 8px 24px rgba(176,137,0,.10),inset 0 1px 0 rgba(255,255,255,.85)!important}
+  .phone.clubhome .detailbody>.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold1),var(--gold2),transparent);opacity:.75}
+  .phone.clubhome .detailbody>.card .bar-track{background:color-mix(in srgb,var(--gold1) 12%,#E7EBF3);box-shadow:inset 0 1px 3px rgba(0,0,0,.06)}
+  .phone.clubhome .detailbody>.card .bar-fill.gold{box-shadow:0 0 12px color-mix(in srgb,var(--gold1) 45%,transparent)}
+  .phone.clubhome .cmgrask{border-radius:17px!important;border:1.5px solid color-mix(in srgb,var(--gold1) 38%,#fff)!important;background:linear-gradient(145deg,#FFF6DC,#FFFCF2 55%,#fff)!important;box-shadow:0 8px 22px rgba(176,137,0,.09),inset 0 1px 0 rgba(255,255,255,.9)!important;transition:transform .15s ease,box-shadow .15s ease}
+  .phone.clubhome .cmgrask>div:first-child{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--gold1) 40%,#fff),0 6px 16px rgba(255,158,11,.28)!important}
+  .phone.clubhome .btn.club{margin-top:2px;height:52px;border-radius:999px;font-size:15px;letter-spacing:.2px;background:linear-gradient(145deg,var(--ck2) 0%,var(--ck) 52%,var(--ckd) 100%);box-shadow:0 14px 32px color-mix(in srgb,var(--ck) 48%,transparent),0 0 0 1px color-mix(in srgb,var(--ck2) 35%,transparent),inset 0 1px 0 rgba(255,255,255,.22);--glow:color-mix(in srgb,var(--ck) 50%,transparent);animation:breathe 2.6s ease-in-out infinite}
+  .phone.clubhome .qgrid{gap:10px;margin:16px 0 14px}
+  .phone.clubhome .qa{background:linear-gradient(180deg,#fff,var(--raised,#F7F8FC));border-radius:16px;padding:11px 4px 10px;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+  .phone.clubhome .qa .qi{width:40px;height:40px;margin:0 auto;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--raised,#EEF1F7);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+  .phone.clubhome .qa:nth-child(1) .qi{background:linear-gradient(155deg,#E9F9EF,#D4F3DE);border-color:#BFE9CE;color:#0A8F40}
+  .phone.clubhome .qa:nth-child(2) .qi{background:linear-gradient(155deg,#EAF5FD,#D4EBFA);border-color:#C9E5F8;color:#1E7BB8}
+  .phone.clubhome .qa:nth-child(3) .qi{background:linear-gradient(155deg,#FFF6DC,#FFECB8);border-color:#F3D48A;color:#9A6B00}
+  .phone.clubhome .qa:nth-child(4) .qi{background:linear-gradient(155deg,#F1EBFF,#E4D9FF);border-color:#DCCEFF;color:#5E3EC5}
+  .phone.clubhome .qa .ql{font-size:10.5px;font-weight:800;color:var(--t2);margin-top:5px;letter-spacing:.1px}
+  .phone.clubhome .sechd .st{font-size:13.5px;letter-spacing:-.15px}
+  .phone.clubhome .sechd .sa{font-size:11.5px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--ck) 8%,#fff);border:1px solid color-mix(in srgb,var(--ck) 18%,var(--line))}
+  .phone.clubhome .lvcard{border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 24px rgba(0,0,0,.28);transition:transform .15s ease,box-shadow .15s ease}
+  .phone.clubhome .lvcard::after{background:linear-gradient(180deg,rgba(8,10,16,.15) 0%,rgba(8,10,16,.35) 38%,rgba(8,10,16,.88) 100%)}
+  .phone.clubhome .lvcard .lvb{box-shadow:0 0 14px rgba(255,65,108,.55),0 2px 8px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+  .phone.clubhome .lvcard .lvv{background:rgba(8,10,16,.72);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);box-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .phone.clubhome .lvcard .lvt{text-shadow:0 2px 10px rgba(0,0,0,.65)}
+  .phone.clubhome .onlinebar{background:linear-gradient(180deg,#fff,var(--raised,#F7F8FC));border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:13px 14px}
+  .phone.clubhome .onav .oav{border:2.5px solid #fff;box-shadow:0 2px 8px rgba(20,30,60,.14)}
+  .phone.clubhome .onav .omore{background:linear-gradient(155deg,var(--ck2),var(--ck));color:#fff;border-color:#fff;font-size:9px;box-shadow:0 2px 8px color-mix(in srgb,var(--ck) 40%,transparent)}
+  .phone.clubhome .onh b{font-size:13.5px;letter-spacing:-.1px}
+  .phone.clubhome .sbtn{box-shadow:0 6px 16px color-mix(in srgb,var(--ck) 38%,transparent),inset 0 1px 0 rgba(255,255,255,.18)}
+  .phone.clubhome .chatprev,.phone.clubhome .giftlead{border-radius:16px;background:linear-gradient(180deg,#fff,var(--raised,#F7F8FC))}
+  .phone.clubhome .feed-item{border-radius:17px;background:linear-gradient(180deg,#fff,var(--raised,#F7F8FC))}
 </style>
 </head>
 <body>
@@ -385,7 +424,7 @@
   <div class="fw"><div class="flabel"><div class="fnum">J2-05</div><div class="fname">Club Details<span>Cinematic hero · club-colour flood · live rooms</span></div></div>
   <div class="phone club-red">
     <div class="hero" style="background-image:url('assets/fb_crowd.jpg')">
-      <div class="hnav"><div class="back">‹</div><div class="back" style="margin-left:auto;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
+      <div class="hnav"><div class="back">‹</div><div class="back clubmore" style="margin-left:auto;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
       <span class="pill live hlive"><i></i>4 LIVE</span>
       <div class="crest hbadge">RD</div>
       <div class="hmeta"><div class="hname">Red District FC <span class="verified" style="color:#7CE8FF">✓</span></div><div class="hsub">London 🇬🇧 · Est. 2021 · Jay Malik</div></div>
@@ -585,9 +624,9 @@
 
   <!-- J2-16 -->
   <div class="fw"><div class="flabel"><div class="fnum">J2-16</div><div class="fname">Club Home — Member<span>Central hub (backlog #1)</span></div></div>
-  <div class="phone club-red">
+  <div class="phone club-red clubhome">
     <div class="hero" style="background-image:url('assets/fb_crowd.jpg');height:172px">
-      <div class="hnav"><div class="back">‹</div><span class="pill sp-member" style="margin-left:auto;align-self:center">✓ Member</span><div class="back" style="margin-left:8px;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
+      <div class="hnav"><div class="back">‹</div><span class="pill sp-member" style="margin-left:auto;align-self:center">✓ Member</span><div class="back clubmore" style="margin-left:8px;background:rgba(10,12,18,.4);border:none;color:#fff">⋯</div></div>
       <div class="crest hbadge" style="bottom:-26px;width:68px;height:68px">RD</div>
       <div class="hmeta" style="left:104px"><div class="hname" style="font-size:19px">Red District FC</div><div class="hsub">Lv 6 · #3 League · 1,204 members</div></div>
     </div>

@@ -24,9 +24,17 @@ for s in allsrc.values():
     for m in re.finditer(r"url\(['\"]?assets/([\w.\-]+)['\"]?\)", s):
         a=m.group(1)
         if not a.endswith('.woff2'): img_map.setdefault(a,vn(a))
+    for m in re.finditer(r'src=(["\'])assets/([\w.\-]+)\1', s):
+        a=m.group(2)
+        if not a.endswith('.woff2'): img_map.setdefault(a,vn(a))
 def datauri(path):
     mime='image/jpeg' if path.lower().endswith(('.jpg','.jpeg')) else ('image/png' if path.lower().endswith('.png') else 'application/octet-stream')
     return f'data:{mime};base64,'+base64.b64encode(open('assets/'+path,'rb').read()).decode()
+def inline_img_src(t):
+    def rep(m):
+        q,a=m.group(1),m.group(2)
+        return m.group(0) if a.endswith('.woff2') else f'src={q}{datauri(a)}{q}'
+    return re.sub(r'src=(["\'])assets/([\w.\-]+)\1', rep, t)
 root_vars=':root{\n'+'\n'.join(f'  {v}: url("{datauri(a)}");' for a,v in sorted(img_map.items()))+'\n}'
 font_css="@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;src:url('data:font/woff2;base64,"+base64.b64encode(open('assets/manrope.woff2','rb').read()).decode()+"') format('woff2')}"
 
@@ -83,7 +91,7 @@ for idx,(fn,num,title) in enumerate(ALL):
     css+='#j%d{background:transparent!important;padding:0!important;min-height:0!important}'%idx
     styleblocks.append(css)
     fi=s.find('<div class="frames">'); end=s.find('<style id="sfl-chrome"'); end=end if end>0 else s.rfind('</body>')
-    frames=imgvar(s[fi:end].rstrip())
+    frames=inline_img_src(imgvar(s[fi:end].rstrip()))
     framedata.append(f'<script type="text/plain" class="jframes" data-idx="{idx}">{frames}</script>')
     label=('Global Shell' if num=='G' else ('Extra · '+title if num.startswith('E') else 'J'+num+' · '+title))
     options.append(f'<option value="{idx}">{label}</option>')
@@ -106,8 +114,6 @@ _gk=allsrc['journey10.dev.html']; _gk=_gk[_gk.find('<div class="fnum">GK-01</div
 GIFTSHEET_HTML='<div id="j%d" class="sflgiftwrap">%s</div>'%(_J10IDX, imgvar(_extract_div(_gk,'<div class="sheet-scrim">')))
 
 PPNAV_CSS="""
-.ppnav{flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px;background:rgba(10,12,18,.72);border-top:1px solid rgba(255,255,255,.08)}
-body[data-stage="light"] .ppnav{background:rgba(255,255,255,.82);border-top-color:#DCE2EC}
 .ppnavbtn{font-family:inherit;font-weight:800;font-size:13.5px;padding:11px 24px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:#171b24;color:#EAEEF5;cursor:pointer}
 body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#DCE2EC}
 .ppnavbtn.primary{background:#C9FF3D;color:#0A1400;border-color:#C9FF3D}
@@ -122,13 +128,14 @@ CHROME_CSS="""
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{background:#0d1017;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;color:#EAEEF5;overflow:hidden;display:flex;flex-direction:column}
-body[data-stage="light"]{background:#E7ECF6;color:#14161C}
+body[data-stage="light"]{background:#E7ECF6;color:#14161C;--bg:#F4F6FB;--card:#FFFFFF;--raised:#F7F8FC;--raised2:#ECEEF5;--t1:#14161C;--t2:#707786;--t3:#A6ADBC;--line:#ECEEF5;--line2:#E2E6F0;--shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09)}
+body[data-stage="dark"]{--bg:#080A10;--card:#141922;--raised:#171D27;--raised2:#1D242F;--t1:#F2F5FA;--t2:#98A2B3;--t3:#5A6472;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);--shadow:0 12px 34px rgba(0,0,0,.35);--shadow-sm:0 5px 16px rgba(0,0,0,.25)}
 header{flex:none;display:flex;align-items:center;gap:14px;padding:11px 16px;background:rgba(10,12,18,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);z-index:10}
 body[data-stage="light"] header{background:rgba(255,255,255,.8);border-bottom-color:#DCE2EC}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:14px;letter-spacing:-.3px}
 .bc{width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,#E4362B,#8E1912);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
-select#jsel{font-family:inherit;font-weight:800;font-size:13px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171b24;color:#EAEEF5;cursor:pointer;max-width:230px}
-body[data-stage="light"] select#jsel{background:#fff;color:#14161C;border-color:#DCE2EC}
+select#flowsel{font-family:inherit;font-weight:800;font-size:14px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#171b24;color:#EAEEF5;cursor:pointer;width:100%;height:auto;min-height:44px;flex:none}
+body[data-stage="light"] select#flowsel{background:#fff;color:#14161C;border-color:#DCE2EC}
 .cap{margin-left:auto;text-align:right;line-height:1.25}
 .cap .sc{font-size:13px;font-weight:800}
 .cap .ct{font-size:11px;font-weight:700;opacity:.6;font-variant-numeric:tabular-nums}
@@ -139,7 +146,7 @@ body[data-stage="light"] .ppbtn{background:#fff;color:#14161C;border-color:#DCE2
 .ppbtn.sm{width:38px;height:38px;font-size:15px}
 .ppstage{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(60% 60% at 50% 30%,rgba(47,127,209,.10),transparent 60%)}
 .scaler{width:390px;height:844px;flex:none;transform-origin:center center;filter:drop-shadow(0 40px 80px rgba(0,0,0,.5))}
-#mount{width:390px;height:844px}
+#mount,[id^="j"]:not(.sflgiftwrap){width:390px;height:844px}
 .ppzone{position:absolute;top:0;bottom:0;border:none;background:transparent;cursor:pointer;z-index:5}
 .ppzone.l{left:0;width:32%}
 .ppzone.r{right:0;width:68%}
@@ -147,103 +154,2517 @@ body[data-stage="light"] .ppbtn{background:#fff;color:#14161C;border-color:#DCE2
 .hintl,.hintr{position:absolute;top:50%;transform:translateY(-50%);font-size:26px;opacity:0;transition:opacity .15s;pointer-events:none;z-index:6;color:#C9FF3D}
 .ppzone.l:hover ~ .hintl{opacity:.5}.ppzone.r:hover ~ .hintr{opacity:.5}
 .hintl{left:16px}.hintr{right:16px}
-footer{flex:none;text-align:center;padding:8px;font-size:11px;font-weight:700;opacity:.55;background:rgba(10,12,18,.7);border-top:1px solid rgba(255,255,255,.06)}
-body[data-stage="light"] footer{background:rgba(255,255,255,.7);border-top-color:#DCE2EC}
-.dotbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:6;max-width:80%;flex-wrap:wrap;justify-content:center}
-.ppdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.28)}
-body[data-stage="light"] .ppdot{background:rgba(20,30,60,.22)}
-.ppdot.on{background:#C9FF3D;width:16px;border-radius:3px}
+body[data-stage="light"] .sfl-nav.dark{background:rgba(255,255,255,.94)!important;border-color:rgba(255,255,255,.75)!important;box-shadow:0 14px 38px rgba(20,30,60,.22)!important}
+body[data-stage="light"] .sfl-nav.dark .nit{color:#9AA2B1!important}
+body[data-stage="light"] .sfl-nav.dark .nc{border-color:#F4F6FB!important}
 /* ---- in-app light / dark: tokens only, no layout change ---- */
 body[data-stage="light"] #mount,
 body[data-stage="light"] [id^="j"]{
-  --arena:#F4F6FB;--panel:#FFFFFF;--panel2:#FFFFFF;--panel3:#F4F6FB;
-  --bg:#F4F6FB;--card:#FFFFFF;--deep:#FFFFFF;--raised:#FFFFFF;--raised2:#F7F8FC;
-  --t1:#14161C;--t2:#707786;--t3:#A6ADBC;
-  --line:#ECEEF5;--line2:#E2E6F0;--dline:#ECEEF5;
+  --arena:#F4F6FB!important;--panel:#FFFFFF!important;--panel2:#F7F8FC!important;--panel3:#ECEEF5!important;
+  --bg:#F4F6FB!important;--card:#FFFFFF!important;--deep:#FFFFFF!important;--raised:#FFFFFF!important;--raised2:#F0F2F7!important;
+  --t1:#14161C!important;--t2:#707786!important;--t3:#A6ADBC!important;
+  --line:#ECEEF5!important;--line2:#D7DDEA!important;--dline:#ECEEF5!important;--dline2:#D7DDEA!important;
+  --dt1:#14161C!important;--dt2:#707786!important;--dt3:#A6ADBC!important;
+  --shadow:0 12px 34px rgba(24,40,80,.12)!important;--shadow-sm:0 5px 16px rgba(24,40,80,.09)!important;
 }
 body[data-stage="dark"] #mount,
 body[data-stage="dark"] [id^="j"]{
-  --arena:#080A10;--panel:#141922;--panel2:#1C2330;--panel3:#252E3D;
-  --bg:#080A10;--card:#141922;--deep:#10141C;--raised:#171D27;--raised2:#1D242F;
-  --t1:#F2F5FA;--t2:#98A2B3;--t3:#5A6472;
-  --line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.15);--dline:rgba(255,255,255,.09);
+  --arena:#080A10!important;--panel:#141922!important;--panel2:#1C2330!important;--panel3:#252E3D!important;
+  --bg:#080A10!important;--card:#141922!important;--deep:#10141C!important;--raised:#171D27!important;--raised2:#1D242F!important;
+  --t1:#F2F5FA!important;--t2:#98A2B3!important;--t3:#5A6472!important;
+  --line:rgba(255,255,255,.09)!important;--line2:rgba(255,255,255,.15)!important;--dline:rgba(255,255,255,.09)!important;--dline2:rgba(255,255,255,.15)!important;
+  --dt1:#F2F5FA!important;--dt2:#98A2B3!important;--dt3:#5A6472!important;
+  --shadow:0 12px 34px rgba(0,0,0,.35)!important;--shadow-sm:0 5px 16px rgba(0,0,0,.25)!important;
 }
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room){
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room){
   background:#F4F6FB!important;border-color:#D7DDEA!important;color:#14161C;
 }
-body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room){
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room){
   background:#080A10!important;border-color:#262C38!important;color:#F2F5FA;
 }
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room) .back,
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ico{
+/* Ceremony screens — theme-aware (J2-07, J2-10, J2-15, J2-LV) */
+body[data-stage="light"] #mount>.phone.ceremony,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony{
+  background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--ck) 14%,#fff) 0%,color-mix(in srgb,var(--ck) 5%,#F4F6FB) 42%,#F4F6FB 100%)!important;
+  border-color:color-mix(in srgb,var(--ck) 20%,#D7DDEA)!important;color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .ch1,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .ch1{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .csub,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .csub{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cscarf,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cscarf{
+  color:var(--ckd)!important;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ck) 12%,#fff),transparent)!important;
+  border-top-color:color-mix(in srgb,var(--ck) 28%,#ECEEF5)!important;
+  border-bottom-color:color-mix(in srgb,var(--ck) 28%,#ECEEF5)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cunlock,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cunlock{
+  background:color-mix(in srgb,var(--ck) 7%,#fff)!important;
+  border-color:color-mix(in srgb,var(--ck) 16%,#ECEEF5)!important;
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cunlock .ic,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cunlock .ic{
+  background:color-mix(in srgb,var(--ck) 12%,#F0F2F7)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cbtns .btn,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cbtns .btn{
+  background:var(--ck)!important;color:#fff!important;box-shadow:0 12px 30px color-mix(in srgb,var(--ck) 32%,transparent)!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cbtns .btn.lvcomplete,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cbtns .btn.lvcomplete{
+  background:var(--ck)!important;color:#fff!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .cbtns .btn.o,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cbtns .btn.o{
+  background:transparent!important;color:var(--ckd)!important;border:1.5px solid color-mix(in srgb,var(--ck) 32%,#D7DDEA)!important;box-shadow:none!important;
+}
+body[data-stage="light"] #mount>.phone.ceremony .rays,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .rays{
+  opacity:.22!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony{
+  background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--ck) 92%,#000) 0%,color-mix(in srgb,var(--ck) 60%,#0B0D13) 45%,#0B0D13 100%)!important;
+  border-color:#262C38!important;color:#fff!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony .ch1,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .ch1{
+  color:#fff!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony .csub,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .csub{
+  color:rgba(255,255,255,.82)!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony .cscarf,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cscarf{
+  color:#fff!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony .cbtns .btn,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cbtns .btn{
+  background:#fff!important;color:var(--ckd)!important;box-shadow:0 12px 30px rgba(0,0,0,.3)!important;
+}
+body[data-stage="dark"] #mount>.phone.ceremony .cbtns .btn.o,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.ceremony .cbtns .btn.o{
+  background:rgba(255,255,255,.12)!important;color:#fff!important;border:1.5px solid rgba(255,255,255,.3)!important;box-shadow:none!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .back,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ico{
   background:#fff;border-color:#ECEEF5;color:#707786;box-shadow:0 4px 14px rgba(24,40,80,.08);
 }
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room) .htitle,
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room) .h1,
-body[data-stage="light"] #mount>.phone:not(.splash):not(.welcome):not(.room) .cname{
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .htitle,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .h1,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cname{
   color:#14161C;
 }
-body[data-stage="light"] #mount>.phone:not(.room) .btn.ghost{
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.room) .btn.ghost{
   background:#fff;color:#14161C;border-color:#ECEEF5;
 }
-body[data-stage="light"] #mount .hero .back,
-body[data-stage="light"] #mount .hero .ico,
-body[data-stage="light"] #mount .hero .htitle,
-body[data-stage="light"] #mount .hero .cname,
-body[data-stage="light"] #mount .hero .fanview,
-body[data-stage="light"] #mount .phero .back,
-body[data-stage="light"] #mount .phero .pn,
-body[data-stage="light"] #mount .phero .pid,
-body[data-stage="light"] #mount .phero .htitle{
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .back,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .ico,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .htitle,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .cname,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .fanview,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .back,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .pn,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .pid,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .htitle{
   color:#fff;
 }
-body[data-stage="light"] #mount .hero .back,
-body[data-stage="light"] #mount .phero .back{
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .back,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .back{
   background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);box-shadow:none;
 }
-body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .back,
-body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .ico{
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .back,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .ico{
   background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#F2F5FA;box-shadow:none;
 }
-body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .htitle,
-body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .h1{
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .htitle,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .h1{
   color:#F2F5FA;
 }
 body[data-stage="light"] #j13 .stat .v,
 body[data-stage="light"] #j13 .kv .v,
 body[data-stage="light"] #j13 .idfield,
 body[data-stage="light"] #j13 .rewcard .rt,
-body[data-stage="light"] #j13 .target .tt,
-body[data-stage="light"] #j13 .target .big,
 body[data-stage="light"] #j13 .ticket .tclub{
   color:#14161C;
 }
+/* ---- dark: remap hardcoded light surfaces to tokens ---- */
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .card,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mod,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mission,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .feed-item,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .coinpill,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hicon,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .searchbar,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .search,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .inp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .input,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .amtchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .teamrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .teamsel,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .trow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cli,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .invlink,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fancard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .clubprev,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segopt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .qa,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .onlinebar,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chatprev,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .giftlead,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .vcard .info,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .xpcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .streak,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .clubm,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .active-m,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .em,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .collitem,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rolecard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .statgrid,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .listrow .li,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .showrow .shico,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .foltab.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pvopt.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .consent,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valrow .ic,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .checkopt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .reasonopt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.info,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.amber,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.coral,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.green,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .disc,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .visbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .onav .omore,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mdcard .mi.done,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .clubrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .notif,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .clubcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fixcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pkg,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rewcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .target,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .seg i.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmgrask{
+  background:var(--card)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .inp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .searchbar,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .search{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sub,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lbl,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .listrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .htitle,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fineprint,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .altlink{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .h1,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cname,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .seg i.on{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gclub,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gwchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .setgrp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cat,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ticket,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tmsg.them,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .skel,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mom,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .explorelink,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .duty,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hchips .hchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .refchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .req,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .use,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .nbtn.no,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fieldwrap,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .idrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pwfield,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .epname,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .evcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .choose .pricetag{
+  background:var(--card)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.ghost,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.coral,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.danger{
+  background:var(--card)!important;color:var(--t1)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hchips .hchip.on{
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .bar-track,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mg-prog{
+  background:var(--raised2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .seg,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .foltabs,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pvswitch{
+  background:var(--raised)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .feed-item .fb,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sq .cm,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pkroom .cm{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .foltab,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pvopt{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .folbtn.on{
+  background:var(--raised)!important;color:var(--t2)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segopt.on.loan{background:rgba(245,158,11,.12)!important;border-color:var(--amber,#F59E0B)!important}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segopt.on.perm{background:rgba(15,183,83,.12)!important;border-color:var(--green1,#0FB753)!important}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on:not(.pkchip){
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.profile .back,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone.profile .ico{
+  background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.28)!important;color:#fff!important;box-shadow:none!important;
+}
+/* ---- light: fix dark-UI screens & ghost controls ---- */
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .field,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .toggle,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modrow,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .idfield{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.ghost{
+  box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .back,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room):not(.profile) .ico{
+  background:#fff!important;border-color:#ECEEF5!important;color:#707786!important;box-shadow:0 4px 14px rgba(24,40,80,.08)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.choose .back,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.choose .ico{
+  background:#fff!important;border-color:#ECEEF5!important;color:#707786!important;box-shadow:0 4px 14px rgba(24,40,80,.08)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.choose .htitle,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone.choose .h1{
+  color:var(--t1)!important;
+}
+/* ---- light: dark-native journeys (J14 Manager, J17 Games, J19 Messaging) ---- */
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .card,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stat,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .settlecard,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .setgrp,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .recruit,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .short,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .scout,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .clubrow,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .reqcard,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .uresult,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .session,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balchip,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .oddr,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .search,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chdr,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sysmsg,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .composer .cin,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .composer .cbtn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .blockedbar,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .giftopt,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .attr,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmrow{
+  background:var(--card)!important;border-color:var(--line)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chdr + div div{
+  color:#8A5A00!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stat.wallet,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stat.comm{
+  background:linear-gradient(155deg,#FFF8E8,#FFFCF5)!important;border-color:rgba(255,194,61,.32)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .target{
+  background:linear-gradient(160deg,#EAF9EF,#F4FBF6)!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .target .prog{
+  background:rgba(20,30,60,.08)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balchip.ticket{
+  background:linear-gradient(150deg,#EAF9EF,#F4FBF6)!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .reqcard .rmsg{
+  background:var(--raised2)!important;color:var(--t2)!important;border-color:var(--line)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .bubble.recv{
+  background:var(--raised2)!important;color:var(--t1)!important;border:1px solid var(--line)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .bubble.sent,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .bubble.sent *,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tmsg.you,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tmsg.you *{
+  color:#fff!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sentwrap .bmeta{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sentwrap .bmeta .tick{
+  color:var(--blue,#2F7FD1)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .oddr.total{
+  background:var(--raised2)!important;color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sw{
+  background:var(--raised2)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sw.on{
+  background:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .crow .cn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .uresult .un,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .reqcard .rn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chdr .cn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .callrow .cn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .setrow,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .giftopt .gn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .short .sl,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balchip .bv,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .session .sv,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .oddr .c1,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tl .tt,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hrow .hn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet-title,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .h1,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .htitle,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fanrow .fn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .scout .sn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmrow .cmn{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .crow .cp,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .crow .ct,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sub,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .altlink,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .setrow .sv{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.ghost{
+  background:var(--card)!important;color:var(--t1)!important;border-color:var(--line2)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hero .btn.ghost,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hero .fanview{
+  background:rgba(255,255,255,.16)!important;color:#fff!important;border-color:rgba(255,255,255,.28)!important;box-shadow:none!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hfilt.on{
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on:not(.pkchip){
+  box-shadow:0 2px 8px rgba(24,40,80,.10)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hstat.rej{
+  background:var(--raised2)!important;color:var(--t3)!important;
+}
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .htitle,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .cname,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .fanview,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .back{
+  color:#fff!important;
+}
+/* ---- light: Manager HQ command center (J14 · #j13) — themed game dashboard ---- */
+body[data-stage="light"] #j13>.phone:not(.splash):not(.welcome):not(.room){
+  background:#F0F2F7!important;
+}
+body[data-stage="light"] #j13 .hero{
+  background:linear-gradient(180deg,#FFF5F4 0%,#F8F9FC 42%,#F0F2F7 100%)!important;
+  border-bottom:3px solid #E4362B!important;
+  box-shadow:0 8px 24px rgba(228,54,43,.08)!important;
+}
+body[data-stage="light"] #j13 .hero::before{
+  background:radial-gradient(58% 80% at 88% 8%,rgba(228,54,43,.14),transparent 62%)!important;
+}
+body[data-stage="light"] #j13 .hero::after{
+  background-image:linear-gradient(90deg,rgba(228,54,43,.06) 1px,transparent 1px),linear-gradient(rgba(20,30,60,.05) 1px,transparent 1px)!important;
+  opacity:.28!important;
+}
+body[data-stage="light"] #j13 .hero .cname,
+body[data-stage="light"] #j13 .hero .htitle,
+body[data-stage="light"] #j13 .hero .back{
+  color:#14161C!important;
+}
+body[data-stage="light"] #j13 .hero .hq{
+  color:#6B9E12!important;
+  text-shadow:none!important;
+}
+body[data-stage="light"] #j13 .hero .back,
+body[data-stage="light"] #j13 .hero .hicon{
+  background:rgba(255,255,255,.92)!important;
+  border-color:rgba(228,54,43,.18)!important;
+  color:#3D4859!important;
+  box-shadow:0 4px 14px rgba(228,54,43,.10)!important;
+}
+body[data-stage="light"] #j13 .hero .hicon .dot{
+  border-color:#fff!important;
+}
+body[data-stage="light"] #j13 .hero .fanview{
+  background:rgba(255,255,255,.88)!important;
+  color:#14161C!important;
+  border-color:rgba(228,54,43,.22)!important;
+  box-shadow:0 2px 10px rgba(228,54,43,.08)!important;
+}
+body[data-stage="light"] #j13 .stat{
+  box-shadow:0 4px 16px rgba(24,40,80,.08)!important;
+}
+body[data-stage="light"] #j13 .stat.wallet{
+  background:linear-gradient(155deg,#FFFBF0 0%,#FFF6E0 100%)!important;
+  border-color:rgba(255,194,61,.38)!important;
+  border-top:3px solid #FFC23D!important;
+}
+body[data-stage="light"] #j13 .stat.wallet .v{color:#9A6B00!important}
+body[data-stage="light"] #j13 .stat.wallet .ico{background:rgba(255,194,61,.22)!important;color:#B8860B!important}
+body[data-stage="light"] #j13 .stat.comm{
+  background:linear-gradient(155deg,#FFF8EE 0%,#FFF2DC 100%)!important;
+  border-color:rgba(255,158,27,.32)!important;
+  border-top:3px solid #FF9E1B!important;
+}
+body[data-stage="light"] #j13 .stat.comm .v{color:#9A5800!important}
+body[data-stage="light"] #j13 .stat.comm .ico{background:rgba(255,158,27,.20)!important;color:#C47A00!important}
+body[data-stage="light"] #j13 .stat.fans{
+  background:linear-gradient(155deg,#F4FBF0 0%,#EAF8E2 100%)!important;
+  border-color:rgba(15,183,83,.26)!important;
+  border-top:3px solid #0FB753!important;
+}
+body[data-stage="light"] #j13 .stat.fans .v{color:#14161C!important}
+body[data-stage="light"] #j13 .stat.fans .ico{background:rgba(15,183,83,.16)!important;color:#0A8F40!important}
+body[data-stage="light"] #j13 .stat.pos{
+  background:linear-gradient(155deg,#F0F5FC 0%,#E8EEF8 100%)!important;
+  border-color:rgba(47,127,209,.28)!important;
+  border-top:3px solid #2F7FD1!important;
+}
+body[data-stage="light"] #j13 .stat.pos .v{color:#14161C!important}
+body[data-stage="light"] #j13 .stat.pos .ico{background:rgba(47,127,209,.16)!important;color:#1E5E96!important}
+body[data-stage="light"] #j13 .target{
+  background:linear-gradient(160deg,#0F4528 0%,#0A2818 55%,#101820 100%)!important;
+  border-color:rgba(201,255,61,.32)!important;
+  box-shadow:0 8px 28px rgba(15,70,40,.28)!important;
+}
+body[data-stage="light"] #j13 .target::after{
+  opacity:.45!important;
+  background-image:linear-gradient(rgba(201,255,61,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(201,255,61,.08) 1px,transparent 1px)!important;
+}
+body[data-stage="light"] #j13 .target .tt,
+body[data-stage="light"] #j13 .target .big{color:#F2F5FA!important}
+body[data-stage="light"] #j13 .target .big small{color:#9AA3B2!important}
+body[data-stage="light"] #j13 .target .tpct{color:#C9FF3D!important}
+body[data-stage="light"] #j13 .target .tmeta{color:#9AA3B2!important}
+body[data-stage="light"] #j13 .target .tmeta a{color:#C9FF3D!important}
+body[data-stage="light"] #j13 .target .prog{background:rgba(255,255,255,.14)!important;box-shadow:inset 0 1px 3px rgba(0,0,0,.2)!important}
+body[data-stage="light"] #j13 .target .prog i{box-shadow:0 0 12px rgba(201,255,61,.55)!important}
+body[data-stage="light"] #j13 .recruit{
+  background:linear-gradient(155deg,#F2FAEB 0%,#E8F5DC 100%)!important;
+  border-color:rgba(15,183,83,.28)!important;
+  box-shadow:0 4px 16px rgba(15,183,83,.10)!important;
+}
+body[data-stage="light"] #j13 .recruit .rh{color:#3D4859!important}
+body[data-stage="light"] #j13 .recruit .rc{color:#14161C!important}
+body[data-stage="light"] #j13 .recruit .rc small{color:#707786!important}
+body[data-stage="light"] #j13 .recruit .prog{background:rgba(15,183,83,.15)!important}
+body[data-stage="light"] #j13 .recruit .prog i{box-shadow:0 0 10px rgba(201,255,61,.45)!important}
+body[data-stage="light"] #j13 .body{background:#F0F2F7!important}
+body[data-stage="light"] #j13 .lbl{color:#5C6472!important}
+body[data-stage="light"] #j13 .short{
+  background:#FFFFFF!important;
+  border-color:#E2E6F0!important;
+  box-shadow:0 3px 12px rgba(24,40,80,.07)!important;
+}
+body[data-stage="light"] #j13 .short .sl{color:#14161C!important}
+body[data-stage="light"] #j13 .short .si{
+  background:linear-gradient(145deg,#F4F6FB,#ECEEF5)!important;
+  border:1px solid rgba(24,40,80,.08)!important;
+}
+body[data-stage="light"] #j13 .short:nth-child(1) .si{background:linear-gradient(145deg,#EFF4FC,#E3ECFA)!important}
+body[data-stage="light"] #j13 .short:nth-child(2) .si{background:linear-gradient(145deg,#FFF0F0,#FFE4E4)!important}
+body[data-stage="light"] #j13 .short:nth-child(3) .si{background:linear-gradient(145deg,#F0F8F0,#E4F2E4)!important}
+body[data-stage="light"] #j13 .short:nth-child(4) .si{background:linear-gradient(145deg,#FFF8EE,#FFEFDC)!important}
+body[data-stage="light"] #j13 .short:nth-child(5) .si{background:linear-gradient(145deg,#FFF5F4,#FFEAE8)!important}
+body[data-stage="light"] #j13 .short:nth-child(6) .si{background:linear-gradient(145deg,#F4FBF0,#E8F5DC)!important}
+body[data-stage="light"] #j13 .short .badge{
+  background:#E4362B!important;
+  box-shadow:0 2px 8px rgba(228,54,43,.35)!important;
+}
+body[data-stage="light"] #j13 .ticket{
+  background:linear-gradient(150deg,#FFF5F4 0%,#FFFFFF 55%,#F8F9FC 100%)!important;
+  border-color:rgba(228,54,43,.32)!important;
+  box-shadow:0 6px 22px rgba(228,54,43,.12)!important;
+}
+body[data-stage="light"] #j13 .ticket::before{
+  display:block!important;
+  background:radial-gradient(55% 75% at 88% 10%,rgba(228,54,43,.18),transparent 62%)!important;
+}
+body[data-stage="light"] #j13 .ticket .tlbl{color:#B4241B!important}
+body[data-stage="light"] #j13 .ticket .tclub{color:#14161C!important}
+body[data-stage="light"] #j13 .rewcard.claim{
+  background:linear-gradient(150deg,#F2FAEB 0%,#E8F5DC 100%)!important;
+  border-color:rgba(15,183,83,.30)!important;
+  box-shadow:0 4px 16px rgba(15,183,83,.10)!important;
+}
+/* ---- light: Mini-Games wheel arena (J17 · #j16) ---- */
+body[data-stage="light"] #j16 .wheelarena{
+  background:
+    radial-gradient(80% 42% at 50% 18%,rgba(201,255,61,.10),transparent 62%),
+    linear-gradient(#FAFBFE,#F4F6FB 58%)!important;
+}
+body[data-stage="light"] #j16 .wheelwrap::before{
+  background:repeating-linear-gradient(90deg,rgba(18,178,74,.14) 0 14px,rgba(10,125,52,.08) 14px 28px)!important;
+}
+body[data-stage="light"] #j16 .wheeldisc svg{
+  filter:drop-shadow(0 12px 26px rgba(24,40,80,.16))!important;
+}
+body[data-stage="light"] #j16 .wprompt{
+  color:var(--t1)!important;
+  text-shadow:none!important;
+}
+body[data-stage="light"] #j16 .wforce .wl{
+  color:#4A7A12!important;
+}
+body[data-stage="light"] #j16 .wforce .wl:last-child{
+  color:#B45309!important;
+}
+body[data-stage="light"] #j16 .wforce-rail{
+  border-color:var(--line2)!important;
+  background-color:#F0F2F7!important;
+}
+body[data-stage="light"] #j16 .wforce-rail b{
+  background:#14161C!important;
+  box-shadow:0 0 8px rgba(20,22,28,.25)!important;
+}
+body[data-stage="light"] #j16 .wforce.lock b{
+  background:var(--volt,#C9FF3D)!important;
+  box-shadow:0 0 14px rgba(201,255,61,.45)!important;
+}
+body[data-stage="light"] #j16 .wchip.on{
+  box-shadow:0 0 0 2px #14161C,0 0 14px rgba(201,255,61,.35)!important;
+}
+body[data-stage="light"] #j16 .wnote{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #j16 .pt{
+  background:var(--card)!important;
+  border-color:var(--line)!important;
+  color:var(--t1)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel{
+  background:linear-gradient(150deg,#F8F5FF 0%,#F0EBFF 38%,#FAFAFE 100%)!important;
+  border-color:rgba(138,92,246,.22)!important;
+  box-shadow:0 12px 32px rgba(24,40,80,.12),0 0 28px rgba(138,92,246,.10),inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel::before{
+  background:radial-gradient(ellipse 75% 55% at 88% 32%,rgba(138,92,246,.14),transparent 58%)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel::after{
+  border-color:rgba(138,92,246,.18)!important;
+  box-shadow:inset 0 0 16px rgba(138,92,246,.06)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .tn{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .tp{
+  color:#6A3CD6!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .tclass{
+  background:rgba(255,255,255,.78)!important;
+  border-color:rgba(138,92,246,.18)!important;
+  color:var(--t1)!important;
+  backdrop-filter:blur(6px)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .tplay{
+  background:linear-gradient(140deg,#9B6FFF 0%,#8A5CF6 45%,#6A3CD6 100%)!important;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(138,92,246,.32),0 0 16px rgba(138,92,246,.18)!important;
+  border:1px solid rgba(255,255,255,.35)!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .miniwheel{
+  opacity:1!important;
+  border-color:rgba(138,92,246,.35)!important;
+  box-shadow:0 0 20px rgba(138,92,246,.28),0 4px 16px rgba(24,40,80,.08)!important;
+  animation:spin 12s linear infinite!important;
+}
+body[data-stage="light"] #j16 .tile.wheel .miniwheel::after{
+  background:radial-gradient(circle,#F8F5FF 0%,#EDE8FF 100%)!important;
+  border-color:rgba(138,92,246,.22)!important;
+  box-shadow:0 0 6px rgba(138,92,246,.18)!important;
+}
+/* ---- Discovery / Live Now (E1 · #j20) ---- */
+body[data-stage="light"] #j20>.phone,
+body[data-stage="light"] #mount#j20>.phone{
+  background:linear-gradient(180deg,#0B0D13 0%,#12161F 52%,#090B10 100%)!important;
+  color:#F2F5FA!important;border-color:rgba(255,255,255,.08)!important;
+}
+body[data-stage="dark"] #j20>.phone,
+body[data-stage="dark"] #mount#j20>.phone{
+  background:linear-gradient(180deg,#07090D 0%,#0C1018 50%,#080A10 100%)!important;
+  color:#F2F5FA!important;border-color:rgba(255,255,255,.08)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+body[data-stage="light"] #j20 .appbar,
+body[data-stage="light"] #mount#j20 .appbar,
+body[data-stage="dark"] #j20 .appbar,
+body[data-stage="dark"] #mount#j20 .appbar{
+  background:linear-gradient(180deg,rgba(16,20,28,.94),rgba(7,9,13,.62))!important;
+  border-bottom-color:rgba(255,255,255,.07)!important;
+}
+body[data-stage="light"] #j20 .logo b,
+body[data-stage="light"] #j20 .bigtitle,
+body[data-stage="light"] #mount#j20 .logo b,
+body[data-stage="light"] #mount#j20 .bigtitle,
+body[data-stage="dark"] #j20 .logo b,
+body[data-stage="dark"] #j20 .bigtitle,
+body[data-stage="dark"] #mount#j20 .logo b,
+body[data-stage="dark"] #mount#j20 .bigtitle{
+  color:#F2F5FA!important;
+}
+body[data-stage="light"] #j20 .hbtn,
+body[data-stage="light"] #mount#j20 .hbtn,
+body[data-stage="dark"] #j20 .hbtn,
+body[data-stage="dark"] #mount#j20 .hbtn{
+  background:rgba(255,255,255,.07)!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+  color:#F2F5FA!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 4px 12px rgba(0,0,0,.28)!important;
+}
+body[data-stage="light"] #j20 .fchip:not(.on),
+body[data-stage="light"] #mount#j20 .fchip:not(.on),
+body[data-stage="dark"] #j20 .fchip:not(.on),
+body[data-stage="dark"] #mount#j20 .fchip:not(.on){
+  background:rgba(23,29,39,.9)!important;
+  color:#8A939F!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+  animation:none!important;
+}
+body[data-stage="light"] #j20 .fchip.on:not(.pkchip),
+body[data-stage="light"] #mount#j20 .fchip.on:not(.pkchip),
+body[data-stage="dark"] #j20 .fchip.on:not(.pkchip),
+body[data-stage="dark"] #mount#j20 .fchip.on:not(.pkchip){
+  background:linear-gradient(135deg,#DEFF7A,#C9FF3D)!important;
+  color:#0A0C10!important;
+  border-color:rgba(201,255,61,.85)!important;
+  box-shadow:0 0 0 1px rgba(201,255,61,.35),0 4px 16px rgba(201,255,61,.32)!important;
+  animation:none!important;
+}
+body[data-stage="light"] #j20 .fchip.pkchip:not(.on),
+body[data-stage="light"] #mount#j20 .fchip.pkchip:not(.on),
+body[data-stage="dark"] #j20 .fchip.pkchip:not(.on),
+body[data-stage="dark"] #mount#j20 .fchip.pkchip:not(.on){
+  background:rgba(23,29,39,.9)!important;
+  color:#98A2B3!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+  animation:none!important;
+}
+body[data-stage="light"] #j20 .fchip.pkchip.on,
+body[data-stage="light"] #mount#j20 .fchip.pkchip.on,
+body[data-stage="dark"] #j20 .fchip.pkchip.on,
+body[data-stage="dark"] #mount#j20 .fchip.pkchip.on{
+  background:linear-gradient(135deg,#FF3B5C,#7A2BFF)!important;
+  color:#fff!important;
+  border:none!important;
+  box-shadow:0 0 0 1px rgba(255,59,92,.35),0 4px 16px rgba(122,43,255,.4)!important;
+  animation:none!important;
+}
+body[data-stage="light"] #j20 .hero,
+body[data-stage="light"] #mount#j20 .hero,
+body[data-stage="dark"] #j20 .hero,
+body[data-stage="dark"] #mount#j20 .hero{
+  border:1px solid rgba(201,255,61,.14)!important;
+  box-shadow:0 24px 56px rgba(0,0,0,.58),0 0 0 1px rgba(255,255,255,.04),inset 0 0 80px rgba(0,0,0,.22)!important;
+}
+body[data-stage="light"] #j20 .hero .headline,
+body[data-stage="light"] #j20 .hero .hn,
+body[data-stage="light"] #j20 .hero .sc,
+body[data-stage="light"] #j20 .hero .tm,
+body[data-stage="light"] #j20 .hero .viewers,
+body[data-stage="light"] #mount#j20 .hero .headline,
+body[data-stage="light"] #mount#j20 .hero .hn,
+body[data-stage="light"] #mount#j20 .hero .sc,
+body[data-stage="light"] #mount#j20 .hero .tm,
+body[data-stage="light"] #mount#j20 .hero .viewers,
+body[data-stage="dark"] #j20 .hero .headline,
+body[data-stage="dark"] #j20 .hero .hn,
+body[data-stage="dark"] #j20 .hero .sc,
+body[data-stage="dark"] #j20 .hero .tm,
+body[data-stage="dark"] #j20 .hero .viewers,
+body[data-stage="dark"] #mount#j20 .hero .headline,
+body[data-stage="dark"] #mount#j20 .hero .hn,
+body[data-stage="dark"] #mount#j20 .hero .sc,
+body[data-stage="dark"] #mount#j20 .hero .tm,
+body[data-stage="dark"] #mount#j20 .hero .viewers{
+  color:#fff!important;
+}
+body[data-stage="light"] #j20 .hero .hc,
+body[data-stage="light"] #mount#j20 .hero .hc,
+body[data-stage="dark"] #j20 .hero .hc,
+body[data-stage="dark"] #mount#j20 .hero .hc{
+  color:rgba(255,255,255,.72)!important;
+}
+body[data-stage="light"] #j20 .badge-live,
+body[data-stage="light"] #mount#j20 .badge-live,
+body[data-stage="dark"] #j20 .badge-live,
+body[data-stage="dark"] #mount#j20 .badge-live{
+  background:linear-gradient(135deg,#FF4A6A,#FF3B5F)!important;
+  color:#fff!important;
+  box-shadow:0 6px 18px rgba(255,59,95,.48),0 0 20px rgba(255,59,95,.22)!important;
+}
+body[data-stage="light"] #j20 .joinbtn,
+body[data-stage="light"] #mount#j20 .joinbtn,
+body[data-stage="dark"] #j20 .joinbtn,
+body[data-stage="dark"] #mount#j20 .joinbtn{
+  background:linear-gradient(135deg,#DEFF7A,#C9FF3D)!important;
+  color:#0A0C10!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  box-shadow:0 8px 22px rgba(201,255,61,.45)!important;
+}
+body[data-stage="light"] #j20 .golive,
+body[data-stage="light"] #mount#j20 .golive,
+body[data-stage="dark"] #j20 .golive,
+body[data-stage="dark"] #mount#j20 .golive{
+  z-index:30!important;
+  background:linear-gradient(135deg,#EEFF8A 0%,#C9FF3D 48%,#A8E820 100%)!important;
+  color:#0A0C10!important;
+  border:1px solid rgba(255,255,255,.35)!important;
+  box-shadow:0 20px 44px rgba(201,255,61,.65),0 0 0 5px #07090D,0 0 36px rgba(201,255,61,.32)!important;
+}
+body[data-stage="light"] #j20 .rowhead .t,
+body[data-stage="light"] #mount#j20 .rowhead .t,
+body[data-stage="dark"] #j20 .rowhead .t,
+body[data-stage="dark"] #mount#j20 .rowhead .t{
+  color:#F2F5FA!important;
+}
+body[data-stage="light"] #j20 .rowhead .a,
+body[data-stage="light"] #mount#j20 .rowhead .a,
+body[data-stage="dark"] #j20 .rowhead .a,
+body[data-stage="dark"] #mount#j20 .rowhead .a{
+  color:#C9FF3D!important;
+}
+body[data-stage="light"] #j20 .rcard,
+body[data-stage="light"] #mount#j20 .rcard,
+body[data-stage="dark"] #j20 .rcard,
+body[data-stage="dark"] #mount#j20 .rcard{
+  background:#10141C!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+body[data-stage="light"] #j20 .rcard .rt,
+body[data-stage="light"] #j20 .rcard .rhn,
+body[data-stage="light"] #mount#j20 .rcard .rt,
+body[data-stage="light"] #mount#j20 .rcard .rhn,
+body[data-stage="dark"] #j20 .rcard .rt,
+body[data-stage="dark"] #j20 .rcard .rhn,
+body[data-stage="dark"] #mount#j20 .rcard .rt,
+body[data-stage="dark"] #mount#j20 .rcard .rhn{
+  color:#fff!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hqbtn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .guestbanner,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .obanner,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .levelcard,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mod{
+  background:var(--card)!important;color:var(--t1)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .logo b,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mod .mt{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.amber,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dnote.amber,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dnote.gold{
+  color:#8A5A00!important;
+}
+/* ---- light: J19 call screens — voice/video (#j18) ---- */
+body[data-stage="light"] #mount>.phone:has(.callbg),
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:has(.callbg){
+  background:linear-gradient(180deg,#F4F6FB 0%,#E8EDF6 100%)!important;
+}
+body[data-stage="light"] #mount>.phone:has(.videofull),
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:has(.videofull){
+  background:#E8EDF6!important;
+}
+body[data-stage="light"] #mount .callbg,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callbg{
+  filter:blur(28px) brightness(1.12) saturate(1.05)!important;
+  opacity:.34!important;
+}
+body[data-stage="light"] #mount .callbg::after,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callbg::after{
+  background:linear-gradient(to bottom,rgba(244,246,251,.84),rgba(232,237,246,.96))!important;
+}
+body[data-stage="light"] #mount .callstate,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callstate{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .callstate[style*="color:var(--green)"],
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callstate[style*="color:var(--green)"]{
+  color:var(--green)!important;
+}
+body[data-stage="light"] #mount .callname,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callname{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount .callsub,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callsub{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .callsub.num,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callsub.num{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount .netq,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .netq{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .callava,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callava{
+  border-color:rgba(20,30,60,.14)!important;
+  box-shadow:0 8px 28px rgba(24,40,80,.12)!important;
+}
+body[data-stage="light"] #mount .callava .pulse,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callava .pulse{
+  border-color:rgba(47,203,110,.42)!important;
+}
+body[data-stage="light"] #mount .callinner .dnote.info,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callinner .dnote.info{
+  background:var(--raised2)!important;border-color:var(--line2)!important;color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .callinner>div[style*="color:rgba(255,255,255"],
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .callinner>div[style*="color:rgba(255,255,255"]{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .cc .b:not(.end):not(.accept),
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .cc .b:not(.end):not(.accept){
+  background:var(--raised2)!important;border-color:var(--line2)!important;color:var(--t1)!important;backdrop-filter:none!important;
+}
+body[data-stage="light"] #mount .cc .b.on,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .cc .b.on{
+  background:#fff!important;color:var(--t1)!important;border-color:var(--line2)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="light"] #mount .cc .b.end,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .cc .b.end{
+  background:var(--live)!important;color:#fff!important;border:none!important;
+}
+body[data-stage="light"] #mount .cc .b.accept,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .cc .b.accept{
+  background:var(--green)!important;color:#fff!important;border:none!important;
+}
+body[data-stage="light"] #mount .cc .l,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .cc .l{
+  color:var(--t2)!important;
+}
+body[data-stage="light"] #mount .videofull::after,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .videofull::after{
+  background:linear-gradient(to bottom,rgba(244,246,251,.62),transparent 24%,transparent 66%,rgba(232,237,246,.78))!important;
+}
+body[data-stage="light"] #mount .vname,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .vname{
+  color:var(--t1)!important;text-shadow:0 1px 8px rgba(255,255,255,.75)!important;
+}
+body[data-stage="light"] #mount .vdur,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .vdur{
+  color:var(--t2)!important;text-shadow:0 1px 6px rgba(255,255,255,.65)!important;
+}
+body[data-stage="light"] #mount .selfview,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .selfview{
+  border-color:rgba(255,255,255,.82)!important;box-shadow:0 8px 20px rgba(24,40,80,.18)!important;
+}
+body[data-stage="light"] #j18 .celebrate>div[style*="color:#fff"],
+body[data-stage="light"] #mount .celebrate>div[style*="color:#fff"],
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .celebrate>div[style*="color:#fff"]{
+  color:var(--t1)!important;
+}
+/* ---- theme-aware JS overlays / sheets ---- */
+.sflsheetwrap{position:absolute;inset:0;z-index:748;display:flex;align-items:flex-end;background:rgba(4,6,10,.52)}
+.sflsheet-panel{width:100%;background:var(--card);border-top-left-radius:22px;border-top-right-radius:22px;padding:14px 16px 24px;box-shadow:0 -20px 50px rgba(0,0,0,.35);font-family:Manrope,-apple-system,sans-serif;color:var(--t1)}
+body[data-stage="light"] .sflsheet-panel{box-shadow:0 -20px 50px rgba(24,40,80,.14)}
+.sflsheet-grab{width:38px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 14px}
+.sflsheet-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:10px}
+.sflsheet-sub{font-size:12.5px;font-weight:700;color:var(--t2);margin-bottom:14px}
+.sflsheet-row,.lang-opt,.pp-cam,.pp-gal{display:flex;align-items:center;padding:12px 8px;border-bottom:1px solid var(--line);font-weight:750;font-size:14px;color:var(--t1);cursor:pointer;gap:12px}
+.sflsheet-cancel,.sh-cancel{text-align:center;margin-top:12px;padding:12px;background:var(--raised2);border-radius:12px;font-weight:800;color:var(--t1);cursor:pointer}
+.sflsheet-danger{text-align:center;padding:13px;background:var(--coral,#E4362B);color:#fff;border-radius:12px;font-weight:800;cursor:pointer}
+.ds-club{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--line);border-radius:14px;margin-top:9px;cursor:pointer;background:var(--card)}
+.ds-club .ds-name{font-size:15px;font-weight:800;color:var(--t1)}
+.ds-club .ds-meta{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
+.tm-opt{display:flex;align-items:center;justify-content:space-between;padding:13px;border:1.5px solid var(--line);border-radius:13px;margin-top:9px;font-size:14px;font-weight:750;color:var(--t1);cursor:pointer;background:var(--card)}
+.tm-opt.on{border-color:var(--blue,#2F7FD1);background:rgba(47,127,209,.12)}
+.es-field{height:46px;border-radius:12px;background:var(--raised2);display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:var(--t1);outline:none;border:1px solid var(--line)}
+.sflgalwrap{background:var(--bg)!important;color:var(--t1)!important}
+.sflgalwrap .gal-hdr{display:flex;align-items:center;gap:12px;padding:16px;color:var(--t1)}
+.sflgalwrap .gal-close{width:34px;height:34px;border-radius:50%;background:var(--raised);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--t1)}
+/* ---- dark: extended surface remap ---- */
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valchart,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .summary,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .wdl,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .method,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modecard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .roomcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .smcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .formcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgtable,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttable,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .spr,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .actrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .endstat,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sumbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chartcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valblock,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutybar,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .heldcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .psummary,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .actopt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .durchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .infopanel,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cand,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .award,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .statbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ptable,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .recip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .miniorder,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .plsearch,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rulestrip .r,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutyp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .vcard .info,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fixcard .info,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gfix,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .notif,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .msgrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgtab,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .kcat,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mgcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gamecard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .use,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .refchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .req,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tabs i.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segtabs i.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cc .b.on{
+  background:var(--card)!important;border-color:var(--line)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tab.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgtab.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .kcat.on{
+  background:var(--raised2)!important;color:var(--t1)!important;border-color:var(--line2)!important;
+}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tab.on,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg.on,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab.on,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cc .b.on{
+  background:var(--t1)!important;color:var(--card)!important;border-color:var(--t1)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .qt.tasks{background:linear-gradient(145deg,rgba(15,183,83,.2),rgba(15,183,83,.08))!important;color:#6EE7A0!important;border:1px solid rgba(15,183,83,.28)!important}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .qt.rewards{background:linear-gradient(145deg,rgba(255,179,0,.18),rgba(255,179,0,.08))!important;color:#FFD56A!important;border:1px solid rgba(255,179,0,.28)!important}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .qt.pred{background:linear-gradient(145deg,rgba(47,127,209,.2),rgba(47,127,209,.08))!important;color:#8FC0F0!important;border:1px solid rgba(47,127,209,.28)!important}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .qt.players{background:linear-gradient(145deg,rgba(228,54,43,.2),rgba(228,54,43,.08))!important;color:#FF9A8F!important;border:1px solid rgba(228,54,43,.28)!important}
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .target .tt,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .target .big,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rewcard .rt,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ticket .tclub,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stat.fans .v,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stat.pos .v,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmrow .cmn,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mg-title,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mg-name,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .msg-name,
+body[data-stage="light"] #mount>.phone,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .thread-name{
+  color:var(--t1)!important;
+}
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .htitle,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .cname,
+body[data-stage="light"] #mount .hero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .hero .fanview,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .htitle,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .pn,
+body[data-stage="light"] #mount .phero,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phero .pid{
+  color:#fff!important;
+}
+body[data-stage="dark"] .mm-lbl{color:#8892A4}
+body[data-stage="light"] .mm-lbl{color:#707786}
+/* ---- dark: semantic notes (after generic card remap) ---- */
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.info{
+  background:rgba(47,127,209,.12)!important;border-color:rgba(47,127,209,.28)!important;color:#8FC0F0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.amber,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dnote.amber,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dnote.gold{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.coral{
+  background:rgba(255,59,95,.12)!important;border-color:rgba(255,59,95,.28)!important;color:#FF9AB0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .note.green{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+/* ---- dark: extra surfaces + hardcoded light leaks ---- */
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .opt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .choose .opt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hubcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hubcard.tour,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .docframe,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sbadge,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tab,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segtabs,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tabs,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .setrow,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .field,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .toggle,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tipnote,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .warn,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .warn.y,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .checkrow .ck,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stage .sd.now,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .home .fc,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .waurl,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .waapp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .wasearch,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .wafield,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .reqno,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .guestgate .gb .signin,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet-panel,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .nbtn.no,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .durchip,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rulestrip .r,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chartcard,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sbox,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .actopt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutyp,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .optrow.danger .oi{
+  background:var(--card)!important;border-color:var(--line)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .choose .opt.rec{
+  background:linear-gradient(115deg,rgba(15,183,83,.14),var(--card))!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .choose .opt:not(.rec){
+  border-color:rgba(255,179,0,.24)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .guestwhy{
+  background:linear-gradient(135deg,rgba(124,77,255,.14),rgba(47,127,209,.10))!important;border-color:rgba(124,77,255,.22)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gfx-cta{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .collsum{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmgrpend{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmgrask{
+  background:linear-gradient(155deg,#1A1E28,#141922)!important;border-color:rgba(255,194,61,.22)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmgrask>div:first-child{
+  box-shadow:0 0 0 1.5px rgba(255,194,61,.32)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .cmgrask>div[style*="flex:1"]>div:last-child{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic.g{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic.r{
+  background:rgba(228,54,43,.12)!important;border-color:rgba(228,54,43,.28)!important;color:#FF9A8F!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic.gold,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .checkrow .ck.seed{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic.grey{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic.y,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .warn.y,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .durchip.on{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(245,158,11,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .checkrow .ck.no{
+  background:rgba(228,54,43,.12)!important;border-color:rgba(228,54,43,.28)!important;color:#FF9A8F!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sk{
+  background:linear-gradient(90deg,var(--raised) 25%,var(--raised2) 50%,var(--raised) 75%)!important;background-size:600px 100%!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .steps i{
+  background:var(--raised2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .steps i.on{
+  background:linear-gradient(90deg,var(--green1,#0FB753),var(--green2,#7CD843))!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hicon .dot{
+  border-color:var(--card)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sw{
+  background:var(--raised2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sw.on{
+  background:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sw i{
+  background:#fff!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .radio{
+  border-color:var(--line2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .radio.on{
+  border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hchip.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hfilt.on,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .home .fc.on{
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fchip.on:not(.pkchip){
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hqbtn,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .guestbanner,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .obanner,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .levelcard{
+  background:linear-gradient(140deg,#171A22,#252A35)!important;color:#F2F5FA!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .kv .v,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .idfield,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .logo b,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mod .mt,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .feed-item .fb,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .golivecard .gbtn{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .inp .ph,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .inp .eye{
+  color:var(--t3)!important;
+}
+/* ---- dark: preserve dark-native journey accents ---- */
+body[data-stage="dark"] #j13 .target{
+  background:linear-gradient(160deg,#0d1a10,#0b0e14)!important;border-color:rgba(201,255,61,.2)!important;
+}
+body[data-stage="dark"] #j13 .stat.wallet,
+body[data-stage="dark"] #j13 .stat.comm{
+  background:linear-gradient(155deg,#241A05,#14100a)!important;border-color:rgba(255,194,61,.25)!important;
+}
+body[data-stage="dark"] #j13 .ticket{
+  background:linear-gradient(150deg,#2A0C0A,#160708)!important;border-color:rgba(228,54,43,.4)!important;
+}
+body[data-stage="dark"] #j13 .rewcard.claim{
+  background:linear-gradient(150deg,#0f1c0e,#0c1010)!important;border-color:rgba(201,255,61,.3)!important;
+}
+body[data-stage="dark"] #j13 .hero{
+  background:linear-gradient(160deg,#2A0C0A,#120608 70%)!important;border-bottom-color:rgba(255,255,255,.06)!important;
+}
+/* ---- dark: Buy Coins (J3 · #j2) ---- */
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .exch{
+  background:linear-gradient(120deg,rgba(255,179,0,.10),var(--raised))!important;
+  border-color:rgba(255,179,0,.28)!important;box-shadow:var(--shadow-sm)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .exch .r{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .exch .r b{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .exchnote{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balhero{
+  background:linear-gradient(135deg,#120D03,#2A1F08 55%,#3D2E10)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,215,106,.08)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balhero .who{
+  background:rgba(0,0,0,.10)!important;border-top-color:rgba(255,215,106,.12)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balhero .lab,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balhero .amt small{
+  color:#E6C87A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balhero .who .id{
+  color:#C9B071!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .csbanner{
+  background:linear-gradient(135deg,rgba(255,179,0,.08),var(--raised))!important;
+  border-color:rgba(255,179,0,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .csbanner .csa{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prow.total{
+  background:linear-gradient(120deg,rgba(255,179,0,.08),var(--card))!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rcard .rtop{
+  background:linear-gradient(120deg,rgba(15,183,83,.08),var(--card))!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ticket .thead{
+  background:linear-gradient(120deg,rgba(15,183,83,.10),var(--card))!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .privacy,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .optnote{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pkg .usd,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .balr.new .v,
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .rcard .ramt .c{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .pkg.on{
+  border-color:var(--green1,#0FB753)!important;
+  box-shadow:0 0 0 3px rgba(15,183,83,.18),0 8px 22px rgba(255,179,0,.12)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .warn.b{
+  background:rgba(47,127,209,.12)!important;border-color:rgba(47,127,209,.28)!important;color:#8FC0F0!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .taskinfo{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .liveearn-snack{
+  background:linear-gradient(120deg,rgba(255,194,61,.18),rgba(255,158,27,.1))!important;border-color:rgba(255,194,61,.28)!important;color:#FFE1A0!important;box-shadow:0 4px 14px rgba(255,179,0,.12)!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .liveearn-snack b{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sic:not(.g):not(.r):not(.y):not(.gold){
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t2)!important;
+}
+body[data-stage="dark"] #j16 .tile.wheel{
+  background:linear-gradient(150deg,#2E1A52 0%,#241546 42%,#141922 100%)!important;
+  border-color:rgba(138,92,246,.38)!important;
+  box-shadow:0 14px 40px rgba(0,0,0,.45),0 0 40px rgba(138,92,246,.24),inset 0 1px 0 rgba(138,92,246,.10)!important;
+}
+body[data-stage="dark"] #j16 .tile.wheel::before{
+  background:radial-gradient(ellipse 80% 60% at 85% 35%,rgba(138,92,246,.28),transparent 55%)!important;
+}
+body[data-stage="dark"] #j16 .tile.wheel::after{
+  border-color:rgba(138,92,246,.22)!important;
+  box-shadow:inset 0 0 20px rgba(138,92,246,.08)!important;
+}
+body[data-stage="dark"] #j16 .tile.wheel .tp{color:#C9B6FF!important}
+body[data-stage="dark"] #j16 .tile.wheel .tclass{background:rgba(0,0,0,.55)!important;border-color:rgba(138,92,246,.28)!important}
+body[data-stage="dark"] #j16 .tile.wheel .tplay{
+  background:linear-gradient(140deg,#9B6FFF 0%,#8A5CF6 45%,#6A3CD6 100%)!important;
+  box-shadow:0 8px 22px rgba(138,92,246,.42),0 0 18px rgba(138,92,246,.28)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+}
+body[data-stage="dark"] #j16 .tile.wheel .miniwheel{
+  border-color:rgba(138,92,246,.45)!important;
+  box-shadow:0 0 24px rgba(138,92,246,.45),0 0 48px rgba(138,92,246,.18),inset 0 0 12px rgba(0,0,0,.25)!important;
+  animation:spin 12s linear infinite!important;
+}
+body[data-stage="dark"] #j16 .balchip.ticket{
+  background:linear-gradient(150deg,#122015,#0d1119)!important;border-color:rgba(201,255,61,.28)!important;
+}
+body[data-stage="dark"] #j16 .pt{
+  background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.02))!important;border-color:rgba(255,255,255,.14)!important;color:#EDEAF3!important;
+}
+body[data-stage="dark"] #j16 .wforce-rail{
+  background-color:#0a0e12!important;border-color:rgba(255,255,255,.28)!important;
+}
+body[data-stage="dark"] #j18 .giftcard{
+  background:linear-gradient(150deg,#241A05,#141922)!important;border-color:rgba(255,194,61,.35)!important;
+}
+body[data-stage="dark"] #j18 .bubble.recv{
+  background:var(--raised2)!important;color:var(--t1)!important;border:1px solid var(--line)!important;
+}
+body[data-stage="dark"] #j18 .composer .cin,
+body[data-stage="dark"] #j18 .composer .cbtn{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #j18 .fchip.on{
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #j18 .cc .b.on{
+  background:var(--raised2)!important;color:var(--t1)!important;border-color:var(--line2)!important;
+}
+/* ---- dark: global-shell navpill + J6 transfer market accents ---- */
+body[data-stage="dark"] #mount>.phone .navpill,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone .navpill{
+  background:rgba(18,22,30,.92)!important;border-color:rgba(255,255,255,.1)!important;box-shadow:0 14px 40px rgba(0,0,0,.55)!important;
+}
+body[data-stage="dark"] #mount>.phone .navpill .navc,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone .navpill .navc{
+  border-color:#12151C!important;
+}
+body[data-stage="dark"] #mount>.phone .navpill .nav:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone .navpill .nav:not(.on){
+  color:var(--t3)!important;
+}
+body[data-stage="dark"] #mount>.phone .hbar .av.ha,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone .hbar .av.ha{
+  background-color:var(--raised)!important;
+  background-size:cover!important;
+  background-position:center!important;
+  border:2px solid rgba(201,255,61,.42)!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 14px rgba(201,255,61,.14)!important;
+  outline:none!important;
+}
+body[data-stage="dark"] #mount>.phone .selavatar,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone .selavatar{
+  border-color:rgba(201,255,61,.42)!important;
+  box-shadow:0 0 12px rgba(201,255,61,.14)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .valblock,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valblock,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .dutybar,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutybar,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .heldcard,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .heldcard{
+  background:linear-gradient(120deg,rgba(255,179,0,.14),rgba(255,179,0,.06))!important;border-color:rgba(255,179,0,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .valblock .vl,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valblock .vl,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .dutybar .dh,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutybar .dh,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .heldcard .ha,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .heldcard .ha{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .valblock .vv,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .valblock .vv,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .dutybar .dd,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutybar .dd,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .heldcard .hs,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .heldcard .hs{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .psummary,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .psummary{
+  background:var(--raised)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .psummary .pp,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .psummary .pp{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .prow .pi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prow .pi,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .psummary .pi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .psummary .pi{
+  border-color:var(--line2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .tabs i:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tabs i:not(.on){
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .escrow-note,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .escrow-note{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .dutyp.ok,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutyp.ok{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .dutyp.ok .n,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .dutyp.ok .n{
+  color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .prow .listed,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prow .listed{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .prow .listed.loan,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prow .listed.loan{
+  background:rgba(255,179,0,.12)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .tipnote,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tipnote{
+  background:rgba(255,179,0,.10)!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .vbadge,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .vbadge{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .mv.up,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mv.up{
+  background:rgba(15,183,83,.12)!important;color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .mv.flat,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mv.flat{
+  background:var(--raised)!important;color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .mv.down,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mv.down{
+  background:rgba(255,59,95,.12)!important;color:#FF9AB0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .stage .sd.now,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stage .sd.now{
+  border-color:var(--gold1)!important;color:var(--gold1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .stage .sd.wait,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .stage .sd.wait{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t3)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .actopt .ai,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .actopt .ai{
+  background:var(--raised)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .grab,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .grab{
+  background:var(--line2)!important;
+}
+/* ---- dark: seg/mode tabs — volt active pill ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .modeseg,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .chtabs,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .segtabs,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segtabs,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .seg,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .seg{
+  background:var(--raised)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg.on,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab.on,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .segtabs i.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segtabs i.on,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .segopt.on:not(.loan):not(.perm),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segopt.on:not(.loan):not(.perm){
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;box-shadow:0 4px 14px rgba(201,255,61,.22)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .modeseg .mseg:not(.on),
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .chtabs .tab:not(.on),
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .segtabs i:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segtabs i:not(.on),
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .segopt:not(.on),
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .segopt:not(.on){
+  color:var(--t2)!important;
+}
+/* ---- dark: room permissions setup (j7 · GL-01B) ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .permcard .pi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permcard .pi{
+  background:var(--raised)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .permcard .later,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permcard .later{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .permcard .done,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permcard .done{
+  color:#7CD843!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .permdots i,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permdots i{
+  background:rgba(255,255,255,.14)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .permdots i.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .permdots i.on{
+  background:linear-gradient(140deg,var(--green1,#0FB753),var(--green2,#7CD843))!important;
+}
+/* ---- dark: formation cards — game surface ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .formcard,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .formcard{
+  background:linear-gradient(155deg,#1A1E28,#141922)!important;border-color:rgba(255,255,255,.08)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .formcard.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .formcard.on{
+  border-color:rgba(15,183,83,.45)!important;box-shadow:0 0 0 3px rgba(15,183,83,.14)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .formcard .fn,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .formcard .fn{
+  color:var(--t1)!important;
+}
+/* ---- dark: league / tournament / grade cards (j12) ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgtable,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgtable,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ttable,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttable,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .gtarget,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .spr,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .spr,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .mbox,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .mbox,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .actrow,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .actrow,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .tourcard,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .tourcard,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .countrypill,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .countrypill,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .fixcard2,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .fixcard2,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .squadrow,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .squadrow,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet{
+  background:linear-gradient(155deg,#1A1E28,#141922)!important;border-color:rgba(255,255,255,.08)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .thd,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .thd{
+  background:var(--raised)!important;color:var(--t3)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ttr,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttr{
+  color:var(--t1)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr .cf,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr .cf,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr .rk,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr .rk,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ttr .col,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttr .col{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr .cn,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr .cn,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr .pts,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr .pts,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ttr .tn,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttr .tn,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .ttr .col.pts,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .ttr .col.pts{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgr.you,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgr.you{
+  background:linear-gradient(90deg,rgba(228,54,43,.14),transparent)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgtab.on,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgtab.on{
+  background:var(--volt,#C9FF3D)!important;color:#0A1400!important;border-color:var(--volt,#C9FF3D)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gt2,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gt2,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gu,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gu{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gt2 span,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gt2 span{
+  color:#6EE7A0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gbar,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .gtarget .gbar{
+  background:var(--raised2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .prizeline,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .prizeline{
+  background:repeating-linear-gradient(90deg,rgba(255,179,0,.12) 0 8px,transparent 8px 14px)!important;color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lgcount,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lgcount{
+  background:rgba(228,54,43,.12)!important;border-color:rgba(228,54,43,.28)!important;color:#FF9A8F!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .lrow.cur,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .lrow.cur{
+  background:rgba(228,54,43,.10)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .hubcard.grade,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hubcard.grade{
+  background:linear-gradient(140deg,rgba(15,183,83,.14),var(--card))!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .hubcard.grade .hv,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .hubcard.grade .hv{
+  color:#6EE7A0!important;
+}
+/* ---- dark: Club Grade screen (#j11 · PR-04) ---- */
+body[data-stage="dark"] #j11 .gradehero{
+  background:radial-gradient(90% 70% at 50% -10%,rgba(255,179,0,.18),transparent 55%),radial-gradient(80% 60% at 50% 100%,rgba(228,54,43,.22),transparent 50%),linear-gradient(180deg,#1A1210 0%,#0E1016 55%,#080A10 100%)!important;
+  border-color:rgba(255,179,0,.15)!important;
+  box-shadow:0 16px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+body[data-stage="dark"] #j11 .gtarget{
+  background:linear-gradient(155deg,#152018 0%,#101820 55%,#141922 100%)!important;
+  border-color:rgba(15,183,83,.28)!important;
+  border-top-color:var(--green1)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+body[data-stage="dark"] #j11 .gtarget .gbar{
+  background:rgba(255,255,255,.08)!important;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.25)!important;
+}
+body[data-stage="dark"] #j11 .gtarget .gbar i{
+  box-shadow:0 0 14px rgba(110,231,160,.45),0 0 4px rgba(15,183,83,.35)!important;
+}
+body[data-stage="dark"] #j11 .gradestatus{
+  background:linear-gradient(155deg,#141922,#1A1E28)!important;
+  border-color:rgba(47,127,209,.22)!important;
+}
+body[data-stage="dark"] #j11 .gradestatus .gsicon{
+  background:linear-gradient(140deg,rgba(47,127,209,.22),rgba(47,127,209,.08))!important;
+  border-color:rgba(47,127,209,.28)!important;
+}
+body[data-stage="dark"] #j11 .gradestatus .gstxt{color:var(--t2)!important}
+body[data-stage="dark"] #j11 .gradestatus .gstxt b{color:#6EE7A0!important}
+body[data-stage="dark"] #j11 .gradecta .btn.ghost{
+  background:linear-gradient(180deg,#1E2430,#161B26)!important;
+  border-color:rgba(255,255,255,.12)!important;
+  box-shadow:0 4px 14px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .spr .cn,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .spr .cn{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .spr .amt .v,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .spr .amt .v{
+  color:#FFD56A!important;
+}
+/* ---- dark: end live sheet + summary (j7) ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .endstat,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .endstat{
+  background:var(--raised)!important;border:1px solid var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .endstat .ev,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .endstat .ev{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .endstat .ev.gold,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .endstat .ev.gold,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sv.gold,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sv.gold{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .endstat .el,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .endstat .el,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sl,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sl{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sv,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sumbox .sv{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .btn.danger,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .btn.danger{
+  background:transparent!important;color:var(--red,#E4362B)!important;border:1.5px solid rgba(228,54,43,.35)!important;box-shadow:none!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .taskdone,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .taskdone,
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .celebrate .sic,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .celebrate .sic{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+/* ---- dark: live engagement light sheets (j8) ---- */
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .expl.gold,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .expl.gold{
+  background:linear-gradient(135deg,rgba(255,179,0,.16),rgba(255,179,0,.06))!important;border-color:rgba(255,179,0,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .expl.split,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .expl.split{
+  background:linear-gradient(100deg,rgba(47,127,209,.14),rgba(228,54,43,.10))!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .keynote,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .keynote{
+  background:rgba(47,127,209,.12)!important;border-color:rgba(47,127,209,.28)!important;color:#8FC0F0!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .formula,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .formula{
+  background:var(--raised)!important;border-color:var(--line)!important;color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .k,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .k{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .v,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .v{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background:#fff"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background:#fff"],
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background: #fff"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background: #fff"]{
+  background:var(--raised)!important;border-color:var(--line)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background:linear-gradient(120deg,#FFF7E4"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="background:linear-gradient(120deg,#FFF7E4"]{
+  background:linear-gradient(120deg,rgba(255,179,0,.16),rgba(255,179,0,.08))!important;border-color:rgba(255,179,0,.28)!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="color:var(--goldDeep)"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="color:var(--goldDeep)"],
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .v.gold,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet .drow .v.gold{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="color:#8A6410"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap)>.phone:not(.splash):not(.welcome):not(.room) .sheet div[style*="color:#8A6410"]{
+  color:var(--t2)!important;
+}
+body[data-stage="dark"] #j5 .body>div[style*="F2FBF5"],
+body[data-stage="dark"] #mount .body>div[style*="F2FBF5"]{
+  background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;
+}
+.sflclubopt{display:flex;align-items:center;gap:12px;padding:13px 10px;border-bottom:1px solid var(--line);cursor:pointer}
+.sflclubopt:last-of-type{border-bottom:none}
+.sflclubopt.dis{opacity:.52;cursor:default}
+.sflclubopt .coi{width:38px;height:38px;border-radius:11px;background:var(--raised2);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.sflclubopt .coi.danger{background:rgba(228,54,43,.12)}
+.sflclubopt .coi.gold{background:rgba(255,194,61,.16)}
+.sflclubopt .cot{font-size:14px;font-weight:800;color:var(--t1)}
+.sflclubopt .cos{font-size:11px;font-weight:700;color:var(--t2);margin-top:2px}
+.sflclubopt-sub{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:10px}
+body[data-stage="dark"] .sflclubopt .coi.danger{background:rgba(228,54,43,.18)}
+body[data-stage="dark"] .sflclubopt .coi.gold{background:rgba(255,194,61,.14)}
+.sflsheet-linkrow{display:flex;align-items:center;gap:8px;background:var(--raised2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:16px}
+.sflsheet-qrwrap{display:inline-block;background:var(--card);padding:9px;border-radius:14px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.shch-lbl{font-size:10px;font-weight:750;color:var(--t1);white-space:nowrap}
 .sflcoin{background:transparent!important;background-image:none!important;border:none!important;box-shadow:none!important;color:transparent!important;overflow:visible!important;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;line-height:0;font-size:0!important}
 .sflcoin svg{width:100%;height:100%;display:block}
 .sflemoji{display:inline-flex;width:1.15em;height:1.15em;vertical-align:-.2em;flex:none}
 .sflemoji svg{width:100%;height:100%;display:block}
 /* ---- header menu + modal ---- */
-.hdrscreen{flex:1;min-width:0;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 8px;font-size:13px;font-weight:800;color:#EAEEF5;letter-spacing:-.2px}
-body[data-stage="light"] .hdrscreen{color:#14161C}
-.sflmodal{position:fixed;inset:0;z-index:1000;background:rgba(4,6,10,.62);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;padding:56px 16px 16px}
+.hdrscreen{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 8px;line-height:1.25;text-align:center}
+.hdrscreen .sc{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:800;color:#EAEEF5;letter-spacing:-.2px}
+body[data-stage="light"] .hdrscreen .sc{color:#14161C}
+.hdrcount{font-size:11px;font-weight:700;opacity:.6;font-variant-numeric:tabular-nums;color:#EAEEF5}
+body[data-stage="light"] .hdrcount{color:#14161C}
+.hdrnav{display:flex;align-items:center;gap:6px;flex:none;margin-left:auto}
+.ppchev{font-size:22px;line-height:1;font-weight:600;padding:0;letter-spacing:0}
+.ppchev.off,.ppchev:disabled{opacity:.32;cursor:default;pointer-events:none}
+.ppchev.off:hover,.ppchev:disabled:hover{border-color:rgba(255,255,255,.14)}
+body[data-stage="light"] .ppchev.off:hover,body[data-stage="light"] .ppchev:disabled:hover{border-color:#DCE2EC}
+.mm-theme{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);font-family:inherit;font-size:14px;font-weight:800;color:inherit;cursor:pointer;text-align:left}
+body[data-stage="light"] .mm-theme{background:#F7F8FC;border-color:#DCE2EC;color:#14161C}
+body[data-stage="dark"] .mm-theme{color:#EAEEF5}
+.mm-theme:hover{border-color:#C9FF3D}
+.mm-theme-ic{font-size:18px;line-height:1;flex:none}
+.mm-theme-lbl{flex:1}
+.sflmodal{position:fixed;inset:0;z-index:1000;background:rgba(4,6,10,.62);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 .sflmodal.open{display:flex}
-.sflmodal-card{background:#12151d;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;width:min(430px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.6)}
-body[data-stage="light"] .sflmodal-card{background:#fff;border-color:#DCE2EC}
-.mm-top{display:flex;align-items:center;margin-bottom:15px}
+.sflmodal-card{background:#12151d;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;width:min(430px,94vw);max-height:calc(100vh - 32px);display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden}
+body[data-stage="light"] .sflmodal-card{background:#fff;border-color:#DCE2EC;color:#14161C}
+body[data-stage="dark"] .sflmodal-card .brand{color:#EAEEF5}
+body[data-stage="light"] .sflmodal-card .brand{color:#14161C}
+.mm-top{display:flex;align-items:center;margin-bottom:12px;flex:none}
 .mm-top .brand{margin-right:auto}
-.mm-lbl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8892A4;margin-bottom:8px}
-.sflmodal-card select#jsel{width:100%;max-width:none;font-size:14px;padding:12px 14px}
-.mm-nav{display:flex;align-items:center;gap:12px;margin-top:15px}
+.mm-lbl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#8892A4;margin-bottom:8px;flex:none}
+.mm-scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-right:2px}
+.mm-foot{flex:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+body[data-stage="light"] .mm-foot{border-top-color:#DCE2EC}
+.mm-nav{display:flex;align-items:center;gap:12px;margin-top:12px}
 .mm-nav .ppnavbtn{flex:1}
 .mm-nav .ppcount{margin:0;min-width:auto}
+/* ---- J2-16 Club Home — Member (#j1 · .clubhome) ---- */
+body[data-stage="light"] #mount .phone.clubhome,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome{
+  background:linear-gradient(180deg,#F4F6FB 0%,color-mix(in srgb,var(--ck) 4%,#F4F6FB) 100%)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .hero::before,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .hero::before{
+  background:radial-gradient(120% 90% at 50% 110%,rgba(0,0,0,.48),transparent 58%),radial-gradient(80% 60% at 0% 0%,color-mix(in srgb,var(--ck) 32%,transparent),transparent 50%),radial-gradient(70% 50% at 100% 20%,rgba(8,10,16,.28),transparent 55%)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .sp-member,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .sp-member{
+  background:linear-gradient(135deg,#0FB753,#7CD843)!important;color:#fff!important;
+  border-color:rgba(255,255,255,.35)!important;box-shadow:0 4px 16px rgba(15,183,83,.34),inset 0 1px 0 rgba(255,255,255,.35)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .detailbody>.card,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card{
+  background:linear-gradient(145deg,#FFF8E8,#FFFCF4 45%,#fff)!important;
+  border-color:color-mix(in srgb,var(--gold1) 44%,#fff)!important;
+  box-shadow:0 8px 24px rgba(176,137,0,.11),inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .cmgrask,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmgrask{
+  background:linear-gradient(145deg,#FFF6DC,#FFFCF2 55%,#fff)!important;
+  border-color:color-mix(in srgb,var(--gold1) 40%,#fff)!important;
+  box-shadow:0 8px 22px rgba(176,137,0,.10)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .cmgrask>div:first-child,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmgrask>div:first-child{
+  box-shadow:0 0 0 1.5px color-mix(in srgb,var(--gold1) 42%,#fff),0 6px 16px rgba(255,158,11,.26)!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .qa,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa{
+  background:linear-gradient(180deg,#fff,#F7F8FC)!important;border-color:#ECEEF5!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .onlinebar,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .onlinebar,
+body[data-stage="light"] #mount .phone.clubhome .chatprev,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .chatprev,
+body[data-stage="light"] #mount .phone.clubhome .giftlead,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .giftlead{
+  background:linear-gradient(180deg,#fff,#F7F8FC)!important;border-color:#ECEEF5!important;
+}
+body[data-stage="light"] #mount .phone.clubhome .onav .omore,
+body[data-stage="light"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .onav .omore{
+  background:linear-gradient(155deg,var(--ck2),var(--ck))!important;color:#fff!important;border-color:#fff!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome{
+  background:linear-gradient(180deg,#080A10 0%,color-mix(in srgb,var(--ck) 8%,#080A10) 100%)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .hero::before,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .hero::before{
+  background:radial-gradient(120% 90% at 50% 110%,rgba(0,0,0,.72),transparent 58%),radial-gradient(80% 60% at 0% 0%,color-mix(in srgb,var(--ck) 22%,transparent),transparent 50%),radial-gradient(70% 50% at 100% 20%,rgba(0,0,0,.45),transparent 55%)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .hero::after,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .hero::after{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ck) 42%,transparent) 0%,rgba(8,10,16,.12) 26%,rgba(8,10,16,.72) 68%,#080A10 100%)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .hero .hbadge,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .hero .hbadge{
+  border-color:#080A10!important;box-shadow:inset 0 2px 6px rgba(255,255,255,.22),0 10px 28px color-mix(in srgb,var(--ck) 55%,transparent),0 0 20px color-mix(in srgb,var(--ck) 35%,transparent)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .sp-member,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .sp-member{
+  background:linear-gradient(135deg,#0FB753,#C9FF3D)!important;color:#0A1400!important;
+  border-color:rgba(201,255,61,.35)!important;box-shadow:0 0 18px rgba(201,255,61,.32),0 4px 14px rgba(15,183,83,.28),inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .detailbody>.card,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card{
+  background:linear-gradient(155deg,#1A1608,#141922 55%,#12161E)!important;
+  border-color:rgba(255,194,61,.28)!important;box-shadow:0 10px 28px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,215,106,.08)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .detailbody>.card::before,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card::before{
+  opacity:.9!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .detailbody>.card [style*="B08900"],
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card [style*="B08900"]{
+  color:#FFD56A!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .detailbody>.card .bar-track,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card .bar-track{
+  background:rgba(255,255,255,.08)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .detailbody>.card .bar-fill.gold,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .detailbody>.card .bar-fill.gold{
+  box-shadow:0 0 14px rgba(255,194,61,.45)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .cmgrask,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmgrask{
+  background:linear-gradient(155deg,#1A1608,#141922)!important;
+  border-color:rgba(255,194,61,.30)!important;box-shadow:0 10px 26px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,215,106,.06)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .cmgrask>div:first-child,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmgrask>div:first-child{
+  box-shadow:0 0 0 1.5px rgba(255,194,61,.38),0 0 16px rgba(255,194,61,.22)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .cmgrask>div[style*="flex:1"]>div:first-child,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmgrask>div[style*="flex:1"]>div:first-child{
+  color:var(--t1)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .btn.club,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .btn.club{
+  background:linear-gradient(145deg,var(--ck2),var(--ck) 52%,var(--ckd))!important;
+  box-shadow:0 14px 34px color-mix(in srgb,var(--ck) 55%,transparent),0 0 24px color-mix(in srgb,var(--ck) 28%,transparent),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa{
+  background:linear-gradient(180deg,#171D27,#141922)!important;border-color:rgba(255,255,255,.09)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa .qi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa .qi{
+  border-color:rgba(255,255,255,.08)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa:nth-child(1) .qi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa:nth-child(1) .qi{
+  background:linear-gradient(155deg,rgba(15,183,83,.22),rgba(15,183,83,.10))!important;border-color:rgba(15,183,83,.28)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa:nth-child(2) .qi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa:nth-child(2) .qi{
+  background:linear-gradient(155deg,rgba(31,168,255,.20),rgba(31,168,255,.08))!important;border-color:rgba(31,168,255,.26)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa:nth-child(3) .qi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa:nth-child(3) .qi{
+  background:linear-gradient(155deg,rgba(255,179,0,.20),rgba(255,179,0,.08))!important;border-color:rgba(255,179,0,.28)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .qa:nth-child(4) .qi,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .qa:nth-child(4) .qi{
+  background:linear-gradient(155deg,rgba(124,77,255,.20),rgba(124,77,255,.08))!important;border-color:rgba(124,77,255,.26)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .lvcard,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .lvcard{
+  border-color:rgba(255,255,255,.10)!important;box-shadow:0 12px 28px rgba(0,0,0,.42)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .lvcard .lvb,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .lvcard .lvb{
+  box-shadow:0 0 16px rgba(255,65,108,.62)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .onlinebar,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .onlinebar,
+body[data-stage="dark"] #mount .phone.clubhome .chatprev,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .chatprev,
+body[data-stage="dark"] #mount .phone.clubhome .giftlead,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .giftlead,
+body[data-stage="dark"] #mount .phone.clubhome .feed-item,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .feed-item{
+  background:linear-gradient(180deg,#171D27,#141922)!important;border-color:rgba(255,255,255,.09)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .onav .oav,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .onav .oav{
+  border-color:#141922!important;box-shadow:0 2px 10px rgba(0,0,0,.35)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .onav .omore,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .onav .omore{
+  background:linear-gradient(155deg,var(--ck2),var(--ck))!important;color:#fff!important;border-color:#141922!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .sechd .sa,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .sechd .sa{
+  background:rgba(228,54,43,.12)!important;border-color:rgba(228,54,43,.24)!important;color:#FF9A8F!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .cmsg,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmsg{
+  color:var(--t2)!important;border-bottom-color:rgba(255,255,255,.08)!important;
+}
+body[data-stage="dark"] #mount .phone.clubhome .cmsg b,
+body[data-stage="dark"] [id^="j"]:not(.sflgiftwrap) .phone.clubhome .cmsg b{
+  color:var(--t1)!important;
+}
+/* ---- UI polish: Games hub (J17 · #j16) ---- */
+body[data-stage="light"] #j16 .balchip:first-child{background:linear-gradient(145deg,#FFF8E8,#FFFCF4)!important;border-color:#FFE199!important;box-shadow:0 4px 14px rgba(255,179,0,.12)!important}
+body[data-stage="light"] #j16 .balchip:first-child .bv{color:var(--goldDeep)!important}
+body[data-stage="light"] #j16 .balchip:nth-child(2){background:linear-gradient(145deg,#EAFBF9,#F4FFFE)!important;border-color:rgba(18,181,168,.28)!important;box-shadow:0 4px 14px rgba(18,181,168,.10)!important}
+body[data-stage="light"] #j16 .balchip:nth-child(2) .bv{color:#0A6E66!important}
+body[data-stage="light"] #j16 .balchip.ticket{background:linear-gradient(150deg,#F2FAEB,#E8F5DC)!important;border-color:rgba(201,255,61,.35)!important;box-shadow:0 4px 16px rgba(201,255,61,.14)!important}
+body[data-stage="light"] #j16 .balchip.ticket .bv{color:#4A7A12!important;text-shadow:none!important}
+body[data-stage="light"] #j16 .tile.penalty{border-color:rgba(18,178,74,.22)!important;box-shadow:0 12px 32px rgba(24,40,80,.14),0 0 24px rgba(18,178,74,.08)!important}
+body[data-stage="light"] #j16 .tile.penalty .tn{color:#fff!important}
+body[data-stage="light"] #j16 .session{background:linear-gradient(180deg,#fff,#F7F8FC)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm)!important}
+body[data-stage="light"] #j16 .session::before{background:linear-gradient(90deg,transparent,rgba(201,255,61,.35),transparent)!important}
+body[data-stage="light"] #j16 .session .sv{color:var(--t1)!important}
+body[data-stage="light"] #j16 .session .sc:last-child{background:rgba(201,255,61,.06)!important}
+body[data-stage="light"] #j16 .note.bonus{background:linear-gradient(135deg,#EAFBF9,#F4FFFE)!important;border-color:rgba(18,181,168,.28)!important;color:#0A6E66!important;box-shadow:0 4px 14px rgba(18,181,168,.08)!important}
+body[data-stage="dark"] #j16 .balchip:first-child{border-color:rgba(255,179,0,.28)!important;box-shadow:0 4px 18px rgba(255,179,0,.12),inset 0 1px 0 rgba(255,255,255,.05)!important}
+body[data-stage="dark"] #j16 .balchip:nth-child(2){border-color:rgba(56,224,208,.26)!important;box-shadow:0 4px 18px rgba(56,224,208,.10)!important}
+body[data-stage="dark"] #j16 .tile.penalty{box-shadow:0 14px 40px rgba(0,0,0,.48),0 0 36px rgba(18,178,74,.16)!important}
+body[data-stage="dark"] #j16 .session{box-shadow:0 8px 24px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.05)!important}
+body[data-stage="dark"] #j16 .session .sv.net{text-shadow:0 0 16px rgba(201,255,61,.45)!important}
+body[data-stage="dark"] #j16 .note.bonus{box-shadow:0 4px 18px rgba(56,224,208,.10)!important}
+/* ---- UI polish: Messages inbox (J19 · #j18) ---- */
+body[data-stage="light"] #j18 .search{background:#fff!important;border-color:var(--line2)!important;box-shadow:inset 0 1px 3px rgba(24,40,80,.05)!important;color:var(--t2)!important}
+body[data-stage="light"] #j18 .fchip.on{box-shadow:0 0 0 1px rgba(201,255,61,.3),0 4px 12px rgba(201,255,61,.22)!important}
+body[data-stage="light"] #j18 .crow .cn{color:var(--t1)!important}
+body[data-stage="light"] #j18 .crow:has(.unread){background:rgba(255,45,110,.04)!important}
+body[data-stage="light"] #j18 .crow .cav .dot{border-color:#fff!important}
+body[data-stage="dark"] #j18 .search{box-shadow:inset 0 1px 4px rgba(0,0,0,.22)!important}
+body[data-stage="dark"] #j18 .fchip.on{box-shadow:0 0 0 1px rgba(201,255,61,.35),0 4px 16px rgba(201,255,61,.28)!important}
+body[data-stage="dark"] #j18 .crow:has(.unread){background:rgba(255,45,110,.06)!important;border-radius:14px!important}
+body[data-stage="dark"] #j18 .crow .unread{box-shadow:0 3px 12px rgba(255,45,110,.48)!important}
+body[data-stage="dark"] #j18 .crow .rolechip.mgr{border-color:rgba(255,194,61,.32)!important}
+body[data-stage="dark"] #j18 .crow .rolechip.club{border-color:rgba(228,54,43,.32)!important}
+body[data-stage="dark"] #j18 .crow .cav .dot{box-shadow:0 0 0 2px rgba(47,203,110,.3),0 0 10px rgba(47,203,110,.6)!important;border-color:var(--arena)!important}
+/* ---- UI polish: Transfer + My Players (J6 · #j5) ---- */
+body[data-stage="dark"] #j5 .sbox:first-child{background:linear-gradient(145deg,rgba(255,179,0,.16),rgba(255,179,0,.06))!important;border-color:rgba(255,179,0,.28)!important;box-shadow:0 6px 22px rgba(255,179,0,.12)!important}
+body[data-stage="dark"] #j5 .sbox:last-child{background:linear-gradient(145deg,rgba(15,183,83,.14),rgba(15,183,83,.06))!important;border-color:rgba(15,183,83,.28)!important;box-shadow:0 6px 22px rgba(15,183,83,.10)!important}
+body[data-stage="dark"] #j5 .sbox .sv.gold{color:#FFD56A!important}
+body[data-stage="dark"] #j5 .sbox .sv.up{color:#6EE7A0!important}
+body[data-stage="dark"] #j5 .dutybar{background:linear-gradient(135deg,rgba(255,179,0,.14),rgba(255,179,0,.06))!important;border-color:rgba(255,179,0,.28)!important;box-shadow:0 8px 24px rgba(255,179,0,.10)!important}
+body[data-stage="dark"] #j5 .dutybar::before{background:linear-gradient(90deg,transparent,rgba(255,179,0,.45),transparent)!important}
+body[data-stage="dark"] #j5 .tabs{background:var(--raised)!important;box-shadow:inset 0 1px 3px rgba(0,0,0,.18)!important}
+body[data-stage="dark"] #j5 .tabs i.on{background:var(--raised2)!important;box-shadow:0 3px 12px rgba(0,0,0,.28)!important;color:var(--t1)!important}
+body[data-stage="dark"] #j5 .prow{background:var(--card)!important;border-color:var(--line)!important;box-shadow:0 4px 16px rgba(0,0,0,.22)!important}
+body[data-stage="dark"] #j5 .prow .pi{box-shadow:0 0 0 1.5px var(--line2),0 4px 14px rgba(0,0,0,.32)!important}
+body[data-stage="dark"] #j5 .celebrate::before{background:radial-gradient(circle,rgba(255,179,0,.18),transparent 68%)!important}
+body[data-stage="dark"] #j5 .revealcard{border-color:rgba(255,179,0,.55)!important;box-shadow:0 22px 52px rgba(255,179,0,.22),0 10px 28px rgba(0,0,0,.42)!important}
+body[data-stage="dark"] #j5 .revealcard::after{box-shadow:0 0 32px rgba(255,179,0,.28)!important}
+body[data-stage="dark"] #j5 .balrows.card{background:linear-gradient(180deg,var(--card),var(--raised))!important;box-shadow:0 12px 32px rgba(0,0,0,.32)!important}
+body[data-stage="dark"] #j5 .celebrate .btn{box-shadow:0 14px 36px rgba(15,183,83,.28)!important}
+/* ---- UI polish: Profile G-05 (Global Shell · #j19) ---- */
+body[data-stage="light"] #j19 .phero{box-shadow:inset 0 -1px 0 rgba(255,255,255,.12)!important}
+body[data-stage="light"] #j19 .followbar{background:rgba(255,255,255,.18)!important;border-color:rgba(255,255,255,.28)!important}
+body[data-stage="light"] #j19 .stat:nth-child(odd){background:linear-gradient(180deg,#F4F6FB,transparent)!important}
+body[data-stage="light"] #j19 .stat:nth-child(3n+2){background:linear-gradient(180deg,#EEF3FC,transparent)!important}
+body[data-stage="dark"] #j19 .phero{background:radial-gradient(80% 70% at 92% -8%,rgba(255,255,255,.14),transparent 52%),radial-gradient(60% 50% at 8% 100%,rgba(0,0,0,.38),transparent 55%),linear-gradient(165deg,#E83830 0%,#C01812 38%,#8E0E0C 58%,#5A0806 100%)!important;box-shadow:inset 0 -1px 0 rgba(255,255,255,.06)!important}
+body[data-stage="dark"] #j19 .followbar{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.16)!important;box-shadow:0 8px 28px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.10)!important}
+body[data-stage="dark"] #j19 .levelcard{border-color:rgba(255,255,255,.10)!important;box-shadow:0 12px 32px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05)!important}
+body[data-stage="dark"] #j19 .levelcard .lbar i{box-shadow:0 0 16px rgba(228,54,43,.55),0 0 8px rgba(243,204,85,.35)!important}
+body[data-stage="dark"] #j19 .stat:nth-child(odd){background:linear-gradient(180deg,rgba(255,255,255,.04),transparent)!important}
+body[data-stage="dark"] #j19 .stat:nth-child(3n+2){background:linear-gradient(180deg,rgba(47,127,209,.08),transparent)!important}
+body[data-stage="dark"] #j19 .showrow .shico{background:var(--raised)!important;border-color:var(--line)!important;box-shadow:0 2px 8px rgba(0,0,0,.18)!important}
+body[data-stage="dark"] #j19 .showrow .shico.badge{background:linear-gradient(150deg,rgba(47,127,209,.18),rgba(47,127,209,.08))!important;border-color:rgba(47,127,209,.28)!important}
+body[data-stage="dark"] #j19 .listrow .li{background:var(--raised)!important;border-color:var(--line)!important;box-shadow:none!important}
+body[data-stage="dark"] #j19 .acclist .listrow .li{background:var(--raised)!important;border-color:var(--line)!important;box-shadow:0 2px 8px rgba(0,0,0,.18)!important}
+body[data-stage="light"] #j19 .acclist .listrow .li{box-shadow:0 2px 8px rgba(24,40,80,.08)!important}
+body[data-stage="dark"] #j19 .phone.profile .body{box-shadow:0 -10px 28px rgba(0,0,0,.28)!important}
+/* ---- UI polish: Predict & Vote (J5 · #j4) ---- */
+body[data-stage="light"] #j4 .body:has(.candgrid)>div:nth-child(3){background:linear-gradient(135deg,#F2FBF5,#E9F9EF)!important;border-color:#BFE9CE!important;color:#187A42!important}
+body[data-stage="dark"] #j4 .tabs{background:var(--raised)!important;box-shadow:inset 0 1px 3px rgba(0,0,0,.18)!important}
+body[data-stage="dark"] #j4 .tabs i.on{background:var(--raised2)!important;color:var(--t1)!important;box-shadow:0 3px 12px rgba(0,0,0,.28)!important}
+body[data-stage="dark"] #j4 .coinbal{background:linear-gradient(120deg,rgba(255,179,0,.18),rgba(255,179,0,.08))!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;box-shadow:0 4px 16px rgba(255,179,0,.12)!important}
+body[data-stage="dark"] #j4 .goldchip{background:linear-gradient(120deg,rgba(255,179,0,.16),rgba(255,179,0,.08))!important;border-color:rgba(255,179,0,.28)!important;color:#FFD56A!important;box-shadow:0 3px 12px rgba(255,179,0,.12)!important}
+body[data-stage="dark"] #j4 .cand.on{border-color:var(--green1,#0FB753)!important;box-shadow:0 0 0 3px rgba(15,183,83,.22),0 0 28px rgba(15,183,83,.28)!important}
+body[data-stage="dark"] #j4 .cand.on .sel{box-shadow:0 4px 16px rgba(15,183,83,.45),0 0 14px rgba(15,183,83,.35)!important}
+body[data-stage="dark"] #j4 .body:has(.candgrid)>div:nth-child(3){background:rgba(15,183,83,.12)!important;border-color:rgba(15,183,83,.28)!important;color:#6EE7A0!important;box-shadow:0 4px 16px rgba(15,183,83,.10)!important}
 /* ---- responsive: same page works on phone ---- */
 html,body{height:100%}
 @media (max-width:600px){
-  footer{display:none}
   header{padding:8px 12px;gap:10px}
-  .hdrscreen{font-size:12px}
+  .hdrscreen .sc{font-size:12px}
   .ppbtn.sm{width:34px;height:34px;font-size:15px}
-  .ppnav{gap:10px;padding:9px}
+  .ppchev{font-size:20px}
   .ppnavbtn{padding:12px 22px;font-size:13.5px}
 }
 """
@@ -256,14 +2677,14 @@ SB_INJECT=r"""
     if(!phone||phone.querySelector(':scope > .sfl-statusbar'))return;
     var light=document.body.getAttribute('data-stage')==='light';
     var bleed=phone.classList.contains('bleed');
-    var keepLite=bleed||/splash|welcome|room/.test(phone.className)||!!phone.querySelector('.phero,.hero');
+    var keepLite=bleed||/splash|welcome|room/.test(phone.className);
     var dark=keepLite||(!light)||lum(getComputedStyle(phone).backgroundColor)<0.5;
     if(!bleed) phone.style.paddingTop='50px';
     var sb=document.createElement('div');sb.className='sfl-statusbar';
-    sb.style.cssText='position:absolute;top:0;left:0;right:0;z-index:600;height:50px;display:flex;align-items:center;justify-content:space-between;padding:2px 40px 0 42px;box-sizing:border-box;background:'+(bleed?'transparent':'inherit')+';font-family:Manrope,sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;color:'+(bleed||dark?'#F4F6FA':'#0E1016');
+    sb.style.cssText='position:absolute;top:0;left:0;right:0;z-index:600;height:50px;display:flex;align-items:center;justify-content:space-between;padding:2px 40px 0 42px;box-sizing:border-box;background:'+(bleed?'transparent':(light?'#F4F6FB':'#080A10'))+';font-family:Manrope,sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;color:'+(bleed||dark?'#F4F6FA':'#0E1016');
     sb.innerHTML='<span style="position:relative;z-index:2">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:116px;height:30px;background:#04060A;border-radius:16px"></div><span style="position:relative;z-index:2;display:flex;align-items:center;gap:7px">'+SIG+WIFI+BAT+'</span>';
     phone.insertBefore(sb,phone.firstChild);
-    injectNav(phone,dark);
+    injectNav(phone,!light);
   }
 
   var NAVCSS=false;
@@ -325,10 +2746,10 @@ PLAYER_JS = """
   var FLOWN=flowViews.length;
   var curJ=0, curS=0;
   var mount=document.getElementById('mount'), scaler=document.getElementById('scaler');
-  var jsel=document.getElementById('jsel'), scap=document.getElementById('scap'), ct=document.getElementById('counter'), dotbar=document.getElementById('dotbar');
+  var flowsel=document.getElementById('flowsel'), scap=document.getElementById('scap'), ct=document.getElementById('counter');
   var og1='<optgroup label="\\u2605 Prototyped flows">', og2='<optgroup label="All journeys">';
   VIEWS.forEach(function(v,i){var o='<option value="'+i+'">'+v.label+'</option>'; if(i<FLOWN)og1+=o; else og2+=o;});
-  jsel.innerHTML=og1+'</optgroup>'+og2+'</optgroup>';
+  flowsel.innerHTML=og1+'</optgroup>'+og2+'</optgroup>';
   function fit(){var st=document.getElementById('stage'); var sh=(st.clientHeight-18)/844; var sw=(st.clientWidth-24)/390; var sc=Math.min(1.02, sh, sw); if(sc>0)scaler.style.transform='scale('+sc+')';}
   var COIN='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11.2" fill="#C9820C"/><circle cx="12" cy="12" r="9.6" fill="#F4C23A"/><path d="M6 8.5a9 9 0 0 1 12 0" stroke="#FCE7A6" stroke-width="1.1" fill="none" opacity=".7"/><circle cx="12" cy="12" r="4.7" fill="#fff"/><path d="M12 8.1l2.6 1.9-1 3.1h-3.2l-1-3.1z" fill="#22252B"/><circle cx="12" cy="7.4" r=".7" fill="#22252B"/><circle cx="16.2" cy="10.6" r=".7" fill="#22252B"/><circle cx="14.6" cy="15.5" r=".7" fill="#22252B"/><circle cx="9.4" cy="15.5" r=".7" fill="#22252B"/><circle cx="7.8" cy="10.6" r=".7" fill="#22252B"/></svg>';
   var GOLD='<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11.2" fill="#8A5606"/><circle cx="12" cy="12" r="9.6" fill="#E7A62A"/><path d="M6 8.5a9 9 0 0 1 12 0" stroke="#FFDE9B" stroke-width="1.1" fill="none" opacity=".65"/><path d="M12 6.6l1.7 3.7 4 .4-3 2.6.9 3.9-3.6-2.1-3.6 2.1.9-3.9-3-2.6 4-.4z" fill="#7A4B00"/></svg>';
@@ -505,16 +2926,9 @@ PLAYER_JS = """
   function showDestSheet(){
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sfldestwrap'))return;
     var clubs=[['BW','Blue Wolves','Grade B · #7 · accepting moves','blue'],['GS','Green Storm','Grade A · #3 · accepting moves','green'],['SC','Steel City','Grade C · #12 · open','red']];
-    var rows=clubs.map(function(c){return '<div class="ds-club" data-cn="'+c[1]+'" data-cm="'+c[2]+'" data-cr="'+c[0]+'" data-cc="'+c[3]+'" style="display:flex;align-items:center;gap:12px;padding:13px;border:1px solid #ECEEF5;border-radius:14px;margin-top:9px;cursor:pointer"><div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;background:'+(c[3]==='blue'?'linear-gradient(150deg,#2F7FD1,#1E5E9E)':c[3]==='green'?'linear-gradient(150deg,#0FB753,#0a8f40)':'linear-gradient(150deg,#E4362B,#B4241B)')+'">'+c[0]+'</div><div style="flex:1"><div style="font-size:15px;font-weight:800;color:#14161C">'+c[1]+'</div><div style="font-size:11.5px;font-weight:700;color:#707786;margin-top:2px">'+c[2]+'</div></div></div>';}).join('');
-    var wrap=document.createElement('div'); wrap.className='sfldestwrap';
-    wrap.style.cssText='position:absolute;inset:0;z-index:745;display:flex;align-items:flex-end;background:rgba(20,30,60,.42);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)';
-    wrap.innerHTML='<div style="width:100%;background:#fff;border-top-left-radius:22px;border-top-right-radius:22px;padding:16px 18px 26px;box-shadow:0 -20px 50px rgba(20,30,60,.25);font-family:Manrope,-apple-system,sans-serif">'
-      +'<div style="width:38px;height:4px;border-radius:2px;background:#D7DDEA;margin:0 auto 14px"></div>'
-      +'<div style="font-size:17px;font-weight:800;color:#10121A">Choose destination club</div>'
-      +'<div style="font-size:12px;font-weight:700;color:#707786;margin-top:3px">Only clubs accepting moves are shown</div>'
-      +rows
-      +'<div class="ds-cancel" style="text-align:center;margin-top:16px;font-size:13px;font-weight:800;color:#707786;cursor:pointer">Cancel</div>'
-      +'</div>';
+    var rows=clubs.map(function(c){return '<div class="ds-club" data-cn="'+c[1]+'" data-cm="'+c[2]+'" data-cr="'+c[0]+'" data-cc="'+c[3]+'"><div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px;background:'+(c[3]==='blue'?'linear-gradient(150deg,#2F7FD1,#1E5E9E)':c[3]==='green'?'linear-gradient(150deg,#0FB753,#0a8f40)':'linear-gradient(150deg,#E4362B,#B4241B)')+'">'+c[0]+'</div><div style="flex:1"><div class="ds-name">'+c[1]+'</div><div class="ds-meta">'+c[2]+'</div></div></div>';}).join('');
+    var wrap=document.createElement('div'); wrap.className='sfldestwrap sflsheetwrap';
+    wrap.innerHTML='<div class="sflsheet-panel"><div class="sflsheet-grab"></div><div class="sflsheet-title">Choose destination club</div><div class="sflsheet-sub">Only clubs accepting moves are shown</div>'+rows+'<div class="ds-cancel sflsheet-cancel">Cancel</div></div>';
     phone.appendChild(wrap);
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.ds-cancel')){wrap.remove();return;} var dc=e.target.closest('.ds-club'); if(dc){ var cn=dc.getAttribute('data-cn'),cm=dc.getAttribute('data-cm'),cr=dc.getAttribute('data-cr'),cc=dc.getAttribute('data-cc'); var cp=phone.querySelector('.clubprev'); if(cp){ var crest=cp.querySelector('.crest'); if(crest){crest.textContent=cr; crest.className='crest'+(cc==='blue'?' blue':cc==='green'?' green':'');} var nm=cp.querySelector('.cn'); if(nm)nm.textContent=cn; var mt=cp.querySelector('.cm'); if(mt)mt.textContent=cm; } wrap.remove(); sflToast('Destination set · '+cn); } });
   }
@@ -527,32 +2941,21 @@ PLAYER_JS = """
              expires:['Offer expires',['in 3 days','in 7 days','in 14 days']]};
     var m=MAP[f]; if(!m)return;
     var cur=((row.querySelector('.v')||{}).textContent||'').trim();
-    var opts=m[1].map(function(o){var on=(o.indexOf(cur)>=0||cur.indexOf(o)>=0); return '<div class="tm-opt" data-v="'+o+'" style="display:flex;align-items:center;justify-content:space-between;padding:13px;border:1.5px solid '+(on?'#2F7FD1':'#ECEEF5')+';border-radius:13px;margin-top:9px;font-size:14px;font-weight:750;color:#14161C;cursor:pointer;background:'+(on?'#F0F7FF':'#fff')+'">'+o+(on?'<span style="color:#2F7FD1;font-weight:800">✓</span>':'')+'</div>';}).join('');
-    var wrap=document.createElement('div'); wrap.className='sfltermwrap';
-    wrap.style.cssText='position:absolute;inset:0;z-index:746;display:flex;align-items:flex-end;background:rgba(20,30,60,.42);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)';
-    wrap.innerHTML='<div style="width:100%;background:#fff;border-top-left-radius:22px;border-top-right-radius:22px;padding:16px 18px 26px;box-shadow:0 -20px 50px rgba(20,30,60,.25);font-family:Manrope,-apple-system,sans-serif">'
-      +'<div style="width:38px;height:4px;border-radius:2px;background:#D7DDEA;margin:0 auto 14px"></div>'
-      +'<div style="font-size:17px;font-weight:800;color:#10121A">'+m[0]+'</div>'
-      +'<div style="font-size:12px;font-weight:700;color:#707786;margin-top:3px">Set the term for this offer</div>'
-      +opts
-      +'<div class="tm-cancel" style="text-align:center;margin-top:16px;font-size:13px;font-weight:800;color:#707786;cursor:pointer">Cancel</div>'
-      +'</div>';
+    var opts=m[1].map(function(o){var on=(o.indexOf(cur)>=0||cur.indexOf(o)>=0); return '<div class="tm-opt'+(on?' on':'')+'" data-v="'+o+'">'+o+(on?'<span style="color:#2F7FD1;font-weight:800">✓</span>':'')+'</div>';}).join('');
+    var wrap=document.createElement('div'); wrap.className='sfltermwrap sflsheetwrap';
+    wrap.innerHTML='<div class="sflsheet-panel"><div class="sflsheet-grab"></div><div class="sflsheet-title">'+m[0]+'</div><div class="sflsheet-sub">Set the term for this offer</div>'+opts+'<div class="tm-cancel sflsheet-cancel">Cancel</div></div>';
     phone.appendChild(wrap);
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.tm-cancel')){wrap.remove();return;} var op=e.target.closest('.tm-opt'); if(op){var v=op.getAttribute('data-v'); var vel=row.querySelector('.v'); if(vel)vel.textContent=v; wrap.remove(); sflToast('Updated · '+v);} });
   }
   function setEditPhoto(url){ var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return; var av=phone.querySelector('.epavatar'); if(av){ av.style.backgroundImage=url||'none'; av.style.backgroundColor=url?'':'#DCE2EC'; } }
   function showPhotoSheet(){
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflphotowrap'))return;
-    var wrap=document.createElement('div'); wrap.className='sflphotowrap';
-    wrap.style.cssText='position:absolute;inset:0;z-index:745;display:flex;align-items:flex-end;background:rgba(4,6,10,.5)';
-    wrap.innerHTML='<div style="width:100%;background:#fff;border-top-left-radius:22px;border-top-right-radius:22px;padding:14px 16px 24px;box-shadow:0 -20px 50px rgba(0,0,0,.3);font-family:Manrope,-apple-system,sans-serif">'
-      +'<div style="width:38px;height:4px;border-radius:2px;background:#DCE2EC;margin:0 auto 14px"></div>'
-      +'<div style="font-size:15px;font-weight:800;color:#14161C;margin-bottom:6px">Change display picture</div>'
-      +'<div class="pp-cam" style="display:flex;align-items:center;gap:12px;padding:13px 8px;border-bottom:1px solid #EEF1F7;cursor:pointer;font-weight:750;font-size:14px;color:#14161C">📷 Take a photo</div>'
-      +'<div class="pp-gal" style="display:flex;align-items:center;gap:12px;padding:13px 8px;border-bottom:1px solid #EEF1F7;cursor:pointer;font-weight:750;font-size:14px;color:#14161C">🖼️ Choose from gallery</div>'
-      +'<div class="pp-rm" style="display:flex;align-items:center;gap:12px;padding:13px 8px;cursor:pointer;font-weight:750;font-size:14px;color:#E4362B">🗑️ Remove current photo</div>'
-      +'<div class="pp-cancel" style="text-align:center;margin-top:12px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Cancel</div>'
-      +'</div>';
+    var wrap=document.createElement('div'); wrap.className='sflphotowrap sflsheetwrap';
+    wrap.innerHTML='<div class="sflsheet-panel"><div class="sflsheet-grab"></div><div class="sflsheet-title">Change display picture</div>'
+      +'<div class="pp-cam">📷 Take a photo</div>'
+      +'<div class="pp-gal">🖼️ Choose from gallery</div>'
+      +'<div class="pp-rm sflsheet-row" style="color:var(--coral,#E4362B);border-bottom:none">🗑️ Remove current photo</div>'
+      +'<div class="pp-cancel sflsheet-cancel">Cancel</div></div>';
     phone.appendChild(wrap);
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.pp-cancel')){wrap.remove();return;} if(e.target.closest('.pp-cam')){wrap.remove();showCameraOverlay();return;} if(e.target.closest('.pp-gal')){wrap.remove();showGallerySheet();return;} if(e.target.closest('.pp-rm')){wrap.remove();setEditPhoto('');sflToast('Photo removed');return;} });
   }
@@ -579,11 +2982,11 @@ PLAYER_JS = """
     phone.appendChild(wrap);
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target.closest('.gal-close')){wrap.remove();return;} var g=e.target.closest('.gal-pick'); if(g){setEditPhoto("url('assets/"+g.getAttribute('data-img')+"')");wrap.remove();sflToast('Photo updated');return;} });
   }
-  function sflSheet(title, inner){ var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflsheetwrap'))return null; var wrap=document.createElement('div'); wrap.className='sflsheetwrap'; wrap.style.cssText='position:absolute;inset:0;z-index:748;display:flex;align-items:flex-end;background:rgba(4,6,10,.5)'; wrap.innerHTML='<div style="width:100%;background:#fff;border-top-left-radius:22px;border-top-right-radius:22px;padding:14px 16px 24px;box-shadow:0 -20px 50px rgba(0,0,0,.3);font-family:Manrope,-apple-system,sans-serif"><div style="width:38px;height:4px;border-radius:2px;background:#DCE2EC;margin:0 auto 14px"></div><div style="font-size:15px;font-weight:800;color:#14161C;margin-bottom:10px">'+title+'</div>'+inner+'</div>'; phone.appendChild(wrap); return wrap; }
+  function sflSheet(title, inner){ var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflsheetwrap'))return null; var wrap=document.createElement('div'); wrap.className='sflsheetwrap'; wrap.innerHTML='<div class="sflsheet-panel"><div class="sflsheet-grab"></div><div class="sflsheet-title">'+title+'</div>'+inner+'</div>'; phone.appendChild(wrap); return wrap; }
   function showLanguageSheet(){
     var langs=['English','Español','Français','Deutsch','العربية','हिन्दी','Português']; var rows='';
-    for(var i=0;i<langs.length;i++){rows+='<div class="lang-opt" data-l="'+langs[i]+'" style="display:flex;align-items:center;padding:12px 8px;border-bottom:1px solid #EEF1F7;font-weight:750;font-size:14px;color:#14161C;cursor:pointer">'+langs[i]+(i===0?'<span style="margin-left:auto;color:#0FA04C">✓</span>':'')+'</div>';}
-    var wrap=sflSheet('Language', rows+'<div class="sh-cancel" style="text-align:center;margin-top:12px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Cancel</div>'); if(!wrap)return;
+    for(var i=0;i<langs.length;i++){rows+='<div class="lang-opt" data-l="'+langs[i]+'">'+langs[i]+(i===0?'<span style="margin-left:auto;color:#0FA04C">✓</span>':'')+'</div>';}
+    var wrap=sflSheet('Language', rows+'<div class="sh-cancel sflsheet-cancel">Cancel</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} var lo=e.target.closest('.lang-opt'); if(lo){var l=lo.getAttribute('data-l'); var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); [].forEach.call(phone.querySelectorAll('.listrow'),function(r){if(/language/i.test(r.textContent)){var a=r.querySelector('.arr'); if(a)a.textContent=l+' ›';}}); wrap.remove(); sflToast('Language set to '+l); return;} });
   }
   var SFLtaken={ada:1,reds:1,jay:1,priya:1,marco:1,lena:1,diego:1,mikael:1,goal:1,fury:1,captain:1,king:1,legend:1,nadia:1,omar:1};
@@ -606,12 +3009,42 @@ PLAYER_JS = """
       if(go){go.innerHTML='🔒 Reach 5,000 Coins to continue'; go.className='btn dark ccgo'; go.style.opacity='.5'; go.style.marginTop='9px';}
     }
   }
+  function showClubOptsSheet(){
+    if(!SFLmember){ sflToast('You are not in a club'); return; }
+    var leaveDis=SFLleaveAsk==='pending';
+    var mgrLocked=!!(SFLmgrMode||SFLcmgrAsk==='accepted'||SFLcmgrInvite==='accepted');
+    var mgrPend=SFLcmgrAsk==='pending';
+    var leaveRow=leaveDis
+      ? '<div class="sflclubopt dis" data-co="leave-pend"><div class="coi">⏳</div><div><div class="cot">Leave request pending</div><div class="cos">Tap to view status · waiting on manager</div></div></div>'
+      : '<div class="sflclubopt leave" data-co="leave"><div class="coi danger">🚪</div><div><div class="cot">Leave this club</div><div class="cos">Review consequences · manager approves</div></div></div>';
+    var mgrRow;
+    if(mgrLocked){
+      mgrRow='<div class="sflclubopt dis" data-co="mgr-yes"><div class="coi">🛡️</div><div><div class="cot">You are a manager</div><div class="cos">Manager HQ is on your profile</div></div></div>';
+    } else if(mgrPend){
+      mgrRow='<div class="sflclubopt mgr pend" data-co="mgr-pend"><div class="coi">🕐</div><div><div class="cot">Manager request pending</div><div class="cos">Tap to view · waiting for Jay Malik</div></div></div>';
+    } else {
+      mgrRow='<div class="sflclubopt mgr" data-co="mgr"><div class="coi gold">🛡️</div><div><div class="cot">Request to become manager</div><div class="cos">Ask the current manager · you accept nothing yet</div></div></div>';
+    }
+    var inner='<div class="sflclubopt-sub">Red District FC · member options</div>'+mgrRow+leaveRow+'<div class="sh-cancel sflsheet-cancel">Cancel</div>';
+    var wrap=sflSheet('Club options', inner); if(!wrap)return;
+    wrap.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(e.target===wrap||e.target.closest('.sh-cancel')){ wrap.remove(); return; }
+      var row=e.target.closest('.sflclubopt'); if(!row)return;
+      var co=row.getAttribute('data-co')||'';
+      if(co==='leave'){ wrap.remove(); goTo('clubleave'); return; }
+      if(co==='leave-pend'){ wrap.remove(); goTo('leavepending'); return; }
+      if(co==='mgr'){ wrap.remove(); goTo('cmgrask'); return; }
+      if(co==='mgr-pend'){ wrap.remove(); goTo('cmgrsent'); return; }
+      if(co==='mgr-yes'){ sflToast('You are already a manager'); return; }
+    });
+  }
   function showWithdrawSheet(){
-    var wrap=sflSheet('Withdraw application?', '<div style="font-size:12.5px;font-weight:700;color:#5A6472;margin-bottom:14px">Your application to Red District FC will be removed. You can re-apply anytime.</div><div class="wd-yes" style="text-align:center;padding:13px;background:#E4362B;color:#fff;border-radius:12px;font-weight:800;cursor:pointer">Withdraw application</div><div class="sh-cancel" style="text-align:center;margin-top:10px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Keep it</div>'); if(!wrap)return;
+    var wrap=sflSheet('Withdraw application?', '<div class="sflsheet-sub">Your application to Red District FC will be removed. You can re-apply anytime.</div><div class="wd-yes sflsheet-danger">Withdraw application</div><div class="sh-cancel sflsheet-cancel">Keep it</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} if(e.target.closest('.wd-yes')){ wrap.remove(); var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); var body=phone&&phone.querySelector('.body'); if(body){ body.innerHTML='<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px"><div style="width:80px;height:80px;border-radius:50%;background:#F0F2F7;display:flex;align-items:center;justify-content:center;font-size:34px">📭</div><div style="font-size:20px;font-weight:800;color:#14161C;margin-top:16px">No applications</div><div style="font-size:13px;font-weight:650;color:#707786;margin-top:8px;max-width:250px">You withdrew your application. Discover clubs and apply anytime.</div><div class="wd-discover" style="margin-top:20px;padding:14px 22px;background:#E4362B;color:#fff;border-radius:14px;font-weight:800;cursor:pointer">Discover Clubs</div></div>'; } sflToast('Application withdrawn'); return;} });
   }
   function showLogoutSheet(){
-    var wrap=sflSheet('Log out of SFL?', '<div style="font-size:12.5px;font-weight:700;color:#5A6472;margin-bottom:14px">You can sign back in anytime. Your account and progress stay safe.</div><div class="lo-yes" style="text-align:center;padding:13px;background:#E4362B;color:#fff;border-radius:12px;font-weight:800;cursor:pointer">Log out</div><div class="sh-cancel" style="text-align:center;margin-top:10px;padding:12px;background:#F0F2F7;border-radius:12px;font-weight:800;color:#14161C;cursor:pointer">Cancel</div>'); if(!wrap)return;
+    var wrap=sflSheet('Log out of SFL?', '<div class="sflsheet-sub">You can sign back in anytime. Your account and progress stay safe.</div><div class="lo-yes sflsheet-danger">Log out</div><div class="sh-cancel sflsheet-cancel">Cancel</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.sh-cancel')){wrap.remove();return;} if(e.target.closest('.lo-yes')){wrap.remove(); hist.length=0; goTo('signin'); return;} });
   }
   function showShareSheet(){
@@ -624,11 +3057,11 @@ PLAYER_JS = """
       {k:'SMS',e:'💬',c:'#34C759'},{k:'Email',e:'✉️',c:'#EA4335'},
       {k:'QR code',e:'🔳',c:'#3A3F4B'},{k:'Copy link',e:'🔗',c:'#707786'}
     ];
-    var tiles=chans.map(function(ch){return '<div class="shch" data-k="'+ch.k+'" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer"><div style="width:54px;height:54px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 5px 12px rgba(24,40,80,.14);background:'+ch.c+'">'+ch.e+'</div><div style="font-size:10px;font-weight:750;color:#14161C;white-space:nowrap">'+ch.k+'</div></div>';}).join('');
+    var tiles=chans.map(function(ch){return '<div class="shch" data-k="'+ch.k+'" style="display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer"><div style="width:54px;height:54px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:var(--shadow-sm);background:'+ch.c+'">'+ch.e+'</div><div class="shch-lbl">'+ch.k+'</div></div>';}).join('');
     var qr='<svg viewBox="0 0 100 100" shape-rendering="crispEdges" style="width:118px;height:118px;display:block"><rect width="100" height="100" fill="#fff"/><g fill="#07090D"><rect x="6" y="6" width="22" height="22"/><rect x="10" y="10" width="14" height="14" fill="#fff"/><rect x="13" y="13" width="8" height="8"/><rect x="72" y="6" width="22" height="22"/><rect x="76" y="10" width="14" height="14" fill="#fff"/><rect x="79" y="13" width="8" height="8"/><rect x="6" y="72" width="22" height="22"/><rect x="10" y="76" width="14" height="14" fill="#fff"/><rect x="13" y="79" width="8" height="8"/><rect x="34" y="8" width="4" height="4"/><rect x="42" y="8" width="4" height="4"/><rect x="34" y="16" width="8" height="4"/><rect x="50" y="12" width="4" height="8"/><rect x="60" y="8" width="4" height="12"/><rect x="34" y="34" width="4" height="4"/><rect x="42" y="38" width="8" height="4"/><rect x="54" y="34" width="4" height="8"/><rect x="64" y="40" width="8" height="4"/><rect x="74" y="34" width="4" height="8"/><rect x="84" y="38" width="6" height="6"/><rect x="8" y="34" width="4" height="8"/><rect x="16" y="42" width="6" height="4"/><rect x="8" y="52" width="8" height="4"/><rect x="20" y="54" width="4" height="8"/><rect x="34" y="52" width="6" height="6"/><rect x="46" y="54" width="4" height="10"/><rect x="56" y="52" width="10" height="4"/><rect x="70" y="56" width="6" height="6"/><rect x="82" y="52" width="8" height="8"/><rect x="34" y="70" width="4" height="8"/><rect x="44" y="72" width="8" height="4"/><rect x="54" y="78" width="4" height="8"/><rect x="66" y="72" width="6" height="6"/><rect x="78" y="70" width="4" height="10"/><rect x="86" y="80" width="6" height="6"/><rect x="40" y="86" width="10" height="4"/><rect x="62" y="86" width="8" height="6"/></g></svg>';
-    var inner='<div style="font-size:12px;font-weight:650;color:#707786;margin-bottom:12px">Invite people from your contacts &amp; socials to apply to <b style="color:#14161C">Red Fury</b>. They always choose to accept — no one is auto-added.</div>'
-      +'<div style="text-align:center;margin-bottom:14px"><div style="display:inline-block;background:#fff;padding:9px;border-radius:14px;box-shadow:0 5px 14px rgba(24,40,80,.14);border:1px solid #ECEEF5">'+qr+'</div><div style="font-size:10.5px;font-weight:750;color:#707786;margin-top:7px">Scan to apply to Red Fury</div></div>'
-      +'<div style="display:flex;align-items:center;gap:8px;background:#F4F6FB;border:1px solid #ECEEF5;border-radius:12px;padding:11px 13px;margin-bottom:16px"><span style="flex:1;font-size:12.5px;font-weight:700;color:#14161C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+link+'</span><span class="shcopy" style="font-size:12px;font-weight:800;color:var(--red,#E4362B);cursor:pointer">Copy</span></div>'
+    var inner='<div class="sflsheet-sub">Invite people from your contacts &amp; socials to apply to <b>Red Fury</b>. They always choose to accept — no one is auto-added.</div>'
+      +'<div style="text-align:center;margin-bottom:14px"><div class="sflsheet-qrwrap">'+qr+'</div><div style="font-size:10.5px;font-weight:750;color:var(--t2);margin-top:7px">Scan to apply to Red Fury</div></div>'
+      +'<div class="sflsheet-linkrow"><span style="flex:1;font-size:12.5px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+link+'</span><span class="shcopy" style="font-size:12px;font-weight:800;color:var(--red,#E4362B);cursor:pointer">Copy</span></div>'
       +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:17px 4px">'+tiles+'</div>';
     var wrap=sflSheet('Share club invitation', inner); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap){wrap.remove();return;}
@@ -636,7 +3069,7 @@ PLAYER_JS = """
       var ch=e.target.closest('.shch'); if(ch){ var k=ch.getAttribute('data-k'); wrap.remove(); if(/qr/i.test(k)){goTo('mgrshare');return;} if(/copy/i.test(k)){sflToast('🔗 Invite link copied');return;} sflToast('✅ Invitation shared to '+k+' · fans can now apply'); return; } });
   }
   function showEditSheet(title, val, msg){
-    var wrap=sflSheet(title, '<div contenteditable="true" class="es-field" style="height:46px;border-radius:12px;background:#F0F2F7;display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:#14161C;outline:none">'+val+'</div><div style="font-size:11.5px;font-weight:700;color:#8892A4;margin-top:8px">'+(msg||'')+'</div><div class="es-save" style="text-align:center;margin-top:14px;padding:13px;background:#C9FF3D;color:#0A1400;border-radius:12px;font-weight:800;cursor:pointer">Save</div>'); if(!wrap)return;
+    var wrap=sflSheet(title, '<div contenteditable="true" class="es-field">'+val+'</div><div class="sflsheet-sub" style="margin-top:8px;margin-bottom:0">'+(msg||'')+'</div><div class="es-save" style="text-align:center;margin-top:14px;padding:13px;background:#C9FF3D;color:#0A1400;border-radius:12px;font-weight:800;cursor:pointer">Save</div>'); if(!wrap)return;
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap){wrap.remove();return;} if(e.target.closest('.es-field')){return;} if(e.target.closest('.es-save')){wrap.remove();sflToast(title+' updated · verification sent');return;} });
   }
   function SFLchat(root){
@@ -720,6 +3153,21 @@ PLAYER_JS = """
     var np=m.querySelector('.numpitch'); if(np){ var html=''; for(var i=1;i<=SFLseatCount;i++){ html+='<div class="numslot'+(i===1?' host':'')+'">'+i+(i===1?'<span class="sl">Host</span>':'')+'</div>'; } np.innerHTML=html; }
     var note=m.querySelector('.numnote'); if(note)note.innerHTML='Guests join by number (2–'+SFLseatCount+'). You\\'re always <b>#1</b> as host — you don\\'t pick a position.';
     var cta=m.querySelector('.cta .btn'); if(cta)cta.textContent='Preview & Go Live · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):SFLformation);
+  }
+  function applyPermissions(m){
+    if(!m)return;
+    function setAct(row, cls, txt){ var act=row.querySelector('[data-perm-act]'); if(!act)return; act.className=cls; act.textContent=txt; }
+    var cam=m.querySelector('.permcard[data-perm="camera"]'); if(cam){ setAct(cam, SFLperm.camera?'done':'allow', SFLperm.camera?'✓ Allowed':'Allow'); }
+    var mic=m.querySelector('.permcard[data-perm="mic"]'); if(mic){ setAct(mic, SFLperm.mic?'done':'allow', SFLperm.mic?'✓ Allowed':'Allow'); }
+    var notif=m.querySelector('.permcard[data-perm="notif"]'); if(notif){
+      if(SFLperm.notif==='allowed') setAct(notif,'done','✓ Allowed');
+      else if(SFLperm.notif==='later') setAct(notif,'deferred','Skipped');
+      else setAct(notif,'later','Later');
+    }
+    var ready=!!(SFLperm.camera&&SFLperm.mic);
+    var btn=m.querySelector('.permsetup .cta .btn')||m.querySelector('.cta .btn');
+    if(btn){ btn.classList.toggle('disabled',!ready); btn.textContent=ready?'Continue':'Allow camera & mic to continue'; }
+    var prev=m.querySelector('.campreview'); if(prev) prev.style.opacity=SFLperm.camera?'1':'.72';
   }
   function applySeatNumbers(m){
     var ht=m.querySelector('.hosttile'); if(ht){ var hn=ht.querySelector('.hostnum'); if(SFLseatMode==='num'){ if(!hn){hn=document.createElement('div');hn.className='hostnum';ht.appendChild(hn);} hn.textContent='1'; } else if(hn){ hn.remove(); } }
@@ -1030,6 +3478,7 @@ PLAYER_JS = """
     if(curS>=v.screens.length)curS=v.screens.length-1;
     var scr=v.screens[curS];
     mount.id='j'+scr.srcJ; mount.innerHTML=scr.html;
+    var _ph=mount.querySelector('.phone'); if(_ph&&_ph.classList.contains('light')) _ph.setAttribute('data-sfl-light','1');
     if(window._sflpkto){clearTimeout(window._sflpkto);window._sflpkto=null;} if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;}
     if(window._sflmgpkraf){cancelAnimationFrame(window._sflmgpkraf);window._sflmgpkraf=0;} if(window._sflmgpkto){clearTimeout(window._sflmgpkto);window._sflmgpkto=null;}
     if(window._sflmgwhraf){cancelAnimationFrame(window._sflmgwhraf);window._sflmgwhraf=0;} if(window._sflmgwhto){clearTimeout(window._sflmgwhto);window._sflmgwhto=null;}
@@ -1057,6 +3506,7 @@ PLAYER_JS = """
     if(scr.fnum==='G-05'){ var _pf=mount.querySelector('.pv-fan'),_pm=mount.querySelector('.pv-mgr'); if(_pf)_pf.style.display=SFLmgrMode?'none':''; if(_pm)_pm.style.display=SFLmgrMode?'block':'none'; var _rm=mount.querySelector('.rolemgr'); if(_rm)_rm.style.display=SFLmgrMode?'':'none'; applyCmgrMember(mount); }
     if(scr.fnum==='CC-00'){ applyMgrGate(mount); }
     if(scr.fnum==='J2-20'){ SFLmember=false; }
+    if(scr.fnum==='J2-01'){ SFLmember=false; SFLleaveAsk='none'; }
     if(scr.fnum==='J2-08'){ setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='J2-08')return; var m=mount; var _c=m.querySelector('.tl .dot.cur'); if(_c){_c.className='dot done';_c.textContent='✓';} var _pd=m.querySelector('.tl.pending'); if(_pd){_pd.classList.remove('pending'); var _dd=_pd.querySelector('.dot'); if(_dd){_dd.className='dot cur';_dd.textContent='◔';} var _t2=_pd.querySelector('.td'); if(_t2)_t2.textContent='Reviewing your application…';} },800);
       setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)!=='J2-08')return; var m=mount; var _pl=m.querySelector('.sp-pending'); if(_pl){_pl.textContent='✓ Approved'; _pl.style.cssText='font-size:9px;font-weight:800;color:#0A8F40;background:#EAF9F0;border:1px solid #BFE9CE;padding:2px 8px;border-radius:999px';} var _c2=m.querySelector('.tl .dot.cur'); if(_c2){_c2.className='dot done';_c2.textContent='✓';} var _tls=m.querySelectorAll('.tl'); if(_tls.length){var _L=_tls[_tls.length-1]; var _tt=_L.querySelector('.tt'); if(_tt)_tt.textContent='Decision · Approved'; var _td=_L.querySelector('.td'); if(_td)_td.textContent='Welcome to Red District FC!';} var _b=m.querySelector('.btn.danger'); if(_b){_b.textContent='Enter Club'; _b.className='btn';} sflToast('✅ Application approved · Welcome to Red District FC'); },1600); }
     if(scr.fnum==='MG-03A'){ setTimeout(function(){ if(((VIEWS[curJ].screens[curS]||{}).fnum)==='MG-03A'){goTo('wheelresult');} },2900); }
@@ -1074,9 +3524,14 @@ PLAYER_JS = """
     scap.textContent=(scr.cap||'').slice(0,46);
     ct.textContent=(curS+1)+' / '+v.screens.length;
     var c2=document.getElementById('counter2');if(c2)c2.textContent=ct.textContent;
-    jsel.value=curJ;
-    var d=''; for(var i=0;i<v.screens.length;i++) d+='<span class="ppdot'+(i===curS?' on':'')+'"></span>'; dotbar.innerHTML=d;
+    var canBack=curJ>0||curS>0||hist.length>0;
+    var canFwd=curJ<VIEWS.length-1||curS<v.screens.length-1;
+    var bp2=document.getElementById('bprev2'),bn2=document.getElementById('bnext2');
+    if(bp2){bp2.disabled=!canBack;bp2.classList.toggle('off',!canBack);}
+    if(bn2){bn2.disabled=!canFwd;bn2.classList.toggle('off',!canFwd);}
+    flowsel.value=curJ;
     if(scr.fnum==='GL-02'){ applyFormMode(mount); }
+    if(scr.fnum==='GL-01B'){ applyPermissions(mount); }
     if(scr.fnum==='G-05F'){ applyFollowTab(mount); }
     if(scr.fnum==='GL-02A'){ var _gm=mount.querySelector('.rt2 .rmeta'); if(_gm){ _gm.textContent='Red District FC · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):(SFLformation+' · '+SFLseatCount+' positions')); } }
     startTimers(mount);
@@ -1106,8 +3561,9 @@ PLAYER_JS = """
     if(scr.fnum==='PL-07L'||scr.fnum==='PL-08L'){applyPlLoan(mount);}
     if(scr.fnum==='G-02'||scr.fnum==='G-02M'){applyHomePlayersDuty(mount);}
     if(scr.fnum==='FT-02'){applyFtPlayerDuty(mount);}
-    if(scr.fnum==='G-03'){applyPlNotifs(mount);applyCmgrNotifs(mount);}
+    if(scr.fnum==='G-03'){applyPlNotifs(mount);applyCmgrNotifs(mount);applyTourn(mount);}
     if(scr.fnum==='J2-16'){applyCmgrMember(mount);}
+    if(scr.fnum==='J2-05'){applyClubDetailMember(mount);}
     if(scr.fnum==='MC-01'){applyCmgrHqBadge(mount);}
     if(scr.fnum==='MC-04'||scr.fnum==='MC-04A'||scr.fnum==='MC-CM-01'||scr.fnum==='MC-CM-02'||scr.fnum==='MC-CM-03'){applyCmgrPick(mount);}
     if(scr.fnum==='MC-CM-02'){
@@ -1136,6 +3592,8 @@ PLAYER_JS = """
     if(scr.fnum==='MG-03'){initMgWheel(mount);}
     if(scr.fnum==='WA-01'){applyCsWallet(mount);}
     if(scr.srcJ===25){applyCsScreen(mount,scr.fnum);}
+    if(/^TR-/.test(scr.fnum)||scr.fnum==='PR-00'){applyTourn(mount);}
+    if(scr.fnum==='10'){applySigninTab(mount);}
     fit();
   }
   var WACLIPS={goals:{title:'Every Goal · MD5',file:'fb_stadium.jpg'},derby:{title:'Derby Highlights',file:'fb_crowd.jpg'},skills:{title:'Skills of the Week',file:'fb_host.jpg'}};
@@ -1345,6 +3803,7 @@ PLAYER_JS = """
     window._sflploffer=setTimeout(function(){
       plQueueOffer(id,kind);
       if(((VIEWS[curJ].screens[curS]||{}).fnum)==='G-03') applyPlNotifs(mount);
+      if(((VIEWS[curJ].screens[curS]||{}).fnum)==='G-03') applyTourn(mount);
     },1600);
     return true;
   }
@@ -1418,6 +3877,26 @@ PLAYER_JS = """
     var waiting=SFLcmgrAsk==='pending'||SFLcmgrInvite==='pending';
     if(ask) ask.style.display=(locked||waiting)?'none':'';
     if(pend){ pend.style.display=waiting?'':'none'; if(waiting) pend.textContent=SFLcmgrInvite==='pending'?'🕐 Manager invite waiting · accept it from Notifications':'🕐 Manager request pending · you will be notified'; }
+  }
+  function applyClubDetailMember(root){
+    var hnav=root.querySelector('.hnav'); if(!hnav) return;
+    var more=hnav.querySelector('.clubmore'), pill=hnav.querySelector('.sp-member-detail');
+    if(SFLmember){
+      if(!pill){
+        pill=document.createElement('span');
+        pill.className='pill sp-member sp-member-detail';
+        pill.style.cssText='margin-left:auto;align-self:center';
+        pill.textContent='✓ Member';
+        if(more) hnav.insertBefore(pill, more);
+        else hnav.appendChild(pill);
+      }
+      var apply=root.querySelector('.cta .btn.club');
+      if(apply) apply.textContent='Enter Club Home';
+    } else {
+      if(pill) pill.remove();
+      var apply2=root.querySelector('.cta .btn.club');
+      if(apply2) apply2.textContent='Apply to Join';
+    }
   }
   function applyCmgrQueue(root){
     var list=root.querySelector('#cm-list'); if(!list) return;
@@ -1578,6 +4057,21 @@ PLAYER_JS = """
       var v=r.querySelector('.v'); if(v)v.textContent=val;
     });
   }
+  function applyTourn(root){
+    if(!root)return;
+    var bal=SFLtournCoins, fee=500, after=Math.max(0,bal-fee), elig=SFLtournEligible, payout=100*elig;
+    var balS=bal.toLocaleString('en-US'), afterS=after.toLocaleString('en-US'), feeS=fee.toLocaleString('en-US'), payS=payout.toLocaleString('en-US');
+    [].forEach.call(root.querySelectorAll('[data-tbal]'),function(e){e.textContent=balS;});
+    [].forEach.call(root.querySelectorAll('[data-tafter]'),function(e){e.textContent=afterS;});
+    [].forEach.call(root.querySelectorAll('[data-tfee]'),function(e){e.textContent=feeS;});
+    [].forEach.call(root.querySelectorAll('[data-tcountry]'),function(e){e.textContent=SFLtournCountry+' '+SFLtournFlag;});
+    [].forEach.call(root.querySelectorAll('[data-tname]'),function(e){e.textContent=SFLtournName;});
+    [].forEach.call(root.querySelectorAll('[data-telig]'),function(e){e.textContent=String(elig);});
+    [].forEach.call(root.querySelectorAll('[data-tpayout]'),function(e){e.textContent=payS;});
+    var _tc=root.querySelector('.hubcard.tour .hv'); if(_tc)_tc.textContent=SFLtournReg?(SFLtournName+' · Group C'):('Register · '+SFLtournName);
+    var _ta=root.querySelector('.tourcard.reg .tact'); if(_ta)_ta.textContent=SFLtournReg?'Open dashboard':'Register';
+    var _tn=root.querySelector('#n-tourn-afcon'); if(_tn){ _tn.style.display=SFLtournReg?'none':''; }
+  }
   function applyPlayer(root){
     var p=SFLPLAYERS[SFLpl]||SFLPLAYERS.rivera;
     var after=1240-p.val;
@@ -1633,14 +4127,33 @@ PLAYER_JS = """
   function prev(){if(curS>0){curS--;} else if(curJ>0){curJ--;curS=VIEWS[curJ].screens.length-1;} render();}
   document.getElementById('bnext2').onclick=next; document.getElementById('bprev2').onclick=goBack;
   document.getElementById('bnext').onclick=next; document.getElementById('bprev').onclick=goBack;
-  jsel.onchange=function(){curJ=+jsel.value;curS=0;render();};
+  flowsel.onchange=function(){curJ=+flowsel.value;curS=0;render();};
   document.addEventListener('keydown',function(e){ var _ae=document.activeElement; if(_ae&&(_ae.tagName==='INPUT'||_ae.tagName==='TEXTAREA'||_ae.isContentEditable))return; if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}else if(e.key==='ArrowLeft'){goBack();}});
-  var tx=0; var stage=document.getElementById('stage');
-  stage.addEventListener('touchstart',function(e){tx=e.changedTouches[0].clientX;},{passive:true});
-  stage.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>45){dx<0?next():prev();}},{passive:true});
+  var tx=0,ty=0,swipeLock=null; var stage=document.getElementById('stage');
+  var SWIPE_MIN=window.matchMedia('(pointer: coarse)').matches?96:72;
+  var SWIPE_RATIO=window.matchMedia('(pointer: coarse)').matches?2.2:1.75;
+  function swipeScrollTarget(t){return t&&t.closest&&t.closest('.scrollarea,.scroll,.lscroll,.hscroll,.feed,.list,.dbody,.lbody,.body,.rchat,.pkchat');}
+  stage.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1)return;
+    tx=e.touches[0].clientX; ty=e.touches[0].clientY; swipeLock=swipeScrollTarget(e.target)?'v':null;
+  },{passive:true});
+  stage.addEventListener('touchmove',function(e){
+    if(e.touches.length!==1||swipeLock==='v')return;
+    var dx=e.touches[0].clientX-tx, dy=e.touches[0].clientY-ty;
+    if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>14) swipeLock='v';
+    else if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>28) swipeLock='h';
+  },{passive:true});
+  stage.addEventListener('touchend',function(e){
+    if(e.changedTouches.length!==1){swipeLock=null;return;}
+    if(swipeLock==='v'){swipeLock=null;return;}
+    var t=e.changedTouches[0], dx=t.clientX-tx, dy=t.clientY-ty;
+    swipeLock=null;
+    if(Math.abs(dx)<SWIPE_MIN||Math.abs(dx)<Math.abs(dy)*SWIPE_RATIO)return;
+    dx<0?next():prev();
+  },{passive:true});
   var MULTI='.tchip,.chip', SINGLE='.fchip,.lchip,.tab,.dtab,.segopt,.reasonopt,.srcopt,.laopt,.opt,.giftopt,.pt,.sw,.em,.teamrow,.lgchip,.formcard', SEG='.seg,.tabs,.dtabs';
   function singleSel(el,grp){[].forEach.call(grp.children,function(c){if(c.classList)c.classList.remove('on');});el.classList.add('on');}
-  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var SFLmgrEligible=false; var SFLmgrBuying=false; var SFLpkMin=5; var SFLseatCount=11; var SFLseatMode='pos'; var SFLformation='4-3-3'; var SFLfollowTab='followers'; var SFLwaClip='goals'; var SFLwaSrc=null; var SFLwaApp='yt'; var SFLwaSize='md'; var SFLcoHosts={}; var SFLchAsk='none'; var SFLliveRole='viewer'; var SFLseated=false; var SFLchTab='join'; var SFLjoinQ=[{id:'join-priya',kind:'join',name:'Priya S.',pos:'RW',av:'up_12.png'},{id:'join-kai',kind:'join',name:'Kai M.',pos:'CM',av:'up_02.png'},{id:'ch-maya',kind:'cohost',name:'Maya Chen',pos:'Viewer',av:'up_11.png'}]; var SFLpl='rivera'; var SFLplList={}; var SFLplKind='transfer'; var SFLplLoan='1 week'; var SFLplOffers=[{id:'rivera',kind:'transfer',buyer:'Priya S.',status:'pending'},{id:'mensah',kind:'loan',buyer:'Luis Ortega',status:'pending'}]; var SFLcs={status:'none',amt:500,seller:'maya',rate:10.4,name:'Maya Chen',tradeAvail:8400,tradeReserved:500,proof:0}; var SFLcmgrPick={id:'priya',name:'Priya M.',fid:'67890',av:'up_11.png',lv:'9',fv:'1,510'}; var SFLcmgrStaff={}; var SFLcmgrAsk='none'; var SFLcmgrInvite='none'; var SFLcmgrTab='ask'; var SFLcmgrQ=[{id:'ask-diego',kind:'ask',name:'Diego S.',av:'up_10.png',status:'pending'}]; var ANCH={"watchpick":[6,"GL-WA-01"],"walogin":[6,"GL-WA-L"],"wapickvid":[6,"GL-WA-P"],"watchlive":[6,"GL-WA-H"],"watchlivev":[6,"GL-WA-V"],"watchend":[6,"GL-WA-E"],"chrequest":[6,"GL-CH-01"],"chsent":[6,"GL-CH-02"],"chinbox":[6,"GL-CH-H"],"cohostroom":[6,"GL-CH-C"],"joinwait":[6,"GL-05W"],"joinaccepted":[6,"GL-05OK"],"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "followlist": [19, "G-05F"], "giftshowcase": [19, "G-05GW"], "badgewall": [19, "G-05BW"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "plactions":[5,"PL-06A"], "plloan":[5,"PL-07L"], "plloanlive":[5,"PL-08L"], "pllistlive":[5,"PL-08"], "plsale":[5,"PL-09"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "csellers":[25,"CS-01"],"csloading":[25,"CS-01L"],"csempty":[25,"CS-01E"],"cserror":[25,"CS-01X"],"cseller":[25,"CS-02"],"csconfirm":[25,"CS-02C"],"cspending":[25,"CS-03"],"cspay":[25,"CS-04"],"cssent":[25,"CS-04S"],"cswait":[25,"CS-05"],"cstransfer":[25,"CS-06"],"csdone":[25,"CS-07"],"csrate":[25,"CS-08"],"cscancelled":[25,"CS-09"],"csexpired":[25,"CS-10"],"csreject":[25,"CS-11"],"cshistory":[25,"CS-12"],"csfailed":[25,"CS-13"],"csbecome":[25,"CS-20"],"csapply":[25,"CS-21"],"csapppend":[25,"CS-22"],"csapproved":[25,"CS-23"],"csappreject":[25,"CS-24"],"cssuspended":[25,"CS-25"],"csdesk":[25,"CS-30"],"csrequests":[25,"CS-31"],"csreq":[25,"CS-32"],"csconfirm-pay":[25,"CS-33"],"cstx":[25,"CS-34"],"cscust":[25,"CS-35"],"csnotes":[25,"CS-36"],"cssell":[25,"CS-40"],"csverify":[25,"CS-41"],"csnotfound":[25,"CS-41X"],"csamount":[25,"CS-42"],"cssellconfirm":[25,"CS-43"],"csselldone":[25,"CS-44"],"csinv":[25,"CS-50"],"csinvpay":[25,"CS-51"],"csinvdone":[25,"CS-52"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "cmgrmake":[13,"MC-CM-01"], "cmgrinvsent":[13,"MC-CM-02"], "cmgrfanok":[13,"MC-CM-03"], "cmgrqueue":[13,"MC-CM-Q"], "cmgrinvite":[13,"MC-CM-F1"], "cmgrask":[13,"MC-CM-F2"], "cmgrsent":[13,"MC-CM-F3"], "cmgryes":[13,"MC-CM-F4"], "cmgrno":[13,"MC-CM-F5"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [20, 0],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"leavepending":[1,"J2-LV"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"noclub":[1,"J2-01"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-00"],"mgrupgrade":[24,"CC-00"],"ccstart":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"]};
+  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var SFLmgrEligible=false; var SFLmgrBuying=false; var SFLpkMin=5; var SFLseatCount=11; var SFLseatMode='pos'; var SFLformation='4-3-3'; var SFLfollowTab='followers'; var SFLwaClip='goals'; var SFLwaSrc=null; var SFLwaApp='yt'; var SFLwaSize='md'; var SFLcoHosts={}; var SFLchAsk='none'; var SFLliveRole='viewer'; var SFLseated=false; var SFLchTab='join'; var SFLjoinQ=[{id:'join-priya',kind:'join',name:'Priya S.',pos:'RW',av:'up_12.png'},{id:'join-kai',kind:'join',name:'Kai M.',pos:'CM',av:'up_02.png'},{id:'ch-maya',kind:'cohost',name:'Maya Chen',pos:'Viewer',av:'up_11.png'}]; var SFLpl='rivera'; var SFLplList={}; var SFLplKind='transfer'; var SFLperm={camera:true,mic:false,notif:null}; var SFLplLoan='1 week'; var SFLsigninTab='email'; var SFLsigninOtpSent=false; var SFLplOffers=[{id:'rivera',kind:'transfer',buyer:'Priya S.',status:'pending'},{id:'mensah',kind:'loan',buyer:'Luis Ortega',status:'pending'}]; var SFLcs={status:'none',amt:500,seller:'maya',rate:10.4,name:'Maya Chen',tradeAvail:8400,tradeReserved:500,proof:0}; var SFLcmgrPick={id:'priya',name:'Priya M.',fid:'67890',av:'up_11.png',lv:'9',fv:'1,510'}; var SFLcmgrStaff={}; var SFLcmgrAsk='none'; var SFLcmgrInvite='none'; var SFLcmgrTab='ask'; var SFLleaveAsk='none'; var SFLtournReg=false; var SFLtournCountry='Nigeria'; var SFLtournFlag='🇳🇬'; var SFLtournCoins=1240; var SFLtournEligible=7; var SFLtournName='AFCON 2026'; var SFLcmgrQ=[{id:'ask-diego',kind:'ask',name:'Diego S.',av:'up_10.png',status:'pending'}]; var ANCH={"watchpick":[6,"GL-WA-01"],"walogin":[6,"GL-WA-L"],"wapickvid":[6,"GL-WA-P"],"watchlive":[6,"GL-WA-H"],"watchlivev":[6,"GL-WA-V"],"watchend":[6,"GL-WA-E"],"chrequest":[6,"GL-CH-01"],"chsent":[6,"GL-CH-02"],"chinbox":[6,"GL-CH-H"],"cohostroom":[6,"GL-CH-C"],"joinwait":[6,"GL-05W"],"joinaccepted":[6,"GL-05OK"],"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "followlist": [19, "G-05F"], "giftshowcase": [19, "G-05GW"], "badgewall": [19, "G-05BW"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "plactions":[5,"PL-06A"], "plloan":[5,"PL-07L"], "plloanlive":[5,"PL-08L"], "pllistlive":[5,"PL-08"], "plsale":[5,"PL-09"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "csellers":[25,"CS-01"],"csloading":[25,"CS-01L"],"csempty":[25,"CS-01E"],"cserror":[25,"CS-01X"],"cseller":[25,"CS-02"],"csconfirm":[25,"CS-02C"],"cspending":[25,"CS-03"],"cspay":[25,"CS-04"],"cssent":[25,"CS-04S"],"cswait":[25,"CS-05"],"cstransfer":[25,"CS-06"],"csdone":[25,"CS-07"],"csrate":[25,"CS-08"],"cscancelled":[25,"CS-09"],"csexpired":[25,"CS-10"],"csreject":[25,"CS-11"],"cshistory":[25,"CS-12"],"csfailed":[25,"CS-13"],"csbecome":[25,"CS-20"],"csapply":[25,"CS-21"],"csapppend":[25,"CS-22"],"csapproved":[25,"CS-23"],"csappreject":[25,"CS-24"],"cssuspended":[25,"CS-25"],"csdesk":[25,"CS-30"],"csrequests":[25,"CS-31"],"csreq":[25,"CS-32"],"csconfirm-pay":[25,"CS-33"],"cstx":[25,"CS-34"],"cscust":[25,"CS-35"],"csnotes":[25,"CS-36"],"cssell":[25,"CS-40"],"csverify":[25,"CS-41"],"csnotfound":[25,"CS-41X"],"csamount":[25,"CS-42"],"cssellconfirm":[25,"CS-43"],"csselldone":[25,"CS-44"],"csinv":[25,"CS-50"],"csinvpay":[25,"CS-51"],"csinvdone":[25,"CS-52"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "cmgrmake":[13,"MC-CM-01"], "cmgrinvsent":[13,"MC-CM-02"], "cmgrfanok":[13,"MC-CM-03"], "cmgrqueue":[13,"MC-CM-Q"], "cmgrinvite":[13,"MC-CM-F1"], "cmgrask":[13,"MC-CM-F2"], "cmgrsent":[13,"MC-CM-F3"], "cmgryes":[13,"MC-CM-F4"], "cmgrno":[13,"MC-CM-F5"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [20, 0],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"forgotpw":[0,"12"],"resetverify":[0,"13"],"newpassword":[0,"14"],"passwordupdated":[0,"14b"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"leavepending":[1,"J2-LV"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"noclub":[1,"J2-01"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-00"],"mgrupgrade":[24,"CC-00"],"ccstart":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"],"tournhub":[11,"TR-01"],"tournnotify":[11,"TR-02"],"tournconfirm":[11,"TR-03"],"tournpay":[11,"TR-04"],"tournsuccess":[11,"TR-05"],"tourndash":[11,"TR-06"],"tournpayout":[11,"TR-07"],"tournteam":[11,"TR-08"],"tournrules":[11,"TR-09"]};
   function idxOfFnum(j,fn){var a=(JOUR[j]&&JOUR[j].screens)||[];for(var i=0;i<a.length;i++)if(a[i].fnum===fn)return i;return 0;}
   var GUESTOK={guesthome:1,gate:1,clubs:1,clubdetail:1,clubsearch:1,guestlive:1,live:1,register:1,signin:1,notifications:1,guestregister:1,market:1,playerdetail:1,plfilters:1,liveroom:1,pkbattle:1,stadiumhub:1,userprofile:1,squadroom:1,confirmseat:1,fanseated:1,pkfinalizing:1,pkwin:1,pkdraw:1,pkleadchange:1,pkcountdown:1,pkmatchup:1,watchlivev:1};
   function goTo(a){
@@ -1651,7 +4164,7 @@ PLAYER_JS = """
     if(a==='club'&&!SFLmember){a='noclub';}
     if(SFLguest){ if(a==='home'){a='guesthome';} else if(!GUESTOK[a]){a='gate';} }
     var d=ANCH[a]; if(!d)return false; hist.push({j:curJ,s:curS,html:mount.innerHTML}); curJ=FLOWN+d[0]; curS=(typeof d[1]==='number')?d[1]:idxOfFnum(d[0],d[1]); render(); return true;}
-  function goBack(){ if(hist.length){var h=hist.pop(); curJ=h.j; curS=h.s; render(); if(h.html){mount.innerHTML=h.html;} var sc=VIEWS[curJ].screens[curS]||{}; SFLcoinify(mount); SFLcrest(mount); SFLchat(mount); if(sc.fnum==='FT-01'||sc.fnum==='FT-02'){applyTaskDone(mount);} if(sc.fnum==='PV-01'){applyPredDone(mount);} if(sc.fnum==='PV-05'){applyVoteDone(mount,'motm');} if(sc.fnum==='PV-09'){applyVoteDone(mount,'award');} } else prev(); }
+  function goBack(){ if(hist.length){var h=hist.pop(); curJ=h.j; curS=h.s; render(); if(h.html){mount.innerHTML=h.html;} var sc=VIEWS[curJ].screens[curS]||{}; SFLcoinify(mount); SFLcrest(mount); SFLchat(mount); if(sc.fnum==='FT-01'||sc.fnum==='FT-02'){applyTaskDone(mount);} if(sc.fnum==='PV-01'){applyPredDone(mount);} if(sc.fnum==='PV-05'){applyVoteDone(mount,'motm');} if(sc.fnum==='PV-09'){applyVoteDone(mount,'award');} if(sc.fnum==='10'){applySigninTab(mount);} } else prev(); }
   function endCall(){ while(hist.length){ var _t=hist[hist.length-1]; var _f=((VIEWS[_t.j]&&VIEWS[_t.j].screens[_t.s])||{}).fnum||''; if(_f.indexOf('CALL')===0){hist.pop();} else break; } if(hist.length){goBack();} else {goTo('chatthread');} }
   function cleanTo(anchor, re){ while(hist.length){var _ch=hist[hist.length-1];var _cff=((VIEWS[_ch.j]&&VIEWS[_ch.j].screens[_ch.s])||{}).fnum||'';if(re.test(_cff)){hist.pop();}else break;} var _cd=ANCH[anchor]; if(!_cd)return; curJ=FLOWN+_cd[0]; curS=(typeof _cd[1]==='number')?_cd[1]:idxOfFnum(_cd[0],_cd[1]); render(); }
   function jumpTab(anchor){ var _jd=ANCH[anchor]; if(!_jd)return; curJ=FLOWN+_jd[0]; curS=(typeof _jd[1]==='number')?_jd[1]:idxOfFnum(_jd[0],_jd[1]); render(); }
@@ -1688,6 +4201,26 @@ PLAYER_JS = """
     var btn=root.querySelector('.btn'); if(btn){ btn.innerHTML='✓ You voted · '+v; }
     var open=root.querySelector('[style*="var(--green1)"]'); if(open&&/voting open/i.test(open.textContent||'')){ open.innerHTML='✓ Vote locked · you voted for '+v; }
   }
+  function applySigninTab(root){
+    if(!root.querySelector('.signin-panel'))return;
+    var isPhone=SFLsigninTab==='phone';
+    var seg=root.querySelector('.signin-seg')||root.querySelector('.seg');
+    if(seg){
+      [].forEach.call(seg.children,function(c){
+        var tab=c.getAttribute('data-tab')||'';
+        if(!tab)tab=/phone/i.test(c.textContent||'')?'phone':'email';
+        c.classList.toggle('on',isPhone?(tab==='phone'):(tab==='email'));
+      });
+    }
+    var em=root.querySelector('.signin-email'), ph=root.querySelector('.signin-phone');
+    if(em)em.style.display=isPhone?'none':'';
+    if(ph){
+      ph.style.display=isPhone?'':'none';
+      var send=ph.querySelector('.signin-phone-send'), verify=ph.querySelector('.signin-phone-verify');
+      if(send)send.style.display=SFLsigninOtpSent?'none':'';
+      if(verify)verify.style.display=SFLsigninOtpSent?'':'none';
+    }
+  }
   function destOf(t){
     if(t.closest('.coinpill'))return 'coinstore';
     if(t.closest('.hqbtn'))return 'managerhq';
@@ -1695,7 +4228,7 @@ PLAYER_JS = """
     var hic=t.closest('.hicon'); if(hic){var e=hic.textContent; if(e.indexOf('🔔')>=0)return 'notifications'; if(e.indexOf('💬')>=0)return 'inbox';}
     if(t.closest('.ha')||t.closest('.selavatar'))return 'profile';
     var lab=t.closest('.btn,.dbtn,.lbtn,.short,.mod,.tile,.tplay,.listrow,.rolerow,.pjoin,.ab,.mgo,.cgo,.gj,.rw,.cat,.reccard,.mbanner,.clubcard,.hqbtn,.nrow,.txrow,.hrow,.crow,.callrow,.qt,.mom,.hjoin,.nextfix,.hfol,.livecard,.act,.explorelink,a'); var x=(lab?lab.textContent:'').toLowerCase();
-    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games']];
+    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games'],['afcon 2026','tournnotify'],['register your country','tournnotify'],['tournament coin','tournhub'],['tournament registration','tournnotify']];
     for(var i=0;i<K.length;i++){if(x.indexOf(K[i][0])>=0)return K[i][1];}
     return null;
   }
@@ -1714,6 +4247,47 @@ PLAYER_JS = """
     var _mic=t.closest('.micind'); if(_mic){ var _mst=_mic.closest('.seat'); var _isHost=(_cf==='GL-03H'||_cf==='GL-CH-C'||_cf==='GL-WA-H'); var _mnm=(((_mst&&_mst.querySelector('.nm'))||{}).textContent||'this seat').trim(); var _isYou=_mst&&(_mst.classList.contains('you')||/^you$/i.test(_mnm)); if(_isHost||_isYou){ var _md=_mic.classList.toggle('muted'); _mic.textContent=_md?'🔇':'🎤'; sflToast((_md?'🔇 Muted ':'🎤 Unmuted ')+(_isYou?'your mic':_mnm)); } else { sflToast('🔒 Only the host or a co-host can mute other seats'); } return; }
     var _sug=t.closest('.dnsug'); if(_sug){ var _de=_sug.closest('.dnerr'); var _df=_de&&_de.previousElementSibling; if(_df){ _df.textContent=_sug.getAttribute('data-s'); showNameErr(_df); } return; }
     if(_cf==='7'&&t.closest('.btn')){ var _f7=mEl.querySelector('.dname'); if(_f7&&showNameErr(_f7)){return;} next(); return; }
+    if(_cf==='10'&&mEl.querySelector('.signin-panel')){
+      var _sg10=t.closest('.seg i'); if(_sg10){
+        var _tab10=_sg10.getAttribute('data-tab')||(/phone/i.test(_sg10.textContent||'')?'phone':'email');
+        SFLsigninTab=_tab10; if(_tab10==='email')SFLsigninOtpSent=false;
+        singleSel(_sg10,_sg10.parentElement); applySigninTab(mEl); return;
+      }
+      if(t.closest('.resend .b')){ SFLsigninOtpSent=false; applySigninTab(mEl); return; }
+      var _sb10=t.closest('.btn'); if(_sb10){
+        var _sbt=(_sb10.textContent||'').trim();
+        if(/send code/i.test(_sbt)&&SFLsigninTab==='phone'&&!SFLsigninOtpSent){ SFLsigninOtpSent=true; applySigninTab(mEl); sflToast('Code sent · check your messages'); return; }
+      }
+      if(t.closest('.forgot')){ SFLsigninTab='email'; SFLsigninOtpSent=false; goTo('forgotpw'); return; }
+    }
+    if(_cf==='3b'){
+      var _b3b=t.closest('.btn'); if(_b3b){
+        if(/sign in/i.test(_b3b.textContent)){ SFLsigninTab='email'; SFLsigninOtpSent=false; goTo('signin'); return; }
+        if(/recover/i.test(_b3b.textContent)){ goTo('forgotpw'); return; }
+      }
+      if(t.closest('.top .back')){ goBack(); return; }
+      return;
+    }
+    if(_cf==='12'){
+      if(t.closest('.top .back')){ if(hist.length){goBack();}else{SFLsigninTab='email';SFLsigninOtpSent=false;goTo('signin');} return; }
+      if(t.closest('.btn')){ goTo('resetverify'); sflToast('Verification code sent'); return; }
+      return;
+    }
+    if(_cf==='13'){
+      if(t.closest('.top .back')){ goBack(); return; }
+      if(t.closest('.resend .b')){ sflToast(/phone/i.test((t.closest('.resend .b').textContent||''))?'Code sent to your phone':'Code resent'); return; }
+      if(t.closest('.btn')){ goTo('newpassword'); return; }
+      return;
+    }
+    if(_cf==='14'){
+      if(t.closest('.top .back')){ goBack(); return; }
+      if(t.closest('.btn')){ goTo('passwordupdated'); return; }
+      return;
+    }
+    if(_cf==='14b'){
+      if(t.closest('.btn')){ goTo('home'); return; }
+      return;
+    }
     if(_cf==='1'){ if(!t.closest('.btn,.altlink,a')){next();return;} }
     if(_cf==='G-03'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.ico')){[].forEach.call(mEl.querySelectorAll('.unread'),function(u){u.style.display='none';}); sflToast('All notifications marked read'); return;} var _nfc=t.closest('.fchip'); if(_nfc){singleSel(_nfc,_nfc.parentElement);return;}
       var _off=t.closest('[data-ploffer]');
@@ -1749,6 +4323,12 @@ PLAYER_JS = """
         if(_cmk==='yes'){ goTo('managerhq'); return; }
         if(_cmk==='inbox'){ goTo('cmgrqueue'); return; }
         return;
+      }
+      var _tno=t.closest('[data-tourn]');
+      if(_tno){ var _un=_tno.querySelector('.unread'); if(_un)_un.style.display='none'; goTo(SFLtournReg?'tourndash':'tournnotify'); return; }
+      var _nrow=t.closest('.nrow'); if(_nrow&&!_nrow.getAttribute('data-ploffer')&&!_nrow.getAttribute('data-cmgr')&&!_nrow.getAttribute('data-tourn')){
+        var _ntx=(_nrow.textContent||'').toLowerCase();
+        if(/afcon|register your country|tournament coin/.test(_ntx)){ goTo(SFLtournReg?'tourndash':'tournnotify'); return; }
       }
     }
     if(_cf==='MSG-01'){var _rq=t.closest('.fchip'); if(_rq&&/request/i.test(_rq.textContent)){goTo('msgrequests');return;}}
@@ -1886,8 +4466,27 @@ PLAYER_JS = """
     if(_cf==='GL-05C'){ if(t.closest('.btn')){goTo('squadroom');return;} if(t.closest('.altlink')){goTo('liveroom');return;} return; }
     if(_cf==='GL-03Vg'){ var _gb=t.closest('.b'); if(_gb){ if(/create/i.test(_gb.textContent)){goTo('register');return;} if(/sign in/i.test(_gb.textContent)){goTo('signin');return;} } if(t.closest('.altlink')){return;} return; }
     if(_cf==='GL-00'){ if(t.closest('.golivecard')){goTo(SFLguest?'gate':'eligibility');return;} if(t.closest('.roomcard')){goTo('liveroom');return;} var _t0=t.closest('.tab'); if(_t0){singleSel(_t0,_t0.parentElement);return;} }
-    if(_cf==='GL-01A'){ if(t.closest('.btn')){goTo('permissions');return;} }
-    if(_cf==='GL-01B'){ if(t.closest('.btn')){goTo('golivesetup');return;} if(t.closest('.allow')){return;} }
+    if(_cf==='GL-01A'){ if(t.closest('.back')){goBack();return;} if(t.closest('.btn')){goTo('permissions');return;} }
+    if(_cf==='GL-01B'){
+      if(t.closest('.back')){goBack();return;}
+      var _pr=t.closest('.permcard');
+      if(_pr){
+        var _pk=_pr.getAttribute('data-perm');
+        if(!t.closest('[data-perm-act]'))return;
+        if(_pk==='camera'&&!SFLperm.camera){ SFLperm.camera=true; applyPermissions(mEl); sflToast('Camera allowed'); return; }
+        if(_pk==='mic'&&!SFLperm.mic){ SFLperm.mic=true; applyPermissions(mEl); sflToast('Microphone allowed'); return; }
+        if(_pk==='notif'&&SFLperm.notif!=='later'&&SFLperm.notif!=='allowed'){
+          SFLperm.notif='later'; applyPermissions(mEl); sflToast('Notifications skipped — enable anytime in Settings'); return;
+        }
+        return;
+      }
+      var _pb=t.closest('.btn');
+      if(_pb){
+        if(_pb.classList.contains('disabled')){ sflToast('Allow camera and microphone to continue'); return; }
+        goTo('golivesetup'); return;
+      }
+      return;
+    }
     if(_cf==='GL-01'){ if(t.closest('.btn')){goTo('formation');return;} var _sm=t.closest('.smcard'); if(_sm){singleSel(_sm,_sm.parentElement); var _sc=parseInt((_sm.textContent||'').replace(/[^0-9]/g,''),10); if(_sc)SFLseatCount=_sc; return;} }
     if(_cf==='GL-02'){ var _ms=t.closest('.mseg'); if(_ms){ SFLseatMode=_ms.getAttribute('data-mode')||'pos'; applyFormMode(mEl); return; } var _fcc=t.closest('.formcard'); if(_fcc){ var _fnt=((_fcc.querySelector('.fn')||{}).textContent||'').trim(); if(/^\d/.test(_fnt)){ SFLformation=_fnt; SFLseatMode='pos'; singleSel(_fcc,_fcc.parentElement); applyFormMode(mEl); } else { sflToast('More formations coming soon'); } return; } if(t.closest('.btn')){goTo('prelive');return;} }
     if(_cf==='GL-02A'){ if(t.closest('.rrb')||t.closest('.btn')){goTo('liveroomhost');return;} }
@@ -1996,13 +4595,25 @@ PLAYER_JS = """
       if(_cf==='FT-10'){ var _f10=t.closest('.btn'); if(_f10){ if(/stats/i.test(_f10.textContent)){goTo('mystats');return;} cleanTo('home', /^FT-/);return;} return; }
       if(_cf==='FT-11'){ return; }
     }
-    if(_cf.indexOf('PR-')===0){
+    if(_cf.indexOf('PR-')===0||_cf.indexOf('TR-')===0){
       var _prbk=t.closest('.top .back'); if(_prbk){goBack();return;}
+      if(_cf.indexOf('TR-')===0){
+        if(t.closest('.ttable')||t.closest('.ttr')||t.closest('.thd')||t.closest('.squadrow')||t.closest('.grouppill')||t.closest('.countrypill')){return;}
+        if(_cf==='TR-01'){ var _tc1=t.closest('.tourcard'); if(_tc1){ if(_tc1.classList.contains('soon')){sflToast('Registration opens soon');return;} if(SFLtournReg){goTo('tourndash');return;} goTo('tournnotify');return;} return; }
+        if(_cf==='TR-02'){ if(t.closest('.btn')){goTo('tournconfirm');return;} if(t.closest('.ruleslink')){goTo('tournrules');return;} return; }
+        if(_cf==='TR-03'){ if(t.closest('.btn')){goTo('tournpay');return;} if(t.closest('.ruleslink')){goTo('tournrules');return;} return; }
+        if(_cf==='TR-04'){ if(t.closest('.btn')){ if(SFLtournCoins<500){sflToast('Not enough Coins · need 500');return;} SFLtournReg=true; SFLtournCoins-=500; sflToast('500 Coins deducted · you\\'re registered!'); goTo('tournsuccess'); return;} if(t.closest('.altlink')){goBack();return;} return; }
+        if(_cf==='TR-05'){ if(t.closest('.btn')){goTo('tourndash');return;} return; }
+        if(_cf==='TR-06'){ if(t.closest('.btn')){goTo('tournpayout');return;} if(t.closest('.ruleslink')){goTo('tournrules');return;} if(t.closest('.altlink')){goTo('tournteam');return;} return; }
+        if(_cf==='TR-07'){ if(t.closest('.btn')){goTo('tourndash');return;} if(t.closest('.altlink')){goTo('tournteam');return;} return; }
+        if(_cf==='TR-08'){ if(t.closest('.ruleslink')){goTo('tournrules');return;} return; }
+        if(_cf==='TR-09'){ if(t.target.closest('.sheet-scrim')===t||t.closest('.grab')||t.closest('.btn')){goBack();return;} return; }
+      }
       if(_cf==='PR-02C'&&t.closest('.spr')){goTo('clubdetail');return;}
       if(t.closest('.lgr')||t.closest('.pod')||t.closest('.podium')||t.closest('.lgtable')||t.closest('.ttr')||t.closest('.ttable')||t.closest('.thd')||t.closest('.lgcount')||t.closest('.spendhero')||t.closest('.grouplabel')){return;}
       var _lgt2=t.closest('.lgtab'); if(_lgt2){var _lx2=_lgt2.textContent.toLowerCase(); if(/spend/.test(_lx2)){goTo('leaguespend');return;} if(/previous|prev/.test(_lx2)){goTo('leagueprev');return;} singleSel(_lgt2,_lgt2.parentElement); return;}
       var _ttb=t.closest('.ttab'); if(_ttb){singleSel(_ttb,_ttb.parentElement);return;}
-      if(_cf==='PR-00'){ var _hc=t.closest('.hubcard'); if(_hc){ if(_hc.classList.contains('lvl')){goTo('fanlevel');return;} if(_hc.classList.contains('league')){goTo('league');return;} if(_hc.classList.contains('tour')){goTo('tournament');return;} if(_hc.classList.contains('grade')){goTo('clubgrade');return;} } return; }
+      if(_cf==='PR-00'){ var _hc=t.closest('.hubcard'); if(_hc){ if(_hc.classList.contains('lvl')){goTo('fanlevel');return;} if(_hc.classList.contains('league')){goTo('league');return;} if(_hc.classList.contains('tour')){goTo(SFLtournReg?'tourndash':'tournhub');return;} if(_hc.classList.contains('grade')){goTo('clubgrade');return;} } return; }
       if(_cf==='PR-01'){ if(t.closest('.btn')){goTo('howtoearn');return;} if(t.closest('.altlink')){goTo('levelroadmap');return;} return; }
       if(_cf==='PR-04'){ if(t.closest('.btn,.altlink')){goTo('prizeeligibility');return;} return; }
       if(_cf==='PR-04B'){ if(t.closest('.btn')){goTo('rewards');return;} return; }
@@ -2062,6 +4673,7 @@ PLAYER_JS = """
     }
     if(_cf==='EV-01'){ if(t.closest('.back')){goBack();return;} var _ev=t.closest('.evcard'); if(_ev&&t.closest('.evjoin')){var _et=(_ev.textContent||'').toLowerCase(); if(/pk|tournament/.test(_et)){SFLpkViewer=true;goTo('pkbattle');return;} if(/predict|league/.test(_et)){goTo('predictions');return;} if(/recruit/.test(_et)){goTo('mgrrecruit');return;} goTo('live');return;} return; }
     if(_cf==='J2-16'){
+      if(t.closest('.clubmore')){ showClubOptsSheet(); return; }
       var _j16bk=t.closest('.hnav .back'); if(_j16bk){ if(/‹|←/.test(_j16bk.textContent||'')){goBack();} return; }
       if(t.closest('.cmgrask')){goTo('cmgrask');return;}
       if(t.closest('.sbtn')){goTo('clubchat');return;}
@@ -2072,12 +4684,13 @@ PLAYER_JS = """
     }
     if(_cf==='J2-21'){ if(t.closest('.btn')){goTo(SFLfvActive?'fvalready':'fvconfirm');return;} if(t.closest('.link')){goTo('fvexplain');return;} return; }
     if(_cf.indexOf('J2-')===0){
-      var _j2bk=t.closest('.top .back, .hnav .back'); if(_j2bk){ if(/‹|←/.test(_j2bk.textContent||'')){goBack();} return; }
+      if(t.closest('.clubmore')){ showClubOptsSheet(); return; }
+      var _j2bk=t.closest('.top .back, .hnav .back:not(.clubmore)'); if(_j2bk){ if(/‹|←/.test(_j2bk.textContent||'')){goBack();} return; }
       if(_cf==='J2-01'){ var _b1=t.closest('.btn'); if(_b1){ if(/recruit/i.test(_b1.textContent)){goTo('clubdetail');return;} goTo('clubs');return;} return; }
       if(_cf==='J2-02'){ var _ct=t.closest('.ctab'); if(_ct){var _cx=_ct.textContent.toLowerCase(); if(/my club/.test(_cx)){goTo('club');return;} if(/league/.test(_cx)){goTo('league');return;} jumpTab('clubs'); return;} var _ico=t.closest('.ico'); if(_ico){ if(/🔍/.test(_ico.textContent)){goTo('clubsearch');return;} if(/🔔/.test(_ico.textContent)){goTo('notifications');return;} return;} if(t.closest('.vcard')||t.closest('.apply')){goTo('clubdetail');return;} return; }
       if(_cf==='J2-03'){ if(t.closest('.searchbar')){return;} var _f3=t.closest('.fchip'); if(_f3){singleSel(_f3,_f3.parentElement);return;} if(t.closest('.vcard')||t.closest('.recent')){goTo('clubdetail');return;} return; }
       if(_cf==='J2-04'){ goTo('clubdetail'); return; }
-      if(_cf==='J2-05'){ if(t.closest('.roomtile')){goTo('liveroom');return;} var _b5=t.closest('.btn'); if(_b5){ if(/preview/i.test(_b5.textContent)){goTo(SFLguest?'gate':'club');return;} goTo(SFLguest?'gate':(SFLmember?'clubblocked':'clubapply'));return;} return; }
+      if(_cf==='J2-05'){ if(t.closest('.roomtile')){goTo('liveroom');return;} var _b5=t.closest('.btn'); if(_b5){ if(/preview/i.test(_b5.textContent)){goTo(SFLguest?'gate':'club');return;} if(SFLmember&&/enter club/i.test(_b5.textContent)){goTo('club');return;} goTo(SFLguest?'gate':(SFLmember?'clubblocked':'clubapply'));return;} return; }
       if(_cf==='J2-06'){ if(t.closest('.btn')){goTo('clubsubmitted');return;} if(t.closest('.altlink')){goBack();return;} return; }
       if(_cf==='J2-07'){ var _b7=t.closest('.btn'); if(_b7){ var _t7=_b7.textContent.toLowerCase(); if(/application/.test(_t7)){cleanTo('clubapplications',/^J2-0[456]$/);return;} if(/live/.test(_t7)){cleanTo('live',/^J2-0/);return;} cleanTo('clubs',/^J2-0/);return;} return; }
       if(_cf==='J2-08'){ if(t.closest('.wd-discover')){cleanTo('clubs',/^J2-0/);return;} var _b8=t.closest('.btn'); if(_b8){ if(/enter club/i.test(_b8.textContent)){goTo('clubconfirmed');return;} if(/withdraw/i.test(_b8.textContent)){showWithdrawSheet();return;} } return; }
@@ -2088,8 +4701,8 @@ PLAYER_JS = """
       if(_cf==='J2-14'){ var _r14=t.closest('.radio'); if(_r14){singleSel(_r14,_r14.parentElement);return;} var _b14=t.closest('.btn'); if(_b14){ if(/keep/i.test(_b14.textContent)){goBack();return;} goTo('clubs');return;} return; }
       if(_cf==='J2-15'){ var _b15=t.closest('.btn'); if(_b15){ if(/task/i.test(_b15.textContent)){enterAfterJoin('tasks');return;} enterAfterJoin('club');return;} return; }
       if(_cf==='J2-18'){ var _b18=t.closest('.btn,.link'); if(_b18){ if(/continue leaving/i.test(_b18.textContent)){goTo('clubleaveconfirm');return;} goBack();return;} return; }
-      if(_cf==='J2-19'){ var _b19=t.closest('.btn'); if(_b19){ if(/leave club/i.test(_b19.textContent)){goTo('leavepending');return;} goBack();return;} return; }
-      if(_cf==='J2-LV'){ var _blv=t.closest('.btn'); if(_blv){ var _lvt=_blv.textContent.toLowerCase(); function _lvpop(){ while(hist.length){var _hl=hist[hist.length-1];var _fl=((VIEWS[_hl.j]&&VIEWS[_hl.j].screens[_hl.s])||{}).fnum||'';if(/^J2-(18|19|LV)$/.test(_fl)){hist.pop();}else break;} } if(/complete leaving/.test(_lvt)){ _lvpop(); goTo('clubleft'); return;} if(/withdraw/.test(_lvt)){ _lvpop(); goTo('club'); sflToast('Leave request withdrawn'); return;} _lvpop(); goTo('club'); return;} return; }
+      if(_cf==='J2-19'){ var _b19=t.closest('.btn'); if(_b19){ if(/leave club/i.test(_b19.textContent)){ SFLleaveAsk='pending'; goTo('leavepending'); return;} goBack();return;} return; }
+      if(_cf==='J2-LV'){ var _blv=t.closest('.btn'); if(_blv){ var _lvt=_blv.textContent.toLowerCase(); function _lvpop(){ while(hist.length){var _hl=hist[hist.length-1];var _fl=((VIEWS[_hl.j]&&VIEWS[_hl.j].screens[_hl.s])||{}).fnum||'';if(/^J2-(18|19|LV)$/.test(_fl)){hist.pop();}else break;} } if(/complete leaving/.test(_lvt)){ _lvpop(); SFLmember=false; SFLleaveAsk='none'; hist.length=0; goTo('noclub'); sflToast('You left Red District FC'); return;} if(/withdraw/.test(_lvt)){ _lvpop(); SFLleaveAsk='none'; goTo('club'); sflToast('Leave request withdrawn'); return;} _lvpop(); goTo('club'); return;} return; }
       if(_cf==='J2-20'){ var _b20=t.closest('.btn'); if(_b20){ if(/live/i.test(_b20.textContent)){goTo('live');return;} goTo('clubs');return;} return; }
       if(_cf==='J2-17'){ var _b17=t.closest('.btn,.link'); if(_b17){ if(/support/i.test(_b17.textContent)){goTo('support');return;} if(/transfer/i.test(_b17.textContent)){goTo('move');return;} goTo('clubs');return;} return; }
       if(_cf==='J2-22'){ var _b22=t.closest('.btn,.altlink'); if(_b22){ if(/create/i.test(_b22.textContent)){goTo('register');return;} if(/sign in/i.test(_b22.textContent)){goTo('signin');return;} goBack();return;} return; }
@@ -2191,7 +4804,7 @@ PLAYER_JS = """
       var ck=t.closest('.chk'); if(ck){ck.classList.toggle('off');return;}
       var chip=t.closest(MULTI); if(chip){chip.classList.toggle('on');return;}
       var opt=t.closest(SINGLE); if(opt&&opt.parentElement){singleSel(opt,opt.parentElement);return;}
-      var seg=t.closest(SEG); if(seg){var kid=[].filter.call(seg.children,function(c){return c.contains(t);})[0]; if(kid){var kt=kid.textContent.toLowerCase(); var cf0=(VIEWS[curJ].screens[curS]||{}).fnum||''; if(cf0.indexOf('PV')===0){ if(/vote/.test(kt)){goTo('vote');return;} if(/award/.test(kt)){goTo('awards');return;} if(/predict/.test(kt)){if(cf0!=='PV-01')goTo('predictions');else singleSel(kid,seg);return;} } if(cf0==='RW-01'){ if(/progress/.test(kt)){goTo('rewardinprog');return;} if(/history/.test(kt)){goTo('rewardhistory');return;} if(/claim/.test(kt)){singleSel(kid,seg);return;} } if(kt.indexOf('weekly')>=0){goTo('tasksweekly');return;} if(kt.indexOf('daily')>=0){goTo('tasksdaily');return;} singleSel(kid,seg);} return;}
+      var seg=t.closest(SEG); if(seg){var kid=[].filter.call(seg.children,function(c){return c.contains(t);})[0]; if(kid){var kt=kid.textContent.toLowerCase(); var cf0=(VIEWS[curJ].screens[curS]||{}).fnum||''; if(cf0==='10'&&mEl.querySelector('.signin-panel')){return;} if(cf0.indexOf('PV')===0){ if(/vote/.test(kt)){goTo('vote');return;} if(/award/.test(kt)){goTo('awards');return;} if(/predict/.test(kt)){if(cf0!=='PV-01')goTo('predictions');else singleSel(kid,seg);return;} } if(cf0==='RW-01'){ if(/progress/.test(kt)){goTo('rewardinprog');return;} if(/history/.test(kt)){goTo('rewardhistory');return;} if(/claim/.test(kt)){singleSel(kid,seg);return;} } if(kt.indexOf('weekly')>=0){goTo('tasksweekly');return;} if(kt.indexOf('daily')>=0){goTo('tasksdaily');return;} singleSel(kid,seg);} return;}
     var ctab=t.closest('.ctab'); if(ctab&&mEl.contains(ctab)){var ctx=ctab.textContent.toLowerCase(); if(/my club/.test(ctx)){goTo('club');return;} if(/league/.test(ctx)){goTo('league');return;} if(/discover/.test(ctx)){goTo('clubs');return;}}
     var lgt=t.closest('.lgtab'); if(lgt&&mEl.contains(lgt)){var lgx=lgt.textContent.toLowerCase(); if(/spend/.test(lgx)){goTo('leaguespend');return;} if(/previous|prev/.test(lgx)){goTo('leagueprev');return;} if(/performance|table|club/.test(lgx)){singleSel(lgt,lgt.parentElement);return;}}
     var hchip=t.closest('.hchip'); if(hchip&&mEl.contains(hchip)){var hc=((hchip.getAttribute('data-club')||'')+' '+hchip.textContent).toLowerCase(); if(/explore/.test(hc)){goTo('clubs');return;} singleSel(hchip,hchip.parentElement);return;}
@@ -2281,20 +4894,29 @@ PLAYER_JS = """
     if(/^CC-/.test(cf)&&!t.closest('.btn')){return;}
     next();
   });
+  function updateStageToggleLabel(){
+    var lbl=document.getElementById('stageToggleLbl');
+    if(!lbl)return;
+    lbl.textContent=document.body.getAttribute('data-stage')==='light'?'Dark mode':'Light mode';
+  }
   function applyStageChrome(){
     var light=document.body.getAttribute('data-stage')==='light';
     try{localStorage.setItem('sfl-stage',light?'light':'dark');}catch(e){}
-    var phone=document.querySelector('#mount .phone'); if(!phone)return;
-    var keepLite=phone.classList.contains('bleed')||/splash|welcome|room/.test(phone.className)||!!phone.querySelector('.phero,.hero');
+    updateStageToggleLabel();
+    var phone=mount?mount.querySelector('.phone'):null; if(!phone)return;
+    var keepLite=phone.classList.contains('bleed')||/splash|welcome|room/.test(phone.className);
+    if(phone.classList.contains('light')) phone.setAttribute('data-sfl-light','1');
+    if(phone.getAttribute('data-sfl-light')==='1') phone.classList.toggle('light', light&&!keepLite);
     var sb=phone.querySelector(':scope > .sfl-statusbar');
     if(sb){
       sb.style.color=(keepLite||!light)?'#F4F6FA':'#0E1016';
-      if(!phone.classList.contains('bleed')) sb.style.background=light?'#F4F6FB':'inherit';
+      if(!phone.classList.contains('bleed')) sb.style.background=light?'#F4F6FB':'#080A10';
     }
     var nav=phone.querySelector(':scope > .sfl-nav');
-    if(nav) nav.classList.toggle('dark', keepLite||!light);
+    if(nav) nav.classList.toggle('dark', !light);
   }
   try{var _st=localStorage.getItem('sfl-stage'); if(_st==='dark'||_st==='light') document.body.setAttribute('data-stage',_st);}catch(e){}
+  updateStageToggleLabel();
   document.getElementById('stageToggle').onclick=function(){
     document.body.setAttribute('data-stage', document.body.getAttribute('data-stage')==='light'?'dark':'light');
     applyStageChrome();
@@ -2303,7 +4925,7 @@ PLAYER_JS = """
   document.getElementById('menuBtn').onclick=function(){_mm.classList.add('open');};
   document.getElementById('menuClose').onclick=function(){_mm.classList.remove('open');};
   _mm.onclick=function(e){if(e.target===_mm)_mm.classList.remove('open');};
-  jsel.addEventListener('change',function(){_mm.classList.remove('open');});
+  flowsel.addEventListener('change',function(){_mm.classList.remove('open');});
   window.addEventListener('resize',fit);
   render();
 })();
@@ -2332,21 +4954,22 @@ page=('<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8">'
  '<body data-stage="light">'
  '<header>'
  '<button class="ppbtn sm" id="menuBtn" title="Menu">☰</button>'
- '<div class="hdrscreen"><span class="sc" id="scap"></span></div>'
- '<button class="ppbtn sm" id="stageToggle" title="Toggle theme">◐</button>'
+ '<div class="hdrscreen"><span class="sc" id="scap"></span><span class="ppcount hdrcount" id="counter2"></span></div>'
+ '<div class="hdrnav">'
+ '<button class="ppbtn sm ppchev" id="bprev2" title="Previous screen" aria-label="Previous">‹</button>'
+ '<button class="ppbtn sm ppchev" id="bnext2" title="Next screen" aria-label="Next">›</button>'
+ '</div>'
  '</header>'
  '<div class="sflmodal" id="menuModal"><div class="sflmodal-card">'
  '<div class="mm-top"><div class="brand"><div class="bc">SFL</div>Flow Prototype</div><button class="ppbtn sm" id="menuClose">✕</button></div>'
  '<div class="mm-lbl">Jump to a flow or journey</div>'
- '<select id="jsel"></select>'
- '<div class="mm-nav"><button class="ppnavbtn" id="bprev">‹ Prev</button><span class="ppcount" id="counter"></span><button class="ppnavbtn" id="bnext">Next ›</button></div>'
+ '<div class="mm-scroll"><select id="flowsel"></select></div>'
+ '<div class="mm-foot"><button class="mm-theme" id="stageToggle" type="button" title="Toggle theme"><span class="mm-theme-ic">◐</span><span class="mm-theme-lbl" id="stageToggleLbl">Dark mode</span></button>'
+ '<div class="mm-nav"><button class="ppnavbtn" id="bprev">‹ Prev</button><span class="ppcount" id="counter"></span><button class="ppnavbtn" id="bnext">Next ›</button></div></div>'
  '</div></div>'
  '<div class="ppstage" id="stage">'
  '<div class="scaler" id="scaler"><div id="mount"></div></div>'
- '<div class="dotbar" id="dotbar"></div>'
  '</div>'
- '<div class="ppnav"><button class="ppnavbtn" id="bprev2">‹ Back</button><span class="ppcount" id="counter2"></span><button class="ppnavbtn primary" id="bnext2">Next ›</button></div>'
- '<footer>Tap chips, tabs &amp; options to select · tap a primary button to continue · ← / → keys · swipe · ◐ toggles stage</footer>'
  +''.join(framedata)+'\n'+PLAYER_JS+'</body></html>')
 
 open('sfl-prototype.html','w',encoding='utf-8').write(page)
@@ -2373,6 +4996,7 @@ def inline_assets(html):
         return 'var('+used[a]+')'
     out=re.sub(r"url\(['\"]?assets/([\w.\-]+)['\"]?\)", rep, html)
     out=out.replace("url('assets/manrope.woff2')", "url('data:font/woff2;base64,"+FONT_B64+"')")
+    out=inline_img_src(out)
     if used:
         vars_css=':root{'+''.join(v+':url("'+datauri(a)+'");' for a,v in used.items())+'}'
         out=out.replace('</style>', vars_css+'</style>', 1)

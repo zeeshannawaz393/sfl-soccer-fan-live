@@ -40,7 +40,7 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 
   .top{padding:18px 20px 0;display:flex;align-items:center;gap:12px}
-  .back{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
+  .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--t2);box-shadow:var(--shadow-sm);flex:none}
   .htitle{font-size:19px;font-weight:800;letter-spacing:-.4px}
   .htitle small{display:block;font-size:12px;font-weight:650;color:var(--t2);margin-top:1px}
   .body{flex:1;padding:18px 20px 0;display:flex;flex-direction:column;overflow:hidden}
@@ -49,11 +49,11 @@
   .cta{margin-top:auto;margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
   .btn{height:53px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 12px 26px rgba(15,183,83,.32)}
   .btn.gold{background:linear-gradient(140deg,var(--gold2),var(--gold1));color:#5A3E00;box-shadow:var(--goldglow)}
-  .btn.ghost{background:#fff;color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+  .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .btn.sm{height:44px;font-size:14px}
   .link{font-size:13.5px;font-weight:800;color:var(--green1);text-align:center}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
-  .card{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
   .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
   .tabs{display:flex;gap:8px;background:#EAEEF5;border-radius:999px;padding:4px}
   .tabs i{flex:1;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;font-weight:800;color:var(--t2)}
@@ -170,7 +170,7 @@
 
   /* sheet */
   .sheet-scrim{position:absolute;inset:0;background:rgba(10,14,20,.5);z-index:6;display:flex;align-items:flex-end}
-  .sheet{background:#fff;border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
+  .sheet{background:var(--card);border-radius:26px 26px 0 0;width:100%;padding:10px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.25)}
   .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 14px}
   .sheet h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
 
@@ -209,6 +209,9 @@
   .warn.b{background:#F0F7FF;border:1px solid #CEE4FA;color:#1E5E96}
   .warn.y{background:#FFFBF2;border:1px solid #FDE4B8;color:#8A6410}
   .locknote{display:flex;gap:9px;background:#FFF7E4;border:1px solid #FFE199;border-radius:13px;padding:11px 13px;font-size:12.5px;line-height:17px;font-weight:700;color:#8A6410}
+  .taskinfo{display:flex;gap:8px;align-items:flex-start;background:#F4FBF0;border:1px solid #BFE9CE;border-radius:13px;padding:10px 12px;font-size:11.5px;line-height:16px;font-weight:700;color:#0A7D39;margin-bottom:10px}
+  .liveearn-snack{display:flex;align-items:center;gap:7px;background:linear-gradient(120deg,#FFF7E4,#FFEDBF);border:1px solid #FFE199;border-radius:999px;padding:8px 13px;font-size:12px;line-height:16px;font-weight:800;color:#5A3E00;box-shadow:0 4px 14px rgba(255,179,0,.18)}
+  .liveearn-snack b{color:#3A2400;font-weight:800}
 </style>
 </head>
 <body>
@@ -249,6 +252,7 @@
     <div class="top"><div class="back">‹</div><div class="htitle">Fan Tasks<small>Today's Duties</small></div><div class="back" style="margin-left:auto">🔔</div></div>
     <div class="body">
       <div class="tabs" style="margin-bottom:12px"><i class="on">Daily</i><i>Weekly</i></div>
+      <div class="taskinfo">🎁 Receive 10,000+ coin gifts from another fan in a 1-week period · Go Live 2h daily to earn +200 coins/day</div>
       <div class="scrollarea">
         <div class="ringhero">
           <div class="reset num">Resets 06h 14m</div>
@@ -256,6 +260,7 @@
           <div class="rmsg">Complete all required duties to unlock today's reward</div>
           <div class="rrew"><div class="rewpreview"><div class="coin">G</div><span class="num">40 Gold</span></div></div>
         </div>
+        <div class="liveearn-snack">🪙 You received <b>200 coins</b> from <b>Jay Malik</b> for completing today's 2-hour live</div>
 
         <div class="trow">
           <div class="thumb" style="background-image:url('assets/mb_cam.jpg')"><span class="pi">▶</span></div>
@@ -328,6 +333,7 @@
     <div class="top"><div class="back">‹</div><div class="htitle">Fan Tasks<small>10–16 August</small></div><div class="back" style="margin-left:auto">🔔</div></div>
     <div class="body">
       <div class="tabs" style="margin-bottom:12px"><i>Daily</i><i class="on">Weekly</i></div>
+      <div class="taskinfo">🎁 Receive 10,000+ coin gifts from another fan in a 1-week period · Go Live 2h daily to earn +200 coins/day</div>
       <div class="scrollarea">
         <div class="ringhero" style="background:linear-gradient(135deg,#241304,#4A2A08 60%,#6A4A10)">
           <div class="reset num">2d 06h left</div>
