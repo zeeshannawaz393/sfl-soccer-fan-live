@@ -125,6 +125,13 @@
   .composer .cbtn{width:44px;height:44px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
   .composer .cbtn.gift{background:linear-gradient(140deg,var(--gold1),var(--gold2));border:none;color:#3A2400}
   .composer .cbtn.send{background:var(--volt);border:none}
+  .composer .cbtn.attach{font-size:17px}
+  .atttray{display:none;gap:7px;padding:0 16px 8px;flex-wrap:wrap}
+  .atttray.on{display:flex}
+  .atchip{height:30px;padding:0 11px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-size:11.5px;font-weight:800;color:#E4E9F1;display:flex;align-items:center;gap:5px;cursor:pointer}
+  .atchip.on{border-color:var(--volt);color:#0A1400;background:var(--volt)}
+  .bubble.att{display:flex;align-items:center;gap:8px}
+  .bubble .attic{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
 
   .dnote{display:block;border-radius:12px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:700}
   .dnote.info{background:rgba(47,127,209,.12);border:1px solid rgba(47,127,209,.3);color:#8FC0F0}
@@ -210,7 +217,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 19 — Messaging &amp; Calls</div>
   <h1>Team Communication Tunnel</h1>
-  <p>Private DMs, club group chat, and 1:1 voice/video — kept separate from live-room chat (J7/J8), Party chat (J18), and feed comments (J18). Two hard rules: <b>money never moves through chat</b> (the Gift button routes to J10; Gold stays in J13's wallet), and <b>contact is permission-gated</b> — club members direct, everyone else by request, calls stricter still, and Manager status never bypasses a Fan's privacy. Delivery and call states are honest — no fake "Delivered," no fake "Ringing."</p>
+  <p>Private DMs, club group chat, and 1:1 voice/video — kept separate from live-room chat (J7/J8), Party chat (J18), and feed comments (J18). DMs and club chat can attach <b>photos, videos, documents, and screenshots</b>. <b>Live stream comments are text only</b> — no attach on J7/J8. Two hard rules: <b>money never moves through chat</b> (the Gift button routes to J10; Gold stays in J13's wallet), and <b>contact is permission-gated</b> — club members direct, everyone else by request, calls stricter still, and Manager status never bypasses a Fan's privacy.</p>
 </div>
 
 <div class="frames">
@@ -284,7 +291,8 @@
       <div class="recvwrap"><div class="bubble recv">omg thank you!! 😍</div><div class="bmeta" style="justify-content:flex-start">9:35 PM</div></div>
       <div class="sentwrap"><div class="bubble sent">call you after the replay?</div><div class="bmeta"><span>9:36 PM</span><span>✓ Delivered</span></div></div>
     </div>
-    <div class="composer"><div class="cbtn gift">🎁</div><div class="cin">Message…</div><div class="cbtn">😀</div><div class="cbtn send">➤</div></div>
+    <div class="atttray"><span class="atchip" data-att="photo">🖼 Photo</span><span class="atchip" data-att="video">🎬 Video</span><span class="atchip" data-att="doc">📄 Doc</span><span class="atchip" data-att="shot">📱 Screenshot</span></div>
+    <div class="composer"><div class="cbtn gift">🎁</div><div class="cbtn attach" title="Attach">📎</div><div class="cin">Message…</div><div class="cbtn">😀</div><div class="cbtn send">➤</div></div>
   </div></div>
 
   <!-- MSG-06 GIFT FLOW -->
@@ -332,7 +340,8 @@
       <div class="sysmsg">Priya is now on loan at Blue Wolves</div>
       <div class="sentwrap"><div class="bubble sent">Up the Fury! 🧣</div><div class="bmeta"><span>7:42 PM</span><span class="tick">✓✓</span></div></div>
     </div>
-    <div class="composer"><div class="cbtn gift">🎁</div><div class="cin">Message the club…</div><div class="cbtn send">➤</div></div>
+    <div class="atttray"><span class="atchip" data-att="photo">🖼 Photo</span><span class="atchip" data-att="video">🎬 Video</span><span class="atchip" data-att="doc">📄 Doc</span><span class="atchip" data-att="shot">📱 Screenshot</span></div>
+    <div class="composer"><div class="cbtn gift">🎁</div><div class="cbtn attach" title="Attach">📎</div><div class="cin">Message the club…</div><div class="cbtn send">➤</div></div>
   </div></div>
 
   <div class="divider">Calls</div>

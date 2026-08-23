@@ -1351,6 +1351,20 @@ body[data-stage="light"] .sflsheet-panel{box-shadow:0 -20px 50px rgba(24,40,80,.
 .sflsheet-row,.lang-opt,.pp-cam,.pp-gal{display:flex;align-items:center;padding:12px 8px;border-bottom:1px solid var(--line);font-weight:750;font-size:14px;color:var(--t1);cursor:pointer;gap:12px}
 .sflsheet-cancel,.sh-cancel{text-align:center;margin-top:12px;padding:12px;background:var(--raised2);border-radius:12px;font-weight:800;color:var(--t1);cursor:pointer}
 .sflsheet-danger{text-align:center;padding:13px;background:var(--coral,#E4362B);color:#fff;border-radius:12px;font-weight:800;cursor:pointer}
+.sflguestwrap{position:absolute;inset:0;z-index:760;display:flex;align-items:flex-end;background:rgba(4,6,10,.45)}
+.sflguest-panel{width:100%;background:#fff;border-radius:22px 22px 0 0;padding:10px 0 18px;box-shadow:0 -16px 40px rgba(0,0,0,.28);color:#14161C;font-family:Manrope,-apple-system,sans-serif}
+.sflguest-head{display:flex;align-items:center;gap:10px;padding:6px 16px 12px}
+.sflguest-av{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center;background-color:#DCE2EC;flex:none}
+.sflguest-name{flex:1;font-size:16px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.sflguest-name .chev{color:#9AA2B1;font-weight:700}
+.sflguest-mention{height:32px;padding:0 12px;border-radius:999px;background:#2F7FD1;color:#fff;font-size:12.5px;font-weight:800;display:flex;align-items:center;cursor:pointer}
+.sflguest-gift{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#FFD54F,#FF9E00);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex:none}
+.sflguest-row{display:flex;align-items:center;gap:14px;padding:14px 20px;font-size:16px;font-weight:650;color:#1A1D24;border-top:1px solid #EEEFF3;cursor:pointer}
+.sflguest-row .gic{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex:none;color:#3A4050}
+.sflguest-row .gic svg{width:22px;height:22px;display:block}
+.sflguest-row.danger{color:#E4362B}
+.sflguest-row.danger .gic{color:#E4362B}
+.sflguest-cancel{text-align:center;padding:16px;font-size:16px;font-weight:650;color:#8B93A3;cursor:pointer}
 .ds-club{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--line);border-radius:14px;margin-top:9px;cursor:pointer;background:var(--card)}
 .ds-club .ds-name{font-size:15px;font-weight:800;color:var(--t1)}
 .ds-club .ds-meta{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
@@ -2836,6 +2850,67 @@ PLAYER_JS = """
     phone.appendChild(ov); SFLcoinify(ov); SFLcrest(ov); giftRecalc(ov);
     ov.addEventListener('click',function(e){ e.stopPropagation(); SFLgiftInteract(ov,e.target,function(){ov.remove();}); });
   }
+  function guestIcon(kind){
+    if(kind==='info') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.8 19.2c.7-3.2 3.2-5 6.2-5s5.5 1.8 6.2 5"/><circle cx="12" cy="12" r="9.2"/></svg>';
+    if(kind==='mgr') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="8" r="3.1"/><path d="M3.8 19.2c.7-3.1 3-4.9 6.2-4.9 1.2 0 2.3.3 3.2.8"/><path d="M17.2 10.2v6.2M14.1 13.3h6.2"/></svg>';
+    if(kind==='remove') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 14.5c0-2.4 3.2-3.6 7-3.6s7 1.2 7 3.6"/><path d="M5 14.5v4.2c0 .6.5 1.1 1.1 1.1h11.8c.6 0 1.1-.5 1.1-1.1V14.5"/><path d="M8.2 10.8c.6-1.5 2-2.5 3.8-2.5s3.2 1 3.8 2.5"/></svg>';
+    if(kind==='mute') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3.5" width="6" height="10" rx="3"/><path d="M6.8 11.2a5.2 5.2 0 0 0 10.4 0M12 16.4V20"/><path d="M4.5 5.2l15 14.2"/></svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="8" r="3.1"/><path d="M3.8 19.2c.7-3.1 3-4.9 6.2-4.9 1.1 0 2.1.2 3 .7"/><path d="M15.4 10.4l6 6M21.4 10.4l-6 6"/></svg>';
+  }
+  function showGuestSheet(seat){
+    if(!seat||seat.classList.contains('open'))return false;
+    if(!(typeof isLiveStaff==='function'&&isLiveStaff())) return showSeatCard(seat);
+    var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return false;
+    var nm=((seat.querySelector('.nm')||{}).textContent||'').trim(); if(!nm||nm==='Open')return false;
+    if(phone.querySelector('.sflguestwrap')||phone.querySelector('.sflseatwrap'))return true;
+    var av=seat.querySelector('.av'); var bg=(av&&(av.style.backgroundImage||(window.getComputedStyle&&getComputedStyle(av).backgroundImage)))||'';
+    var isYou=/^you$/i.test(nm)||seat.classList.contains('you');
+    var isHostSeat=seat.classList.contains('host');
+    var isCo=!!(typeof SFLcoHosts!=='undefined'&&SFLcoHosts[chKey(nm)]);
+    function row(act,kind,label,danger){
+      return '<div class="sflguest-row'+(danger?' danger':'')+'" data-gact="'+act+'"><div class="gic">'+guestIcon(kind)+'</div>'+label+'</div>';
+    }
+    var wrap=document.createElement('div'); wrap.className='sflguestwrap';
+    wrap.innerHTML='<div class="sflguest-panel">'
+      +'<div class="sflguest-head"><div class="sflguest-av" style="background-image:'+bg+'"></div>'
+      +'<div class="sflguest-name ssc-profile">'+nm+' <span class="chev">›</span></div>'
+      +'<div class="sflguest-mention">@Mention</div><div class="sflguest-gift">🎁</div></div>'
+      +row('info','info','Information',false)
+      +row('mgr','mgr',isCo?'Remove manager':'Set as manager',false)
+      +row('remove','remove','Remove guest',false)
+      +row('mute','mute','No mic allowed within 30 minutes',true)
+      +row('kick','kick','Kick out within 3 hours',true)
+      +'<div class="sflguest-cancel">Cancel</div></div>';
+    phone.appendChild(wrap);
+    var gav=wrap.querySelector('.sflguest-av'); if(gav&&bg&&bg!=='none') gav.style.backgroundImage=bg;
+    wrap.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(e.target===wrap||e.target.closest('.sflguest-cancel')){ wrap.remove(); return; }
+      if(e.target.closest('.sflguest-mention')){ wrap.remove(); if(typeof pushComment==='function') pushComment('<b style="color:#DCFF8A">You</b> @'+nm+' '); sflToast('@'+nm); return; }
+      if(e.target.closest('.sflguest-gift')){ wrap.remove(); openGiftSheet(); return; }
+      if(e.target.closest('.sflguest-name')){ wrap.remove(); showSeatCard(seat); return; }
+      var rowEl=e.target.closest('.sflguest-row'); if(!rowEl) return;
+      var act=rowEl.getAttribute('data-gact');
+      if(act==='info'){ wrap.remove(); showSeatCard(seat); return; }
+      if(act==='mgr'){ wrap.remove(); if(typeof chToggle==='function') chToggle(nm); return; }
+      if(act==='remove'){
+        wrap.remove();
+        if(isYou||isHostSeat){ sflToast(isYou?"That's your seat":'Cannot remove the host'); return; }
+        kickFromSeat(seat,nm); return;
+      }
+      if(act==='mute'){
+        var mi=seat.querySelector('.micind');
+        if(mi){ mi.classList.add('muted'); mi.textContent='🔇'; }
+        wrap.remove(); sflToast('No mic for '+nm+' · 30 minutes'); return;
+      }
+      if(act==='kick'){
+        wrap.remove();
+        if(isYou||isHostSeat){ sflToast(isYou?"That's your seat":'Cannot kick the host'); return; }
+        kickFromSeat(seat,nm); sflToast(nm+' kicked out for 3 hours'); return;
+      }
+    });
+    return true;
+  }
   function showSeatCard(seat){
     if(!seat||seat.classList.contains('open'))return false;
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return false;
@@ -2861,11 +2936,12 @@ PLAYER_JS = """
         ? '<div class="ssc-profile" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.08);font-weight:800;font-size:13px;padding:12px;border-radius:12px;cursor:pointer">👤 View Profile</div>'
         : '<div style="display:flex;gap:8px;margin-top:14px"><div class="ssc-msg" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.08);font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">💬 Message</div><div class="ssc-profile" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.08);font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">👤 Profile</div></div>'
           +'<div class="ssc-gift" style="margin-top:9px;background:linear-gradient(140deg,#F3CC55,#B0800A);color:#3A2400;font-weight:800;font-size:13.5px;padding:12px;border-radius:13px;cursor:pointer">🎁 Send '+nm+' a Gift</div>'
-          +(isStaffView?'<div style="display:flex;gap:8px;margin-top:9px"><div class="ssc-mute" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(228,54,43,.16);border:1px solid rgba(228,54,43,.35);color:#FF9F98;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">🔇 Mute</div>'+(isHostView&&!isYou?'<div class="ssc-mgr" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(201,255,61,.14);border:1px solid rgba(201,255,61,.32);color:#C9FF3D;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">'+(isCo?'Remove Co-Host':'Make Co-Host')+'</div>':'')+'</div>':''))
+          +(isStaffView?'<div style="display:flex;gap:8px;margin-top:9px"><div class="ssc-mute" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(228,54,43,.16);border:1px solid rgba(228,54,43,.35);color:#FF9F98;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">🔇 Mute</div>'+(isStaffView&&!isYou?'<div class="ssc-kick" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(228,54,43,.16);border:1px solid rgba(228,54,43,.35);color:#FF9F98;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">🚪 Remove</div>':'')+'</div>'+(isHostView&&!isYou?'<div class="ssc-mgr" style="margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,214,120,.16);border:1px solid rgba(255,214,120,.38);color:#FFE27A;font-weight:800;font-size:12.5px;padding:11px;border-radius:12px;cursor:pointer">'+(isCo?'Remove Manager':'Make Manager')+'</div>':'') :''))
       +'</div></div>';
     phone.appendChild(wrap);
     wrap.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===wrap||e.target.closest('.ssc-close')){wrap.remove();return;} if(e.target.closest('.ssc-gift')){wrap.remove(); openGiftSheet(); return;} if(e.target.closest('.ssc-msg')){wrap.remove(); goTo('chatthread'); return;} if(e.target.closest('.ssc-profile')){wrap.remove(); goTo('userprofile'); return;}
       if(e.target.closest('.ssc-mute')){ var mi=seat.querySelector('.micind'); var md=true; if(mi){md=mi.classList.toggle('muted'); mi.textContent=md?'🔇':'🎤';} wrap.remove(); sflToast((md?'🔇 Muted ':'🎤 Unmuted ')+nm); return; }
+      if(e.target.closest('.ssc-kick')){ wrap.remove(); kickFromSeat(seat, nm); return; }
       if(e.target.closest('.ssc-mgr')){ wrap.remove(); if(typeof chToggle==='function') chToggle(nm); return; } });
     return true;
   }
@@ -3074,6 +3150,17 @@ PLAYER_JS = """
   }
   function SFLchat(root){
     function sendFrom(e){ var ph=e.getAttribute('data-ph')||''; var txt=(e.textContent||'').trim(); if(!txt||txt===ph)return; var clean=txt.replace(/[<>&]/g,''); var box=root.querySelector('.rchat')||root.querySelector('.msgs')||root.querySelector('.chatwrap')||root.querySelector('.chatprev'); if(box){var isMsg=box.classList.contains('msgs')||box.classList.contains('chatwrap'); var d=document.createElement('div'); d.className=isMsg?'msg out':'cm'; d.innerHTML=isMsg?clean:'<b style="color:#DCFF8A">You</b> '+clean; box.appendChild(d); box.scrollTop=box.scrollHeight;} e.textContent=''; }
+    function attachChip(kind){
+      var map={photo:['🖼','Photo'],video:['🎬','Video'],doc:['📄','Document'],shot:['📱','Screenshot']};
+      var m=map[kind]||['📎','File'];
+      var box=root.querySelector('.msgs');
+      if(box){
+        var wrap=document.createElement('div'); wrap.className='sentwrap';
+        wrap.innerHTML='<div class="bubble sent att"><span class="attic">'+m[0]+'</span><span>'+m[1]+' attached</span></div><div class="bmeta"><span>Now</span><span class="tick">✓ Sent</span></div>';
+        box.appendChild(wrap); box.scrollTop=box.scrollHeight;
+      }
+      sflToast(m[1]+' attached');
+    }
     root.querySelectorAll('.rsay,.cin,.chatin,.msgin,.rsayb').forEach(function(e){
       if(e.getAttribute('data-chat'))return; if(/speaking on/i.test(e.textContent||''))return;
       e.setAttribute('data-chat','1'); e.setAttribute('contenteditable','true'); e.style.outline='none'; e.style.cursor='text';
@@ -3083,7 +3170,17 @@ PLAYER_JS = """
       e.addEventListener('keydown',function(ev){ ev.stopPropagation(); if(ev.key==='Enter'){ ev.preventDefault(); sendFrom(e); } });
     });
     root.querySelectorAll('.cbtn.send').forEach(function(b){ if(b.getAttribute('data-send'))return; b.setAttribute('data-send','1'); b.addEventListener('click',function(ev){ ev.stopPropagation(); var inp=b.parentElement.querySelector('.cin'); if(inp)sendFrom(inp); }); });
+    root.querySelectorAll('.cbtn.attach').forEach(function(b){ if(b.getAttribute('data-att'))return; b.setAttribute('data-att','1'); b.addEventListener('click',function(ev){ ev.stopPropagation(); var tray=root.querySelector('.atttray'); if(tray) tray.classList.toggle('on'); }); });
+    root.querySelectorAll('.atchip').forEach(function(ch){ if(ch.getAttribute('data-wired'))return; ch.setAttribute('data-wired','1'); ch.addEventListener('click',function(ev){ ev.stopPropagation(); [].forEach.call(ch.parentElement.children,function(c){c.classList&&c.classList.remove('on');}); ch.classList.add('on'); attachChip(ch.getAttribute('data-att')||'photo'); }); });
   }
+  function applyMoveType(root){
+    if(!root)return;
+    var perm=SFLmoveType==='perm';
+    var lbl=root.querySelector('.termslbl'); if(lbl)lbl.textContent=perm?'Transfer terms':'Loan terms';
+    [].forEach.call(root.querySelectorAll('.loanonly'),function(r){r.style.display=perm?'none':'';});
+    [].forEach.call(root.querySelectorAll('.permonly'),function(r){r.style.display=perm?'':'none';});
+  }
+  function moveSplitToast(){ return SFLmoveType==='perm'?' · 1,000 coins · Manager 600 / Fan 400':''; }
   function pkWhistle(){
     try{
       var AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
@@ -3147,12 +3244,96 @@ PLAYER_JS = """
     [].forEach.call(m.querySelectorAll('.foltab'),function(t){t.classList.toggle('on',t.getAttribute('data-tab')===SFLfollowTab);});
     [].forEach.call(m.querySelectorAll('.follist'),function(l){l.style.display=(l.getAttribute('data-list')===SFLfollowTab)?'':'none';});
   }
+  var SFL_SEAT_MAP={
+    4:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'GK',gk:1}]],
+    6:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'CM'},{p:'CM'}],[{p:'GK',gk:1}]],
+    9:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'CM'},{p:'CM'}],[{p:'LB'},{p:'CB'},{p:'RB'}],[{p:'GK',gk:1}]],
+    11:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'CM'},{p:'CM'},{p:'CM'}],[{p:'LB'},{p:'CB'},{p:'CB'},{p:'RB'}],[{p:'GK',gk:1}]],
+    13:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'CM'},{p:'CM'},{p:'CM'}],[{p:'LB'},{p:'CB'},{p:'CB'},{p:'RB'}],[{p:'SUB'},{p:'GK',gk:1},{p:'SUB'}]]
+  };
+  var SFL_SEAT_PEOPLE=[
+    {p:'LW',n:'Lucia',a:'up_07.png',spk:1},{p:'ST',n:'Omar',a:'up_03.png'},{p:'RW',n:'Open'},
+    {p:'CM',n:'JJ',a:'up_01.png'},{p:'CM',n:'Nadia',a:'up_04.png',spk:1},{p:'CM',n:'Teo',a:'up_06.png'},
+    {p:'LB',n:'Kojo',a:'up_05.png'},{p:'CB',n:'Sara',a:'up_09.png'},{p:'CB',n:'Open'},{p:'RB',n:'Mik',a:'up_08.png'},
+    {p:'GK',n:'GloveBoy',a:'up_10.png',gk:1},{p:'SUB',n:'Open'},{p:'SUB',n:'Open'}
+  ];
+  var SFL_SEAT_DOTS={
+    4:[{l:22,t:22},{l:50,t:16},{l:78,t:22},{l:50,t:88,gk:1}],
+    6:[{l:22,t:18},{l:50,t:14},{l:78,t:18},{l:35,t:48},{l:65,t:48},{l:50,t:88,gk:1}],
+    9:[{l:22,t:16},{l:50,t:12},{l:78,t:16},{l:35,t:44},{l:65,t:44},{l:22,t:70},{l:50,t:74},{l:78,t:70},{l:50,t:90,gk:1}],
+    11:[{l:22,t:16},{l:50,t:12},{l:78,t:16},{l:28,t:42},{l:50,t:46},{l:72,t:42},{l:18,t:70},{l:39,t:74},{l:61,t:74},{l:82,t:70},{l:50,t:90,gk:1}],
+    13:[{l:22,t:16},{l:50,t:12},{l:78,t:16},{l:28,t:42},{l:50,t:46},{l:72,t:42},{l:18,t:68},{l:39,t:72},{l:61,t:72},{l:82,t:68},{l:28,t:88},{l:50,t:90,gk:1},{l:72,t:88}]
+  };
+  function seatCountN(){ var n=+SFLseatCount||11; return SFL_SEAT_MAP[n]?n:11; }
   function applyFormMode(m){
+    var n=seatCountN();
     var seg=m.querySelector('.modeseg'); if(seg){ [].forEach.call(seg.querySelectorAll('.mseg'),function(s){ s.classList.toggle('on', s.getAttribute('data-mode')===SFLseatMode); }); }
     var pv=m.querySelector('.posview'), nv=m.querySelector('.numview'); if(pv)pv.style.display=(SFLseatMode==='num')?'none':''; if(nv)nv.style.display=(SFLseatMode==='num')?'':'none';
-    var np=m.querySelector('.numpitch'); if(np){ var html=''; for(var i=1;i<=SFLseatCount;i++){ html+='<div class="numslot'+(i===1?' host':'')+'">'+i+(i===1?'<span class="sl">Host</span>':'')+'</div>'; } np.innerHTML=html; }
-    var note=m.querySelector('.numnote'); if(note)note.innerHTML='Guests join by number (2–'+SFLseatCount+'). You\\'re always <b>#1</b> as host — you don\\'t pick a position.';
-    var cta=m.querySelector('.cta .btn'); if(cta)cta.textContent='Preview & Go Live · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):SFLformation);
+    var np=m.querySelector('.numpitch'); if(np){ np.style.gridTemplateColumns=n<=6?'repeat(3,1fr)':'repeat(4,1fr)'; var html=''; for(var i=1;i<=n;i++){ html+='<div class="numslot'+(i===1?' host':'')+'">'+i+(i===1?'<span class="sl">Host</span>':'')+'</div>'; } np.innerHTML=html; }
+    var note=m.querySelector('.numnote'); if(note)note.innerHTML='Guests join by number (2–'+n+'). You\\'re always <b>#1</b> as host — you don\\'t pick a position.';
+    var grid=m.querySelector('.formgrid'); if(grid) grid.style.display=(SFLseatMode==='pos'&&n>=11)?'':'none';
+    var bp=m.querySelector('.bigpitch');
+    if(bp&&SFLseatMode==='pos'){
+      var dots=SFL_SEAT_DOTS[n]||SFL_SEAT_DOTS[11];
+      var keep=bp.querySelectorAll('.mln,.mcirc');
+      var marks=''; [].forEach.call(keep,function(el){ marks+=el.outerHTML; });
+      bp.innerHTML=marks+dots.map(function(d){ return '<span class="pn'+(d.gk?' gk':'')+'" style="left:'+d.l+'%;top:'+d.t+'%"></span>'; }).join('');
+    }
+    if(n<11) SFLformation=n+'-seat';
+    var cta=m.querySelector('.cta .btn'); if(cta)cta.textContent='Preview & Go Live · '+(SFLseatMode==='num'?('Numbers 1–'+n):(n>=11?SFLformation:(n+' seats')));
+  }
+  function applyLiveSeats(root){
+    if(!root) return;
+    var n=seatCountN();
+    var phone=root.querySelector('.phone.room');
+    if(phone) phone.setAttribute('data-seats',String(n));
+    var ff=root.querySelector('.formfield'); if(!ff) return;
+    var wa=ff.querySelector('.wavid'); var waHTML=wa?wa.outerHTML:'';
+    var fn=((VIEWS[curJ].screens[curS]||{}).fnum)||'';
+    var allOpen=fn==='GL-02A';
+    var youOn=fn==='GL-05B'||fn==='GL-CH-C';
+    var used={}; var youPlaced=false;
+    function take(p){
+      if(allOpen) return {p:p,n:'Open'};
+      var i; for(i=0;i<SFL_SEAT_PEOPLE.length;i++){ if(SFL_SEAT_PEOPLE[i].p===p&&!used[i]){ used[i]=1; return SFL_SEAT_PEOPLE[i]; } }
+      return {p:p,n:'Open'};
+    }
+    var hostYou=fn==='GL-03H'||fn==='GL-WA-H'||fn==='GL-02A';
+    var hostNm=hostYou?'You':'RobbieOnAir';
+    var html='<div class="frow hostrow"><div class="seat host'+(hostYou?' you':'')+'"><div class="av" style="background-image:url(\\\'assets/fb_host.jpg\\\')"></div><div class="hl"><i></i>'+(fn==='GL-02A'?'PREVIEW':'LIVE')+'</div><div class="pos">HOST</div><div class="nm">'+hostNm+'</div></div></div>';
+    var lines=({4:['fwd','gk'],6:['fwd','mid','gk'],9:['fwd','mid','def','gk'],11:['fwd','mid','def','gk'],13:['fwd','mid','def','gk']})[n]||['fwd','mid','def','gk'];
+    (SFL_SEAT_MAP[n]||SFL_SEAT_MAP[11]).forEach(function(row,ri){
+      html+='<div class="frow '+(lines[ri]||'')+'">';
+      row.forEach(function(slot){
+        var fan=take(slot.p); var open=/^open$/i.test(fan.n||'');
+        if(youOn&&open&&!youPlaced){ fan={p:slot.p,n:'You',a:'up_12.png',you:1}; youPlaced=true; open=false; }
+        var cls='seat'+(open?' open':'')+(fan.spk?' spk':'')+(fan.you?' you':'');
+        var avSt=(!open&&fan.a)?' style="background-image:url(\\\'assets/'+fan.a+'\\\')"':'';
+        var posSt=(slot.gk||fan.gk)?' style="background:var(--gold1);color:#5A3E00"':'';
+        var nmSt=fan.you?' style="color:var(--gold2)"':'';
+        html+='<div class="'+cls+'"><div class="av"'+avSt+'>'+(open?'＋':'')+'</div><div class="pos"'+posSt+'>'+slot.p+'</div><div class="nm"'+nmSt+'>'+(open?'Open':fan.n)+'</div></div>';
+      });
+      html+='</div>';
+      if(waHTML&&ri===0) html+=waHTML;
+    });
+    ff.innerHTML=html;
+    var filled=ff.querySelectorAll('.seat:not(.open)').length;
+    var meta=root.querySelector('.rt2 .rmeta');
+    if(meta){ var tx=meta.textContent||''; if(/\d+\s*\/\s*\d+/.test(tx)) meta.textContent=tx.replace(/\d+\s*\/\s*\d+(\s*filled)?/, filled+'/'+n+(/\s*filled/i.test(tx)?' filled':'')); }
+  }
+  function applyPosSheet(m){
+    var list=m.querySelector('.poslist'); if(!list) return;
+    var n=seatCountN();
+    var sh=m.querySelector('.sh2'); if(sh) sh.innerHTML=(n>=11?SFLformation:(n+'-seat'))+' · <b style="color:#0FA04C">open seats</b> · '+n+' total';
+    var used={};
+    function take(p){ var i; for(i=0;i<SFL_SEAT_PEOPLE.length;i++){ if(SFL_SEAT_PEOPLE[i].p===p&&!used[i]){ used[i]=1; return SFL_SEAT_PEOPLE[i]; } } return {p:p,n:'Open'}; }
+    var slots=[]; (SFL_SEAT_MAP[n]||SFL_SEAT_MAP[11]).forEach(function(r){ r.forEach(function(s){ slots.push(s); }); });
+    list.innerHTML=slots.map(function(s){
+      var fan=take(s.p); var open=/^open$/i.test(fan.n||'');
+      var names={LW:'Left Wing',ST:'Striker',RW:'Right Wing',CM:'Centre Mid',LB:'Left Back',CB:'Centre Back',RB:'Right Back',GK:'Goalkeeper',SUB:'Substitute'};
+      if(open) return '<div class="posrow"><div class="pb open">'+s.p+'</div><div><div class="pn2">'+(names[s.p]||s.p)+'</div><div class="ps">Open</div></div><div class="opentag">Take it</div></div>';
+      return '<div class="posrow"><div class="pb taken">'+s.p+'</div><div><div class="pn2">'+(names[s.p]||s.p)+'</div><div class="ps">'+fan.n+'</div></div><div class="av" style="background-image:url(\\\'assets/'+(fan.a||'up_10.png')+'\\\')"></div></div>';
+    }).join('');
   }
   function applyPermissions(m){
     if(!m)return;
@@ -3170,11 +3351,11 @@ PLAYER_JS = """
     var prev=m.querySelector('.campreview'); if(prev) prev.style.opacity=SFLperm.camera?'1':'.72';
   }
   function applySeatNumbers(m){
-    var ht=m.querySelector('.hosttile'); if(ht){ var hn=ht.querySelector('.hostnum'); if(SFLseatMode==='num'){ if(!hn){hn=document.createElement('div');hn.className='hostnum';ht.appendChild(hn);} hn.textContent='1'; } else if(hn){ hn.remove(); } }
+    var ht=m.querySelector('.seat.host')||m.querySelector('.hosttile'); if(ht){ var hn=ht.querySelector('.hostnum'); if(SFLseatMode==='num'){ if(!hn){hn=document.createElement('div');hn.className='hostnum';ht.appendChild(hn);} hn.textContent='1'; } else if(hn){ hn.remove(); } }
     if(SFLseatMode!=='num')return;
     var seats=m.querySelectorAll('.formfield .seat'); if(!seats.length)return;
     var n=2;
-    [].forEach.call(seats,function(s){ var pos=s.querySelector('.pos'); if(!pos)return; if(s.classList.contains('open')){ pos.textContent='#'+n; } else { pos.textContent='#'+n; } n++; });
+    [].forEach.call(seats,function(s){ if(s.classList.contains('host'))return; var pos=s.querySelector('.pos'); if(!pos)return; pos.textContent='#'+n; n++; });
   }
   function decorateSeatMics(m){
     var seats=m.querySelectorAll('.formfield .seat'); if(!seats.length)return;
@@ -3391,10 +3572,10 @@ PLAYER_JS = """
   }
   function csMoney(n){ return '$'+(Math.round(n*100)/100).toFixed(2); }
   function applyCsDetail(root){
-    var usd=(SFLcs.amt||500)/(SFLcs.rate||10.4);
+    var usd=(SFLcs.amt||5000)/(SFLcs.rate||104);
     var custom=root.querySelector('#cs-custom'); if(custom) custom.textContent=String(SFLcs.amt);
     [].forEach.call(root.querySelectorAll('.cs-usd,.cs-usd2'),function(el){ el.textContent=csMoney(usd); });
-    var rate=root.querySelector('.cs-rate'); if(rate) rate.textContent=(SFLcs.rate||10.4)+' Coins / $1';
+    var rate=root.querySelector('.cs-rate'); if(rate) rate.textContent=(SFLcs.rate||104)+' Coins / $1';
     var name=root.querySelector('.cs-name'); if(name) name.innerHTML=(SFLcs.name||'Maya Chen')+' <span class="vbadge">✓ Verified</span>';
     var btn=root.querySelector('.cta .btn'); if(btn&&/purchase request/i.test(btn.textContent||'')) btn.textContent='Create purchase request';
   }
@@ -3489,6 +3670,7 @@ PLAYER_JS = """
     injectBar(mount.querySelector('.phone'));
     applyStageChrome();
     SFLcoinify(mount); SFLcrest(mount); SFLchat(mount);
+    if(/^ML-/.test(scr.fnum)||scr.fnum==='MC-07D') applyMoveType(mount);
     if(scr.fnum==='FT-01'||scr.fnum==='FT-02'){applyTaskDone(mount);}
     if(scr.fnum==='PV-04'){SFLpred={match:SFLpredMatch,score:SFLpredScore};}
     if(scr.fnum==='PV-05'){applyVoteDone(mount,'motm');}
@@ -3530,19 +3712,23 @@ PLAYER_JS = """
     if(bp2){bp2.disabled=!canBack;bp2.classList.toggle('off',!canBack);}
     if(bn2){bn2.disabled=!canFwd;bn2.classList.toggle('off',!canFwd);}
     flowsel.value=curJ;
+    if(scr.fnum==='GL-01'){ [].forEach.call(mount.querySelectorAll('.smcard'),function(c){ var v=parseInt(c.getAttribute('data-seats')||'0',10); c.classList.toggle('on', v===seatCountN()); }); }
     if(scr.fnum==='GL-02'){ applyFormMode(mount); }
     if(scr.fnum==='GL-01B'){ applyPermissions(mount); }
     if(scr.fnum==='G-05F'){ applyFollowTab(mount); }
-    if(scr.fnum==='GL-02A'){ var _gm=mount.querySelector('.rt2 .rmeta'); if(_gm){ _gm.textContent='Red District FC · '+(SFLseatMode==='num'?('Numbers 1–'+SFLseatCount):(SFLformation+' · '+SFLseatCount+' positions')); } }
+    if(scr.fnum==='GL-02A'){ var _gm=mount.querySelector('.rt2 .rmeta'); if(_gm){ _gm.textContent='Red District FC · '+(SFLseatMode==='num'?('Numbers 1–'+seatCountN()):((seatCountN()>=11?SFLformation:(seatCountN()+' seats'))+' · '+seatCountN()+' positions')); } }
+    [].forEach.call(mount.querySelectorAll('.sflguest-static'),function(el){ el.remove(); });
+    if(/^GL-02A$|^GL-03|^GL-05B$|^GL-CH-C$|^GL-WA-[HV]$/.test(scr.fnum)) applyLiveSeats(mount);
+    if(scr.fnum==='GL-05') applyPosSheet(mount);
     startTimers(mount);
     startLiveFeed(mount);
     applySeatNumbers(mount);
     decorateSeatMics(mount);
     if(scr.fnum==='GL-WA-H'||scr.fnum==='GL-WA-V'){applyWaClip(mount);applyWaSize(mount);}
     if(scr.fnum==='GL-WA-L'||scr.fnum==='GL-WA-P'){applyWaApp(mount);}
-    if(scr.fnum==='GL-03H'||scr.fnum==='GL-WA-H'||scr.fnum==='GL-04'||scr.fnum==='GL-04A'){ if(SFLliveRole!=='cohost') SFLliveRole='host'; }
-    if(scr.fnum==='GL-CH-C') SFLliveRole='cohost';
-    if(scr.fnum==='GL-03V'||scr.fnum==='GL-WA-V'){ if(SFLliveRole==='host') SFLliveRole='viewer'; }
+    if(scr.fnum==='GL-03H'||scr.fnum==='GL-WA-H'||scr.fnum==='GL-04'||scr.fnum==='GL-04A'){ if(SFLliveRole!=='cohost'&&SFLliveRole!=='manager') SFLliveRole='host'; }
+    if(scr.fnum==='GL-CH-C'){ SFLliveRole='manager'; SFLcoHosts.you=1; }
+    if(scr.fnum==='GL-03V'||scr.fnum==='GL-WA-V'){ if(SFLliveRole==='host') SFLliveRole=SFLcoHosts.you?'manager':'viewer'; }
     if(scr.fnum==='GL-05B'||scr.fnum==='GL-05OK'||scr.fnum==='GL-CH-C') SFLseated=true;
     if(scr.fnum==='GL-03V'||scr.fnum==='GL-00'||scr.fnum==='GL-03Vg') SFLseated=false;
     if(/^GL-03|^GL-04|^GL-05|^GL-CH|^GL-WA-/.test(scr.fnum)){applyLiveStaff(mount);}
@@ -3559,8 +3745,12 @@ PLAYER_JS = """
     if(scr.fnum==='PL-06'){applyPlSquad(mount);}
     if(scr.fnum==='PL-06A'){applyPlAction(mount);}
     if(scr.fnum==='PL-07L'||scr.fnum==='PL-08L'){applyPlLoan(mount);}
+    if(scr.fnum==='PL-08'){applyPlListLive(mount);}
+    if(scr.fnum==='PL-01W'){applyPlWeeklyBuys(mount);}
+    if(scr.fnum==='PL-05'){applyPlPurchaseDuty(mount);}
     if(scr.fnum==='G-02'||scr.fnum==='G-02M'){applyHomePlayersDuty(mount);}
     if(scr.fnum==='FT-02'){applyFtPlayerDuty(mount);}
+    if(scr.fnum==='FT-03P'){applyFtBuySellDetail(mount);}
     if(scr.fnum==='G-03'){applyPlNotifs(mount);applyCmgrNotifs(mount);applyTourn(mount);}
     if(scr.fnum==='J2-16'){applyCmgrMember(mount);}
     if(scr.fnum==='J2-05'){applyClubDetailMember(mount);}
@@ -3674,7 +3864,44 @@ PLAYER_JS = """
     [].forEach.call(v.querySelectorAll('.wasz'),function(b){ b.classList.toggle('on',b.getAttribute('data-sz')===SFLwaSize); });
   }
   function chKey(n){ return String(n||'').toLowerCase().replace(/\s+/g,''); }
-  function chLiveRoom(){ return SFLseated?'fanseated':'liveroom'; }
+  function isRoomMgr(){ return SFLliveRole==='manager'||SFLliveRole==='cohost'||!!(SFLcoHosts&&SFLcoHosts.you); }
+  function isLiveHost(){ return SFLliveRole==='host'; }
+  function isLiveStaff(){ return isLiveHost()||isRoomMgr(); }
+  function mgrCount(){ return Object.keys(SFLcoHosts||{}).length; }
+  function chIsMgrKind(k){ return k==='cohost'||k==='manager'; }
+  function sflLeaveLive(){ SFLseated=false; goTo('live'); }
+  function takeSeatSkip(){ SFLseated=true; goTo(isRoomMgr()?'cohostroom':'fanseated'); }
+  function chatInviteName(el){
+    if(!el) return '';
+    var b=el.querySelector('b'); if(b) return (b.textContent||'').trim();
+    var tx=(el.textContent||'').replace(/^\s*[⚡👑👔▶]+/,'').trim();
+    var m=tx.match(/^([A-Za-z][A-Za-z0-9._ ]{1,24}?)(?:\s+joined|\s+took|\s+is\b)/);
+    return m?m[1].trim():'';
+  }
+  function inviteOntoSeat(name, av){
+    name=(name||'').trim(); if(!name||/^you$/i.test(name)) { sflToast('Pick a commenter to invite'); return; }
+    var root=document.getElementById('scaler').firstElementChild; if(!root) return;
+    var open=root.querySelector('.formfield .seat.open');
+    if(!open){ sflToast('No open seats to invite onto'); return; }
+    var pos=((open.querySelector('.pos')||{}).textContent||'RW').trim();
+    open.classList.remove('open','pulse');
+    var avEl=open.querySelector('.av'); if(avEl){ avEl.textContent=''; avEl.style.backgroundImage='url("assets/'+(av||'up_12.png')+'")'; }
+    var nm=open.querySelector('.nm'); if(nm) nm.textContent=name;
+    if(typeof decorateSeatMics==='function') decorateSeatMics(root);
+    if(typeof applyLiveStaff==='function') applyLiveStaff(root);
+    if(typeof pushComment==='function') pushComment('⚡ '+name+' took '+pos+' · invited','join');
+    sflToast(name+' invited onto '+pos);
+  }
+  function kickFromSeat(seat, name){
+    if(!seat||seat.classList.contains('open')||seat.classList.contains('you')) return;
+    seat.classList.add('open'); seat.classList.remove('spk');
+    var av=seat.querySelector('.av'); if(av){ av.textContent='＋'; av.style.backgroundImage=''; }
+    var nm=seat.querySelector('.nm'); if(nm) nm.textContent='Open';
+    var mi=seat.querySelector('.micind'); if(mi) mi.remove();
+    var bd=seat.querySelector('.chbadge'); if(bd) bd.remove();
+    sflToast((name||'Guest')+' removed from the pitch');
+  }
+  function chLiveRoom(){ return isRoomMgr()?'cohostroom':(SFLseated?'fanseated':'liveroom'); }
   function chQueue(item){
     item.id=item.id||(item.kind+'-'+chKey(item.name)+'-'+(item.pos||''));
     if(SFLjoinQ.some(function(q){ return q.id===item.id; })) return;
@@ -3682,21 +3909,29 @@ PLAYER_JS = """
   }
   function chDrop(id){ SFLjoinQ=SFLjoinQ.filter(function(q){ return q.id!==id; }); }
   function chToggle(name){
-    var k=chKey(name); if(!k||k==='you'&&SFLliveRole==='host') return;
-    if(SFLcoHosts[k]){ delete SFLcoHosts[k]; if(k==='you') SFLliveRole='viewer'; sflToast(name+' is no longer a co-host'); }
-    else { SFLcoHosts[k]=1; sflToast(name+' is now a co-host — can accept join requests'); }
+    var k=chKey(name); if(!k||(k==='you'&&SFLliveRole==='host')) return;
+    if(!isLiveHost()){ sflToast('Only the host can appoint managers'); return; }
+    if(SFLcoHosts[k]){ delete SFLcoHosts[k]; if(k==='you') SFLliveRole='viewer'; sflToast(name+' is no longer a room manager'); }
+    else {
+      if(mgrCount()>=4){ sflToast('Max 4 managers on this live'); return; }
+      SFLcoHosts[k]=1; sflToast(name+' is now a room manager · this live only');
+    }
     var m=document.getElementById('scaler').firstElementChild; if(m) applyLiveStaff(m);
   }
   function chDecide(id, ok){
     var q=null; for(var i=0;i<SFLjoinQ.length;i++) if(SFLjoinQ[i].id===id) q=SFLjoinQ[i];
     if(!q) return;
     var _fn=((VIEWS[curJ].screens[curS]||{}).fnum)||'';
-    if(q.kind==='cohost'&&(SFLliveRole==='cohost'||_fn==='GL-CH-C')){ sflToast('Only the host can add a co-host'); return; }
+    if(chIsMgrKind(q.kind)&&(isRoomMgr()||_fn==='GL-CH-C')&&!isLiveHost()){ sflToast('Only the host can appoint a manager'); return; }
     chDrop(id);
     var you=/^you/i.test(q.name);
-    if(q.kind==='cohost'){
-      if(ok){ SFLcoHosts[chKey(q.name)]=1; if(you){ SFLchAsk='accepted'; SFLliveRole='cohost'; sflToast('You are now a co-host'); goTo('cohostroom'); return; } sflToast(q.name+' is now a co-host'); }
-      else { if(you) SFLchAsk='denied'; sflToast(q.name+' co-host request declined'); }
+    if(chIsMgrKind(q.kind)){
+      if(ok){
+        if(mgrCount()>=4 && !SFLcoHosts[chKey(q.name)]){ sflToast('Max 4 managers on this live'); return; }
+        SFLcoHosts[chKey(q.name)]=1;
+        if(you){ SFLchAsk='accepted'; SFLliveRole='manager'; sflToast('You are now a room manager'); goTo('cohostroom'); return; }
+        sflToast(q.name+' is now a room manager');
+      } else { if(you) SFLchAsk='denied'; sflToast(q.name+' manager request declined'); }
     } else {
       if(ok){ if(you){ sflToast('RW approved — you are on the pitch'); goTo('fanseated'); return; } sflToast(q.name+' approved · '+q.pos); }
       else { sflToast(q.name+' join declined'); }
@@ -3708,12 +3943,13 @@ PLAYER_JS = """
     var n=SFLjoinQ.length;
     [].forEach.call(root.querySelectorAll('.nbadge'),function(b){ b.textContent=String(n); b.classList.toggle('on',n>0); });
     var _fnStaff0=((VIEWS[curJ].screens[curS]||{}).fnum)||'';
-    var showCo=_fnStaff0==='GL-03H'||_fnStaff0==='GL-WA-H'||_fnStaff0==='GL-CH-C'||_fnStaff0==='GL-05B';
+    var showCo=_fnStaff0==='GL-03H'||_fnStaff0==='GL-WA-H'||_fnStaff0==='GL-CH-C'||_fnStaff0==='GL-05B'||_fnStaff0==='GL-03V'||_fnStaff0==='GL-WA-V';
     [].forEach.call(root.querySelectorAll('.formfield .seat'),function(seat){
       var nm=((seat.querySelector('.nm')||{}).textContent||'').trim();
       var on=showCo&&!!SFLcoHosts[chKey(nm)];
       var badge=seat.querySelector('.chbadge');
-      if(on&&!badge){ badge=document.createElement('div'); badge.className='chbadge'; badge.textContent='CO'; seat.appendChild(badge); }
+      if(on&&!badge){ badge=document.createElement('div'); badge.className='chbadge'; badge.textContent='MGR'; seat.appendChild(badge); }
+      if(on&&badge) badge.textContent='MGR';
       if(!on&&badge) badge.remove();
     });
     var _fnStaff=((VIEWS[curJ].screens[curS]||{}).fnum)||'';
@@ -3721,39 +3957,49 @@ PLAYER_JS = """
     var rtop=root.querySelector('.rtop');
     var exist=root.querySelector('#co-tile');
     var staffRoom=_fnStaff==='GL-03H'||_fnStaff==='GL-WA-H'||_fnStaff==='GL-CH-C';
-    if(rtop&&names.length&&!exist&&staffRoom){
+    var ht=rtop&&rtop.querySelector('.hosttile');
+    if(rtop&&ht&&names.length&&!exist&&staffRoom){
       var tile=document.createElement('div'); tile.id='co-tile'; tile.className='cotile';
       tile.style.backgroundImage='url("assets/up_07.png")';
-      tile.innerHTML='<div class="cl">CO</div>';
-      var ht=rtop.querySelector('.hosttile'); if(ht&&ht.parentNode) ht.parentNode.insertBefore(tile, ht.nextSibling);
+      tile.innerHTML='<div class="cl">MGR</div>';
+      ht.parentNode.insertBefore(tile, ht.nextSibling);
     }
-    if(exist&&(!names.length||!staffRoom)) exist.remove();
+    if(exist){
+      if(!names.length||!staffRoom) exist.remove();
+      else { var cl=exist.querySelector('.cl'); if(cl) cl.textContent='MGR'; }
+    }
+    var chip=root.querySelector('.rtop .rolechip');
+    if(chip && (_fnStaff==='GL-03V'||_fnStaff==='GL-WA-V'||_fnStaff==='GL-05B'||_fnStaff==='GL-CH-C')){
+      if(isRoomMgr()){ chip.className='rolechip manager'; chip.textContent='Manager'; }
+    }
+    var hintMeta=root.querySelector('.rt2 > .rmeta');
+    if(hintMeta && /appoint you as a (room )?manager|mute\s*·\s*reset\s*·\s*remove/i.test(hintMeta.textContent||'')) hintMeta.remove();
     [].forEach.call(root.querySelectorAll('.chactlab'),function(lab){
       var who=lab.getAttribute('data-chname')||((root.querySelector('.seathead .nm')||{}).textContent||'Teo').split('·')[0].trim();
-      lab.textContent=SFLcoHosts[chKey(who)]?'Remove Co-Host':'Make Co-Host';
+      lab.textContent=SFLcoHosts[chKey(who)]?'Remove Manager':'Make Manager';
     });
     var tab=SFLchTab||'join';
     [].forEach.call(root.querySelectorAll('[data-chtab]'),function(el){
       var k=el.getAttribute('data-chtab');
       el.classList.toggle('on', tab===k);
-      var c=SFLjoinQ.filter(function(q){ return k==='cohost'?q.kind==='cohost':q.kind==='join'; }).length;
-      el.textContent=(k==='cohost'?'Co-host requests':'Waiting list')+(c?(' · '+c):'');
+      var c=SFLjoinQ.filter(function(q){ return k==='cohost'?chIsMgrKind(q.kind):q.kind==='join'; }).length;
+      el.textContent=(k==='cohost'?('Managers · '+mgrCount()+'/4'):'Waiting list')+(c?(' · '+c):'');
     });
     var hint=root.querySelector('#ch-hint');
-    if(hint) hint.textContent=tab==='cohost'?'Viewers asking to become co-host. Only the host can accept or decline.':'People waiting to enter the pitch. Host or a co-host can accept or decline.';
+    if(hint) hint.textContent=tab==='cohost'?'Host-only. Appoint up to 4 room managers for this live — not a club role. Managers skip seat approval later.':'People waiting to enter the pitch. Host or a room manager can accept or decline.';
     var list=root.querySelector('#ch-list');
     if(list){
-      var hostDecides=SFLliveRole==='cohost'||_fnStaff==='GL-CH-C';
-      var rows=SFLjoinQ.filter(function(q){ return tab==='cohost'?q.kind==='cohost':q.kind==='join'; });
-      if(!rows.length){ list.innerHTML='<div style="padding:22px 8px;text-align:center;font-size:13px;font-weight:700;color:#707786">'+(tab==='cohost'?'No co-host requests':'No one waiting to join')+'</div>'; }
+      var hostDecides=isRoomMgr()||_fnStaff==='GL-CH-C';
+      var rows=SFLjoinQ.filter(function(q){ return tab==='cohost'?chIsMgrKind(q.kind):q.kind==='join'; });
+      if(!rows.length){ list.innerHTML='<div style="padding:22px 8px;text-align:center;font-size:13px;font-weight:700;color:#707786">'+(tab==='cohost'?'No manager requests':'No one waiting to join')+'</div>'; }
       else {
         list.innerHTML=rows.map(function(q){
-          var kind=q.kind==='cohost'?'co':'join';
-          var meta=q.kind==='cohost'?'Wants to become co-host':'Wants '+q.pos+' on the pitch';
-          var acts=(q.kind==='cohost'&&hostDecides)
-            ? '<div class="reqm">Host decides co-host</div>'
+          var kind=chIsMgrKind(q.kind)?'co':'join';
+          var meta=chIsMgrKind(q.kind)?'Wants to be a room manager':'Wants '+q.pos+' on the pitch';
+          var acts=(chIsMgrKind(q.kind)&&hostDecides&&!isLiveHost())
+            ? '<div class="reqm">Host appoints managers</div>'
             : '<div class="reqok" data-chdec="ok">Accept</div><div class="reqno" data-chdec="no">Decline</div>';
-          return '<div class="reqrow" data-chid="'+q.id+'"><div class="reqav" data-av="'+q.av+'"></div><div style="flex:1"><div class="reqn">'+q.name+' <span class="chkind '+kind+'">'+(q.kind==='cohost'?'Co-host':'Join')+'</span></div><div class="reqm">'+meta+'</div></div><div class="reqacts">'+acts+'</div></div>';
+          return '<div class="reqrow" data-chid="'+q.id+'"><div class="reqav" data-av="'+q.av+'"></div><div style="flex:1"><div class="reqn">'+q.name+' <span class="chkind '+kind+'">'+(chIsMgrKind(q.kind)?'Manager':'Join')+'</span></div><div class="reqm">'+meta+'</div></div><div class="reqacts">'+acts+'</div></div>';
         }).join('');
         [].forEach.call(list.querySelectorAll('.reqav[data-av]'),function(av){ av.style.backgroundImage='url("assets/'+av.getAttribute('data-av')+'")'; });
       }
@@ -3783,6 +4029,13 @@ PLAYER_JS = """
   SFLPLAYERS.mendy=plExtra('F. Mendy','RM','Royal Athletic',390,'av_07.png','up');
   SFLPLAYERS.ibrahim=plExtra('Z. Ibrahim','LM','Iron Valley',300,'av_09.png','down');
   SFLPLAYERS.nkunku=plExtra('C. Nkunku','CF','Northbridge FC',660,'av_06.png','up');
+  SFLPLAYERS.okoro=plExtra('Y. Okoro','CM','Harbor FC',450,'av_03.png','up');
+  SFLPLAYERS.okoro.seller='Harbor City FC'; SFLPLAYERS.okoro.cr='cr-blue'; SFLPLAYERS.okoro.crL='HC';
+  SFLPLAYERS.moretti=plExtra('L. Moretti','RW','Royal Athletic',560,'av_11.png','up');
+  SFLPLAYERS.hassan=plExtra('A. Hassan','CB','Iron Valley',410,'av_08.png','flat');
+  SFLPLAYERS.ike=plExtra('K. Ike','ST','Coast City',700,'av_09.png','up');
+  SFLPLAYERS.nunez=plExtra('M. Núñez','GK','Southgate United',240,'av_02.png');
+  var SFL_REC_POOL=['okoro','bello','moretti','hassan','ike','nunez'];
   function plFromEl(el){
     if(!el)return SFLpl||'rivera';
     var id=el.getAttribute('data-pl'); if(id&&SFLPLAYERS[id])return id;
@@ -3791,14 +4044,46 @@ PLAYER_JS = """
     return SFLpl||'rivera';
   }
   function plLoanFee(p){ return Math.max(20, Math.round(((p&&p.val)||400)*0.15/10)*10); }
-  function plDutyCounts(){ var t=0,l=0; for(var k in SFLplList){ if(SFLplList[k]==='loan')l++; else if(SFLplList[k]==='transfer')t++; } return {t:t,l:l}; }
+  function plDutyCounts(){
+    var sell=0,loan=0,buy=0,k;
+    for(k in SFLplList){ if(SFLplList[k]==='loan')loan++; else if(SFLplList[k]==='transfer')sell++; }
+    for(k in SFLplBought){ if(SFLplBought[k]) buy++; }
+    return {sell:sell,buy:buy,t:sell,l:loan};
+  }
+  function plListedSellIds(){ var out=[],k; for(k in SFLplList){ if(SFLplList[k]==='transfer') out.push(k); } return out; }
+  function plMatchRecs(){
+    var listed=plListedSellIds(), pool=SFL_REC_POOL.slice(), recs=[];
+    function pickFor(val){
+      var best=null,bestD=1e9,bi=-1,i,p,d;
+      for(i=0;i<pool.length;i++){
+        p=SFLPLAYERS[pool[i]]; if(!p) continue;
+        d=Math.abs((p.val||0)-val);
+        if(d<bestD){bestD=d;best=pool[i];bi=i;}
+      }
+      if(bi>=0) pool.splice(bi,1);
+      return best;
+    }
+    if(!listed.length) return ['okoro','bello'];
+    listed.forEach(function(id){ var r=pickFor((SFLPLAYERS[id]||{}).val||400); if(r) recs.push(r); });
+    while(recs.length<2){ var extra=pickFor(400); if(!extra) break; recs.push(extra); }
+    return recs.slice(0,2);
+  }
+  function plMarkBuySellDuty(){
+    var d=plDutyCounts();
+    if(d.sell>=2&&d.buy>=2){ SFLdone['Buy & sell players']=1; sflToast('Weekly task complete · 2 listed + 2 system buys'); return true; }
+    return false;
+  }
   function plRecordList(kind){
     var id=SFLpl||'rivera';
     if(SFLplList[id]&&SFLplList[id]!==kind){ sflToast('Unlist first to change type'); return false; }
     SFLplList[id]=kind;
     var d=plDutyCounts();
-    if(d.t>=2&&d.l>=2){ SFLdone['List transfers & loans']=1; sflToast('Duty complete · 2 transfers + 2 loans listed'); }
-    else sflToast((kind==='loan'?'Loan':'Transfer')+' listed · '+Math.min(2,d.t)+'/2 transfers · '+Math.min(2,d.l)+'/2 loans');
+    if(kind==='transfer'){
+      if(!plMarkBuySellDuty()){
+        if(d.sell>=2) sflToast('2 listed · buy the 2 system picks to finish');
+        else sflToast('Listed · sell '+Math.min(2,d.sell)+'/2 · you pick who to sell');
+      }
+    } else sflToast('Loan listed');
     if(window._sflploffer){clearTimeout(window._sflploffer);window._sflploffer=null;}
     window._sflploffer=setTimeout(function(){
       plQueueOffer(id,kind);
@@ -3806,6 +4091,19 @@ PLAYER_JS = """
       if(((VIEWS[curJ].screens[curS]||{}).fnum)==='G-03') applyTourn(mount);
     },1600);
     return true;
+  }
+  function plRecordBuy(id){
+    id=id||SFLpl||'bello';
+    SFLplBought[id]=1;
+    if(!plMarkBuySellDuty()){
+      var d=plDutyCounts();
+      sflToast('Bought · buy '+Math.min(2,d.buy)+'/2 system picks');
+    }
+  }
+  function plRecRowHtml(id, listedId){
+    var p=SFLPLAYERS[id]||SFLPLAYERS.bello, src=SFLPLAYERS[listedId], bought=!!SFLplBought[id];
+    var match=src?('Matched to '+src.name+' · '+p.val+' vs '+src.val):('System pick · '+p.val+' Coins');
+    return '<div class="recrow" data-pl="'+id+'" data-plrec="'+id+'"><div class="pi" style="background-image:'+sflImg(p.av)+'"></div><div><div class="pn">'+p.name+'</div><div class="pp">'+p.pos+' · '+p.club+'</div><div class="rmatch">'+match+'</div></div><div class="side">'+(bought?'<div class="bought">✓ Bought</div>':'<div class="cv" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--goldDeep)"><div class="coin" style="width:15px;height:15px;font-size:8px">C</div>'+p.val+'</div>')+'</div></div>';
   }
   function plUnlist(){ var id=SFLpl||'rivera'; delete SFLplList[id]; sflToast('Player unlisted'); }
   function plQueueOffer(id,kind){
@@ -3987,9 +4285,10 @@ PLAYER_JS = """
   }
   function applyPlSquad(root){
     var d=plDutyCounts();
-    var dt=root.querySelector('#pl-duty-t'), dl=root.querySelector('#pl-duty-l');
-    if(dt){ var n=dt.querySelector('.n'); if(n)n.textContent=Math.min(2,d.t)+'/2'; dt.classList.toggle('ok',d.t>=2); }
-    if(dl){ var n2=dl.querySelector('.n'); if(n2)n2.textContent=Math.min(2,d.l)+'/2'; dl.classList.toggle('ok',d.l>=2); }
+    var dt=root.querySelector('#pl-duty-t'), db=root.querySelector('#pl-duty-b');
+    if(dt){ var n=dt.querySelector('.n'); if(n)n.textContent=Math.min(2,d.sell)+'/2'; dt.classList.toggle('ok',d.sell>=2); }
+    if(db){ var n2=db.querySelector('.n'); if(n2)n2.textContent=Math.min(2,d.buy)+'/2'; db.classList.toggle('ok',d.buy>=2); }
+    applyPlRecsBox(root);
     [].forEach.call(root.querySelectorAll('.prow'),function(r){
       var id=r.getAttribute('data-pl'), kind=id&&SFLplList[id], box=r.children[1], badge=r.querySelector('.listed');
       if(kind){ if(!badge&&box){ badge=document.createElement('span'); box.appendChild(badge); } if(badge){ badge.className='listed'+(kind==='loan'?' loan':''); badge.textContent=kind==='loan'?'● LOAN':'● TRANSFER'; } }
@@ -4037,18 +4336,64 @@ PLAYER_JS = """
   }
   function applyHomePlayersDuty(root){
     var q=root.querySelector('.qt.players .qs'); if(!q)return;
-    var d=plDutyCounts(), n=Math.min(2,d.t)+Math.min(2,d.l);
-    q.textContent=n>=4?'Duty complete · 4/4 listed':'Duty · '+d.t+'/2 transfer · '+d.l+'/2 loan';
+    var d=plDutyCounts(), n=Math.min(2,d.sell)+Math.min(2,d.buy);
+    q.textContent=n>=4?'Duty complete · sold 2 + bought 2':'Duty · sell '+d.sell+'/2 you pick · buy '+d.buy+'/2 system picks';
     var bar=root.querySelector('.qt.players .qbar i'); if(bar) bar.style.width=Math.round((n/4)*100)+'%';
   }
   function applyFtPlayerDuty(root){
     [].forEach.call(root.querySelectorAll('.trow'),function(r){
-      var tt=r.querySelector('.tt'); if(!tt||!/transfer|loan/i.test(tt.textContent||''))return;
+      var tt=r.querySelector('.tt'); if(!tt||!/buy|sell|player|transfer|loan/i.test(tt.textContent||''))return;
       var d=plDutyCounts();
-      var req=r.querySelector('.req'); if(req) req.textContent='Transfer '+Math.min(2,d.t)+'/2 · Loan '+Math.min(2,d.l)+'/2';
-      var bar=r.querySelector('.pbar i'); if(bar) bar.style.width=Math.round(((Math.min(2,d.t)+Math.min(2,d.l))/4)*100)+'%';
-      if(d.t>=2&&d.l>=2){ r.classList.add('complete'); var side=r.querySelector('.side'); if(side) side.innerHTML='<div class="done">✓</div>'; }
+      var req=r.querySelector('.req'); if(req) req.textContent='Sell '+Math.min(2,d.sell)+'/2 · Buy '+Math.min(2,d.buy)+'/2 · you pick sells · system picks buys';
+      var bar=r.querySelector('.pbar i'); if(bar) bar.style.width=Math.round(((Math.min(2,d.sell)+Math.min(2,d.buy))/4)*100)+'%';
+      if(d.sell>=2&&d.buy>=2){ r.classList.add('complete'); var side=r.querySelector('.side'); if(side) side.innerHTML='<div class="done">✓</div>'; }
     });
+  }
+  function applyFtBuySellDetail(root){
+    var d=plDutyCounts(), n=Math.min(2,d.sell)+Math.min(2,d.buy);
+    var prog=root.querySelector('#ft-buysell-prog'); if(prog) prog.textContent='Sell '+Math.min(2,d.sell)+'/2 · Buy '+Math.min(2,d.buy)+'/2';
+    var dp=root.querySelector('.dp'); if(dp) dp.innerHTML=n+'<small> / 4</small>';
+    var buyBtn=root.querySelector('[data-ftact="buyrecs"]');
+    if(buyBtn) buyBtn.textContent=d.sell<2?'Buy the 2 recommended':'Buy the 2 recommended';
+  }
+  function applyPlRecsBox(root){
+    var copy=root.querySelector('#pl-recs-copy'), rows=root.querySelector('#pl-recs-rows'), cta=root.querySelector('#pl-recs-cta');
+    if(!copy&&!rows) return;
+    var listed=plListedSellIds(), recs=plMatchRecs(), d=plDutyCounts();
+    if(copy){
+      if(!listed.length) copy.textContent='List 2 players first. SFL will then show two recommended buys matched to those listing values — you don’t browse-pick them.';
+      else copy.textContent='You pick the sells. The system picked these buys to match your listing values.';
+    }
+    if(rows){
+      if(!listed.length) rows.innerHTML='';
+      else rows.innerHTML=recs.map(function(id,i){ return plRecRowHtml(id, listed[i]||listed[0]); }).join('');
+    }
+    if(cta) cta.style.display=listed.length>=2?'':'none';
+  }
+  function applyPlWeeklyBuys(root){
+    var d=plDutyCounts(), listed=plListedSellIds(), recs=plMatchRecs();
+    var ds=root.querySelector('#pl-w-sell'), db=root.querySelector('#pl-w-buy');
+    if(ds){ var n=ds.querySelector('.n'); if(n)n.textContent=Math.min(2,d.sell)+'/2'; ds.classList.toggle('ok',d.sell>=2); }
+    if(db){ var n2=db.querySelector('.n'); if(n2)n2.textContent=Math.min(2,d.buy)+'/2'; db.classList.toggle('ok',d.buy>=2); }
+    var copy=root.querySelector('#pl-w-copy');
+    if(copy){
+      if(!listed.length) copy.textContent='Default pair until you list: Y. Okoro (450) matches A. Rivera (420–450) · T. Bello (310) matches M. Silva (300–340).';
+      else copy.textContent=recs.map(function(id,i){ var p=SFLPLAYERS[id], s=SFLPLAYERS[listed[i]||listed[0]]; return p.name+' ('+p.val+') matches '+(s?s.name+' ('+s.val+')':'your listing'); }).join(' · ');
+    }
+    var rows=root.querySelector('#pl-w-rows');
+    if(rows) rows.innerHTML=recs.map(function(id,i){ return plRecRowHtml(id, listed[i]||listed[0]); }).join('');
+  }
+  function applyPlListLive(root){
+    var d=plDutyCounts(), btn=root.querySelector('[data-plact="afterlist"], .cta .btn');
+    if(btn) btn.textContent=d.sell>=2?'Buy the 2 recommended':'List another player';
+  }
+  function applyPlPurchaseDuty(root){
+    if(SFLplWeeklyBuy || (SFL_REC_POOL.indexOf(SFLpl)>=0)){
+      if(!SFLplBought[SFLpl]) plRecordBuy(SFLpl);
+      SFLplWeeklyBuy=false;
+      var d=plDutyCounts(), btn=root.querySelector('.cta .btn');
+      if(btn) btn.textContent=d.buy>=2?'Back to weekly tasks':'Buy the other pick';
+    }
   }
   function sflImg(fn){ return 'var(--img-'+fn.replace(/[^a-zA-Z0-9]/g,'_')+'), url("assets/'+fn+'")'; }
   function setBalKey(root,key,val){
@@ -4153,7 +4498,7 @@ PLAYER_JS = """
   },{passive:true});
   var MULTI='.tchip,.chip', SINGLE='.fchip,.lchip,.tab,.dtab,.segopt,.reasonopt,.srcopt,.laopt,.opt,.giftopt,.pt,.sw,.em,.teamrow,.lgchip,.formcard', SEG='.seg,.tabs,.dtabs';
   function singleSel(el,grp){[].forEach.call(grp.children,function(c){if(c.classList)c.classList.remove('on');});el.classList.add('on');}
-  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var SFLmgrEligible=false; var SFLmgrBuying=false; var SFLpkMin=5; var SFLseatCount=11; var SFLseatMode='pos'; var SFLformation='4-3-3'; var SFLfollowTab='followers'; var SFLwaClip='goals'; var SFLwaSrc=null; var SFLwaApp='yt'; var SFLwaSize='md'; var SFLcoHosts={}; var SFLchAsk='none'; var SFLliveRole='viewer'; var SFLseated=false; var SFLchTab='join'; var SFLjoinQ=[{id:'join-priya',kind:'join',name:'Priya S.',pos:'RW',av:'up_12.png'},{id:'join-kai',kind:'join',name:'Kai M.',pos:'CM',av:'up_02.png'},{id:'ch-maya',kind:'cohost',name:'Maya Chen',pos:'Viewer',av:'up_11.png'}]; var SFLpl='rivera'; var SFLplList={}; var SFLplKind='transfer'; var SFLperm={camera:true,mic:false,notif:null}; var SFLplLoan='1 week'; var SFLsigninTab='email'; var SFLsigninOtpSent=false; var SFLplOffers=[{id:'rivera',kind:'transfer',buyer:'Priya S.',status:'pending'},{id:'mensah',kind:'loan',buyer:'Luis Ortega',status:'pending'}]; var SFLcs={status:'none',amt:500,seller:'maya',rate:10.4,name:'Maya Chen',tradeAvail:8400,tradeReserved:500,proof:0}; var SFLcmgrPick={id:'priya',name:'Priya M.',fid:'67890',av:'up_11.png',lv:'9',fv:'1,510'}; var SFLcmgrStaff={}; var SFLcmgrAsk='none'; var SFLcmgrInvite='none'; var SFLcmgrTab='ask'; var SFLleaveAsk='none'; var SFLtournReg=false; var SFLtournCountry='Nigeria'; var SFLtournFlag='🇳🇬'; var SFLtournCoins=1240; var SFLtournEligible=7; var SFLtournName='AFCON 2026'; var SFLcmgrQ=[{id:'ask-diego',kind:'ask',name:'Diego S.',av:'up_10.png',status:'pending'}]; var ANCH={"watchpick":[6,"GL-WA-01"],"walogin":[6,"GL-WA-L"],"wapickvid":[6,"GL-WA-P"],"watchlive":[6,"GL-WA-H"],"watchlivev":[6,"GL-WA-V"],"watchend":[6,"GL-WA-E"],"chrequest":[6,"GL-CH-01"],"chsent":[6,"GL-CH-02"],"chinbox":[6,"GL-CH-H"],"cohostroom":[6,"GL-CH-C"],"joinwait":[6,"GL-05W"],"joinaccepted":[6,"GL-05OK"],"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "followlist": [19, "G-05F"], "giftshowcase": [19, "G-05GW"], "badgewall": [19, "G-05BW"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "plactions":[5,"PL-06A"], "plloan":[5,"PL-07L"], "plloanlive":[5,"PL-08L"], "pllistlive":[5,"PL-08"], "plsale":[5,"PL-09"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "csellers":[25,"CS-01"],"csloading":[25,"CS-01L"],"csempty":[25,"CS-01E"],"cserror":[25,"CS-01X"],"cseller":[25,"CS-02"],"csconfirm":[25,"CS-02C"],"cspending":[25,"CS-03"],"cspay":[25,"CS-04"],"cssent":[25,"CS-04S"],"cswait":[25,"CS-05"],"cstransfer":[25,"CS-06"],"csdone":[25,"CS-07"],"csrate":[25,"CS-08"],"cscancelled":[25,"CS-09"],"csexpired":[25,"CS-10"],"csreject":[25,"CS-11"],"cshistory":[25,"CS-12"],"csfailed":[25,"CS-13"],"csbecome":[25,"CS-20"],"csapply":[25,"CS-21"],"csapppend":[25,"CS-22"],"csapproved":[25,"CS-23"],"csappreject":[25,"CS-24"],"cssuspended":[25,"CS-25"],"csdesk":[25,"CS-30"],"csrequests":[25,"CS-31"],"csreq":[25,"CS-32"],"csconfirm-pay":[25,"CS-33"],"cstx":[25,"CS-34"],"cscust":[25,"CS-35"],"csnotes":[25,"CS-36"],"cssell":[25,"CS-40"],"csverify":[25,"CS-41"],"csnotfound":[25,"CS-41X"],"csamount":[25,"CS-42"],"cssellconfirm":[25,"CS-43"],"csselldone":[25,"CS-44"],"csinv":[25,"CS-50"],"csinvpay":[25,"CS-51"],"csinvdone":[25,"CS-52"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "cmgrmake":[13,"MC-CM-01"], "cmgrinvsent":[13,"MC-CM-02"], "cmgrfanok":[13,"MC-CM-03"], "cmgrqueue":[13,"MC-CM-Q"], "cmgrinvite":[13,"MC-CM-F1"], "cmgrask":[13,"MC-CM-F2"], "cmgrsent":[13,"MC-CM-F3"], "cmgryes":[13,"MC-CM-F4"], "cmgrno":[13,"MC-CM-F5"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [20, 0],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"forgotpw":[0,"12"],"resetverify":[0,"13"],"newpassword":[0,"14"],"passwordupdated":[0,"14b"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"leavepending":[1,"J2-LV"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"noclub":[1,"J2-01"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-00"],"mgrupgrade":[24,"CC-00"],"ccstart":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"],"tournhub":[11,"TR-01"],"tournnotify":[11,"TR-02"],"tournconfirm":[11,"TR-03"],"tournpay":[11,"TR-04"],"tournsuccess":[11,"TR-05"],"tourndash":[11,"TR-06"],"tournpayout":[11,"TR-07"],"tournteam":[11,"TR-08"],"tournrules":[11,"TR-09"]};
+  var hist=[]; var SFLdone={}; var SFLpred=null; var SFLpredMatch='Red Devils'; var SFLpredScore='2–1'; var SFLvote={motm:null,award:null}; var SFLmember=false; var SFLpkViewer=false; var SFLchatGift=null; var SFLchatOrigin='chatthread'; var SFLpickOrigin='vote'; var SFLfvActive=false; var SFLguest=false; var SFLmoveType='loan'; var SFLmgrMode=false; var SFLmgrEligible=false; var SFLmgrBuying=false; var SFLpkMin=5; var SFLseatCount=11; var SFLseatMode='pos'; var SFLformation='4-3-3'; var SFLfollowTab='followers'; var SFLwaClip='goals'; var SFLwaSrc=null; var SFLwaApp='yt'; var SFLwaSize='md'; var SFLcoHosts={}; var SFLchAsk='none'; var SFLliveRole='viewer'; var SFLseated=false; var SFLchTab='join'; var SFLjoinQ=[{id:'join-priya',kind:'join',name:'Priya S.',pos:'RW',av:'up_12.png'},{id:'join-kai',kind:'join',name:'Kai M.',pos:'CM',av:'up_02.png'},{id:'ch-maya',kind:'cohost',name:'Maya Chen',pos:'Viewer',av:'up_11.png'}]; var SFLpl='rivera'; var SFLplList={}; var SFLplBought={}; var SFLplWeeklyBuy=false; var SFLplKind='transfer'; var SFLperm={camera:true,mic:false,notif:null}; var SFLplLoan='1 week'; var SFLsigninTab='email'; var SFLsigninOtpSent=false; var SFLplOffers=[{id:'rivera',kind:'transfer',buyer:'Priya S.',status:'pending'},{id:'mensah',kind:'loan',buyer:'Luis Ortega',status:'pending'}]; var SFLcs={status:'none',amt:5000,seller:'maya',rate:104,name:'Maya Chen',tradeAvail:8400,tradeReserved:5000,proof:0}; var SFLcmgrPick={id:'priya',name:'Priya M.',fid:'67890',av:'up_11.png',lv:'9',fv:'1,510'}; var SFLcmgrStaff={}; var SFLcmgrAsk='none'; var SFLcmgrInvite='none'; var SFLcmgrTab='ask'; var SFLleaveAsk='none'; var SFLtournReg=false; var SFLtournCountry='Nigeria'; var SFLtournFlag='🇳🇬'; var SFLtournCoins=1240; var SFLtournEligible=7; var SFLtournName='AFCON 2026'; var SFLcmgrQ=[{id:'ask-diego',kind:'ask',name:'Diego S.',av:'up_10.png',status:'pending'}]; var ANCH={"watchpick":[6,"GL-WA-01"],"walogin":[6,"GL-WA-L"],"wapickvid":[6,"GL-WA-P"],"watchlive":[6,"GL-WA-H"],"watchlivev":[6,"GL-WA-V"],"watchend":[6,"GL-WA-E"],"chrequest":[6,"GL-CH-01"],"chsent":[6,"GL-CH-02"],"chinbox":[6,"GL-CH-H"],"cohostroom":[6,"GL-CH-C"],"joinwait":[6,"GL-05W"],"joinaccepted":[6,"GL-05OK"],"home": [19, "G-02"], "profile": [19, "G-05"], "userprofile": [19, "G-05U"], "followlist": [19, "G-05F"], "giftshowcase": [19, "G-05GW"], "badgewall": [19, "G-05BW"], "settings": [19, "G-05B"], "security": [19, "G-05C"], "deleteacct": [19, "G-05E"], "editprofile": [19, "G-05ED"], "changepw": [19, "G-05P"], "blockedusers": [19, "G-05BL"], "legal": [19, "G-05T"], "notifications": [19, "G-03"], "kyc": [19, "G-06A"], "support": [19, "G-07A"], "market": [5, "PL-01"], "myplayers":[5,"PL-06"], "plweeklybuys":[5,"PL-01W"], "plbuy":[5,"PL-03"], "plescrow":[5,"PL-04"], "plcomplete":[5,"PL-05"], "pllist":[5,"PL-07"], "plactions":[5,"PL-06A"], "plloan":[5,"PL-07L"], "plloanlive":[5,"PL-08L"], "pllistlive":[5,"PL-08"], "plsale":[5,"PL-09"], "plsold":[5,"PL-10"], "plfilters":[5,"PL-01A"], "games": [16, 0], "gameshub": [16, "MG-01"], "gamerules": [16, "MG-01R"], "gamehistory": [16, "MG-05"], "penalty": [16, "MG-02"], "penaltygoal": [16, "MG-02G"], "penaltysaved": [16, "MG-02S"], "wheel": [16, "MG-03"], "wheelspin": [16, "MG-03A"], "wheelresult": [16, "MG-04C"], "giftresult": [16, "MG-04G"], "csellers":[25,"CS-01"],"csloading":[25,"CS-01L"],"csempty":[25,"CS-01E"],"cserror":[25,"CS-01X"],"cseller":[25,"CS-02"],"csconfirm":[25,"CS-02C"],"cspending":[25,"CS-03"],"cspay":[25,"CS-04"],"cssent":[25,"CS-04S"],"cswait":[25,"CS-05"],"cstransfer":[25,"CS-06"],"csdone":[25,"CS-07"],"csrate":[25,"CS-08"],"cscancelled":[25,"CS-09"],"csexpired":[25,"CS-10"],"csreject":[25,"CS-11"],"cshistory":[25,"CS-12"],"csfailed":[25,"CS-13"],"csbecome":[25,"CS-20"],"csapply":[25,"CS-21"],"csapppend":[25,"CS-22"],"csapproved":[25,"CS-23"],"csappreject":[25,"CS-24"],"cssuspended":[25,"CS-25"],"csdesk":[25,"CS-30"],"csrequests":[25,"CS-31"],"csreq":[25,"CS-32"],"csconfirm-pay":[25,"CS-33"],"cstx":[25,"CS-34"],"cscust":[25,"CS-35"],"csnotes":[25,"CS-36"],"cssell":[25,"CS-40"],"csverify":[25,"CS-41"],"csnotfound":[25,"CS-41X"],"csamount":[25,"CS-42"],"cssellconfirm":[25,"CS-43"],"csselldone":[25,"CS-44"],"csinv":[25,"CS-50"],"csinvpay":[25,"CS-51"],"csinvdone":[25,"CS-52"], "wallet": [12, 0], "coinstore": [2, "J3-02"], "selectrecipient": [2, "J3-03"], "reviewpurchase": [2, "J3-05"], "coinrecipientconfirm":[2,"J3-04"], "coinpayment":[2,"J3-06"], "coinprocessing":[2,"J3-07"], "coinsuccess":[2,"J3-08"], "coinreceipt":[2,"J3-09"], "coinboost":[2,"J3-10"], "club": [1, "J2-16"], "tasks": [3, "FT-01"], "taskdetail":[3,"FT-03"], "taskbuysell":[3,"FT-03P"], "taskwatch":[3,"FT-03W"], "clubevents":[19,"EV-01"],"fvunlocked":[10,"FV-00"],"fvexplain":[10,"FV-01"],"fvconfirm":[10,"FV-02"],"fvprocessing":[10,"FV-03"],"fvsuccess":[10,"FV-04"],"fvdashboard":[10,"FV-05"],"fvhistory":[10,"FV-06"],"fvalready":[10,"FV-10"], "tasklocked":[3,"FT-04"], "taskverify":[3,"FT-05"], "taskcomplete":[3,"FT-06"], "taskclaim":[3,"FT-08"], "taskclaimed":[3,"FT-10"], "mystats":[3,"FT-11"], "predictions": [4, "PV-01"], "rewards": [15, 0], "managerhq": [13, "MC-01"], "mgrclubs":[13,"MC-00"], "mgrcommission":[13,"MC-01A"], "mgrfandetail":[13,"MC-04A"], "mgrremovefan":[13,"MC-04B"], "cmgrmake":[13,"MC-CM-01"], "cmgrinvsent":[13,"MC-CM-02"], "cmgrfanok":[13,"MC-CM-03"], "cmgrqueue":[13,"MC-CM-Q"], "cmgrinvite":[13,"MC-CM-F1"], "cmgrask":[13,"MC-CM-F2"], "cmgrsent":[13,"MC-CM-F3"], "cmgryes":[13,"MC-CM-F4"], "cmgrno":[13,"MC-CM-F5"], "inbox": [18, 0], "newmessage": [18, "MSG-02"], "msgrequests": [18, "MSG-03"], "kitbag": [9, 0], "progression": [11, 0], "live": [6, "GL-00"],"convert":[12,"WA-02"],"gtransfer":[12,"WA-03"],"withdraw":[12,"WA-04A"],"wallethist":[12,"WA-05"],"walletrules":[12,"WA-01A"],"convertconfirm":[12,"WA-02B"],"convertdone":[12,"WA-02D"],"transferamount":[12,"WA-03A"],"transferconfirm":[12,"WA-03B"],"kycverify":[12,"KYC-01"],"kycdoc":[12,"KYC-02"],"kycselfie":[12,"KYC-03"],"withdrawconfirm":[12,"WA-04C"],"withdrawproc":[12,"WA-04D"],"txdetail":[12,"WA-05A"],"move":[14,0],"movereq":[14,"ML-00"],"createoffer":[14,"ML-01"],"reviewoffer":[14,"ML-01A"],"offersent":[14,"ML-01S"],"fanconsentloan":[14,"ML-02"],"fanconsentperm":[14,"ML-02P"],"acceptconfirm":[14,"ML-02A"],"moveoffer":[14,"ML-02"],"moveproc":[14,"ML-03"],"transfercomplete":[14,"ML-03A"],"loanactive":[14,"ML-03B"],"loanreturn":[14,"ML-03C"],"termschanged":[14,"ML-X1"],"offerexpired":[14,"ML-X2"],"offerdeclined":[14,"ML-X3"],"tasksdaily":[3,"FT-01"],"tasksweekly":[3,"FT-02"],"tasksdone":[3,"FT-07"],"tasksweeklydone":[3,"FT-07W"],"watch":[17,0],"golive":[6,"GL-01A"],"stadiumhub":[6,"GL-00"],"eligibility":[6,"GL-01A"],"permissions":[6,"GL-01B"],"golivesetup":[6,"GL-01"],"formation":[6,"GL-02"],"prelive":[6,"GL-02A"],"manageseats":[6,"GL-04"],"manageparticipant":[6,"GL-04A"],"endlive":[6,"GL-06"],"livesummary":[6,"GL-07"],"pk":[8,"PK-00"],"pkmatch":[8,"PK-01"],"pkincoming":[8,"PK-01C"],"pkmatchup":[8,"PK-01E"],"pkside":[8,"PK-03A"],"pkleadchange":[8,"PK-03B"],"pkfinalizing":[8,"PK-03D"],"pkwin":[8,"PK-04A"],"pkdraw":[8,"PK-04C"],"register":[0,"3"],"signin":[0,"10"],"forgotpw":[0,"12"],"resetverify":[0,"13"],"newpassword":[0,"14"],"passwordupdated":[0,"14b"],"clubs":[1,"J2-02"],"guesthome":[19,"G-02G"],"guestregister":[1,"J2-22"],"guestlive":[6,"GL-03Vg"],"gate":[19,"GATE-01"],"clubsearch":[1,"J2-03"],"clubapplications":[1,"J2-08"],"clubinvite":[1,"J2-13"],"clubdecline":[1,"J2-14"],"clubinviteaccepted":[1,"J2-15"],"clubleave":[1,"J2-18"],"clubleaveconfirm":[1,"J2-19"],"leavepending":[1,"J2-LV"],"clubleft":[1,"J2-20"],"league":[11,"PR-02"],"prohub":[11,"PR-00"],"fanlevel":[11,"PR-01"],"tournament":[11,"PR-03"],"clubgrade":[11,"PR-04"],"prizeeligibility":[11,"PR-04B"],"howtoearn":[11,"PR-01A"],"levelroadmap":[11,"PR-01B"],"clubdetail":[1,"J2-05"],"clubapply":[1,"J2-06"],"vote":[4,"PV-05"],"awards":[4,"PV-08"],"predictscore":[4,"PV-02"],"predictconfirm":[4,"PV-03"],"predictdone":[4,"PV-04"],"picksubmitted":[4,"PV-07"],"awardcandidates":[4,"PV-09"],"matchlive":[4,"PV-11"],"predictwin":[4,"PV-12"],"predictclose":[4,"PV-12b"],"playerdetail":[5,"PL-02"],"chatthread":[18,"MSG-04"],"rewarddetail":[15,"RW-01A"],"rewardclaim":[15,"RW-01B"],"rewardsuccess":[15,"RW-01C"],"rewardreview":[15,"RW-01E"],"rewardinprog":[15,"RW-01D"],"rewardhistory":[15,"RW-01F"],"clubblocked":[1,"J2-13b"],"noclub":[1,"J2-01"],"clubsubmitted":[1,"J2-07"],"clubconfirmed":[1,"J2-10"],"createclub":[24,"CC-00"],"mgrupgrade":[24,"CC-00"],"ccstart":[24,"CC-01T"],"ccbasics":[24,"CC-01"],"ccidentity":[24,"CC-02"],"cctype":[24,"CC-03"],"ccagree":[24,"CC-04"],"ccreview":[24,"CC-05"],"cccreated":[24,"CC-06"],"mgrapplications":[13,"MC-05"],"mgrapprovals":[13,"MC-07"],"mgrapprovaldetail":[13,"MC-07D"],"clubchat":[18,"MSG-05"],"watchcomplete":[17,"CS-01C"],"choosestart":[0,"9"],"mgrfanlist":[13,"MC-04"],"mgrrecruit":[13,"MC-02"],"mgrshare":[13,"MC-02A"],"mgrinvitesent":[13,"MC-06R"],"mgrhistory":[13,"MC-02H"],"mgraddid":[13,"MC-06"],"mgrrewards":[13,"MC-03"],"mgrbreakdown":[13,"MC-01B"],"liveroom":[6,"GL-03V"],"squadroom":[6,"GL-05"],"giftmenu":[9,"GK-01"],"giftdetailq":[9,"GK-01A"],"giftconfirm":[9,"GK-01B"],"giftsending":[9,"GK-01D"],"giftsent":[9,"GK-01E"],"confirmseat":[6,"GL-05A"],"fanseated":[6,"GL-05B"],"seattaken":[6,"GL-05C"],"guestgate":[6,"GL-03Vg"],"chatgift":[18,"MSG-06"],"pkrandom":[8,"PK-01A"],"pkinvite":[8,"PK-01B"],"pkcountdown":[8,"PK-02A"],"pkbattle":[8,"PK-03"],"pkrematch":[8,"PK-04D"],"liveroomhost":[6,"GL-03H"],"callvoice":[18,"CALL-01"],"callvideo":[18,"CALL-04"],"callsettings":[18,"MSG-08"],"callperm":[18,"CALL-P"],"callactivevoice":[18,"CALL-03"],"callmissed":[18,"CALL-05"],"callhistory":[18,"CALL-06"],"leaguespend":[11,"PR-02C"],"leagueprev":[11,"PR-02D"],"tournhub":[11,"TR-01"],"tournnotify":[11,"TR-02"],"tournconfirm":[11,"TR-03"],"tournpay":[11,"TR-04"],"tournsuccess":[11,"TR-05"],"tourndash":[11,"TR-06"],"tournpayout":[11,"TR-07"],"tournteam":[11,"TR-08"],"tournrules":[11,"TR-09"]};
   function idxOfFnum(j,fn){var a=(JOUR[j]&&JOUR[j].screens)||[];for(var i=0;i<a.length;i++)if(a[i].fnum===fn)return i;return 0;}
   var GUESTOK={guesthome:1,gate:1,clubs:1,clubdetail:1,clubsearch:1,guestlive:1,live:1,register:1,signin:1,notifications:1,guestregister:1,market:1,playerdetail:1,plfilters:1,liveroom:1,pkbattle:1,stadiumhub:1,userprofile:1,squadroom:1,confirmseat:1,fanseated:1,pkfinalizing:1,pkwin:1,pkdraw:1,pkleadchange:1,pkcountdown:1,pkmatchup:1,watchlivev:1};
   function goTo(a){
@@ -4164,7 +4509,7 @@ PLAYER_JS = """
     if(a==='club'&&!SFLmember){a='noclub';}
     if(SFLguest){ if(a==='home'){a='guesthome';} else if(!GUESTOK[a]){a='gate';} }
     var d=ANCH[a]; if(!d)return false; hist.push({j:curJ,s:curS,html:mount.innerHTML}); curJ=FLOWN+d[0]; curS=(typeof d[1]==='number')?d[1]:idxOfFnum(d[0],d[1]); render(); return true;}
-  function goBack(){ if(hist.length){var h=hist.pop(); curJ=h.j; curS=h.s; render(); if(h.html){mount.innerHTML=h.html;} var sc=VIEWS[curJ].screens[curS]||{}; SFLcoinify(mount); SFLcrest(mount); SFLchat(mount); if(sc.fnum==='FT-01'||sc.fnum==='FT-02'){applyTaskDone(mount);} if(sc.fnum==='PV-01'){applyPredDone(mount);} if(sc.fnum==='PV-05'){applyVoteDone(mount,'motm');} if(sc.fnum==='PV-09'){applyVoteDone(mount,'award');} if(sc.fnum==='10'){applySigninTab(mount);} } else prev(); }
+    function goBack(){ if(hist.length){var h=hist.pop(); curJ=h.j; curS=h.s; render(); if(h.html){mount.innerHTML=h.html;} var sc=VIEWS[curJ].screens[curS]||{}; SFLcoinify(mount); SFLcrest(mount); SFLchat(mount); if(/^ML-/.test(sc.fnum)||sc.fnum==='MC-07D') applyMoveType(mount); if(sc.fnum==='FT-01'||sc.fnum==='FT-02'){applyTaskDone(mount);} if(sc.fnum==='PV-01'){applyPredDone(mount);} if(sc.fnum==='PV-05'){applyVoteDone(mount,'motm');} if(sc.fnum==='PV-09'){applyVoteDone(mount,'award');} if(sc.fnum==='10'){applySigninTab(mount);} } else prev(); }
   function endCall(){ while(hist.length){ var _t=hist[hist.length-1]; var _f=((VIEWS[_t.j]&&VIEWS[_t.j].screens[_t.s])||{}).fnum||''; if(_f.indexOf('CALL')===0){hist.pop();} else break; } if(hist.length){goBack();} else {goTo('chatthread');} }
   function cleanTo(anchor, re){ while(hist.length){var _ch=hist[hist.length-1];var _cff=((VIEWS[_ch.j]&&VIEWS[_ch.j].screens[_ch.s])||{}).fnum||'';if(re.test(_cff)){hist.pop();}else break;} var _cd=ANCH[anchor]; if(!_cd)return; curJ=FLOWN+_cd[0]; curS=(typeof _cd[1]==='number')?_cd[1]:idxOfFnum(_cd[0],_cd[1]); render(); }
   function jumpTab(anchor){ var _jd=ANCH[anchor]; if(!_jd)return; curJ=FLOWN+_jd[0]; curS=(typeof _jd[1]==='number')?_jd[1]:idxOfFnum(_jd[0],_jd[1]); render(); }
@@ -4228,7 +4573,7 @@ PLAYER_JS = """
     var hic=t.closest('.hicon'); if(hic){var e=hic.textContent; if(e.indexOf('🔔')>=0)return 'notifications'; if(e.indexOf('💬')>=0)return 'inbox';}
     if(t.closest('.ha')||t.closest('.selavatar'))return 'profile';
     var lab=t.closest('.btn,.dbtn,.lbtn,.short,.mod,.tile,.tplay,.listrow,.rolerow,.pjoin,.ab,.mgo,.cgo,.gj,.rw,.cat,.reccard,.mbanner,.clubcard,.hqbtn,.nrow,.txrow,.hrow,.crow,.callrow,.qt,.mom,.hjoin,.nextfix,.hfol,.livecard,.act,.explorelink,a'); var x=(lab?lab.textContent:'').toLowerCase();
-    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games'],['afcon 2026','tournnotify'],['register your country','tournnotify'],['tournament coin','tournhub'],['tournament registration','tournnotify']];
+    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become a room manager','chrequest'],['request room manager','chrequest'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & managers','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games'],['afcon 2026','tournnotify'],['register your country','tournnotify'],['tournament coin','tournhub'],['tournament registration','tournnotify']];
     for(var i=0;i<K.length;i++){if(x.indexOf(K[i][0])>=0)return K[i][1];}
     return null;
   }
@@ -4244,7 +4589,8 @@ PLAYER_JS = """
     var _mck=t.closest('.mcchip'); if(_mck){ var _mcl=mEl.querySelector('.mclock'); var _mn=+_mck.getAttribute('data-min'); singleSel(_mck,_mck.parentElement); if(_mcl){ _mcl.setAttribute('data-sec',_mn*60); _mcl.setAttribute('data-init',_mn*60); var _cm=_mcl.querySelector('.mm'),_cs=_mcl.querySelector('.ss'); if(_cm)_cm.textContent=(_mn<10?'0':'')+_mn; if(_cs)_cs.textContent='00'; _mcl.classList.remove('low'); startTimers(mEl);} sflToast('⏱ Match time set to '+_mn+' min'); return; }
     if(t.closest('.mcreset')){ var _mcl2=mEl.querySelector('.mclock'); if(_mcl2){ var _in=+(_mcl2.getAttribute('data-init')||2700); _mcl2.setAttribute('data-sec',_in); var _im=Math.floor(_in/60); var _rm=_mcl2.querySelector('.mm'),_rs=_mcl2.querySelector('.ss'); if(_rm)_rm.textContent=(_im<10?'0':'')+_im; if(_rs)_rs.textContent='00'; _mcl2.classList.remove('low'); startTimers(mEl);} sflToast('↺ Clock reset'); return; }
     var _pkl=t.closest('.pklen'); if(_pkl){ singleSel(_pkl,_pkl.parentElement); SFLpkMin=+_pkl.getAttribute('data-min'); sflToast('⚔️ Battle length · '+SFLpkMin+' min'); return; }
-    var _mic=t.closest('.micind'); if(_mic){ var _mst=_mic.closest('.seat'); var _isHost=(_cf==='GL-03H'||_cf==='GL-CH-C'||_cf==='GL-WA-H'); var _mnm=(((_mst&&_mst.querySelector('.nm'))||{}).textContent||'this seat').trim(); var _isYou=_mst&&(_mst.classList.contains('you')||/^you$/i.test(_mnm)); if(_isHost||_isYou){ var _md=_mic.classList.toggle('muted'); _mic.textContent=_md?'🔇':'🎤'; sflToast((_md?'🔇 Muted ':'🎤 Unmuted ')+(_isYou?'your mic':_mnm)); } else { sflToast('🔒 Only the host or a co-host can mute other seats'); } return; }
+    var _mic=t.closest('.micind'); if(_mic){ var _mst=_mic.closest('.seat'); var _isHost=(_cf==='GL-03H'||_cf==='GL-CH-C'||_cf==='GL-WA-H'); var _mnm=(((_mst&&_mst.querySelector('.nm'))||{}).textContent||'this seat').trim(); var _isYou=_mst&&(_mst.classList.contains('you')||/^you$/i.test(_mnm)); if(_isHost||_isYou||isRoomMgr()){ var _md=_mic.classList.toggle('muted'); _mic.textContent=_md?'🔇':'🎤'; sflToast((_md?'🔇 Muted ':'🎤 Unmuted ')+(_isYou?'your mic':_mnm)); } else { sflToast('🔒 Only the host or a room manager can mute other seats'); } return; }
+    if(t.closest('.rleave')){ sflLeaveLive(); return; }
     var _sug=t.closest('.dnsug'); if(_sug){ var _de=_sug.closest('.dnerr'); var _df=_de&&_de.previousElementSibling; if(_df){ _df.textContent=_sug.getAttribute('data-s'); showNameErr(_df); } return; }
     if(_cf==='7'&&t.closest('.btn')){ var _f7=mEl.querySelector('.dname'); if(_f7&&showNameErr(_f7)){return;} next(); return; }
     if(_cf==='10'&&mEl.querySelector('.signin-panel')){
@@ -4285,7 +4631,7 @@ PLAYER_JS = """
       return;
     }
     if(_cf==='14b'){
-      if(t.closest('.btn')){ goTo('home'); return; }
+      if(t.closest('.btn')){ goTo('live'); return; }
       return;
     }
     if(_cf==='1'){ if(!t.closest('.btn,.altlink,a')){next();return;} }
@@ -4364,7 +4710,7 @@ PLAYER_JS = """
       if(_sl){
         if(_sl.classList.contains('off')){ sflToast('Seller is offline'); return; }
         var _sid=_sl.getAttribute('data-seller');
-        var _S={maya:{name:'Maya Chen',rate:10.4,avail:12400},luis:{name:'Luis Ortega',rate:10.2,avail:3200},kenji:{name:'Kenji Sato',rate:10.0,avail:900},nia:{name:'Nia Okonkwo',rate:10.1,avail:8000}}[_sid]||{name:'Maya Chen',rate:10.4};
+        var _S={maya:{name:'Maya Chen',rate:104,avail:12400},luis:{name:'Luis Ortega',rate:102,avail:3200},kenji:{name:'Kenji Sato',rate:100,avail:900},nia:{name:'Nia Okonkwo',rate:101,avail:8000}}[_sid]||{name:'Maya Chen',rate:104};
         SFLcs.seller=_sid; SFLcs.name=_S.name; SFLcs.rate=_S.rate; goTo('cseller'); return;
       }
       var _am=t.closest('[data-amt]');
@@ -4377,16 +4723,16 @@ PLAYER_JS = """
       if(_inv){ [].forEach.call(mEl.querySelectorAll('[data-inv]'),function(x){x.classList.remove('on');}); _inv.classList.add('on'); var _iv=+_inv.getAttribute('data-inv'); var _btn=mEl.querySelector('.cta .btn'); if(_btn)_btn.textContent='Buy '+_iv.toLocaleString('en-US')+' trading · $'+(_iv/10); return; }
       var _act=(t.closest('[data-csact]')||{}).getAttribute&&t.closest('[data-csact]').getAttribute('data-csact');
       if(_act==='copy'){ sflToast('Copied'); return; }
-      if(_act==='create'){ sflToast('New purchase request · 500 Coins reserved on Maya’s desk'); goTo('cspending'); return; }
+      if(_act==='create'){ sflToast('New purchase request · 5,000 Coins reserved on Maya’s desk'); goTo('cspending'); return; }
       if(_act==='cancel'){ if(window._sflcsto){clearTimeout(window._sflcsto);window._sflcsto=null;} sflToast('Order cancelled · reserved coins released'); goTo('cscancelled'); return; }
       if(_act==='needproof'){ sflToast('Attach a payment screenshot first'); return; }
       if(_act==='attach'){ attachCsProof(mEl); return; }
       if(_act==='sent'){ if(!SFLcs.proof){ sflToast('Attach a payment screenshot first'); return; } sflToast('Proof submitted · waiting for Maya'); goTo('cswait'); return; }
       if(_act==='rated'){ sflToast('Thanks · Maya is now 4.98'); cleanTo('coinstore', /^CS-/); return; }
       if(_act==='apply'){ SFLcs.status='pending'; sflToast('Application submitted'); goTo('csapppend'); return; }
-      if(_act==='accept'){ SFLcs.tradeAvail=Math.max(0,SFLcs.tradeAvail-500); SFLcs.tradeReserved+=500; sflToast('Accepted · 500 Coins reserved'); goTo('cspay'); return; }
-      if(_act==='confirm-pay'){ SFLcs.tradeReserved=Math.max(0,SFLcs.tradeReserved-500); sflToast('Payment confirmed · coins released'); goTo('cstransfer'); return; }
-      if(_act==='sell'){ SFLcs.tradeAvail=Math.max(0,SFLcs.tradeAvail-500); sflToast('Coins received · Priya +500'); goTo('csselldone'); return; }
+      if(_act==='accept'){ SFLcs.tradeAvail=Math.max(0,SFLcs.tradeAvail-5000); SFLcs.tradeReserved+=5000; sflToast('Accepted · 5,000 Coins reserved'); goTo('cspay'); return; }
+      if(_act==='confirm-pay'){ SFLcs.tradeReserved=Math.max(0,SFLcs.tradeReserved-5000); sflToast('Payment confirmed · coins released'); goTo('cstransfer'); return; }
+      if(_act==='sell'){ SFLcs.tradeAvail=Math.max(0,SFLcs.tradeAvail-5000); sflToast('Coins received · Priya +5,000'); goTo('csselldone'); return; }
       if(_act==='buystock'){ SFLcs.tradeAvail+=2000; sflToast('Trading inventory +2,000'); goTo('csinvdone'); return; }
       var _csg=t.closest('[data-csgo]');
       if(_csg){
@@ -4417,7 +4763,7 @@ PLAYER_JS = """
     if(_cf==='G-05E'){ if(t.closest('.top .back')){goBack();return;} var _de=t.closest('.btn,.altlink'); if(_de){ if(/resolve/i.test(_de.textContent)){goBack();return;} sflToast('Deletion request submitted');return;} return; }
     if(_cf==='MSG-02'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.search')){return;} if(t.closest('.uresult')||t.closest('.act')){goTo('chatthread');return;} return; }
     if(_cf==='MSG-03'){ var _rc=t.closest('.reqcard'); if(_rc&&(t.closest('.btn')||/block\s*&?\s*report/i.test(t.textContent||''))){ _rc.remove(); var _left=mEl.querySelectorAll('.reqcard').length; if(!_left){var _sc=mEl.querySelector('.scroll'); if(_sc)_sc.innerHTML='<div class="dnote info" style="margin-top:20px">No pending requests. You\\'re all caught up.</div>';} return; } }
-    if((_cf==='MSG-04'||_cf==='MSG-05'||_cf==='MSG-04B')&&t.closest('.msgs')){return;}
+    if(_cf==='MSG-04'||_cf==='MSG-05'||_cf==='MSG-04B'){ if(t.closest('.msgs')||t.closest('.cbtn.attach')||t.closest('.atchip')||t.closest('.atttray')){return;} }
     if(_cf.indexOf('MG-')===0){
       var MGRESULT={'MG-02G':1,'MG-02S':1,'MG-04C':1,'MG-04G':1,'MG-01X':1,'MG-REC':1,'MG-REF':1,'MG-LIM':1};
       var mgbk=t.closest('.top .back'); if(mgbk){var mb=(mgbk.textContent||'').trim(); if(/📜/.test(mb)){goTo('gamehistory');return;} if(mb==='?'){goTo('gamerules');return;} if(/[‹←]/.test(mb)){ if(MGRESULT[_cf]){goTo('gameshub');} else {goBack();} return; }}
@@ -4457,10 +4803,10 @@ PLAYER_JS = """
       return;
     }
     if(t.closest('.hjoin')){goTo('liveroom');return;}
-    var _seatEl=t.closest('.formfield .seat'); if(_seatEl&&!_seatEl.classList.contains('open')){ if(showSeatCard(_seatEl))return; }
-    if(_cf==='GL-03V'||_cf==='GL-05B'){ if(t.closest('.chreq')){ if(SFLguest){goTo('gate');return;} if(SFLliveRole==='cohost'||SFLcoHosts.you){goTo('cohostroom');return;} if(SFLchAsk==='pending'){goTo('chsent');return;} goTo('chrequest');return;} if(_cf==='GL-05B'){ if(t.closest('.rrb.gift')){openGiftSheet();return;} var _lv=t.closest('.rrb'); if(_lv){ if(/🚪|leave|end/i.test(_lv.textContent)){SFLseated=false;goTo('live');return;} _lv.classList.toggle('on'); return; } if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; } if(t.closest('.rrb.join')){goTo('squadroom');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.seat.open')){goTo('confirmseat');return;} if(t.closest('.htool')){goTo('squadroom');return;} if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
-    if(_cf==='GL-05'){ var _pr=t.closest('.posrow'); if(_pr){ if(_pr.querySelector('.pb.open')||_pr.querySelector('.opentag')){goTo('confirmseat');} return; } return; }
-    if(_cf==='GL-05A'){ if(t.closest('.btn')){ chQueue({id:'join-you',kind:'join',name:'You',pos:'RW',av:'up_12.png'}); sflToast('Request sent to host and co-host'); goTo('joinwait'); return;} if(t.closest('.altlink')){goTo('squadroom');return;} return; }
+    var _seatEl=t.closest('.formfield .seat'); if(_seatEl&&!_seatEl.classList.contains('open')){ if(isLiveStaff()){ if(showGuestSheet(_seatEl))return; } else { if(showSeatCard(_seatEl))return; } }
+    if(_cf==='GL-03V'||_cf==='GL-05B'){ if(t.closest('.chreq')){ if(SFLguest){goTo('gate');return;} if(isRoomMgr()){goTo('cohostroom');return;} if(SFLchAsk==='pending'){goTo('chsent');return;} goTo('chrequest');return;} if(_cf==='GL-05B'){ if(t.closest('.rrb.gift')){openGiftSheet();return;} var _lv=t.closest('.rrb'); if(_lv){ if(/🚪|leave|end/i.test(_lv.textContent)){sflLeaveLive();return;} _lv.classList.toggle('on'); return; } if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; } if(t.closest('.rrb.join')){ if(isRoomMgr()){ takeSeatSkip(); return; } goTo('squadroom');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.seat.open')){ if(isRoomMgr()){ takeSeatSkip(); return; } goTo('confirmseat');return;} if(t.closest('.htool')){goTo('squadroom');return;} if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
+    if(_cf==='GL-05'){ if(t.closest('.sheetx')||t.classList.contains('sheet-scrim')){ goBack(); return; } var _pr=t.closest('.posrow'); if(_pr){ if(_pr.querySelector('.pb.open')||_pr.querySelector('.opentag')){goTo('confirmseat');} return; } return; }
+    if(_cf==='GL-05A'){ if(t.closest('.sheetx')||t.classList.contains('sheet-scrim')){ goTo(chLiveRoom()); return; } if(t.closest('.btn')){ if(isRoomMgr()){ sflToast('Manager seat — no host approval'); takeSeatSkip(); return; } chQueue({id:'join-you',kind:'join',name:'You',pos:'RW',av:'up_12.png'}); sflToast('Request sent to host and managers'); goTo('joinwait'); return;} if(t.closest('.altlink')){goTo('squadroom');return;} return; }
     if(_cf==='GL-05W'){ if(t.closest('[data-ch="canceljoin"]')){ if(window._sflchto){clearTimeout(window._sflchto);window._sflchto=null;} chDrop('join-you'); sflToast('Join request cancelled'); goTo('liveroom'); return;} if(t.closest('[data-ch="backlive"]')||t.closest('.btn')||t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo('liveroom');return;} return; }
     if(_cf==='GL-05OK'){ if(t.closest('[data-ch="enterpitch"]')||t.closest('.btn')){SFLseated=true;goTo('fanseated');return;} return; }
     if(_cf==='GL-05C'){ if(t.closest('.btn')){goTo('squadroom');return;} if(t.closest('.altlink')){goTo('liveroom');return;} return; }
@@ -4487,10 +4833,10 @@ PLAYER_JS = """
       }
       return;
     }
-    if(_cf==='GL-01'){ if(t.closest('.btn')){goTo('formation');return;} var _sm=t.closest('.smcard'); if(_sm){singleSel(_sm,_sm.parentElement); var _sc=parseInt((_sm.textContent||'').replace(/[^0-9]/g,''),10); if(_sc)SFLseatCount=_sc; return;} }
+    if(_cf==='GL-01'){ if(t.closest('.btn')){goTo('formation');return;} var _sm=t.closest('.smcard'); if(_sm){singleSel(_sm,_sm.parentElement); var _sc=parseInt(_sm.getAttribute('data-seats')||(_sm.textContent||'').replace(/[^0-9]/g,''),10); if(_sc)SFLseatCount=_sc; return;} }
     if(_cf==='GL-02'){ var _ms=t.closest('.mseg'); if(_ms){ SFLseatMode=_ms.getAttribute('data-mode')||'pos'; applyFormMode(mEl); return; } var _fcc=t.closest('.formcard'); if(_fcc){ var _fnt=((_fcc.querySelector('.fn')||{}).textContent||'').trim(); if(/^\d/.test(_fnt)){ SFLformation=_fnt; SFLseatMode='pos'; singleSel(_fcc,_fcc.parentElement); applyFormMode(mEl); } else { sflToast('More formations coming soon'); } return; } if(t.closest('.btn')){goTo('prelive');return;} }
     if(_cf==='GL-02A'){ if(t.closest('.rrb')||t.closest('.btn')){goTo('liveroomhost');return;} }
-    if(_cf==='GL-03H'){ if(t.closest('.chinbox')){goTo('chinbox');return;} var _hr=t.closest('.rrb'); if(_hr){var _ht=_hr.textContent||''; if(_hr.classList.contains('wa')||/▶\s*watch|watch along/i.test(_ht)){goTo('watchpick');return;} if(/manage/i.test(_ht)||/⚙/.test(_ht)){goTo('manageseats');return;} if(_hr.classList.contains('pk')||/⚔/.test(_ht)){goTo('pk');return;} if(_hr.classList.contains('gift')||/🎁/.test(_ht)){openGiftSheet();return;} if(/⏹|end|stop/i.test(_ht)){goTo('endlive');return;} return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.seat.open')){goTo('manageseats');return;} if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} }
+    if(_cf==='GL-03H'){ if(t.closest('.chinbox')){goTo('chinbox');return;} var _hr=t.closest('.rrb'); if(_hr){var _ht=_hr.textContent||''; if(_hr.classList.contains('wa')||/▶\s*watch|watch along/i.test(_ht)){goTo('watchpick');return;} if(/manage/i.test(_ht)||/⚙/.test(_ht)){goTo('manageseats');return;} if(_hr.classList.contains('pk')||/⚔/.test(_ht)){goTo('pk');return;} if(_hr.classList.contains('gift')||/🎁/.test(_ht)){openGiftSheet();return;} if(/⏹|end|stop/i.test(_ht)){goTo('endlive');return;} return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.seat.open')){goTo('manageseats');return;} var _hcm=t.closest('.rchat .cm'); if(_hcm){ inviteOntoSeat(chatInviteName(_hcm)); return; } if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} }
     if(_cf==='GL-WA-01'){
       var _app=t.closest('[data-waapp]'); if(_app){ SFLwaApp=_app.getAttribute('data-waapp')||'yt'; goTo('walogin'); return; }
       var _samp=t.closest('.wasample');
@@ -4508,16 +4854,16 @@ PLAYER_JS = """
     if(_cf==='GL-WA-L'){ if(t.closest('[data-wa="signin"]')||t.closest('.wabtn')){ sflToast('Signed in · pick a video'); goTo('wapickvid'); return; } if(t.closest('.waback')||t.closest('[data-wa="cancel"]')||t.closest('.altlink')){goBack();return;} return; }
     if(_cf==='GL-WA-P'){ var _wv=t.closest('[data-wavid]'); if(_wv){ var _app2=WAAPPS[SFLwaApp]||WAAPPS.yt; var _vid=_app2.vids[+_wv.getAttribute('data-wavid')]||_app2.vids[0]; SFLwaSrc={title:_vid.title,file:_vid.file,badge:_app2.badge}; waStart(SFLwaSrc); return; } if(t.closest('.waback')){goBack();return;} return; }
     if(_cf==='GL-WA-H'||_cf==='GL-WA-V'){ var _wsz=t.closest('.wasz'); if(_wsz){ SFLwaSize=_wsz.getAttribute('data-sz')||'md'; applyWaSize(mEl); sflToast(SFLwaSize==='full'?'Player · Full width':(SFLwaSize==='sm'?'Player · Small':'Player · Fit')); return; } }
-    if(_cf==='GL-WA-H'){ if(t.closest('.chinbox')){goTo('chinbox');return;} var _wh=t.closest('.rrb'); if(_wh){var _wt=_wh.textContent||''; if(_wh.classList.contains('waend')||/end watch/i.test(_wt)){goTo('watchend');return;} if(/manage/i.test(_wt)||/⚙/.test(_wt)){goTo('manageseats');return;} if(_wh.classList.contains('gift')||/🎁/.test(_wt)){openGiftSheet();return;} if(/⏹/.test(_wt)){goTo('endlive');return;} return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.seat.open')){goTo('manageseats');return;} if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} return; }
-    if(_cf==='GL-WA-V'){ if(t.closest('.chreq')){ if(SFLguest){goTo('gate');return;} if(SFLliveRole==='cohost'||SFLcoHosts.you){goTo('cohostroom');return;} if(SFLchAsk==='pending'){goTo('chsent');return;} goTo('chrequest');return;} if(t.closest('.rrb.join')||t.closest('.htool')){goTo('squadroom');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.seat.open')){goTo('confirmseat');return;} if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
+    if(_cf==='GL-WA-H'){ if(t.closest('.chinbox')){goTo('chinbox');return;} var _wh=t.closest('.rrb'); if(_wh){var _wt=_wh.textContent||''; if(_wh.classList.contains('waend')||/end watch/i.test(_wt)){goTo('watchend');return;} if(/manage/i.test(_wt)||/⚙/.test(_wt)){goTo('manageseats');return;} if(_wh.classList.contains('gift')||/🎁/.test(_wt)){openGiftSheet();return;} if(/⏹/.test(_wt)){goTo('endlive');return;} return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.seat.open')){goTo('manageseats');return;} var _wcm=t.closest('.rchat .cm'); if(_wcm){ inviteOntoSeat(chatInviteName(_wcm)); return; } if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} return; }
+    if(_cf==='GL-WA-V'){ if(t.closest('.chreq')){ if(SFLguest){goTo('gate');return;} if(isRoomMgr()){goTo('cohostroom');return;} if(SFLchAsk==='pending'){goTo('chsent');return;} goTo('chrequest');return;} if(t.closest('.rrb.join')||t.closest('.htool')){ if(isRoomMgr()){ takeSeatSkip(); return; } goTo('squadroom');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.seat.open')){ if(isRoomMgr()){ takeSeatSkip(); return; } goTo('confirmseat');return;} if(t.closest('.rsay')||t.closest('.cin')||t.closest('.rchat')){return;} return; }
     if(_cf==='GL-WA-E'){ if(t.closest('.waendyes')||(t.closest('.btn.danger'))){goTo('liveroomhost');sflToast('Watch-Along ended · back on the pitch');return;} if(t.closest('.btn')||t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo('watchlive');return;} return; }
-    if(_cf==='GL-CH-01'){ if(t.closest('[data-ch="send"]')||t.closest('.btn')){ SFLchAsk='pending'; chQueue({id:'ch-you',kind:'cohost',name:'You',pos:'Viewer',av:'up_12.png'}); sflToast('Co-host request sent to the host'); goTo('chsent'); return;} if(t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo(chLiveRoom());return;} return; }
-    if(_cf==='GL-CH-02'){ if(t.closest('[data-ch="cancel"]')){ SFLchAsk='none'; chDrop('ch-you'); sflToast('Co-host request cancelled'); goTo(chLiveRoom()); return;} if(t.closest('[data-ch="backlive"]')||t.closest('.btn')||t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo(chLiveRoom());return;} return; }
-    if(_cf==='GL-CH-H'){ var _tab=t.closest('[data-chtab]'); if(_tab){ SFLchTab=_tab.getAttribute('data-chtab')||'join'; applyLiveStaff(mEl); return; } var _dec=t.closest('[data-chdec]'); if(_dec){ var _row=_dec.closest('[data-chid]'); chDecide(_row&&_row.getAttribute('data-chid'), _dec.getAttribute('data-chdec')==='ok'); return;} if(t.closest('.top .back')){goBack();return;} if(t.closest('[data-ch="backlive"]')||t.closest('.btn')){ goTo(SFLliveRole==='cohost'?'cohostroom':'liveroomhost'); return;} return; }
-    if(_cf==='GL-CH-C'){ if(t.closest('.chinbox')){goTo('chinbox');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.htool')){goTo('manageseats');return;} if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} return; }
+    if(_cf==='GL-CH-01'){ if(t.closest('[data-ch="send"]')||t.closest('.btn')){ SFLchAsk='pending'; chQueue({id:'ch-you',kind:'cohost',name:'You',pos:'Viewer',av:'up_12.png'}); sflToast('Manager request sent to the host'); goTo('chsent'); return;} if(t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo(chLiveRoom());return;} return; }
+    if(_cf==='GL-CH-02'){ if(t.closest('[data-ch="cancel"]')){ SFLchAsk='none'; chDrop('ch-you'); sflToast('Manager request cancelled'); goTo(chLiveRoom()); return;} if(t.closest('[data-ch="backlive"]')||t.closest('.btn')||t.closest('.altlink')||t.classList.contains('sheet-scrim')){goTo(chLiveRoom());return;} return; }
+    if(_cf==='GL-CH-H'){ var _tab=t.closest('[data-chtab]'); if(_tab){ SFLchTab=_tab.getAttribute('data-chtab')||'join'; applyLiveStaff(mEl); return; } var _dec=t.closest('[data-chdec]'); if(_dec){ var _row=_dec.closest('[data-chid]'); chDecide(_row&&_row.getAttribute('data-chid'), _dec.getAttribute('data-chdec')==='ok'); return;} if(t.closest('.top .back')){goBack();return;} if(t.closest('[data-ch="backlive"]')||t.closest('.btn')){ goTo(isRoomMgr()?'cohostroom':'liveroomhost'); return;} return; }
+    if(_cf==='GL-CH-C'){ if(t.closest('.chinbox')){goTo('chinbox');return;} if(t.closest('.rrb.gift')){openGiftSheet();return;} if(t.closest('.htool')){goTo('chinbox');return;} var _mcm=t.closest('.rchat .cm'); if(_mcm){ inviteOntoSeat(chatInviteName(_mcm)); return; } if(t.closest('.rchat')||t.closest('.rsay')||t.closest('.cin')){return;} return; }
     if(_cf==='GL-04'){ if(t.closest('.chinbox-banner')){goTo('chinbox');return;} if(t.closest('.btn')){goTo('endlive');return;} var _orow=t.closest('.optrow'); if(_orow){ if(_orow.getAttribute('data-chact')==='toggle'){ chToggle(_orow.getAttribute('data-chname')||'Priya S.'); return; } if(/·\s*open|close/i.test(_orow.textContent)){return;} goTo('manageparticipant');return;} var _t4=t.closest('.tab,.fillbadge'); if(_t4){singleSel(_t4,_t4.parentElement);return;} }
     if(_cf==='GL-04A'){ var _or=t.closest('.optrow'); if(_or){ var _ot=(_or.textContent||'').toLowerCase(); var _pn=_or.getAttribute('data-chname')||((mEl.querySelector('.seathead .nm')||{}).textContent||'this fan').split('·')[0].trim();
-      if(_or.getAttribute('data-chact')==='toggle'||/make co-host|remove co-host/.test(_ot)){ chToggle(_pn); return; }
+      if(_or.getAttribute('data-chact')==='toggle'||/make manager|remove manager|make co-host|remove co-host/.test(_ot)){ chToggle(_pn); return; }
       if(/block/.test(_ot)){goBack();sflToast(_pn+' removed & blocked');return;}
       if(/remove/.test(_ot)){goBack();sflToast(_pn+' removed from position');return;}
       if(/unmute/.test(_ot)){goBack();sflToast('Unmute requested from '+_pn);return;}
@@ -4553,12 +4899,13 @@ PLAYER_JS = """
       if(_cf==='PL-03A'){ var _b3=t.closest('.btn,.link'); if(_b3){ if(/buy coins/i.test(_b3.textContent)){goTo('coinstore');return;} goTo('market');return;} return; }
       if(_cf==='PL-04'){ if(t.closest('.link')){goTo('support');return;} if(t.closest('.plcont')){goTo('plcomplete');return;} if(t.closest('.btn')){goTo('plcomplete');return;} return; }
       if(_cf==='PL-04A'){ var _b4=t.closest('.btn,.link'); if(_b4){ if(/wallet/i.test(_b4.textContent)){goTo('wallet');return;} goTo('market');return;} return; }
-      if(_cf==='PL-05'){ if(t.closest('.btn')){cleanTo('myplayers', /^PL-0[1-5]$/);return;} if(t.closest('.link')){cleanTo('market', /^PL-0[1-5]$/);return;} return; }
-      if(_cf==='PL-06'){ var _pr=t.closest('.prow'); if(_pr){SFLpl=plFromEl(_pr);goTo('plactions');return;} var _ptb=t.closest('.tabs i'); if(_ptb){singleSel(_ptb,_ptb.parentElement); applyPlSquad(mEl); return;} return; }
+      if(_cf==='PL-05'){ if(t.closest('.btn')){ var _pd=plDutyCounts(); if(/weekly|other pick/i.test((t.closest('.btn').textContent||''))){ if(_pd.buy>=2){cleanTo('tasksweekly', /^PL-0[1-5W]/);return;} goTo('plweeklybuys'); return; } cleanTo('myplayers', /^PL-0[1-5]$/);return;} if(t.closest('.link')){cleanTo('market', /^PL-0[1-5]$/);return;} return; }
+      if(_cf==='PL-06'){ var _rec=t.closest('[data-plrec]'); if(_rec){ SFLpl=_rec.getAttribute('data-plrec')||plFromEl(_rec); SFLplWeeklyBuy=true; goTo('playerdetail'); return; } if(t.closest('[data-plact="weeklybuys"]')){ goTo('plweeklybuys'); return; } var _pr=t.closest('.prow'); if(_pr){SFLpl=plFromEl(_pr);goTo('plactions');return;} var _ptb=t.closest('.tabs i'); if(_ptb){singleSel(_ptb,_ptb.parentElement); applyPlSquad(mEl); return;} return; }
       if(_cf==='PL-06A'){ if(t.closest('.altlink')){goBack();return;} var _pa=t.closest('[data-plact]'); if(_pa){ var _act=_pa.getAttribute('data-plact'); if(_act==='transfer'){SFLplKind='transfer';goTo('pllist');return;} if(_act==='loan'){SFLplKind='loan';goTo('plloan');return;} if(_act==='unlist'){plUnlist();cleanTo('myplayers',/^PL-06A$/);return;} } return; }
       if(_cf==='PL-07'){ if(t.closest('.btn')){ if(!plRecordList('transfer'))return; goTo('pllistlive');return;} if(t.closest('.altlink')){goBack();return;} return; }
       if(_cf==='PL-07L'){ var _ld=t.closest('.durchip'); if(_ld){ singleSel(_ld,_ld.parentElement); SFLplLoan=_ld.getAttribute('data-loan')||'1 week'; applyPlLoan(mEl); return; } if(t.closest('.btn')){ if(!plRecordList('loan'))return; goTo('plloanlive');return;} if(t.closest('.altlink')){goBack();return;} return; }
-      if(_cf==='PL-08'||_cf==='PL-08L'){ if(t.closest('[data-plact="unlist"]')||/unlist/i.test((t.closest('.link')||{}).textContent||'')){ plUnlist(); cleanTo('myplayers',/^PL-06|^PL-07|^PL-08/); return; } if(t.closest('.btn')){ cleanTo('market',/^PL-06|^PL-07|^PL-08/); return; } return; }
+      if(_cf==='PL-01W'){ var _wr=t.closest('[data-plrec],.recrow'); if(_wr){ SFLpl=_wr.getAttribute('data-plrec')||plFromEl(_wr); SFLplWeeklyBuy=true; goTo('playerdetail'); return; } if(t.closest('[data-plact="buyfirst"]')||t.closest('.btn')){ var _recs=plMatchRecs(), _ri=0; while(_ri<_recs.length&&SFLplBought[_recs[_ri]])_ri++; SFLpl=_recs[_ri]||_recs[0]||'okoro'; SFLplWeeklyBuy=true; goTo('plbuy'); return; } if(t.closest('[data-plact="backsell"]')||t.closest('.link')){ cleanTo('myplayers',/^PL-01W$/); return; } return; }
+      if(_cf==='PL-08'||_cf==='PL-08L'){ if(t.closest('[data-plact="unlist"]')||/unlist/i.test((t.closest('.link')||{}).textContent||'')){ plUnlist(); cleanTo('myplayers',/^PL-06|^PL-07|^PL-08/); return; } if(t.closest('.btn')){ if(_cf==='PL-08'&&plDutyCounts().sell>=2){ goTo('plweeklybuys'); return; } if(_cf==='PL-08'){ cleanTo('myplayers',/^PL-06|^PL-07|^PL-08/); return; } cleanTo('market',/^PL-06|^PL-07|^PL-08/); return; } return; }
       if(_cf==='PL-09'){ goTo('plsold'); return; }
       if(_cf==='PL-10'){ var _b10=t.closest('.btn,.link'); if(_b10){ var _pldone=/^PL-0[6-9]|^PL-10$|^PL-07L$|^PL-08L$|^G-03$/; if(/wallet/i.test(_b10.textContent)){cleanTo('wallet',_pldone);return;} cleanTo('market',_pldone);return;} return; }
     }
@@ -4575,8 +4922,7 @@ PLAYER_JS = """
           if(/live stream|join a live/.test(_tt)){goTo('liveroom');return;}
           if(/pk|battle/.test(_tt)){goTo('pk');return;}
           if(/recruit/.test(_tt)){goTo('mgrrecruit');return;}
-          if(/transfer|loan/.test(_tt)){goTo('myplayers');return;}
-          if(/buy|sell|player/.test(_tt)){goTo('myplayers');return;}
+          if(/buy|sell|player|transfer|loan/.test(_tt)){goTo('taskbuysell');return;}
           if(/active day/.test(_tt)){goTo('progression');return;}
           if(/support/.test(_tt)){goTo('clubchat');return;}
           if(/event/.test(_tt)){goTo('clubevents');return;}
@@ -4585,6 +4931,7 @@ PLAYER_JS = """
         if(t.closest('.btn')){goTo(_cf==='FT-02'?'tasksweeklydone':'tasksdone');return;}
         if(t.closest('.ringhero')){return;}
       }
+      if(_cf==='FT-03P'){ var _fta=(t.closest('[data-ftact]')||{}).getAttribute&&t.closest('[data-ftact]').getAttribute('data-ftact'); if(_fta==='buyrecs'||/recommend|system/i.test((t.closest('.btn')||{}).textContent||'')){ if(plDutyCounts().sell<2){ sflToast('List 2 players first · you pick the sells'); goTo('myplayers'); return; } goTo('plweeklybuys'); return; } if(t.closest('.btn')||_fta==='list2'){ goTo('myplayers'); return; } return; }
       if(_cf==='FT-03'){ if(t.closest('.btn')){goTo('taskwatch');return;} if(t.closest('.link')){return;} return; }
       if(_cf==='FT-03W'){ if(t.closest('.back')){goBack();return;} if(t.closest('.btn')){goTo('taskcomplete');return;} return; }
       if(_cf==='FT-04'){ if(t.closest('.btn')){goTo('coinstore');return;} return; }
@@ -4745,7 +5092,7 @@ PLAYER_JS = """
       var _mtab=t.closest('.tabs .tab'); if(_mtab){singleSel(_mtab,_mtab.parentElement);return;}
       var _tf=t.closest('.transfer'); if(_tf){ var _ab=t.closest('.btn'); if(_ab){ if(_ab.classList.contains('dis')){return;} var _appr=/approve/i.test(_ab.textContent); var _tnm=((_tf.querySelector('.fnm')||{}).textContent||'Request').trim(); _tf.remove(); sflToast(_appr?(_tnm+' — transfer approved'):(_tnm+' — rejected')); return;} goTo('mgrapprovaldetail'); return; }
       return; }
-    if(_cf==='MC-07D'){ if(t.closest('.htop .back')||t.closest('.top .back')){goBack();return;} var _b7d=t.closest('.btn'); if(_b7d){ if(/reject/i.test(_b7d.textContent)){goBack();sflToast('Move rejected · fan notified');return;} if(/chat/i.test(_b7d.textContent)){goTo('chatthread');return;} goBack();sflToast('Move approved · membership updating');return;} return; }
+    if(_cf==='MC-07D'){ if(t.closest('.htop .back')||t.closest('.top .back')){goBack();return;} var _b7d=t.closest('.btn'); if(_b7d){ if(/reject/i.test(_b7d.textContent)){goBack();sflToast('Move rejected · fan notified');return;} if(/chat/i.test(_b7d.textContent)){goTo('chatthread');return;} goBack();sflToast('Move approved · membership updating'+moveSplitToast());return;} return; }
     if(_cf==='MC-00'){ if(t.closest('.htop .back')){goBack();return;} var _cr0=t.closest('.clubrow'); if(_cr0){ if(_cr0.classList.contains('susp')){sflToast('This club is suspended · review pending');return;} [].forEach.call(mEl.querySelectorAll('.clubrow'),function(c){c.classList.remove('sel');}); _cr0.classList.add('sel'); goTo('managerhq'); return;} var _mb0=t.closest('.btn'); if(_mb0){ if(/create/i.test(_mb0.textContent)){goTo('createclub');return;} goTo('managerhq');return;} return; }
     if(_cf==='MC-01'){ if(t.closest('.htop .back')){goBack();return;} if(t.closest('.fanview')){goTo('club');return;} var _mhi=t.closest('.hicon'); if(_mhi){ if(/🔔/.test(_mhi.textContent)){goTo('notifications');return;} goTo('profile');return;} if(t.closest('[data-cmgo="queue"]')){goTo('cmgrqueue');return;} var _msh=t.closest('.short'); if(_msh){var _mst=(_msh.textContent||'').toLowerCase(); if(/fan list/.test(_mst)){goTo('mgrfanlist');return;} if(/application/.test(_mst)){goTo('mgrapplications');return;} if(/add by id/.test(_mst)){goTo('mgraddid');return;} if(/recruit/.test(_mst)){goTo('mgrrecruit');return;} if(/reward/.test(_mst)){goTo('mgrrewards');return;} if(/approval/.test(_mst)){goTo('mgrapprovals');return;} if(/co-manager/.test(_mst)){goTo('cmgrqueue');return;} return;} if(t.closest('.recruit')){goTo('mgrrecruit');return;} if(t.closest('.target')){goTo('mgrbreakdown');return;} var _mst2=t.closest('.stat'); if(_mst2){var _msx=(_mst2.textContent||'').toLowerCase(); if(/wallet/.test(_msx)){goTo('wallet');return;} if(/tier|commission/.test(_msx)){goTo('mgrcommission');return;} if(/league|grade/.test(_msx)){goTo('league');return;} goTo('mgrfanlist');return;} return; }
     if(_cf==='MC-01A'){ if(t.closest('.htop .back')){goBack();return;} return; }
@@ -4765,13 +5112,13 @@ PLAYER_JS = """
     if(_cf==='MC-04B'){ if(t.closest('.htop .back')){goBack();return;} var _ro=t.closest('.reasonopt'); if(_ro){singleSel(_ro,_ro.parentElement);return;} var _b4b=t.closest('.btn,.altlink'); if(_b4b){ if(/confirm/i.test(_b4b.textContent)){goBack();sflToast('Fan removed from club');return;} goBack();return;} return; }
     if(_cf.indexOf('ML-')===0){
       if(t.closest('.top .back')){goBack();return;}
-      var _seg=t.closest('.seg .segopt'); if(_seg){ [].forEach.call(_seg.parentElement.children,function(c){c.classList&&c.classList.remove('on');}); _seg.classList.add('on'); SFLmoveType=_seg.classList.contains('perm')?'perm':'loan'; var _lbl=mEl.querySelector('.termslbl'); if(_lbl)_lbl.textContent=(SFLmoveType==='perm'?'Transfer terms':'Loan terms'); [].forEach.call(mEl.querySelectorAll('.loanonly'),function(r){r.style.display=(SFLmoveType==='perm')?'none':'';}); return; }
-      if(_cf==='ML-00'){ var _b0=t.closest('.btn,.altlink'); if(_b0){ if(/cancel/i.test(_b0.textContent)){goBack();return;} hist.length=0; SFLmgrMode=false; jumpTab('home'); sflToast('Move request sent to your Manager');return;} return; }
+      var _seg=t.closest('.seg .segopt'); if(_seg){ [].forEach.call(_seg.parentElement.children,function(c){c.classList&&c.classList.remove('on');}); _seg.classList.add('on'); SFLmoveType=_seg.classList.contains('perm')?'perm':'loan'; applyMoveType(mEl); return; }
+      if(_cf==='ML-00'){ var _b0=t.closest('.btn,.altlink'); if(_b0){ if(/cancel/i.test(_b0.textContent)){goBack();return;} hist.length=0; SFLmgrMode=false; jumpTab('home'); sflToast('Move request sent to your Manager'+moveSplitToast());return;} return; }
       if(_cf==='ML-01'){ if(t.closest('.clubprev')){showDestSheet();return;} var _er=t.closest('.editrow'); if(_er){showTermSheet(_er);return;} var _b1=t.closest('.btn,.altlink'); if(_b1){ if(/save draft|cancel/i.test(_b1.textContent)){goBack();return;} goTo('reviewoffer');return;} return; }
-      if(_cf==='ML-01A'){ var _b1a=t.closest('.btn,.altlink'); if(_b1a){ if(/edit/i.test(_b1a.textContent)){goBack();return;} sflToast('Offer sent · awaiting fan consent'); goTo('offersent');return;} return; }
+      if(_cf==='ML-01A'){ var _b1a=t.closest('.btn,.altlink'); if(_b1a){ if(/edit/i.test(_b1a.textContent)){goBack();return;} sflToast('Offer sent · awaiting fan consent'+moveSplitToast()); goTo('offersent');return;} return; }
       if(_cf==='ML-01S'){ var _b1s=t.closest('.btn,.altlink'); if(_b1s){ if(/pending offers/i.test(_b1s.textContent)){cleanTo('mgrapprovals',/^ML-/);return;} returnTo('MC-04','mgrfanlist');return;} return; }
       if(_cf==='ML-02'||_cf==='ML-02P'){ var _b2=t.closest('.btn'); if(_b2){ if(/decline/i.test(_b2.textContent)){cleanTo('club',/^ML-/);sflToast('Offer declined · your membership is unchanged');return;} if(/ask manager/i.test(_b2.textContent)){goTo('chatthread');return;} goTo('acceptconfirm');return;} return; }
-      if(_cf==='ML-02A'){ var _b2a=t.closest('.btn,.altlink'); if(_b2a){ if(/go back/i.test(_b2a.textContent)){goBack();return;} goTo(SFLmoveType==='perm'?'transfercomplete':'loanactive');return;} return; }
+      if(_cf==='ML-02A'){ var _b2a=t.closest('.btn,.altlink'); if(_b2a){ if(/go back/i.test(_b2a.textContent)){goBack();return;} if(SFLmoveType==='perm'){ sflToast('Transfer complete · Manager 600 / Fan 400'); goTo('transfercomplete'); } else { goTo('loanactive'); } return;} return; }
       if(_cf==='ML-03'){ var _b3=t.closest('.btn'); if(_b3){ if(/support/i.test(_b3.textContent)){goTo('support');return;} cleanTo('home',/^ML-/);return;} return; }
       if(_cf==='ML-03A'){ var _b3a=t.closest('.btn,.altlink'); if(_b3a){ if(/home/i.test(_b3a.textContent)){cleanTo('home',/^ML-/);return;} cleanTo('club',/^ML-/);return;} return; }
       if(_cf==='ML-03B'){ var _b3b=t.closest('.btn,.altlink'); if(_b3b){ if(/home/i.test(_b3b.textContent)){cleanTo('home',/^ML-/);return;} cleanTo('club',/^ML-/);return;} return; }
@@ -4816,7 +5163,7 @@ PLAYER_JS = """
     if(/continue tasks/i.test(lbl)){goTo(cf==='FT-02'?'tasksweeklydone':'tasksdone');return;}
     if(/explore as guest|explore as a visitor|browse as guest/i.test(lbl)){SFLguest=true;goTo('guesthome');return;}
     if(/create.{0,4}account|sign up/i.test(lbl)){goTo('register');return;}
-    if(/(sign in|log in)/i.test(lbl)){goTo(cf==='10'?'home':'signin');return;}
+    if(/(sign in|log in)/i.test(lbl)){goTo(cf==='10'?'live':'signin');return;}
     if(cf==='8'){var s8=(t.closest('.btn,.dbtn,.act')||t).textContent||''; if(/copy|share/i.test(s8)){return;} if(/continue|get started|done|next|enter/i.test(s8)){goTo('choosestart');return;}}
     if(cf==='9'){if(/(join|browse|explore|discover)/i.test(lbl)){goTo('clubs');return;} goTo('home');return;}
     if(t.closest('.streakstrip')){goTo('progression');return;}
@@ -4861,9 +5208,9 @@ PLAYER_JS = """
     }
     if(/^GL-0/.test(cf)){ if(/choose formation|preview/i.test(lbl)){next();return;} if(/go live now|start.*live|start broadcast|start room/i.test(lbl)){goTo('liveroomhost');return;} }
     var giftel=t.closest('.rrb.gift,.rb.gift,.cbtn.gift,.giftbtn,.pkgift'); if(!giftel){var gbt=t.closest('.gbtn'); if(gbt&&/gift/i.test(gbt.textContent))giftel=gbt;} if(giftel){ if(/^MSG/.test(cf)){SFLchatOrigin=(cf==='MSG-05')?'clubchat':'chatthread';goTo('chatgift');} else {openGiftSheet();} return; }
-    var rrb=t.closest('.rrb'); if(rrb){var rrt=rrb.textContent||''; if(/🎁/.test(rrt)){goTo('giftmenu');return;} if(/🚪|🔴|leave|end/i.test(rrt)){goTo('live');return;} return;}
+    var rrb=t.closest('.rrb'); if(rrb){var rrt=rrb.textContent||''; if(/🎁/.test(rrt)){goTo('giftmenu');return;} if(/🚪|🔴|leave|end/i.test(rrt)){sflLeaveLive();return;} return;}
     if(t.closest('.rmeta')||t.closest('.ractbar')||t.closest('.coincap')||t.closest('.rchat')||t.closest('.rsay')||t.closest('.composer')||t.closest('.cin')){return;}
-    if(t.closest('.seat.open')||t.closest('.posrow')||t.closest('.opentag')){goTo('confirmseat');return;}
+    if(t.closest('.seat.open')||t.closest('.posrow')||t.closest('.opentag')){ if(isRoomMgr()){ takeSeatSkip(); return; } goTo('confirmseat');return;}
     if(t.closest('.seat')){goTo('chatthread');return;}
     if(cf==='CS-01'&&t.closest('.taskcard')){goTo('watchcomplete');return;}
     if(t.closest('.vact')){return;}
@@ -4936,13 +5283,13 @@ FLOWS=[
  {"name":"1 · First-time user (Sign up)","refs":[[0,"1"],[0,"2"],[0,"3"],[0,"4"],[0,"5"],[0,"6"],[0,"7"],[0,"8"],[0,"16"],[0,"9"]]},
  {"name":"⭐ First-time fan · join a club","refs":[[0,"2"],[0,"3"],[0,"4"],[0,"7"],[0,"8"],[0,"9"],[1,"J2-02"],[1,"J2-05"],[1,"J2-06"],[1,"J2-07"],[1,"J2-10"],[1,"J2-16"]]},
  {"name":"⭐ Start a club (become manager)","refs":[[0,"8"],[0,"9"],[24,"CC-01T"],[24,"CC-01"],[24,"CC-02"],[24,"CC-03"],[24,"CC-04"],[24,"CC-05"],[24,"CC-06"],[19,"G-02M"]]},
- {"name":"2 · Returning user (Sign in)","refs":[[0,"1"],[0,"2"],[0,"10"],[19,"G-02"]]},
+ {"name":"2 · Returning user (Sign in)","refs":[[0,"1"],[0,"2"],[0,"10"],[6,"GL-00"]]},
  {"name":"3 · Forgot password","refs":[[0,"10"],[0,"12"],[0,"13"],[0,"14"],[0,"14b"],[0,"10"]]},
  {"name":"4 · Daily tasks (do & claim)","refs":[[3,"FT-01"],[17,"CS-01"],[3,"FT-06"],[3,"FT-01"],[4,"PV-01"],[3,"FT-06"],[3,"FT-01"],[3,"FT-07"],[3,"FT-08"],[3,"FT-10"]]},
  {"name":"⭐ Watch-Along (in live)","refs":[[6,"GL-03H"],[6,"GL-WA-01"],[6,"GL-WA-L"],[6,"GL-WA-P"],[6,"GL-WA-H"],[6,"GL-WA-V"],[6,"GL-WA-E"],[6,"GL-03H"]]},
- {"name":"⭐ Co-host & join requests","refs":[[6,"GL-03H"],[6,"GL-CH-H"],[6,"GL-03V"],[6,"GL-05"],[6,"GL-05A"],[6,"GL-05W"],[6,"GL-05OK"],[6,"GL-05B"],[6,"GL-CH-01"],[6,"GL-CH-02"],[6,"GL-CH-C"]]},
+ {"name":"⭐ Room managers & join requests","refs":[[6,"GL-03H"],[6,"GL-CH-H"],[6,"GL-03V"],[6,"GL-05"],[6,"GL-05A"],[6,"GL-05W"],[6,"GL-05OK"],[6,"GL-05B"],[6,"GL-CH-01"],[6,"GL-CH-02"],[6,"GL-CH-C"]]},
  {"name":"⭐ Coin Seller (P2P top-up)","refs":[[2,"J3-02"],[2,"J3-05"],[25,"CS-01"],[25,"CS-02"],[25,"CS-03"],[25,"CS-04"],[25,"CS-05"],[25,"CS-07"]]},
- {"name":"⭐ List transfer & loan duty","refs":[[19,"G-02"],[5,"PL-06"],[5,"PL-06A"],[5,"PL-07"],[5,"PL-08"],[5,"PL-07L"],[5,"PL-08L"]]},
+ {"name":"⭐ Weekly buy & sell players","refs":[[3,"FT-02"],[3,"FT-03P"],[5,"PL-06"],[5,"PL-06A"],[5,"PL-07"],[5,"PL-08"],[5,"PL-01W"],[5,"PL-02"],[5,"PL-03"],[5,"PL-05"]]},
  {"name":"⭐ Co-manager of a club","refs":[[13,"MC-01"],[13,"MC-04"],[13,"MC-04A"],[13,"MC-CM-01"],[13,"MC-CM-02"],[13,"MC-CM-03"],[13,"MC-01"],[19,"G-05"],[1,"J2-16"],[13,"MC-CM-F2"],[13,"MC-CM-F3"],[13,"MC-CM-F4"]]},
 ]
 JLABELS=[ ('Global Shell' if num=='G' else ('Extra · '+title if num.startswith('E') else 'J'+num+' · '+title)) for (fn,num,title) in ALL]

@@ -186,6 +186,28 @@
   .diffcol .dr{font-size:12px;font-weight:750;padding:5px 0;border-bottom:1px dashed var(--line)}
   .diffcol .dr:last-child{border:none}
   .diffcol .dr b{display:block;font-size:10px;color:var(--t3);font-weight:700}
+
+  /* 60/40 transfer coin split */
+  .coinsplit{background:linear-gradient(160deg,#FFF8E8,#FFFCF4);border:1.5px solid #F3D48A;border-radius:16px;padding:13px 14px;margin:10px 0 2px}
+  .coinsplit .csh{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--amberDeep)}
+  .coinsplit .cstotal{font-size:20px;font-weight:800;color:#5A3E00;margin-top:4px}
+  .coinsplit .cstotal span{font-size:13px;font-weight:750;color:var(--goldDeep)}
+  .csbar{height:8px;border-radius:999px;background:#F0E4C4;overflow:hidden;margin:10px 0 12px;display:flex}
+  .csbar i{display:block;height:100%;width:60%;background:linear-gradient(90deg,var(--gold1),var(--amber));border-radius:999px 0 0 999px}
+  .csbar b{display:block;height:100%;width:40%;background:linear-gradient(90deg,#7CD843,var(--green1))}
+  .csrows{display:flex;gap:8px}
+  .csrow{flex:1;background:#fff;border:1px solid #F0E4C4;border-radius:12px;padding:9px 10px}
+  .csrow .k{display:block;font-size:10.5px;font-weight:750;color:var(--t2)}
+  .csrow .v{display:block;margin-top:2px;font-size:16px;font-weight:800;color:#5A3E00}
+  .csrow.fan .v{color:#0A8F40}
+  .takeover .coinsplit{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);text-align:left;width:100%;max-width:320px}
+  .takeover .coinsplit .csh{color:rgba(255,236,180,.95)}
+  .takeover .coinsplit .cstotal{color:#fff}
+  .takeover .coinsplit .cstotal span{color:rgba(255,255,255,.8)}
+  .takeover .csbar{background:rgba(255,255,255,.18)}
+  .takeover .csrow{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+  .takeover .csrow .k{color:rgba(255,255,255,.75)}
+  .takeover .csrow .v,.takeover .csrow.fan .v{color:#fff}
   .editrow{cursor:pointer}
   .edchev{margin-left:8px;color:var(--blue);font-weight:800;font-size:15px;flex:none}
   .clubprev .ok.change{background:#F0F7FF;color:var(--blue);border:1px solid #CEE4FA;cursor:pointer}
@@ -196,7 +218,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 15 — Transfer &amp; Loan</div>
   <h1>The Transfer Window</h1>
-  <p>A Fan moves between clubs — permanently or on loan — through one gate: <b>Fan consent AND both Managers' approval AND live eligibility.</b> A Fan is a member, never an asset: no price tags, no "buy/sell." Consent is a major checkpoint and is version-locked — change any term and the Fan must agree again. Origin → Fan → Destination throughout; destination-club takeover only after the move completes.</p>
+  <p>A Fan moves between clubs — permanently or on loan — through one gate: <b>Fan consent AND both Managers' approval AND live eligibility.</b> Consent is version-locked. On a <b>permanent transfer</b>, transfer coins split <b>60% to the manager, 40% to the Fan</b> (e.g. 1,000 → 600 / 400). Loans have no coin split. Origin → Fan → Destination throughout; destination-club takeover only after the move completes.</p>
 </div>
 
 <div class="frames">
@@ -217,11 +239,20 @@
         </div>
         <div class="lbl">Destination club</div>
         <div class="clubprev"><div class="crest blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cm">Mgr · Mikael K. · Grade B · #7</div></div><span class="ok">Open</span></div>
-        <div class="lbl">Loan terms</div>
-        <div class="card" style="padding:4px 15px">
+        <div class="lbl termslbl">Loan terms</div>
+        <div class="card loanonly" style="padding:4px 15px">
           <div class="kv"><span class="k">Start date</span><span class="v num">20 Aug 2026</span></div>
           <div class="kv"><span class="k">Return</span><span class="v num">End of season · 31 May</span></div>
           <div class="kv"><span class="k">Duration</span><span class="v amber">1 season</span></div>
+        </div>
+        <div class="coinsplit permonly" style="display:none">
+          <div class="csh">Transfer coins · 60 / 40 split</div>
+          <div class="cstotal num">1,000 <span>coins</span></div>
+          <div class="csbar"><i></i><b></b></div>
+          <div class="csrows">
+            <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+            <div class="csrow fan"><span class="k">You (Fan) 40%</span><span class="v num">400</span></div>
+          </div>
         </div>
         <div class="note protect">🛡️ You are requesting this move voluntarily. Both club Managers must approve before your membership changes.</div>
         <div style="height:8px"></div>
@@ -252,6 +283,15 @@
           <div class="kv editrow loanonly" data-field="early"><span class="k">Early return</span><span class="v">Not allowed</span><span class="edchev">›</span></div>
           <div class="kv editrow" data-field="expires"><span class="k">Offer expires</span><span class="v amber num">in 7 days</span><span class="edchev">›</span></div>
         </div>
+        <div class="coinsplit permonly" style="display:none">
+          <div class="csh">Transfer coins · 60 / 40 split</div>
+          <div class="cstotal num">1,000 <span>coins</span></div>
+          <div class="csbar"><i></i><b></b></div>
+          <div class="csrows">
+            <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+            <div class="csrow fan"><span class="k">Fan 40%</span><span class="v num">400</span></div>
+          </div>
+        </div>
         <div class="note protect">🛡️ Alex must consent before this move can happen. The Blue Wolves Manager must also approve.</div>
         <div style="height:8px"></div>
       </div>
@@ -280,7 +320,16 @@
           <div class="kv"><span class="k">Loan activity</span><span class="v">Counts for Blue Wolves</span></div>
           <div class="kv"><span class="k">Approvals needed</span><span class="v">Fan + both Managers</span></div>
         </div>
-        <div class="note info">📌 Sending records your club's approval of <b>these exact terms</b>. Any later change requires new approval and new Fan consent.</div>
+        <div class="coinsplit permonly" style="display:none">
+          <div class="csh">Transfer coins · 60 / 40 split</div>
+          <div class="cstotal num">1,000 <span>coins</span></div>
+          <div class="csbar"><i></i><b></b></div>
+          <div class="csrows">
+            <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+            <div class="csrow fan"><span class="k">Fan 40%</span><span class="v num">400</span></div>
+          </div>
+        </div>
+        <div class="note info">📌 Sending records your club's approval of <b>these exact terms</b>. Any later change requires new approval and new Fan consent. Permanent transfers split coins 60% manager / 40% fan.</div>
         <div style="height:8px"></div>
       </div>
       <div class="cta"><div class="btn amber">Send Offer to Alex</div><div class="altlink">Edit</div></div>
@@ -299,6 +348,7 @@
         <div class="kv"><span class="k">Move</span><span class="v amber">Loan → Blue Wolves</span></div>
         <div class="kv"><span class="k">Status</span><span class="v" style="color:var(--amberDeep)">Awaiting fan consent</span></div>
         <div class="kv"><span class="k">Offer expires</span><span class="v num">in 7 days</span></div>
+        <div class="kv permonly" style="display:none"><span class="k">Coin split</span><span class="v">Manager 600 · Fan 400</span></div>
       </div>
       <div class="note protect" style="margin-top:14px">🛡️ Fans always choose. Their membership stays unchanged until they accept.</div>
       <div class="cta" style="width:100%"><div class="btn">Back to Fan List</div><div class="altlink">View Pending Offers</div></div>
@@ -360,7 +410,16 @@
           <div class="kv"><span class="k">Level · User ID · wallet</span><span class="v">Unchanged</span></div>
           <div class="kv"><span class="k">Red Fury history</span><span class="v">Kept as historical</span></div>
         </div>
-        <div class="note protect">🛡️ You are a member — never owned or sold. You can decline and keep your current club.</div>
+        <div class="coinsplit">
+          <div class="csh">Your share of transfer coins</div>
+          <div class="cstotal num">1,000 <span>coins → 60 / 40</span></div>
+          <div class="csbar"><i></i><b></b></div>
+          <div class="csrows">
+            <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+            <div class="csrow fan"><span class="k">You (Fan) 40%</span><span class="v num">400</span></div>
+          </div>
+        </div>
+        <div class="note protect">🛡️ You are a member — never owned or sold. You can decline and keep your current club. If you accept, 400 coins credit to you and 600 to the manager.</div>
         <div style="height:6px"></div>
       </div>
       <div class="cta"><div class="btn blue">Accept Transfer</div><div style="display:flex;gap:9px"><div class="btn ghost sm" style="flex:1">Ask Manager</div><div class="btn coral sm" style="flex:1">Decline</div></div></div>
@@ -379,6 +438,15 @@
           <div class="side"><div class="crest blue">BW</div><div class="cl">Blue Wolves</div></div>
         </div>
         <div style="text-align:center;margin-top:6px"><span class="movetype loan">🕐 Loan · 20 Aug → 31 May</span></div>
+      </div>
+      <div class="coinsplit permonly" style="display:none">
+        <div class="csh">Confirm coin split</div>
+        <div class="cstotal num">1,000 <span>coins</span></div>
+        <div class="csbar"><i></i><b></b></div>
+        <div class="csrows">
+          <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+          <div class="csrow fan"><span class="k">Fan 40%</span><span class="v num">400</span></div>
+        </div>
       </div>
       <div class="checkopt"><div class="box">✓</div><div>I understand this move and its duration — I'll represent Blue Wolves on loan and return to Red Fury on 31 May.</div></div>
       <div class="note info" style="margin-top:14px">Accepting records your consent. The move still needs both Managers' approval — <b>accepting is not the same as moving.</b></div>
@@ -411,7 +479,16 @@
           <div class="kv"><span class="k">Terms version</span><span class="v num">v1 · current</span></div>
           <div class="kv"><span class="k">Initiated by</span><span class="v">Origin Manager</span></div>
         </div>
-        <div class="note protect">🛡️ Fan consent received on the current terms. You can approve — the move completes only when both Managers sign off.</div>
+        <div class="coinsplit permonly" style="display:none">
+          <div class="csh">Transfer coins · 60 / 40 split</div>
+          <div class="cstotal num">1,000 <span>coins</span></div>
+          <div class="csbar"><i></i><b></b></div>
+          <div class="csrows">
+            <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+            <div class="csrow fan"><span class="k">Fan 40%</span><span class="v num">400</span></div>
+          </div>
+        </div>
+        <div class="note protect">🛡️ Fan consent received on the current terms. You can approve — the move completes only when both Managers sign off. Permanent transfers split 60% manager / 40% fan.</div>
         <div style="height:6px"></div>
       </div>
       <div class="cta"><div class="btn blue">Approve Move</div><div style="display:flex;gap:9px"><div class="btn ghost sm" style="flex:1">💬 Chat</div><div class="btn coral sm" style="flex:1">Reject</div></div></div>
@@ -459,6 +536,15 @@
         <div class="tstat"><div class="sv num">2,840</div><div class="sl">Fan Value</div></div>
         <div class="tstat"><div class="sv num">Lv 5</div><div class="sl">Level kept</div></div>
         <div class="tstat"><div class="sv num">40118</div><div class="sl">User ID</div></div>
+      </div>
+      <div class="coinsplit" style="margin-top:16px">
+        <div class="csh">Coins split · 1,000</div>
+        <div class="cstotal num">Manager 600 · Fan 400</div>
+        <div class="csbar"><i></i><b></b></div>
+        <div class="csrows">
+          <div class="csrow"><span class="k">Manager 60%</span><span class="v num">600</span></div>
+          <div class="csrow fan"><span class="k">Fan 40%</span><span class="v num">400</span></div>
+        </div>
       </div>
       <div class="tcta"><div class="btn">Enter New Club</div><div class="altlink">Back to Home</div></div>
     </div>

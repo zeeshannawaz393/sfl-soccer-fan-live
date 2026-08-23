@@ -2,22 +2,22 @@
 
 ## 1. Objective
 
-Let a registered SFL user: purchase 10–10,000 Coins; understand the exact USD value; credit Coins to their own SFL User ID or (optionally) another Fan's; pay via an approved native provider; receive Coins only after server verification; get a receipt and updated balance; continue toward Fan Value activation when eligible. **Guests cannot purchase** — registration/login first.
+Let a registered SFL user: purchase 100–100,000 Coins; understand the exact USD value; credit Coins to their own SFL User ID or (optionally) another Fan's; pay via an approved native provider; receive Coins only after server verification; get a receipt and updated balance; continue toward Fan Value activation when eligible. **Guests cannot purchase** — registration/login first.
 
 ## 2. Non-negotiable economy rules
 
-**Coin purchase formula:** `10 Coins = $1.00 USD` → `USD Price = Coin Amount ÷ 10`
+**Coin purchase formula:** `100 Coins = $1.00 USD` → `USD Price = Coin Amount ÷ 100`
 
 | Coins | USD |
 |---|---|
-| 10 | $1 |
-| 50 | $5 |
-| 100 | $10 |
-| 500 | $50 |
-| 1,000 | $100 |
-| 2,000 | $200 |
-| 5,000 | $500 |
-| 10,000 | $1,000 |
+| 100 | $1 |
+| 500 | $5 |
+| 1,000 | $10 |
+| 5,000 | $50 |
+| 10,000 | $100 |
+| 20,000 | $200 |
+| 50,000 | $500 |
+| 100,000 | $1,000 |
 
 All packages have identical per-Coin value → **no "Best Value" label** (only "Popular" is allowed). A real bonus/discount would be required to justify "Best Value".
 
@@ -34,13 +34,13 @@ All packages have identical per-Coin value → **no "Best Value" label** (only "
 ## 4. Screen inventory
 
 - **J3-01 Guest Registration Gate** — "Create an account to buy Coins"; benefits; Create Account / Sign In / Not now. Stadium-entrance photo, locked gold coin in glass shield, no prices shown. States: normal · registration unavailable · session expired · offline.
-- **J3-02 Coin Store** — header (back, "Buy Coins", history icon); balance hero (1,240 Coins, Alex Morgan, User ID 12345); recipient control ("credited to My account · 12345 · Change"); exchange strip "10 Coins = $1.00 USD" + FX note; two-column package grid (coin icon, amount, USD, selected state, optional Popular); sticky CTA "Continue · 500 Coins · $50.00". States: default/none selected · loading · catalogue unavailable · offline · region unavailable · provider unavailable · restricted · limit reached · guest gate. **Never create a payment from a cached price without server reconfirm.**
+- **J3-02 Coin Store** — header (back, "Buy Coins", history icon); balance hero (12,400 Coins, Alex Morgan, User ID 12345); recipient control ("credited to My account · 12345 · Change"); exchange strip "100 Coins = $1.00 USD" + FX note; two-column package grid (coin icon, amount, USD, selected state, optional Popular); sticky CTA "Continue · 5,000 Coins · $50.00". States: default/none selected · loading · catalogue unavailable · offline · region unavailable · provider unavailable · restricted · limit reached · guest gate. **Never create a payment from a cached price without server reconfirm.**
 - **J3-03 Select Recipient (bottom sheet)** — tabs My Account / Another User ID; My Account (avatar, name, ID, balance, Use My Account); Another User ID (Recipient User ID field, Find Fan, privacy copy). States: empty · invalid format · searching · found · not found · restricted · network · timeout.
-- **J3-04 Recipient Confirmation** — player-card style: avatar, name, User ID, Fan Level, club; 500 Coins / $50; warning to confirm correct Fan; Yes / Search Again. No phone/email exposed. Negatives: unavailable · ID changed · suspended · cannot receive · is-own-account (suggest My Account).
-- **J3-05 Review Purchase** — package summary (500 Coins, $50, formula 500÷10); recipient; payment method (Apple/Google/gateway — SFL never shows a raw card form); price detail table (amount, base rate, calc, base price, FX, local estimate, tax/fee, due now); confirmation checkbox; CTA "Pay $50.00 USD" or "Continue to Secure Payment". States: ready · quote refreshing · **price changed (must reconfirm)** · FX refreshed · method unavailable · recipient unavailable · restricted · terms not accepted · server unavailable.
+- **J3-04 Recipient Confirmation** — player-card style: avatar, name, User ID, Fan Level, club; 5,000 Coins / $50; warning to confirm correct Fan; Yes / Search Again. No phone/email exposed. Negatives: unavailable · ID changed · suspended · cannot receive · is-own-account (suggest My Account).
+- **J3-05 Review Purchase** — package summary (5,000 Coins, $50, formula 5,000÷100); recipient; payment method (Apple/Google/gateway — SFL never shows a raw card form); price detail table (amount, base rate, calc, base price, FX, local estimate, tax/fee, due now); confirmation checkbox; CTA "Pay $50.00 USD" or "Continue to Secure Payment". States: ready · quote refreshing · **price changed (must reconfirm)** · FX refreshed · method unavailable · recipient unavailable · restricted · terms not accepted · server unavailable.
 - **J3-06 Native Payment Provider** — SFL creates pending txn + payment request (buyer ID, recipient ID, coins, USD base, local quote, unique ref); native sheet opens; provider returns; SFL verifies receipt server-side. Background shows coins/USD/recipient/ref. Outcomes: authorized · failed · cancelled · pending · unknown (interruption).
 - **J3-07 Payment Processing** — "Verifying Your Purchase"; stages Payment received → Receipt verification → Crediting Coins; txn info; "Keep this screen open. Do not repurchase during verification." No Pay button; back disabled / "Continue in Background". **Coins credited only after server verification; poll/receive server update, never rely on client callback.**
-- **J3-08 Purchase Successful** — lime verified badge; "500 Coins Added"; recipient; previous 1,240 / +500 / new 1,740; paid $50; receipt SFL-90312; date; method; Done / View Receipt / Buy More / Return to <origin journey>. For another Fan: "500 Coins Sent to Priya" — buyer's own balance not shown increased.
+- **J3-08 Purchase Successful** — lime verified badge; "5,000 Coins Added"; recipient; previous 12,400 / +5,000 / new 17,400; paid $50; receipt SFL-90312; date; method; Done / View Receipt / Buy More / Return to <origin journey>. For another Fan: "5,000 Coins Sent to Priya" — buyer's own balance not shown increased.
 - **J3-09 Receipt Details** — status Paid & Credited; receipt ID; provider txn ID; coins; USD base; FX; final charged; recipient ID; masked method; purchase date; credit date; support link; Download/Share · Report a Problem · Done. No full card/sensitive data.
 - **J3-10 Value Activation Callout** — see §6.
 - **J3-11 Payment Failed** — "Payment Wasn't Completed / No Coins were added"; safe reason (declined/insufficient/auth failed/method unavailable/provider error); coins/USD/ref; Try Again · Another Method · Return to Store · Support. Coral strip, no blame.
@@ -62,19 +62,19 @@ All packages have identical per-Coin value → **no "Best Value" label** (only "
 
 - **A — no club:** "Coins Added. Your Club Comes Next." → Discover Fan Clubs.
 - **B — club joined, <36 Coins:** "Build Your Activation Balance / minimum 36-Coin club seed, you have 20." → Buy More Coins.
-- **C — eligible:** "Your Value Is Ready to Activate / Seed at least 36 Coins into Red Devils FC." `1,740 − 36 = 1,704 remaining`. → Seed 36 Coins & Activate · Do This Later.
+- **C — eligible:** "Your Value Is Ready to Activate / Seed at least 36 Coins into Red Devils FC." `17,400 − 36 = 17,364 remaining`. → Seed 36 Coins & Activate · Do This Later.
 - **D — already active:** no callout; return to origin.
 
 Fan Value result formula (shown only after activation explained): Win +30 · Draw +10 · Loss 0.
 
 ## 7. Conversion rules (executed in Journey 13, referenced here)
 
-- Coins→Gold: `Gold = ⌊Coins × 10/13⌋`
-- Gold→Coins: `Coins = ⌊Gold × 10/13⌋`
-- Disclosed commission: `3/13 = 23.08%` (per 13 in, 10 out, platform keeps 3). Shown before confirmation.
+- Coins→Gold: `Gold = ⌊Coins × 10/130⌋` (130 Coins → 10 Gold)
+- Gold→Coins: `Coins = ⌊Gold × 100/13⌋` (13 Gold → 100 Coins)
+- Disclosed commission: `30/130 = 23.08%` on Coins→Gold. Shown before confirmation.
 - Gold withdrawal reference: `≈ USD = Gold/13` → 130 Gold ≈ $10.
 
-**Three distinct rates the UI must never conflate:** Buy Coins 10:1 · Coins↔Gold 13:10 · Withdraw 13 Gold ≈ $1.
+**Three distinct rates the UI must never conflate:** Buy Coins 100:$1 · Coins→Gold 130:10 · Withdraw 13 Gold ≈ $1. (Retuned so $1 of coins still yields the same gold as the old 13:10 when 10 Coins = $1.)
 
 ## 8. Notifications, analytics, accessibility
 
@@ -88,7 +88,7 @@ Buyer/recipient/pending/refund notifications (sender identity per privacy settin
 ## Two things that contradict decisions we already locked
 
 **R1 — The currency is a TWO-currency system, and my earlier "Gold everywhere" normalization was wrong.** In Journey 1 (v2) I recorded "currency is Gold everywhere; all 'Coins' copy replaced," and I applied that to Journey 2. Journey 3 reveals the real economy: **Coins and Gold are two different currencies with distinct roles.**
-- **Coins** — the hard top-up currency, bought with USD (10 Coins = $1). This is what J3 is entirely about.
+- **Coins** — the hard top-up currency, bought with USD (100 Coins = $1). This is what J3 is entirely about.
 - **Gold** — obtained by converting Coins (13 Coins → 10 Gold, §7), used for gifting/support and eligible for withdrawal (13 Gold ≈ $1).
 
 So the correct model is: **you buy Coins; you convert Coins to Gold; you spend/transfer/withdraw Gold.** My J1/J2 correction over-collapsed this. The fix: Coins label applies to purchase, top-up balance, and the store; Gold applies to gifts, peer transfers, and cash-out. Journey 3 is the source of truth for the economy — I'll re-open the J1/J2 "Gold everywhere" note and split it. **This changes currency labels on already-built screens** (the gift tray priced "🪙 Gold" should be Coins if gifts are bought directly, or Gold if gifts are paid from converted Gold — needs one clear rule, see R3).
@@ -109,8 +109,8 @@ So the correct model is: **you buy Coins; you convert Coins to Gold; you spend/t
 
 ## Smaller notes
 
-- **R5 — The $50 default anchors high.** Pre-selecting 500 Coins ($50) and labelling it "Popular" anchors spend upward. A user-friendlier default is a $5–$10 tier; high-anchor is a deliberate monetization choice — just make it conscious.
-- **R6 — Round-trip loss is severe.** $1 → 10 Coins → convert → 7 Gold → withdraw ≈ $0.54 (≈46% loss buying in and cashing out). Intentional anti-gaming, but the convert/withdraw screens (Journey 13) must show it honestly so it doesn't read as a bait-and-switch.
+- **R5 — The $50 default anchors high.** Pre-selecting 5,000 Coins ($50) and labelling it "Popular" anchors spend upward. A user-friendlier default is a $5–$10 tier; high-anchor is a deliberate monetization choice — just make it conscious.
+- **R6 — Round-trip loss is severe.** $1 → 100 Coins → convert → Gold → withdraw. Convert is still 13 Coins → 10 Gold (not retuned here); the cash-out screens (Journey 13) must show the live round-trip honestly so it doesn't read as a bait-and-switch.
 - **R7 — Theme:** this journey's own spec calls for **dark cinematic** (near-black, gold-on-black, "no white banking interface"). That's your explicit instruction for J3, so I'll build it dark — consistent with "financial/immersive surfaces are dark, app chrome is light." Confirming this is intended and not a conflict with the light direction.
 
 ## Recommendations (say "go with recommend" to unblock the build)

@@ -9,8 +9,8 @@ Moves a Fan between clubs, permanently or on loan. Connects MC-04 Fan List, MC-0
 - **Permanent transfer** — Fan leaves current club, joins destination; active club changes; no auto-return. **Fan Value + Level + User ID + wallet + history all preserved.** Past participation stays historical; future eligible activity → new club.
 - **Temporary loan** — Fan temporarily represents another club; defines origin/destination/start/end(or season)/return club/rules/early-return. **Auto-returns to origin at loan end.** Fan Value never reset at start or end; pre-loan activity stays with origin, loan activity → destination, post-return activity → origin. League results never retro-recalculated.
 
-## No financial formula (deliberate)
-No transfer/loan fee, no Coin/Gold payment, no commission, no club-to-club payment. This is a **membership reassignment, not a sale.** Do **not** reuse the J6 Player Transfer Market formula — that's for football players, not human Fans. If the client later adds money, it needs a separate escrow/settlement design.
+## Permanent transfer coin split (60 / 40)
+When a Fan is sold or transferred to another club, transfer coins are shared: **60% to the manager, 40% to that Fan.** Example: **1,000 coins → Manager 600, Fan 400.** Show the split on review and complete screens. Loans have no coin split. Consent, both-Manager approval, and eligibility still gate the move — the split does not replace Fan consent. Do **not** reuse the J6 Player Transfer Market formula — that's for football players, not human Fans.
 
 ## Two initiation routes
 - **Route A — Manager-proposed:** Manager picks Fan → destination → Loan/Transfer → terms → sends offer (this records the initiating club's approval of *those exact terms*). Fan accepts/declines → other Manager approves → eligibility re-check → process → confirm all.
@@ -36,8 +36,8 @@ The whole journey exists to prove a Fan is a member, not merchandise. Built ML-0
 ## B — Version-locked consent is the anti-manipulation control, and it's built
 `AcceptedTermsVersion == CurrentTermsVersion` is what stops a Manager quietly changing the loan duration or destination after the Fan agreed. Built the **Terms Changed** state that invalidates prior consent and forces a fresh Accept, with old-vs-new terms shown side by side. This is the single most important integrity rule in the journey.
 
-## C — "Membership reassignment, not a sale" is enforced visually
-No price tags, no market value, no cart, no bid, no "buy/sell/own/asset" wording. Completion is a **club-colour stadium takeover**, not a receipt. I deliberately did **not** reuse the J6 player-market treatment — that's for football players; this is a person. If the client introduces fees later, flagged that it needs its own escrow/settlement design (and a fresh consent surface).
+## C — Permanent transfers show the 60 / 40 coin split
+Review, consent, approval, and complete screens show **1,000 coins → Manager 600 / Fan 400**. The Fan is still a member (consent + both Managers still required). Loans stay membership-only with no coin share. J6 player-market pricing is not reused.
 
 ## D — Loan return needs a real date, not the word "season"
 "One season" cannot drive an automatic return — the system needs a configured season-end date. Built ML-03B/03C against an explicit **return date** with a live countdown and the 7-day / 1-day / on-return reminders. The auto-return preserves Fan Value and re-attributes future activity to the origin club without recalculating past league results.

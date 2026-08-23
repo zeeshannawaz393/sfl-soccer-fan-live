@@ -6,15 +6,24 @@ Controls every wallet balance and money-adjacent action. Preserves three separat
 
 | Bucket | Spend | Convert | Transfer | Withdraw |
 |---|---|---|---|---|
-| **Coins** (bought 10=$1) | Yes | Yes | No direct Fan transfer | No |
+| **Coins** (bought 100=$1) | Yes | Yes | No direct Fan transfer | No |
 | **Gold / Earned** (rewards, converted) | via flows | Yes | Yes (level-limited) | Yes |
 | **Transferred Gold** (received) | No | No | No | Yes |
 
 Transferred Gold can only be **held or withdrawn** — never re-sent or converted. This stops the same balance circulating between accounts.
 
-## Conversion (13:10, both directions)
+## Conversion (retuned for 100 Coins = $1)
 
-`13 Coins → 10 Gold` and `13 Gold → 10 Coins`. Platform share `3/13 = 23.08%`, each direction. 130 Coins → 100 Gold; converting back 100 Gold → 76 Coins (prototype floor of 100×10/13). **Recommend inputs in multiples of 13** (exact, no rounding loss); otherwise show exact/rounded/remainder + round-trip warning. **Must disclose: converting back does NOT restore the original balance.**
+The old `13 Coins → 10 Gold` was calibrated when **10 Coins = $1**. Coins are now **100 = $1** (store packs 10×, same USD). Gold withdraw is unchanged: **13 Gold = $1**.
+
+To keep the **same USD round-trip** ($1 of coins still yields the same gold / withdraw value), only the coin side of convert is 10×:
+
+- **Coins → Gold:** `130 Coins → 10 Gold` (`Gold = ⌊Coins × 10/130⌋`). Platform share `30/130 = 23.08%`.
+- **Gold → Coins:** `13 Gold → 100 Coins` (`Coins = ⌊Gold × 100/13⌋`) — same USD as the old `13 Gold → 10 Coins`.
+- Example: 130 Coins ($1.30) → 10 Gold; converting 10 Gold back → 76 Coins. **Recommend inputs in multiples of 130.**
+- **Must disclose: converting back does NOT restore the original balance.**
+
+Do not 10× Gold amounts or gameplay coin costs. Withdraw stays `USD = Gold / 13` (130 Gold ≈ $10).
 
 ## Withdrawal value
 
@@ -43,7 +52,7 @@ Real money in (Coins bought with USD) → convert to Gold → **transfer Gold to
 
 ## B — The conversion is lossy, and the design's job is to be honest about it (done)
 
-The 13:10 rate charges **23.08% each direction**, and the round trip is brutal: 130 Coins → 100 Gold → back to **76 Coins**. Worse, the full buy-and-cash-out chain (buy 10 Coins/$1 → convert 13 Coins→10 Gold → withdraw 13 Gold/$1) loses **~46%**: $1 in ≈ $0.54 out. That's intentional platform economics, but it means the UI must be **scrupulously honest** or it reads as a trap. I've: shown the commission breakdown on every conversion, put a **"converting back won't restore your balance"** warning on the confirm step, and used **multiples of 13** so there's no *hidden* rounding loss on top of the disclosed rate. This is the "secure, not casino" bar the spec asks for.
+The convert rate still charges **23.08%** on Coins→Gold. After the 100 Coins = $1 change, the displayed math is **130 Coins → 10 Gold** (and **13 Gold → 100 Coins** the other way) so $1 in still ≈ $0.54 out via withdraw. The old 13:10 unit pair would have leaked ~10× cash-out. Round trip: 130 Coins → 10 Gold → **76 Coins**. The UI must stay honest: commission on every conversion, **"converting back won't restore your balance"**, multiples of 130.
 
 ## C — KYC-gated withdrawal + document privacy — correct AML design (built)
 

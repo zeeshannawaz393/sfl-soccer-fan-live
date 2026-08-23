@@ -34,7 +34,7 @@ Event: id, session id, sender, receiver side, gift id, unit price, qty, total, s
 
 ## Currency labelling
 
-`10 Coins = $1` but the live counter **never** shows USD/earnings/cash/withdrawable — Host settlement & commission are undefined, and Coins-sent ≠ Host earnings. Label is always **"Coins sent."**
+`100 Coins = $1` but the live counter **never** shows USD/earnings/cash/withdrawable — Host settlement & commission are undefined, and Coins-sent ≠ Host earnings. Label is always **"Coins sent."**
 
 ## Open decisions
 

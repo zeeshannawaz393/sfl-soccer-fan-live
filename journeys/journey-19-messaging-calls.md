@@ -12,7 +12,7 @@ Private Fan↔Fan / Manager↔Fan DM, club group chat, 1:1 voice/video = **here.
 - **Calls are stricter:** 1:1 only (MVP), **existing accepted conversation required**, recipient must explicitly answer, **Manager status does NOT bypass call privacy**, no call button inside a pending request. No club group calls in scope.
 
 ## Messaging integrity
-Types (MVP): **text, gift, system** only (no images/voice notes assumed). Delivery: `Sending → Sent → Delivered → Read → Failed` — **never show "Delivered" just because the sender had internet.** Server-authoritative sequence (`Seq(M1)<Seq(M2)`) keeps order on reconnect. Offline send = local queue + **idempotency ID** retried → server accepts once (**no duplicates**). System messages are visually distinct and **uneditable**.
+Types: **text, gift, system, and attachments** (photo / video / document / screenshot) in DMs, 1:1, and club chat. **Live stream comments (J7/J8) are text only** — no photo/video/doc attach on the live “Say something…” bar. Delivery: `Sending → Sent → Delivered → Read → Failed` — **never show "Delivered" just because the sender had internet.** Server-authoritative sequence (`Seq(M1)<Seq(M2)`) keeps order on reconnect. Offline send = local queue + **idempotency ID** retried → server accepts once (**no duplicates**). System messages are visually distinct and **uneditable**.
 
 ## Money stays out of chat
 The Gift button opens **J10** (recipient locked to the chat participant, Coins deducted via J10), and produces a gift **system message** ("Priya sent you a Golden Boot"). **No chat action ever says "Send Cash / Send Gold / Pay User / Transfer Coins."** Gold transfer keeps its J13 User-ID + limits + confirmation.

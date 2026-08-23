@@ -57,7 +57,7 @@
   .inp{height:52px;border-radius:14px;background:var(--card);border:1.5px solid var(--line);display:flex;align-items:center;padding:0 15px;font-size:15px;font-weight:700;box-shadow:var(--shadow-sm)}
   .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
 
-  /* stadium hub */
+  /* stadium hub — Niki-style 2-col streamer grid */
   .tabs{display:flex;gap:8px;overflow:hidden}
   .tab{flex:none;font-size:13px;font-weight:750;color:var(--t2);background:#fff;border:1px solid var(--line);padding:7px 14px;border-radius:999px}
   .tab.on{background:#14161C;color:#fff;border-color:#14161C}
@@ -77,6 +77,31 @@
   .roomcard .rmm{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-top:2px;display:flex;align-items:center;gap:6px}
   .roomcard .rf{padding:9px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:750;color:var(--t2)}
   .fillbadge{font-size:11px;font-weight:800;color:#0FA04C;background:#F2FBF5;border:1px solid #BFE9CE;padding:2px 8px;border-radius:999px}
+  .phone.stadhome{background:#07090E;color:#F4F6FA;border-color:#1A1E28}
+  .phone.stadhome .top{padding:10px 14px 6px}
+  .phone.stadhome .htitle{color:#F4F6FA;font-size:22px;letter-spacing:-.6px}
+  .phone.stadhome .hacts{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .phone.stadhome .hbtn{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .phone.stadhome .coinbal{background:rgba(255,211,84,.14);border-color:rgba(255,211,84,.28);color:#FFE9A8}
+  .phone.stadhome .lbody{padding:8px 12px 0}
+  .phone.stadhome .tabs{gap:6px;margin-bottom:10px}
+  .phone.stadhome .tab{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#A4ADBA;padding:6px 12px;font-size:12.5px}
+  .phone.stadhome .tab.on{background:#C9FF3D;color:#10140A;border-color:#C9FF3D}
+  .phone.stadhome .golivecard{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:10px}
+  .phone.stadhome .golivecard .gk{margin:0}
+  .phone.stadhome .golivecard .gt{font-size:16px;margin:0}
+  .phone.stadhome .golivecard .gs{display:none}
+  .phone.stadhome .golivecard .gbtn{margin:0 0 0 auto;padding:8px 14px;font-size:13px}
+  .phone.stadhome .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:8px}
+  .phone.stadhome .roomcard{margin:0;border:none;border-radius:14px;background:#12151C;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .phone.stadhome .roomcard .rc{height:210px;background-position:center 18%}
+  .phone.stadhome .roomcard .rc::after{background:linear-gradient(180deg,transparent 42%,rgba(4,6,10,.92))}
+  .phone.stadhome .roomcard .live{top:8px;left:8px;font-size:9px;padding:3px 7px}
+  .phone.stadhome .roomcard .vv{top:8px;right:8px;font-size:10px;padding:3px 7px;background:rgba(7,9,13,.62)}
+  .phone.stadhome .roomcard .rt{left:8px;right:8px;bottom:8px}
+  .phone.stadhome .roomcard .rtt{font-size:13px;letter-spacing:-.2px}
+  .phone.stadhome .roomcard .rmm{font-size:11px;font-weight:750}
+  .phone.stadhome .roomcard .rf{display:none}
 
   /* eligibility / permissions */
   .checkrow{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:750}
@@ -104,11 +129,11 @@
   .coverpick{display:flex;gap:12px;align-items:center;margin-bottom:16px}
   .coverthumb{width:76px;height:76px;border-radius:16px;background-size:cover;background-position:center;flex:none;position:relative;box-shadow:var(--shadow-sm)}
   .coverthumb .cam{position:absolute;right:-4px;bottom:-4px;width:28px;height:28px;border-radius:50%;background:linear-gradient(140deg,var(--green1),var(--green2));border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
-  .seatmode{display:flex;gap:10px}
-  .smcard{flex:1;border-radius:16px;border:1.5px solid var(--line);background:#fff;padding:13px;text-align:center;box-shadow:var(--shadow-sm)}
+  .seatmode{display:flex;flex-wrap:wrap;gap:8px}
+  .smcard{flex:1 1 calc(33.33% - 8px);min-width:96px;border-radius:16px;border:1.5px solid var(--line);background:#fff;padding:11px 8px;text-align:center;box-shadow:var(--shadow-sm)}
   .smcard.on{border-color:var(--green1);box-shadow:0 0 0 3px rgba(15,183,83,.12)}
-  .smcard .sn{font-size:18px;font-weight:800}
-  .smcard .sd{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:2px}
+  .smcard .sn{font-size:16px;font-weight:800}
+  .smcard .sd{font-size:10.5px;font-weight:650;color:var(--t2);margin-top:2px}
 
   /* formation picker */
   .bigpitch{height:220px;border-radius:18px;background:repeating-linear-gradient(180deg,var(--pitch1) 0 38px,var(--pitch2) 38px 76px);position:relative;overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
@@ -147,22 +172,46 @@
   .phone.bleed > .sfl-statusbar{
     position:absolute;top:0;left:0;right:0;height:50px;background:transparent;color:#F4F6FA;z-index:600;
   }
-  .rtop{position:absolute;top:56px;left:16px;right:16px;z-index:6;display:flex;align-items:flex-start;gap:10px}
+  .rtop{position:absolute;top:56px;left:16px;right:16px;z-index:9;display:flex;align-items:flex-start;gap:8px}
   .hosttile{width:96px;height:64px;border-radius:14px;background-size:cover;background-position:center 20%;position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.5);box-shadow:0 6px 18px rgba(0,0,0,.4)}
   .hosttile .hl{position:absolute;top:5px;left:5px;font-size:8px;font-weight:800;background:var(--coral);color:#fff;padding:2px 6px;border-radius:6px;display:flex;align-items:center;gap:3px}
   .hosttile .hl i{width:4px;height:4px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
   .hosttile .hn{position:absolute;left:5px;right:5px;bottom:4px;font-size:9px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6)}
-  .rtop .rt2{flex:1}
+  .rtop .rt2{flex:1;min-width:0}
   .rtop .rname{font-size:14px;font-weight:800;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   .rtop .rmeta{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 1px 6px rgba(0,0,0,.5);margin-top:2px}
-  .coincap{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:linear-gradient(120deg,rgba(60,42,8,.68),rgba(30,20,4,.68));backdrop-filter:blur(10px);border:1px solid rgba(255,200,100,.45);margin-top:6px}
-  .coincap .coin{width:18px;height:18px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#5A3E00;background:radial-gradient(circle at 35% 28%,var(--goldLite),#C88A00)}
-  .coincap .amt{font-size:14px;font-weight:800;color:#FFE1A0}
-  .coincap .lab{font-size:9px;font-weight:750;color:#C9A860}
-  .htools{margin-left:auto;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+  .rhud{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none;max-width:58%}
+  .htools{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
   .htool{width:34px;height:34px;border-radius:50%;background:rgba(7,9,13,.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:14px}
-  .formfield{position:absolute;left:8px;right:8px;top:156px;bottom:132px;z-index:5;display:flex;flex-direction:column;justify-content:space-between;padding:6px 0}
-  .frow{display:flex;justify-content:space-evenly}
+  .formfield{position:absolute;left:6px;right:6px;top:0;bottom:0;z-index:5;display:block;padding:0;pointer-events:none}
+  .formfield .frow,.formfield .wavid,.formfield .seat{pointer-events:auto}
+  .frow{position:absolute;left:0;right:0;display:flex;justify-content:space-evenly}
+  .frow.hostrow{top:8%;justify-content:center;padding:0;flex:none}
+  .formfield .frow.fwd{top:27.5%}
+  .formfield .frow.mid{top:44.5%}
+  .formfield .frow.def{top:59.5%}
+  .formfield .frow.gk{top:71.5%}
+  .formfield>.frow:nth-child(2){top:27.5%}
+  .formfield>.frow:nth-child(3){top:44.5%}
+  .formfield>.frow:nth-child(4){top:59.5%}
+  .formfield>.frow:nth-child(5){top:71.5%}
+  .room[data-seats="4"] .formfield .frow.gk,.room[data-seats="4"] .formfield>.frow:nth-child(3){top:71.5%}
+  .room[data-seats="6"] .formfield .frow.mid,.room[data-seats="6"] .formfield>.frow:nth-child(3){top:46%}
+  .room[data-seats="6"] .formfield .frow.gk,.room[data-seats="6"] .formfield>.frow:nth-child(4){top:71.5%}
+  .seat.host{width:132px}
+  .seat.host .av{width:118px;height:118px;border-width:4px;border-color:#fff;box-shadow:0 0 0 4px rgba(228,54,43,.48),0 14px 28px rgba(0,0,0,.5)}
+  .seat.host .nm{font-size:12.5px;max-width:132px;font-weight:800}
+  .seat.host .pos{background:var(--coral);color:#fff;font-size:10px;padding:2px 9px}
+  .seat.host .hl{position:absolute;top:-4px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;background:var(--coral);color:#fff;padding:2px 7px;border-radius:6px;display:flex;align-items:center;gap:3px;z-index:6;white-space:nowrap}
+  .seat.host .hl i{width:4px;height:4px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
+  .seat.host .micind{top:2px;right:4px;width:22px;height:22px}
+  .room[data-seats="4"] .seat.host{width:144px}
+  .room[data-seats="4"] .seat.host .av{width:130px;height:130px}
+  .room[data-seats="6"] .seat.host{width:138px}
+  .room[data-seats="6"] .seat.host .av{width:124px;height:124px}
+  .room.wa .frow.hostrow{top:7.5%;padding-bottom:0}
+  .room.wa .seat.host{width:104px}
+  .room.wa .seat.host .av{width:90px;height:90px}
   .seat{display:flex;flex-direction:column;align-items:center;gap:3px;width:64px;position:relative}
   .seat .av{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;border:2.5px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
   .seat.spk .av{border-color:var(--green2);animation:ringpulse 2s infinite}
@@ -172,6 +221,25 @@
   .seat.open .av{border-style:dashed;border-color:rgba(201,255,61,.9);background:rgba(201,255,61,.12);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
   .seat.open.pulse .av{animation:seatpulse 1.8s infinite}
   .seat .mut{position:absolute;top:32px;right:8px;width:16px;height:16px;border-radius:50%;background:rgba(7,9,13,.7);display:flex;align-items:center;justify-content:center;font-size:8px}
+  .room[data-seats="4"] .seat{width:98px}
+  .room[data-seats="4"] .seat .av{width:80px;height:80px;border-width:3px}
+  .room[data-seats="4"] .seat .nm{font-size:11px;max-width:98px}
+  .room[data-seats="4"] .seat .pos{font-size:10px;padding:2px 8px}
+  .room[data-seats="4"] .seat .micind{width:22px;height:22px;top:0;right:4px;font-size:11px}
+  .room[data-seats="4"] .seat.open .av{font-size:28px}
+  .room[data-seats="6"] .seat{width:86px}
+  .room[data-seats="6"] .seat .av{width:68px;height:68px}
+  .room[data-seats="6"] .seat .nm{font-size:10.5px;max-width:86px}
+  .room[data-seats="6"] .seat .pos{font-size:9.5px}
+  .room[data-seats="6"] .seat .micind{width:21px;height:21px}
+  .room[data-seats="6"] .seat.open .av{font-size:24px}
+  .room[data-seats="9"] .seat{width:72px}
+  .room[data-seats="9"] .seat .av{width:56px;height:56px}
+  .room[data-seats="9"] .seat .nm{max-width:72px}
+  .room[data-seats="9"] .seat.open .av{font-size:22px}
+  .room[data-seats="13"] .seat{width:60px}
+  .room[data-seats="13"] .seat .av{width:44px;height:44px}
+  .room[data-seats="13"] .seat .nm{max-width:60px}
   .rchat{position:absolute;left:16px;right:66px;bottom:74px;z-index:6;max-height:148px;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:5px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24%);mask-image:linear-gradient(180deg,transparent 0,#000 24%)}
   .rchat::-webkit-scrollbar{display:none}
   .rchat .cm{background:rgba(5,7,11,.5);backdrop-filter:blur(8px);border-radius:12px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#F7F8FA;display:inline-block;margin-bottom:0;max-width:100%;word-break:break-word}
@@ -196,13 +264,15 @@
   .htool.waitpill{width:auto;height:32px;padding:0 11px 0 10px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.15px;gap:6px;color:#F4FFE8;background:linear-gradient(140deg,rgba(18,32,16,.72),rgba(8,16,10,.72));border:1px solid rgba(201,255,61,.38);box-shadow:0 6px 16px rgba(0,0,0,.28)}
   .htool.waitpill .nbadge{position:static;top:auto;right:auto;min-width:17px;height:17px;margin-left:2px;box-shadow:none}
   .htool.chreq{background:linear-gradient(145deg,#FFE27A,#F0B429);border-color:rgba(255,214,120,.7);color:#4A3200;box-shadow:0 6px 14px rgba(240,180,41,.35)}
+  .htool.rleave{background:rgba(7,9,13,.62);border-color:rgba(255,255,255,.28);color:#fff;font-size:15px;font-weight:800}
   .rtop .rname:has(.rolechip){display:flex;flex-direction:column;align-items:flex-start;gap:5px}
   .rtop .rolechip,.sheet.kit .rolechip{display:inline-flex;align-items:center;height:18px;font-size:8.5px;font-weight:800;letter-spacing:.55px;text-transform:uppercase;padding:0 8px;border-radius:999px;margin-left:0}
   .rolechip.host{background:linear-gradient(140deg,rgba(201,255,61,.28),rgba(143,212,0,.18));color:#D8FF6A;border:1px solid rgba(201,255,61,.4)}
   .rolechip.viewer{background:rgba(255,255,255,.1);color:#E4EAF3;border:1px solid rgba(255,255,255,.16)}
-  .seat .chbadge{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:800;letter-spacing:.45px;background:linear-gradient(140deg,#E8FF8A,#B6E832);color:#1A2808;padding:2px 6px;border-radius:6px;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-  .cotile{width:42px;height:56px;border-radius:13px;background-size:cover;background-position:center;border:1.5px solid rgba(201,255,61,.75);box-shadow:0 6px 14px rgba(0,0,0,.38);position:relative;flex:none}
-  .cotile .cl{position:absolute;left:4px;right:4px;bottom:4px;font-size:7px;font-weight:800;letter-spacing:.4px;color:#16260a;text-align:center;background:linear-gradient(140deg,#E8FF8A,#B6E832);border-radius:5px;padding:1px 0;text-shadow:none}
+  .rolechip.manager{background:linear-gradient(140deg,rgba(255,214,120,.32),rgba(240,180,41,.18));color:#FFE27A;border:1px solid rgba(255,214,120,.45)}
+  .seat .chbadge{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:800;letter-spacing:.45px;background:linear-gradient(140deg,#FFE27A,#F0B429);color:#4A3200;padding:2px 6px;border-radius:6px;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+  .cotile{width:42px;height:56px;border-radius:13px;background-size:cover;background-position:center;border:1.5px solid rgba(255,214,120,.75);box-shadow:0 6px 14px rgba(0,0,0,.38);position:relative;flex:none}
+  .cotile .cl{position:absolute;left:4px;right:4px;bottom:4px;font-size:7px;font-weight:800;letter-spacing:.4px;color:#4A3200;text-align:center;background:linear-gradient(140deg,#FFE27A,#F0B429);border-radius:5px;padding:1px 0;text-shadow:none}
   .reqrow{display:flex;align-items:center;gap:11px;padding:13px 2px;border-bottom:1px solid #EEF1F6}
   .reqrow:last-child{border:none}
   .reqav{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center;flex:none;border:2px solid #fff;box-shadow:0 3px 8px rgba(20,30,50,.16)}
@@ -223,6 +293,7 @@
   .sheet.kit h3{letter-spacing:-.45px}
   .sheet.kit .sh2{line-height:18px;margin-top:6px}
   .sheet.kit .confirmpos .posbadge{box-shadow:0 10px 22px rgba(15,120,50,.28)}
+  .sheet.kit > .sheetx{position:absolute;top:12px;right:12px;z-index:3}
   .chtabs{display:flex;gap:6px;background:#EEF1F6;border-radius:14px;padding:4px;margin-bottom:12px}
   .chtabs .tab{flex:1;text-align:center;padding:9px 8px;border-radius:11px;background:transparent;border:none;font-size:12.5px}
   .chtabs .tab.on{background:#fff;color:#14161C;box-shadow:var(--shadow-sm)}
@@ -230,10 +301,24 @@
 
   /* Watch-Along — video sits on the centre circle; seats stay around it */
   .room.wa .livetmr{display:none}
-  .room.wa .formfield{top:148px;bottom:118px;justify-content:space-evenly}
+  .room.wa .formfield{top:0;bottom:0}
+  .room.wa .formfield .frow.fwd,.room.wa .formfield>.frow:nth-child(2){top:21%}
+  .room.wa .wavid{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);margin:0}
+  .room.wa .formfield .frow.mid,.room.wa .formfield>.frow:nth-child(4){top:63%}
+  .room.wa .formfield .frow.def,.room.wa .formfield>.frow:nth-child(5){top:73%}
+  .room.wa .formfield .frow.gk,.room.wa .formfield>.frow:nth-child(6){top:82.5%}
+  .room.wa:has(.wavid.full) .formfield .frow.mid,.room.wa:has(.wavid.full) .formfield>.frow:nth-child(4){top:66%}
+  .room.wa:has(.wavid.full) .formfield .frow.def,.room.wa:has(.wavid.full) .formfield>.frow:nth-child(5){top:76%}
+  .room.wa:has(.wavid.full) .formfield .frow.gk,.room.wa:has(.wavid.full) .formfield>.frow:nth-child(6){top:85%}
   .room.wa .seat{width:56px}
   .room.wa .seat .av{width:40px;height:40px}
   .room.wa .seat .nm{font-size:9px}
+  .room.wa[data-seats="4"] .seat{width:88px}
+  .room.wa[data-seats="4"] .seat .av{width:70px;height:70px}
+  .room.wa[data-seats="6"] .seat{width:76px}
+  .room.wa[data-seats="6"] .seat .av{width:58px;height:58px}
+  .room.wa[data-seats="9"] .seat{width:64px}
+  .room.wa[data-seats="9"] .seat .av{width:48px;height:48px}
   .room.wa:has(.wavid.full) .seat{width:52px}
   .room.wa:has(.wavid.full) .seat .av{width:36px;height:36px}
   .wavid{width:268px;height:151px;margin:0 auto;border-radius:16px;overflow:hidden;position:relative;flex:none;background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.42);box-shadow:0 12px 28px rgba(0,0,0,.5),0 0 0 3px rgba(66,213,255,.22);transition:width .22s ease,height .22s ease}
@@ -324,8 +409,10 @@
 
   /* sheet */
   .sheet-scrim{position:absolute;inset:0;background:rgba(5,7,11,.55);z-index:8;display:flex;align-items:flex-end}
-  .sheet{background:var(--card);border-radius:26px 26px 0 0;width:100%;padding:12px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.4);color:var(--t1)}
+  .sheet{background:var(--card);border-radius:26px 26px 0 0;width:100%;padding:12px 20px 24px;box-shadow:0 -12px 44px rgba(0,0,0,.4);color:var(--t1);position:relative}
   .sheet .grab{width:38px;height:4px;border-radius:2px;background:#DCE0EA;margin:0 auto 14px}
+  .sheethead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .sheetx{width:32px;height:32px;border-radius:50%;background:#F0F2F7;color:#5A6272;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;cursor:pointer;flex:none}
   .sheet h3{font-size:20px;font-weight:800;letter-spacing:-.3px}
   .sheet .sh2{font-size:12.5px;font-weight:700;color:var(--t2);margin-top:4px}
   .poslist{display:flex;flex-direction:column;gap:0;margin:12px 0}
@@ -374,9 +461,35 @@
   .sumbox .sl{font-size:11.5px;font-weight:700;color:var(--t2);margin-top:2px}
   .taskdone{display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:13px;padding:11px 13px;font-size:12.5px;font-weight:800;color:#187A42;margin-top:12px;width:100%}
   /* ===== Match Timers (TIME + COUNT DOWN) ===== */
-  .livetmr{position:absolute;top:136px;left:14px;right:14px;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:15px;background:rgba(8,14,9,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(201,255,61,.28);box-shadow:0 8px 22px rgba(0,0,0,.4)}
-  .livetmr ~ .formfield{top:222px}
-  .livetmr:has(.mcchip) ~ .formfield{top:250px}
+  .livetmr{position:relative;top:auto;left:auto;right:auto;z-index:8;display:inline-flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:0;padding:3px 6px 3px 7px;border-radius:10px;width:auto;max-width:100%;background:rgba(8,14,9,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(201,255,61,.28);box-shadow:0 3px 10px rgba(0,0,0,.28)}
+  .livetmr .mctitle{font-size:5.5px;margin-bottom:1px;letter-spacing:1px}
+  .livetmr .mclock{gap:2px}
+  .livetmr .mcbox{min-width:22px;padding:2px 2px 1px;border-radius:6px}
+  .livetmr .mcbox .mcv{font-size:11px;letter-spacing:.15px}
+  .livetmr .mcbox .mcl{margin-top:0;font-size:5.5px;letter-spacing:.8px}
+  .livetmr .mcsep{font-size:10px;padding-bottom:6px}
+  .livetmr .mcset{margin-top:2px;gap:2px}
+  .livetmr .mcchip{padding:1px 5px;font-size:7px}
+  .livetmr .mcreset{font-size:7.5px}
+  .livetmr .cdring{width:26px;height:26px}
+  .livetmr .cdring .cdn{font-size:10px}
+  .livetmr .cdcap{font-size:5.5px;letter-spacing:.5px}
+  .room:has(.rtop .livetmr) .formfield{top:0}
+  .room:has(.rtop .livetmr .mcchip) .formfield{top:0}
+  .sflguestwrap{position:absolute;inset:0;z-index:760;display:flex;align-items:flex-end;background:rgba(4,6,10,.45)}
+  .sflguest-panel{width:100%;background:#fff;border-radius:22px 22px 0 0;padding:10px 0 18px;box-shadow:0 -16px 40px rgba(0,0,0,.28);color:#14161C;font-family:Manrope,-apple-system,sans-serif}
+  .sflguest-head{display:flex;align-items:center;gap:10px;padding:6px 16px 12px}
+  .sflguest-av{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center;background-color:#DCE2EC;flex:none}
+  .sflguest-name{flex:1;font-size:16px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:6px;cursor:pointer}
+  .sflguest-name .chev{color:#9AA2B1;font-weight:700}
+  .sflguest-mention{height:32px;padding:0 12px;border-radius:999px;background:#2F7FD1;color:#fff;font-size:12.5px;font-weight:800;display:flex;align-items:center;cursor:pointer}
+  .sflguest-gift{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#FFD54F,#FF9E00);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex:none}
+  .sflguest-row{display:flex;align-items:center;gap:14px;padding:14px 20px;font-size:16px;font-weight:650;color:#1A1D24;border-top:1px solid #EEEFF3;cursor:pointer}
+  .sflguest-row .gic{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex:none;color:#3A4050}
+  .sflguest-row .gic svg{width:22px;height:22px;display:block}
+  .sflguest-row.danger{color:#E4362B}
+  .sflguest-row.danger .gic{color:#E4362B}
+  .sflguest-cancel{text-align:center;padding:16px;font-size:16px;font-weight:650;color:#8B93A3;cursor:pointer}
   .mclock{display:inline-flex;align-items:flex-end;gap:5px}
   .mcbox{position:relative;min-width:40px;padding:5px 4px 4px;border-radius:9px;background:linear-gradient(180deg,#1f2a10,#0d1207);border:1px solid rgba(201,255,61,.4);box-shadow:0 4px 12px rgba(0,0,0,.45),inset 0 0 14px rgba(201,255,61,.14);text-align:center}
   .mcbox .mcv{font-family:'Manrope',sans-serif;font-weight:900;font-size:22px;line-height:1;color:#EAFFC0;letter-spacing:.5px;text-shadow:0 0 10px rgba(201,255,61,.55);font-variant-numeric:tabular-nums;display:block}
@@ -406,7 +519,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 7 — Formation Live Rooms</div>
   <h1>Go Live: Formation Rooms</h1>
-  <p>The defining SFL room — Niki-style live, but generic guest seats become football <b>positions</b> (GK, CB, CM, LW, ST…) on a formation pitch. Host broadcasts on video; Fans join open positions as audio guests. Setup &amp; picker are light; the room is a bright pitch. Single-Host rooms show the gold <b>Coins counter only</b> — the Possession bar appears only with two valid sides (watchalong Home/Away or a PK), per J8.</p>
+  <p>Stadium is the post-login home: a Niki-style 2-column grid of live streamers. Tap a card to enter that room. Go Live still opens formation setup. Inside a room, generic guest seats become football <b>positions</b> (GK, CB, CM, LW, ST…) on a formation pitch. Live HUD keeps title + role + close/plus; compact <b>MATCH TIME</b> sits upper-right (no Coins-sent pill). The Possession bar appears only with two valid sides (watchalong Home/Away or a PK), per J8. Tap a filled seat: <b>viewers</b> open the profile card; <b>host and room managers</b> get the full Niki guest sheet (Information, Set as manager, Remove guest, mute 30 min, kick 3 hours, Cancel).</p>
 </div>
 
 <div class="frames">
@@ -414,25 +527,45 @@
   <div class="divider">Stadium &amp; go-live setup</div>
 
   <!-- GL-00 STADIUM HUB -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-00</div><div class="fname">Stadium Hub<span>Discover rooms + Go Live entry</span></div></div>
-  <div class="phone">
-    <div class="top"><div class="htitle">Stadium</div><div class="coinbal"><div class="coin">C</div><span class="num">1,240</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">GL-00</div><div class="fname">Stadium<span>Post-login home · live streamer grid</span></div></div>
+  <div class="phone stadhome" data-nav="stadium">
+    <div class="top">
+      <div class="htitle">Stadium</div>
+      <div class="hacts">
+        <div class="hbtn">🔍</div>
+        <div class="coinbal"><div class="coin">C</div><span class="num">1,240</span></div>
+      </div>
+    </div>
     <div class="lbody">
-      <div class="tabs" style="margin-bottom:12px"><span class="tab on">All</span><span class="tab">Watchalong</span><span class="tab">PK Battle</span><span class="tab">Fan Party</span></div>
+      <div class="tabs"><span class="tab on">For You</span><span class="tab">Following</span><span class="tab">PK</span><span class="tab">Watchalong</span></div>
       <div class="scrollarea">
         <div class="golivecard">
-          <div class="gk">Your stage</div>
-          <div class="gt">GO LIVE</div>
-          <div class="gs">Pick a formation. Fill the pitch. Lead the conversation.</div>
+          <div>
+            <div class="gk">Your stage</div>
+            <div class="gt">GO LIVE</div>
+            <div class="gs">Pick a formation. Fill the pitch. Lead the conversation.</div>
+          </div>
           <div class="gbtn">🎥 Go Live</div>
         </div>
-        <div class="roomcard">
-          <div class="rc" style="background-image:url('assets/fb_crowd.jpg')"><span class="live"><i></i>LIVE</span><span class="vv num">1.2K</span><div class="rt"><div class="rtt">Matchday Watchalong · Red Fury</div><div class="rmm">Jordan · Red Fury FC</div></div></div>
-          <div class="rf">⚽ 4-3-3 · <span class="fillbadge num">8/11 filled</span></div>
-        </div>
-        <div class="roomcard">
-          <div class="rc" style="background-image:url('assets/fb_stadium.jpg')"><span class="live"><i></i>LIVE PK</span><span class="vv num">4.1K</span><div class="rt"><div class="rtt">Blues vs Reds · Derby PK</div><div class="rmm">Maria · Blue Wolves</div></div></div>
-          <div class="rf">⚔️ PK Battle · 1:42 left</div>
+        <div class="sgrid">
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/fb_host.jpg')"><span class="live"><i></i>LIVE</span><span class="vv num">8.4K</span><div class="rt"><div class="rtt">Jay Malik</div><div class="rmm">🇬🇧 🇳🇬 · Red District</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/fb_crowd.jpg')"><span class="live"><i></i>LIVE</span><span class="vv num">3.1K</span><div class="rt"><div class="rtt">Sofia R.</div><div class="rmm">🇪🇸 · Blueview United</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/dk_cam.jpg')"><span class="live"><i></i>LIVE</span><span class="vv num">1.2K</span><div class="rt"><div class="rtt">Jordan</div><div class="rmm">🏴󠁧󠁢󠁥󠁮󠁧󠁿 · Red Fury FC</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/fb_stadium.jpg')"><span class="live"><i></i>LIVE PK</span><span class="vv num">4.1K</span><div class="rt"><div class="rtt">Maria</div><div class="rmm">🇦🇷 · Blue Wolves</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/cc_cam.jpg')"><span class="live"><i></i>LIVE</span><span class="vv num">864</span><div class="rt"><div class="rtt">CityTV</div><div class="rmm">🇦🇷 · City Central</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc" style="background-image:url('assets/lucia_t.jpg');background-position:center 28%"><span class="live"><i></i>LIVE</span><span class="vv num">402</span><div class="rt"><div class="rtt">Lucia9</div><div class="rmm">🇪🇸 · La Grada</div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -484,8 +617,11 @@
       </div>
       <div class="lbl">Room size</div>
       <div class="seatmode">
-        <div class="smcard on"><div class="sn">11 seats</div><div class="sd">Full formation</div></div>
-        <div class="smcard"><div class="sn">13 seats</div><div class="sd">+2 substitutes</div></div>
+        <div class="smcard" data-seats="4"><div class="sn">4</div><div class="sd">Biggest circles</div></div>
+        <div class="smcard" data-seats="6"><div class="sn">6</div><div class="sd">Small squad</div></div>
+        <div class="smcard" data-seats="9"><div class="sn">9</div><div class="sd">Compact</div></div>
+        <div class="smcard on" data-seats="11"><div class="sn">11</div><div class="sd">Full formation</div></div>
+        <div class="smcard" data-seats="13"><div class="sn">13</div><div class="sd">+2 substitutes</div></div>
       </div>
       <div class="cta"><div class="btn coral">Choose Formation →</div></div>
     </div>
@@ -527,14 +663,14 @@
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl">PREVIEW</div><div class="hn">You</div></div>
       <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">Red District FC · 4-3-3 · 11 open positions</div></div>
     </div>
     <div class="formfield">
-      <div class="frow"><div class="seat open"><div class="av">＋</div><div class="pos">LW</div></div><div class="seat open"><div class="av">＋</div><div class="pos">ST</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div></div></div>
-      <div class="frow"><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div></div>
-      <div class="frow"><div class="seat open"><div class="av">＋</div><div class="pos">LB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RB</div></div></div>
-      <div class="frow"><div class="seat open"><div class="av">＋</div><div class="pos" style="border-color:var(--gold1)">GK</div></div></div>
+      <div class="frow hostrow"><div class="seat host you"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl">PREVIEW</div><div class="pos">HOST</div><div class="nm">You</div></div></div>
+      <div class="frow fwd"><div class="seat open"><div class="av">＋</div><div class="pos">LW</div></div><div class="seat open"><div class="av">＋</div><div class="pos">ST</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div></div></div>
+      <div class="frow mid"><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div></div>
+      <div class="frow def"><div class="seat open"><div class="av">＋</div><div class="pos">LB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RB</div></div></div>
+      <div class="frow gk"><div class="seat open"><div class="av">＋</div><div class="pos" style="border-color:var(--gold1)">GK</div></div></div>
     </div>
     <div style="position:absolute;left:16px;right:16px;bottom:20px;z-index:6">
       <div style="text-align:center;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:10px">By going live you agree to the SFL Community Rules</div>
@@ -545,23 +681,25 @@
   <div class="divider">The room · host &amp; viewer</div>
 
   <!-- GL-03H HOST ROOM -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-03H</div><div class="fname">Host Live Room<span>Broadcast + manage · Coins only</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">GL-03H</div><div class="fname">Host Live Room<span>Broadcast + manage · compact HUD</span></div></div>
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">You · Host</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div><div class="rmeta">👁 856 · 48:12 · 8/11 filled</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
-      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Settings">⚙️</div></div>
-    </div>
-    <div class="livetmr">
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div></div>
+      <div class="rhud">
+      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Appoint managers">👔</div></div>
+      <div class="livetmr">
       <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="mcset"><span class="mcchip" data-min="30">30m</span><span class="mcchip on" data-min="45">45m</span><span class="mcchip" data-min="90">90m</span><span class="mcreset">↺ Reset</span></div></div>
       <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+      </div>
+      </div>
     </div>
     <div class="formfield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow hostrow"><div class="seat host you"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">You</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm join">⚡ MartaSilva took RW</div><br><div class="cm"><b style="color:#8FE5FF">PitchZed</b> Nadia's cooking 🔥</div></div>
     <div class="ractbar hostacts"><div class="rrb wa">▶ Watch</div><div class="rrb pk">⚔️ PK Battle</div><div class="rrb gift">🎁</div><div class="rrb" style="margin-left:auto;background:rgba(228,54,43,.6);border:none">⏹</div></div>
@@ -572,19 +710,21 @@
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div><div class="rmeta">Red District FC · 👁 856</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
-      <div class="htools"><div class="htool">＋</div></div>
-    </div>
-    <div class="livetmr">
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div></div>
+      <div class="rhud">
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool">＋</div></div>
+      <div class="livetmr">
       <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
       <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+      </div>
+      </div>
     </div>
     <div class="formfield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm"><b style="color:#DCFF8A">You</b> come on reds 🔴</div></div>
     <div class="ractbar"><div class="rsay">Say something…</div><div class="rrb join">＋ Join a Position</div><div class="rrb gift">🎁</div></div>
@@ -595,16 +735,19 @@
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">Red District FC · 👁 856</div></div>
-    </div>
-    <div class="livetmr">
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Guest</span></div></div>
+      <div class="rhud">
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div></div>
+      <div class="livetmr">
       <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
       <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+      </div>
+      </div>
     </div>
     <div class="formfield" style="filter:grayscale(.15);opacity:.92">
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos">ST</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div></div>
+      <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
+      <div class="frow fwd"><div class="seat"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos">ST</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div></div></div>
     </div>
     <div class="guestgate">
       <div class="gt">Join SFL to enter the pitch</div>
@@ -615,26 +758,26 @@
   </div></div>
 
   <!-- GL-CH-01 REQUEST CO-HOST -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-01</div><div class="fname">Request Co-Host<span>Viewer asks the host</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-01</div><div class="fname">Request Manager<span>Viewer asks the host · this live only</span></div></div>
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="grad"></div></div>
     <div class="sheet-scrim"><div class="sheet kit">
       <div class="grab"></div>
-      <h3>Request to become Co-Host?</h3>
-      <div class="sh2">The host reviews this. If they accept, you can approve fans joining the pitch — same as the host. You cannot end the live or start Watch-Along / PK.</div>
-      <div class="micnote">Only the host can make or remove a co-host. You can cancel this request anytime.</div>
+      <h3>Ask to become a room manager?</h3>
+      <div class="sh2">Only the host can appoint you — max 4 managers on this live. Managers can mute, reset the timer, remove a guest, and invite someone from comments onto a seat. This is room staff for this stream, not a club role.</div>
+      <div class="micnote">You can sit on this stream later without host approval. You cannot end the live or start Watch-Along / PK.</div>
       <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn" data-ch="send">Send request to host</div><div class="altlink">Cancel</div></div>
     </div></div>
   </div></div>
 
   <!-- GL-CH-02 REQUEST SENT -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-02</div><div class="fname">Co-Host request sent<span>Waiting on host</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-02</div><div class="fname">Manager request sent<span>Waiting on host</span></div></div>
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="grad"></div></div>
     <div class="sheet-scrim"><div class="sheet kit">
       <div class="grab"></div>
       <h3>Request sent</h3>
-      <div class="sh2">RobbieOnAir has your co-host request. You stay on your seat — you will get a toast when they decide.</div>
+      <div class="sh2">RobbieOnAir has your manager request. You stay on your seat — you will get a toast when they decide.</div>
       <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn ghost" data-ch="backlive">Back to the room</div><div class="altlink" data-ch="cancel">Cancel request</div></div>
     </div></div>
   </div></div>
@@ -646,7 +789,6 @@
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">You · Host</div></div>
       <div class="rt2"><div class="rname">Matchday Warm-Up</div><div class="rmeta">👁 856 · 8/11 filled</div></div>
     </div>
     <div class="sheet-scrim"><div class="sheet">
@@ -706,16 +848,16 @@
   <div class="phone room wa bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">You · Host</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div><div class="rmeta">👁 912 · Watch-Along · 8/11</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
-      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Settings">⚙️</div></div>
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div><div class="rmeta">👁 912 · Watch-Along · 8/11</div></div>
+      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Appoint managers">👔</div></div>
     </div>
     <div class="formfield wafield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
+      <div class="frow hostrow"><div class="seat host you"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">You</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
       <div class="wavid" style="background-image:url('assets/fb_stadium.jpg')"><div class="wabadge">WATCH</div><div class="wasync">Synced</div><div class="wasizes"><span class="wasz" data-sz="sm" title="Small" aria-label="Small player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="M3 21l7-7"/></svg></span><span class="wasz on" data-sz="md" title="Fit" aria-label="Fit player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/></svg></span><span class="wasz" data-sz="full" title="Full width" aria-label="Full width player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span></div><div class="watitle">Every Goal · MD5</div><div class="wabar"><i></i></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm join">▶ Watch-Along started</div><div class="cm"><b style="color:#8FE5FF">PitchZed</b> that finish 🔥</div><div class="cm"><b style="color:#DCFF8A">Nadia</b> rewind that 😭</div></div>
     <div class="ractbar hostacts"><div class="rrb waend">End Watch</div><div class="rrb gift">🎁</div><div class="rrb" style="margin-left:auto;background:rgba(228,54,43,.6);border:none">⏹</div></div>
@@ -726,16 +868,16 @@
   <div class="phone room wa bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div><div class="rmeta">Red District FC · Watch-Along</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
-      <div class="htools"><div class="htool">＋</div></div>
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div><div class="rmeta">Red District FC · Watch-Along</div></div>
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool">＋</div></div>
     </div>
     <div class="formfield wafield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
+      <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
       <div class="wavid" style="background-image:url('assets/fb_stadium.jpg')"><div class="wabadge">WATCH</div><div class="wasync">Synced</div><div class="wasizes"><span class="wasz" data-sz="sm" title="Small" aria-label="Small player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="m14 10 7-7"/><path d="M3 21l7-7"/></svg></span><span class="wasz on" data-sz="md" title="Fit" aria-label="Fit player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/></svg></span><span class="wasz" data-sz="full" title="Full width" aria-label="Full width player"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></span></div><div class="watitle">Every Goal · MD5</div><div class="wabar"><i></i></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm"><b style="color:#DCFF8A">You</b> come on reds 🔴</div><div class="cm"><b style="color:#8FE5FF">PitchZed</b> synced? 🔥</div></div>
     <div class="ractbar"><div class="rsay">Say something…</div><div class="rrb join">＋ Join</div><div class="rrb gift">🎁</div></div>
@@ -761,8 +903,13 @@
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="grad"></div></div>
     <div class="sheet-scrim"><div class="sheet">
       <div class="grab"></div>
-      <h3>Take your position</h3>
-      <div class="sh2">4-3-3 · <b style="color:#0FA04C">3 of 11 open</b></div>
+      <div class="sheethead">
+        <div>
+          <h3>Take your position</h3>
+          <div class="sh2">4-3-3 · <b style="color:#0FA04C">open seats</b> · 11 total</div>
+        </div>
+        <div class="sheetx" title="Close" aria-label="Close">✕</div>
+      </div>
       <div class="poslist">
         <div class="posrow"><div class="pb open">RW</div><div><div class="pn2">Right Wing</div><div class="ps">Open</div></div><div class="opentag">Take it</div></div>
         <div class="posrow"><div class="pb open">CM</div><div><div class="pn2">Centre Mid</div><div class="ps">Open</div></div><div class="opentag">Take it</div></div>
@@ -779,13 +926,14 @@
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="grad"></div></div>
     <div class="sheet-scrim"><div class="sheet kit">
       <div class="grab"></div>
+      <div class="sheetx" title="Close" aria-label="Close">✕</div>
       <div class="confirmpos">
         <div class="posbadge">RW</div>
         <h3 style="margin-top:14px">Request Right Wing?</h3>
-        <div class="sub" style="color:var(--t2)">Your request goes to the host and any co-host. Either can accept — you join the pitch once someone approves.</div>
+        <div class="sub" style="color:var(--t2)">Your request goes to the host and any room manager. Either can accept — you join the pitch once someone approves. Appointed managers skip this and sit immediately.</div>
       </div>
       <div class="micnote">🎙️ On approval we'll ask for microphone access so the room can hear you. You can mute anytime.</div>
-      <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn">Request RW · Notify Host / Co-Host</div><div class="altlink">Choose Another Position</div></div>
+      <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn">Request RW · Notify Host / Managers</div><div class="altlink">Pick a different seat</div></div>
     </div></div>
   </div></div>
 
@@ -798,7 +946,7 @@
       <div class="confirmpos">
         <div class="posbadge">RW</div>
         <h3 style="margin-top:14px">Waiting on the room</h3>
-        <div class="sub" style="color:var(--t2)">Your RW request is with the host and any co-host. Either can accept or decline. You will be notified either way.</div>
+        <div class="sub" style="color:var(--t2)">Your RW request is with the host and any room manager. Either can accept or decline. You will be notified either way.</div>
       </div>
       <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn ghost" data-ch="backlive">Keep watching</div><div class="altlink" data-ch="canceljoin">Cancel request</div></div>
     </div></div>
@@ -813,7 +961,7 @@
       <div class="confirmpos">
         <div class="posbadge">RW</div>
         <h3 style="margin-top:14px">You are in</h3>
-        <div class="sub" style="color:var(--t2)">RobbieOnAir accepted your request. Take Right Wing on the pitch — then you can ask to become a co-host.</div>
+        <div class="sub" style="color:var(--t2)">RobbieOnAir accepted your request. Take Right Wing on the pitch — the host can appoint you as a room manager (max 4, this live only).</div>
       </div>
       <div class="cta" style="margin-top:16px;margin-bottom:0"><div class="btn" data-ch="enterpitch">Enter the pitch</div></div>
     </div></div>
@@ -824,19 +972,21 @@
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir</div></div>
-      <div class="rt2"><div class="rname" style="color:var(--gold2)">✓ You're on the pitch · RW <span class="rolechip viewer">Viewer</span></div><div class="rmeta">Ask the host to make you co-host</div></div>
-      <div class="htools"><div class="htool chreq" title="Request Co-Host">👑</div></div>
-    </div>
-    <div class="livetmr">
+      <div class="rt2"><div class="rname" style="color:var(--gold2)">✓ You're on the pitch · RW <span class="rolechip viewer">Viewer</span></div></div>
+      <div class="rhud">
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool chreq" title="Ask to be a manager">👔</div></div>
+      <div class="livetmr">
       <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
       <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+      </div>
+      </div>
     </div>
     <div class="formfield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat you spk"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">RW</div><div class="nm" style="color:var(--gold2)">You</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat you spk"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">RW</div><div class="nm" style="color:var(--gold2)">You</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CM</div><div class="nm">Open</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="ractbar"><div class="rrb" style="background:linear-gradient(140deg,var(--green1),var(--green2));border:none">🎙️</div><div class="rsay" style="flex:none;width:auto;padding:0 16px">You're speaking on RW</div><div class="rrb gift" style="margin-left:auto">🎁</div><div class="rrb" style="background:rgba(228,54,43,.5);border:none">🚪</div></div>
   </div></div>
@@ -865,7 +1015,7 @@
     <div class="lbody">
       <div class="card waitbanner chinbox-banner">
         <div class="wi">📥</div>
-        <div style="flex:1"><div style="font-size:13.5px;font-weight:800">Waiting list &amp; co-host asks</div><div style="font-size:11.5px;font-weight:650;color:var(--t2)">Join: host or co-host · Co-host: host only</div></div>
+        <div style="flex:1"><div style="font-size:13.5px;font-weight:800">Waiting list &amp; room managers</div><div style="font-size:11.5px;font-weight:650;color:var(--t2)">Join: host or manager · Appoint: host only · max 4 · this live only</div></div>
         <div class="opentag">Open</div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px"><span class="fillbadge">Filled · 8</span><span class="tab">Open · 3</span><span class="tab">Closed · 0</span></div>
@@ -877,8 +1027,8 @@
         </div>
         <div class="watchlbl">Watching · not on pitch</div>
         <div class="card" style="padding:2px 14px">
-          <div class="optrow" data-chact="toggle" data-chname="Priya S." style="gap:11px"><div class="oi">👁</div><div style="width:32px;height:32px;border-radius:50%;background:url('assets/up_12.png') center/cover"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Priya S.</div><div style="font-size:11px;color:var(--t2);font-weight:650">Viewer · requested RW</div></div><span class="chactlab" data-chname="Priya S.">Make Co-Host</span></div>
-          <div class="optrow" data-chact="toggle" data-chname="Kai M." style="gap:11px"><div class="oi">👁</div><div style="width:32px;height:32px;border-radius:50%;background:url('assets/up_02.png') center/cover"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Kai M.</div><div style="font-size:11px;color:var(--t2);font-weight:650">Viewer</div></div><span class="chactlab" data-chname="Kai M.">Make Co-Host</span></div>
+          <div class="optrow" data-chact="toggle" data-chname="Priya S." style="gap:11px"><div class="oi">👁</div><div style="width:32px;height:32px;border-radius:50%;background:url('assets/up_12.png') center/cover"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Priya S.</div><div style="font-size:11px;color:var(--t2);font-weight:650">Viewer · requested RW</div></div><span class="chactlab" data-chname="Priya S.">Make Manager</span></div>
+          <div class="optrow" data-chact="toggle" data-chname="Kai M." style="gap:11px"><div class="oi">👁</div><div style="width:32px;height:32px;border-radius:50%;background:url('assets/up_02.png') center/cover"></div><div style="flex:1"><div style="font-size:13.5px;font-weight:800">Kai M.</div><div style="font-size:11px;color:var(--t2);font-weight:650">Viewer</div></div><span class="chactlab" data-chname="Kai M.">Make Manager</span></div>
         </div>
       </div>
       <div class="cta"><div class="btn danger">End Live Session</div></div>
@@ -893,7 +1043,7 @@
       <div class="grab"></div>
       <div class="seathead"><div class="av" style="background-image:url('assets/up_06.png')"></div><div><div class="nm">Teo · CM</div><div class="pp">ID 71144 · Greenfield FC</div></div></div>
       <div class="card" style="padding:2px 15px;margin-bottom:14px">
-        <div class="optrow" data-chact="toggle" data-chname="Teo"><div class="oi">👑</div><span class="chactlab" data-chname="Teo">Make Co-Host</span></div>
+        <div class="optrow" data-chact="toggle" data-chname="Teo"><div class="oi">👔</div><span class="chactlab" data-chname="Teo">Make Manager</span></div>
         <div class="optrow"><div class="oi">🔇</div>Mute Teo</div>
         <div class="optrow"><div class="oi">🙋</div>Request unmute</div>
         <div class="optrow"><div class="oi">🔀</div>Move to another position</div>
@@ -905,38 +1055,56 @@
   </div></div>
 
   <!-- GL-CH-H WAITING LIST -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-H</div><div class="fname">Waiting list<span>Host or co-host reviews joins</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-H</div><div class="fname">Waiting list<span>Host or manager reviews joins</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Waiting list</div></div>
     <div class="lbody">
-      <div class="chtabs"><span class="tab on" data-chtab="join">Waiting list</span><span class="tab" data-chtab="cohost">Co-host requests</span></div>
-      <div class="sub" id="ch-hint" style="margin-top:0">People waiting to enter the pitch. Host or a co-host can accept or decline.</div>
+      <div class="chtabs"><span class="tab on" data-chtab="join">Waiting list</span><span class="tab" data-chtab="cohost">Managers</span></div>
+      <div class="sub" id="ch-hint" style="margin-top:0">People waiting to enter the pitch. Host or a room manager can accept or decline.</div>
       <div class="card" style="padding:6px 16px;margin-top:4px" id="ch-list"></div>
       <div class="cta"><div class="btn ghost" data-ch="backlive">Back to live</div></div>
     </div>
   </div></div>
 
-  <!-- GL-CH-C CO-HOST ROOM -->
-  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-C</div><div class="fname">Co-Host Live Room<span>Accept joins · host stays in charge</span></div></div>
+  <!-- GL-CH-C MANAGER ROOM -->
+  <div class="fw"><div class="flabel"><div class="fnum">GL-CH-C</div><div class="fname">Manager Live Room<span>Room staff · mute · invite · not a club role</span></div></div>
   <div class="phone room bleed">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
-      <div class="hosttile" style="background-image:url('assets/fb_host.jpg')"><div class="hl"><i></i>LIVE</div><div class="hn">RobbieOnAir · Host</div></div>
-      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Co-Host</span></div><div class="rmeta">You can accept join requests</div><div class="coincap"><div class="coin">C</div><div><span class="amt num">4,820</span> <span class="lab">Coins sent</span></div></div></div>
-      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Manage">⚙️</div></div>
-    </div>
-    <div class="livetmr">
-      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
+      <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip manager">Manager</span></div></div>
+      <div class="rhud">
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div></div>
+      <div class="livetmr">
+      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="mcset"><span class="mcreset">↺ Reset</span></div></div>
       <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
+      </div>
+      </div>
     </div>
     <div class="formfield">
-      <div class="frow"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat you"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">RW</div><div class="nm" style="color:var(--gold2)">You</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/fb_host.jpg')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat you"><div class="av" style="background-image:url('assets/up_12.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">RW</div><div class="nm" style="color:var(--gold2)">You</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
-    <div class="rchat"><div class="cm join">👑 You are now a co-host</div><div class="cm"><b style="color:#8FE5FF">PitchZed</b> let them on RW</div></div>
-    <div class="ractbar hostacts"><div class="rrb gift">🎁</div><div class="rrb chinbox">Waiting list</div></div>
+    <div class="rchat"><div class="cm join">👔 You are a room manager · tap a comment to invite onto a seat</div><div class="cm"><b style="color:#8FE5FF">PitchZed</b> let them on RW</div></div>
+    <div class="ractbar hostacts"><div class="rrb gift">🎁</div><div class="rrb chinbox">Waiting list</div><div class="rrb rleave" style="margin-left:auto;background:rgba(228,54,43,.5);border:none">🚪</div></div>
+    <div class="sflguestwrap sflguest-static">
+      <div class="sflguest-panel">
+        <div class="sflguest-head">
+          <div class="sflguest-av" style="background-image:url('assets/up_07.png')"></div>
+          <div class="sflguest-name">Lucia <span class="chev">›</span></div>
+          <div class="sflguest-mention">@Mention</div>
+          <div class="sflguest-gift">🎁</div>
+        </div>
+        <div class="sflguest-row" data-gact="info"><div class="gic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.8 19.2c.7-3.2 3.2-5 6.2-5s5.5 1.8 6.2 5"/><circle cx="12" cy="12" r="9.2"/></svg></div>Information</div>
+        <div class="sflguest-row" data-gact="mgr"><div class="gic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="8" r="3.1"/><path d="M3.8 19.2c.7-3.1 3-4.9 6.2-4.9 1.2 0 2.3.3 3.2.8"/><path d="M17.2 10.2v6.2M14.1 13.3h6.2"/></svg></div>Set as manager</div>
+        <div class="sflguest-row" data-gact="remove"><div class="gic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 14.5c0-2.4 3.2-3.6 7-3.6s7 1.2 7 3.6"/><path d="M5 14.5v4.2c0 .6.5 1.1 1.1 1.1h11.8c.6 0 1.1-.5 1.1-1.1V14.5"/><path d="M8.2 10.8c.6-1.5 2-2.5 3.8-2.5s3.2 1 3.8 2.5"/></svg></div>Remove guest</div>
+        <div class="sflguest-row danger" data-gact="mute"><div class="gic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3.5" width="6" height="10" rx="3"/><path d="M6.8 11.2a5.2 5.2 0 0 0 10.4 0M12 16.4V20"/><path d="M4.5 5.2l15 14.2"/></svg></div>No mic allowed within 30 minutes</div>
+        <div class="sflguest-row danger" data-gact="kick"><div class="gic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="8" r="3.1"/><path d="M3.8 19.2c.7-3.1 3-4.9 6.2-4.9 1.1 0 2.1.2 3 .7"/><path d="M15.4 10.4l6 6M21.4 10.4l-6 6"/></svg></div>Kick out within 3 hours</div>
+        <div class="sflguest-cancel">Cancel</div>
+      </div>
+    </div>
   </div></div>
 
   <!-- GL-06 END CONFIRM -->

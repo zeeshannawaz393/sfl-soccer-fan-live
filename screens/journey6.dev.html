@@ -216,6 +216,18 @@
   .dutyp .l{font-size:10px;font-weight:750;color:var(--t2);margin-top:1px}
   .dutyp.ok{border-color:#BFE9CE;background:#F2FBF5}
   .dutyp.ok .n{color:#187A42}
+  .recbox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 13px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+  .recbox .rh{font-size:10.5px;font-weight:800;letter-spacing:.45px;color:var(--goldDeep);text-transform:uppercase}
+  .recbox .rd{font-size:12.5px;font-weight:700;color:var(--t2);margin:4px 0 10px;line-height:17px}
+  .recrow{display:flex;align-items:center;gap:11px;padding:8px 0;border-top:1px solid var(--line)}
+  .recrow:first-of-type{border-top:none;padding-top:0}
+  .recrow .pi{width:44px;height:44px;border-radius:50%;background-size:cover;background-position:center top;flex:none;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line)}
+  .recrow .pn{font-size:13.5px;font-weight:800}
+  .recrow .pp{font-size:11px;font-weight:700;color:var(--t2);margin-top:1px}
+  .recrow .rmatch{font-size:10.5px;font-weight:750;color:var(--goldDeep);margin-top:3px}
+  .recrow .side{margin-left:auto;text-align:right}
+  .recrow .bought{font-size:10px;font-weight:800;color:#187A42;background:#F2FBF5;border:1px solid #BFE9CE;padding:3px 8px;border-radius:999px}
+  .recbox .btn{height:44px;font-size:14px}
   .actopt{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:13px 14px;box-shadow:var(--shadow-sm);margin-top:10px}
   .actopt .ai{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
   .actopt .at{font-size:15px;font-weight:800}
@@ -258,7 +270,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 6 — Player Transfer Market (light)</div>
   <h1>Transfer Market</h1>
-  <p>Buy, <b>transfer</b> and <b>loan</b> virtual players in the light system. Each Fan’s weekly duty is to list <b>at least 2 players for transfer</b> and <b>2 for loan</b> on the Transfer Market. Player Value is the <b>app-set price</b> (never a wallet balance), moves on real W/D/L (+30/+10/0), and every permanent transfer runs through escrow. P/L is <b>Unrealized</b> until a sale completes. Coins-only.</p>
+  <p>Buy, <b>transfer</b> and <b>loan</b> virtual players in the light system. Each Fan’s weekly duty is to <b>sell 2 players they pick</b> (existing list-for-sale flow) and <b>buy 2 system-recommended players</b> whose value matches those listings. Player Value is the <b>app-set price</b> (never a wallet balance), moves on real W/D/L (+30/+10/0), and every permanent transfer runs through escrow. P/L is <b>Unrealized</b> until a sale completes. Coins-only.</p>
 </div>
 
 <div class="frames">
@@ -497,11 +509,17 @@
       </div>
       <div class="dutybar" id="pl-duty">
         <div class="dh">Fan duty this week</div>
-        <div class="dd">List at least 2 players for transfer and 2 for loan on the Transfer Market.</div>
+        <div class="dd">You pick 2 to list. The system picks 2 to buy — matched to your listing value.</div>
         <div class="dutypills">
-          <div class="dutyp" id="pl-duty-t"><div class="n num">0/2</div><div class="l">Transfers</div></div>
-          <div class="dutyp" id="pl-duty-l"><div class="n num">0/2</div><div class="l">Loans</div></div>
+          <div class="dutyp" id="pl-duty-t"><div class="n num">0/2</div><div class="l">You sell</div></div>
+          <div class="dutyp" id="pl-duty-b"><div class="n num">0/2</div><div class="l">System buys</div></div>
         </div>
+      </div>
+      <div class="recbox" id="pl-recs">
+        <div class="rh">System buy picks</div>
+        <div class="rd" id="pl-recs-copy">List 2 players first. SFL will then show two recommended buys matched to those listing values — you don’t browse-pick them.</div>
+        <div id="pl-recs-rows"></div>
+        <div class="btn sm" data-plact="weeklybuys" id="pl-recs-cta" style="margin-top:8px;display:none">Buy the 2 recommended</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:750;color:#187A42">🛡️ 18 players · squad minimum 18 · seeded from Man United</div>
       <div class="tabs" style="margin-bottom:12px"><i class="on" data-pltab="all">All</i><i data-pltab="avail">Available</i><i data-pltab="listed">Listed</i><i data-pltab="pending">Pending</i></div>
@@ -612,7 +630,7 @@
       <div class="psummary"><div class="pi" style="background-image:url('assets/pl_nobg_rivera.png')"></div><div><div class="pn">A. Rivera</div><div class="pp">ST · Northbridge FC</div></div><span class="valchip pv"><div class="coin">C</div>450</span></div>
       <div class="actopt" data-plact="transfer"><div class="ai" style="background:linear-gradient(140deg,#E9F9EF,#fff);color:var(--green1)">⇄</div><div><div class="at">Transfer</div><div class="ad">Permanent sale at the app-set value</div></div><div class="chev">›</div></div>
       <div class="actopt" data-plact="loan"><div class="ai" style="background:linear-gradient(140deg,#FFF7E4,#fff);color:var(--goldDeep)">🕐</div><div><div class="at">Loan</div><div class="ad">Temporary listing · they return after the term</div></div><div class="chev">›</div></div>
-      <div class="tipnote" style="margin-top:12px">Fan duty: list 2 transfers and 2 loans this week. You keep ownership until a buyer completes escrow (transfer) or the loan term ends.</div>
+      <div class="tipnote" style="margin-top:12px">Weekly sell: you pick 2 players to list. After they’re listed, SFL recommends 2 buys matched to those values. You keep ownership until a buyer completes escrow (transfer) or the loan term ends.</div>
       <div class="cta" style="margin-top:12px;margin-bottom:0"><div class="altlink">Cancel</div></div>
     </div></div>
   </div></div>
@@ -653,7 +671,43 @@
         <div class="balr"><span class="k">Listed</span><span class="v num">14 Aug · 21:20</span></div>
         <div class="balr new" style="border:none"><span class="k">Listing ID</span><span class="v" style="font-family:ui-monospace,monospace">LST-8890</span></div>
       </div>
-      <div class="cta"><div class="btn ghost">View in Market</div><div class="link" data-plact="unlist" style="color:var(--t2)">Unlist Player</div></div>
+      <div class="cta"><div class="btn ghost" data-plact="afterlist">List another player</div><div class="link" data-plact="unlist" style="color:var(--t2)">Unlist Player</div></div>
+    </div>
+  </div></div>
+
+  <!-- PL-01W WEEKLY RECOMMENDED BUYS -->
+  <div class="fw"><div class="flabel"><div class="fnum">PL-01W</div><div class="fname">Weekly recommended buys<span>System picks · value-matched</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">This week’s buys</div><div class="coinbal"><div class="coin">C</div><span class="num">1,240</span></div></div>
+    <div class="body">
+      <div class="dutybar" id="pl-w-duty">
+        <div class="dh">System picks — not a browse</div>
+        <div class="dd">You already chose who to sell. SFL picked these two so their value matches your listings.</div>
+        <div class="dutypills">
+          <div class="dutyp" id="pl-w-sell"><div class="n num">0/2</div><div class="l">You sell</div></div>
+          <div class="dutyp" id="pl-w-buy"><div class="n num">0/2</div><div class="l">System buys</div></div>
+        </div>
+      </div>
+      <div class="scrollarea">
+        <div class="recbox" style="margin-bottom:12px">
+          <div class="rh">Matched to your listings</div>
+          <div class="rd" id="pl-w-copy">Default pair: Y. Okoro (450) matches A. Rivera (420–450) · T. Bello (310) matches M. Silva (300–340).</div>
+          <div id="pl-w-rows">
+            <div class="recrow" data-pl="okoro" data-plrec="okoro">
+              <div class="pi" style="background-image:url('assets/av_03.png')"></div>
+              <div><div class="pn">Y. Okoro</div><div class="pp">CM · Harbor FC</div><div class="rmatch">Matched to A. Rivera · 450 listing</div></div>
+              <div class="side"><div class="cv" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--goldDeep)"><div class="coin" style="width:15px;height:15px;font-size:8px">C</div>450</div></div>
+            </div>
+            <div class="recrow" data-pl="bello" data-plrec="bello">
+              <div class="pi" style="background-image:url('assets/pl_nobg_bello.png')"></div>
+              <div><div class="pn">T. Bello</div><div class="pp">CM · Southgate United</div><div class="rmatch">Matched to M. Silva · 310 vs 340</div></div>
+              <div class="side"><div class="cv" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--goldDeep)"><div class="coin" style="width:15px;height:15px;font-size:8px">C</div>310</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="tipnote">ⓘ Buying these two completes the buy half of the weekly task. You cannot swap them for other market players for this duty.</div>
+      </div>
+      <div class="cta"><div class="btn" data-plact="buyfirst">Buy via Escrow</div><div class="link" data-plact="backsell" style="color:var(--t2)">Back to My Players</div></div>
     </div>
   </div></div>
 
