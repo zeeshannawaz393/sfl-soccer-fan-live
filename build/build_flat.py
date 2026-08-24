@@ -1,6 +1,6 @@
 import re, base64, os
 
-SCR='/Users/shahnawaz/Documents/sfl-niki/screens'; os.chdir(SCR)
+SCR=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'screens'); os.chdir(SCR)
 
 CORE=[
  ('onboarding.dev.html','1','Onboarding & Sign-in'),
@@ -33,7 +33,7 @@ EXTRAS=[
 ]
 ALL=CORE+EXTRAS
 
-allsrc={fn:open(fn).read() for fn,_,_ in ALL}
+allsrc={fn:open(fn,encoding='utf-8').read() for fn,_,_ in ALL}
 
 # unique images -> :root vars
 img_map={}
@@ -212,5 +212,5 @@ page = ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
  + '\n'.join(sections) + '\n'
  + INJECTOR + '\n</body>\n</html>')
 
-open('sfl-all-screens-flat.html','w').write(page)
+open('sfl-all-screens-flat.html','w',encoding='utf-8').write(page)
 print('wrote sfl-all-screens-flat.html', round(len(page)/1048576,2),'MB · sections:',len(ALL),'· images:',len(img_map))

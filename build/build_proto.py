@@ -5357,7 +5357,10 @@ for fn,code,label in ALL:
     nscr=src.count('class="fnum"')
     slug=slugify(label)
     outname=(code+'-'+slug)+'.html'
-    open(os.path.join(SITE,'journeys',outname),'w',encoding='utf-8').write(inline_assets(src))
+    inlined=inline_assets(src)
+    open(os.path.join(SITE,'journeys',outname),'w',encoding='utf-8').write(inlined)
+    # Keep screens/*.html (the open-on-its-own gallery) in lockstep with *.dev.html
+    open(fn.replace('.dev.html','.html'),'w',encoding='utf-8').write(inlined)
     entries.append((code,label,slug,'journeys/'+outname,nscr,'reference' if code in REF else 'journey'))
 
 # copy the interactive prototype into the site as prototype.html
@@ -5413,3 +5416,27 @@ hub=('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
  '</div></body></html>')
 open(os.path.join(SITE,'index.html'),'w',encoding='utf-8').write(hub)
 print('wrote site/ :', len(entries),'journey pages + index.html + prototype.html')
+
+# screens/ hub — same cards, local paths (serve from screens/)
+def cards_local(kind):
+    out=''
+    for fn,code,label in ALL:
+        nscr=allsrc[fn].count('class="fnum"')
+        k='reference' if code in REF else 'journey'
+        if k!=kind: continue
+        href=fn.replace('.dev.html','.html')
+        out+=('<a class="jcard" href="'+href+'">'
+              '<div class="jcode">'+code+'</div>'
+              '<div class="jmeta"><div class="jname">'+label+'</div>'
+              '<div class="jscr">'+str(nscr)+' screens</div></div>'
+              '<div class="jarrow">→</div></a>')
+    return out
+hub_scr=hub.replace('href="prototype.html"','href="sfl-prototype.html"').replace(
+    '<div class="grid">'+cards('journey')+'</div>',
+    '<div class="grid">'+cards_local('journey')+'</div>').replace(
+    '<div class="grid">'+cards('reference')+'</div>',
+    '<div class="grid">'+cards_local('reference')+'</div>')
+open('index.html','w',encoding='utf-8').write(hub_scr)
+# Former concatenated dump — keep the filename, point at current per-journey pages
+open('sfl-all-journeys.html','w',encoding='utf-8').write(hub_scr)
+print('wrote screens/index.html + screens/sfl-all-journeys.html (hubs -> current journey pages)')
