@@ -73,7 +73,14 @@
   .gcat.on{background:var(--gold1);color:#5A3E00;border-color:var(--gold1)}
   .ggrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
   .gtile{border-radius:14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.09);padding:10px 6px 8px;text-align:center;position:relative}
-  .gtile .ge{font-size:30px;line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+  .gtile .ge{position:relative;overflow:hidden;width:50px;height:50px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:27px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 27%,rgba(255,255,255,.85),rgba(255,255,255,.14) 46%,rgba(0,0,0,.32) 100%);box-shadow:inset 0 3px 6px rgba(255,255,255,.5),inset 0 -6px 11px rgba(0,0,0,.4),0 6px 14px rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.22);animation:g3dbob 3.6s ease-in-out infinite}
+  .gtile .ge::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.55) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3.4s ease-in-out infinite;pointer-events:none}
+  @keyframes g3dbob{0%,100%{translate:0 0}50%{translate:0 -3px}}
+  @keyframes g3dsheen{0%{background-position:150% 0}60%,100%{background-position:-70% 0}}
+  .gtile:has(.rar-rare) .ge{box-shadow:inset 0 3px 6px rgba(255,255,255,.5),inset 0 -6px 11px rgba(0,0,0,.4),0 6px 18px rgba(47,127,209,.55)}
+  .gtile:has(.rar-epic) .ge{box-shadow:inset 0 3px 6px rgba(255,255,255,.5),inset 0 -6px 11px rgba(0,0,0,.4),0 6px 18px rgba(124,77,255,.55)}
+  .gtile:has(.rar-ultra) .ge{box-shadow:inset 0 3px 6px rgba(255,255,255,.5),inset 0 -6px 11px rgba(0,0,0,.4),0 6px 20px rgba(255,179,0,.6)}
+  .gtile:has(.rar-legend) .ge{box-shadow:inset 0 3px 6px rgba(255,255,255,.5),inset 0 -6px 11px rgba(0,0,0,.4),0 7px 22px rgba(255,59,95,.6)}
   .gtile .gn{font-size:11px;font-weight:750;color:#E4E9F0;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .gtile .gp{font-size:11px;font-weight:800;color:#FFE1A0;display:flex;align-items:center;justify-content:center;gap:3px;margin-top:2px}
   .gtile .gp .coin{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 28%,var(--goldLite),#C88A00)}
@@ -86,7 +93,7 @@
   .gtile.on{border-color:var(--gold1);box-shadow:0 0 0 3px rgba(255,179,0,.18);background:rgba(255,179,0,.08)}
   .gtile.on.leg{border-color:var(--coral);box-shadow:0 0 20px rgba(255,59,95,.3)}
   .gtile .ge{transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
-  .gtile.on .ge{transform:scale(1.18) translateY(-1px)}
+  .gtile.on .ge{transform:scale(1.14)}
   /* multi-host recipient bar */
   .ghosts{display:flex;align-items:flex-start;gap:9px;overflow-x:auto;scrollbar-width:none;padding:2px 0 11px}
   .ghosts::-webkit-scrollbar{display:none}
@@ -110,7 +117,8 @@
 
   /* gift detail */
   .ghero{text-align:center;padding:6px 0 10px}
-  .ghero .em{font-size:70px;filter:drop-shadow(0 8px 20px rgba(255,179,0,.4))}
+  .ghero .em{position:relative;overflow:hidden;width:112px;height:112px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:62px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 27%,#FFF3C9,#FFC53D 47%,#B0800A 100%);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 46px rgba(255,179,0,.5),inset 0 5px 12px rgba(255,255,255,.6),inset 0 -12px 22px rgba(120,80,0,.35);border:2px solid rgba(255,255,255,.4);animation:g3dbob 3.4s ease-in-out infinite}
+  .ghero .em::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.6) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3s ease-in-out infinite;pointer-events:none}
   .ghero .gnm{font-size:20px;font-weight:800;color:#fff;margin-top:6px}
   .ghero .grr{font-size:12px;font-weight:800;margin-top:4px}
   .qtybar{display:flex;align-items:center;justify-content:center;gap:16px;margin:12px 0}
@@ -133,7 +141,15 @@
   .giftanim{position:absolute;inset:0;z-index:7;pointer-events:none;overflow:hidden}
   .giftanim .flood{position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 40%,rgba(255,179,0,.4),rgba(228,54,43,.2) 50%,transparent 70%)}
   .giftanim .rays{position:absolute;left:50%;top:40%;width:400px;height:400px;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,rgba(255,220,140,.14) 0 12deg,transparent 12deg 24deg);animation:rays 18s linear infinite}
-  .giftanim .bigem{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-size:120px;filter:drop-shadow(0 10px 30px rgba(0,0,0,.5));animation:giftpop 3s infinite}
+  .giftanim .bigem{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:172px;height:172px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:96px;border-radius:50%;background:radial-gradient(circle at 34% 27%,#FFF3C9,#FFC53D 47%,#9A6A00 100%);box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 70px rgba(255,190,60,.55),inset 0 6px 15px rgba(255,255,255,.6),inset 0 -16px 26px rgba(90,55,0,.4);border:2px solid rgba(255,255,255,.42);animation:g3dbob 2.6s ease-in-out infinite}
+  .giftanim .bigem .bshine{position:absolute;inset:0;border-radius:50%;overflow:hidden}
+  .giftanim .bigem .bshine::before{content:"";position:absolute;top:-40%;left:-70%;width:55%;height:180%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:rotate(18deg);animation:g3dsweep 2.2s ease-in-out infinite}
+  @keyframes g3dsweep{0%{left:-70%}55%,100%{left:130%}}
+  .giftanim .fxring{position:absolute;left:50%;top:38%;width:172px;height:172px;margin:-86px 0 0 -86px;border-radius:50%;border:3px solid rgba(255,235,170,.9);box-shadow:0 0 32px rgba(255,190,60,.6);animation:fxringpulse 2.4s ease-out infinite}
+  .giftanim .fxring.r2{animation-delay:1.2s;border-color:rgba(255,170,80,.8)}
+  @keyframes fxringpulse{0%{transform:scale(.5);opacity:.85}100%{transform:scale(2.6);opacity:0}}
+  .giftanim .sparks i{position:absolute;bottom:34%;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#FFD54F);box-shadow:0 0 10px rgba(255,210,90,.9);animation:sparkfloat 2.6s ease-in infinite}
+  @keyframes sparkfloat{0%{transform:translateY(0) scale(.4);opacity:0}20%{opacity:1}100%{transform:translateY(-190px) scale(1);opacity:0}}
   .giftanim .attr{position:absolute;left:0;right:0;top:60%;text-align:center;z-index:2}
   .giftanim .attr .an{font-size:22px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
   .giftanim .attr .as{font-size:13px;font-weight:750;color:#FFE1A0;margin-top:4px}
@@ -181,7 +197,10 @@
   .kcat.on{background:#14161C;color:#fff;border-color:#14161C}
   .kgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
   .kitem{border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:12px 6px 9px;text-align:center;position:relative}
-  .kitem .kem{font-size:36px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.12))}
+  .kitem .kem{position:relative;overflow:hidden;width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#eef1f7 52%,#d5dae7 100%);box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 16px rgba(24,40,80,.16);border:1px solid #fff;animation:g3dbob 3.8s ease-in-out infinite}
+  .kitem .kem::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.75) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3.6s ease-in-out infinite;pointer-events:none}
+  .kitem.ultra .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 20px rgba(255,179,0,.42)}
+  .kitem.legend .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 22px rgba(255,59,95,.42)}
   .kitem .kn{font-size:11.5px;font-weight:800;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .kitem .kr{font-size:10px;font-weight:800;margin-top:2px}
   .kitem .kq{position:absolute;top:8px;right:8px;font-size:11px;font-weight:800;color:var(--t2);background:#F0F2F7;padding:2px 7px;border-radius:999px}
@@ -192,7 +211,8 @@
 
   /* item detail */
   .idhero{border-radius:20px;background:linear-gradient(135deg,#F4FCF6,#fff);border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:26px;text-align:center}
-  .idhero .em{font-size:80px;filter:drop-shadow(0 8px 20px rgba(255,179,0,.25))}
+  .idhero .em{position:relative;overflow:hidden;width:120px;height:120px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:66px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#FFF0C4 50%,#E7B84A 100%);box-shadow:0 12px 28px rgba(24,40,80,.16),0 0 40px rgba(255,179,0,.28),inset 0 5px 12px #fff,inset 0 -12px 22px rgba(154,106,0,.2);border:2px solid #fff;animation:g3dbob 3.6s ease-in-out infinite}
+  .idhero .em::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.7) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3.2s ease-in-out infinite;pointer-events:none}
   .idhero .nm{font-size:22px;font-weight:800;margin-top:8px}
   .idhero .rr{font-size:13px;font-weight:800;margin-top:4px}
   .idhero .ow{font-size:12px;font-weight:750;color:var(--t2);margin-top:6px}
@@ -216,7 +236,7 @@
 <div class="page-head">
   <div class="kicker">Soccer Fan Live · Journey 10 — Gifts &amp; Kit Bag</div>
   <h1>Gifts &amp; Kit Bag</h1>
-  <p>The gifting layer: Fans spend <b>Coins</b> on football gifts to Hosts or PK sides — rare gifts trigger bigger stadium reactions but <b>never multiply Possession</b> (contribution = actual Coin cost). Gift menu &amp; animations overlay the live video; the <b>Kit Bag is a light trophy cabinet</b> — collectible counts, not a wallet (no sell/convert/withdraw, no prices). Emoji stand in for the final 3D renders.</p>
+  <p>The gifting layer: Fans spend <b>Coins</b> on football gifts to Hosts or PK sides — rare gifts trigger bigger stadium reactions but <b>never multiply Possession</b> (contribution = actual Coin cost). Gifts are <b>premium animated 3D-style objects</b> (Bigo/Niki-style) — sending one plays a full overlay reaction for the receiver: fly-in medallion, shockwave, themed glowing particles and a live attribution banner, scaling from a quick edge burst up to a full-screen legend celebration. Each gift has its own palette, particle skin and personality via a <b>scalable FX registry</b> (add a new animated gift with one line). The <b>Kit Bag is a light trophy cabinet</b> — collectible counts, not a wallet (no sell/convert/withdraw, no prices).</p>
 </div>
 
 <div class="frames">
@@ -380,7 +400,9 @@
     <div class="coincap"><div class="coin">C</div><div><span class="amt num">6,317</span> <span class="lab">Coins sent</span></div></div>
     <div class="giftanim">
       <div class="flood"></div><div class="rays"></div>
-      <div class="bigem">👑</div>
+      <div class="fxring"></div><div class="fxring r2"></div>
+      <div class="bigem"><span class="bshine"></span>👑</div>
+      <div class="sparks"><i style="left:38%;animation-delay:0s"></i><i style="left:46%;animation-delay:.5s"></i><i style="left:54%;animation-delay:1s"></i><i style="left:60%;animation-delay:1.5s"></i><i style="left:42%;animation-delay:.8s"></i><i style="left:58%;animation-delay:.3s"></i></div>
       <div class="attr"><div class="an">LEGEND CROWN</div><div class="as">SamRed boosted Reds · 499 Coins</div></div>
     </div>
     <div class="giftchat"><div class="gm">👑 SamRed sent Legend Crown — Reds surge!</div></div>
@@ -400,10 +422,10 @@
     <div class="livetop"><span class="lbadge"><i></i>LIVE</span><span class="vpill">👁 856</span></div>
     <div class="coincap"><div class="coin">C</div><div><span class="amt num">5,815</span> <span class="lab">Coins sent</span></div></div>
     <div class="combolane">
-      <div class="combo"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="ci">🥇</div><div><div class="cn">Priya · Golden Boot</div><div class="cv num">995 Coins</div></div><div class="cx">×5</div></div>
+      <div class="combo"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="ci">🥇</div><div><div class="cn">Olivia · Golden Boot</div><div class="cv num">995 Coins</div></div><div class="cx">×5</div></div>
       <div class="combo" style="padding:4px 12px 4px 4px"><div class="av" style="width:24px;height:24px;background-image:url('assets/up_01.png')"></div><div class="ci" style="font-size:16px">⚽</div><div class="cn" style="font-size:10px">JJ · Football</div><div class="cx" style="font-size:18px">×3</div></div>
     </div>
-    <div class="giftchat" style="bottom:110px"><div class="gm" style="font-size:11.5px">🥇 Priya · Golden Boot ×5 · 995 Coins</div></div>
+    <div class="giftchat" style="bottom:110px"><div class="gm" style="font-size:11.5px">🥇 Olivia · Golden Boot ×5 · 995 Coins</div></div>
   </div></div>
 
   <!-- GK-02B HOST RECEIVED -->
@@ -416,7 +438,7 @@
     <div class="hostrec">
       <div class="rc">
         <div class="em">🥇</div>
-        <div><div class="rn">Priya sent Golden Boot ×1</div><div class="rs">+199 confirmed support</div></div>
+        <div><div class="rn">Olivia sent Golden Boot ×1</div><div class="rs">+199 confirmed support</div></div>
         <div class="thx">💚 Thank</div>
       </div>
     </div>
@@ -462,7 +484,7 @@
       </div>
       <div class="srccard">
         <div class="sl">First collected</div>
-        <div class="st">Received from Priya</div>
+        <div class="st">Received from Olivia</div>
         <div class="sd">During Blues vs Reds PK Battle · 14 Aug, 20:42</div>
       </div>
       <div class="cta"><div class="btn ghost">View Source Result</div><div class="altlink">Share Collection Item</div></div>
@@ -476,7 +498,7 @@
     <div class="lbody">
       <div class="sub" style="margin-top:0">Where your two Golden Boots came from.</div>
       <div class="card" style="background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);padding:4px 16px;margin-top:16px">
-        <div class="histrow"><div><div class="hk">Priya · PK Battle</div><div style="font-size:11px;color:var(--t3);font-weight:650">Blues vs Reds</div></div><div class="hd num">Today</div><div class="hq">+1</div></div>
+        <div class="histrow"><div><div class="hk">Olivia · PK Battle</div><div style="font-size:11px;color:var(--t3);font-weight:650">Blues vs Reds</div></div><div class="hd num">Today</div><div class="hq">+1</div></div>
         <div class="histrow"><div><div class="hk">Monthly Winner Reward</div><div style="font-size:11px;color:var(--t3);font-weight:650">August</div></div><div class="hd num">4 Aug</div><div class="hq">+1</div></div>
       </div>
       <div style="display:flex;gap:9px;background:#F0F7FF;border:1px solid #CEE4FA;border-radius:13px;padding:11px 13px;font-size:12px;line-height:17px;font-weight:650;color:#1E5E96;margin-top:14px">ℹ️ Kit Bag items are collectibles — they can't be sold, converted or withdrawn.</div>

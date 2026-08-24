@@ -78,7 +78,15 @@
 
   /* game tiles */
   .tile{border-radius:20px;overflow:hidden;position:relative;height:200px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);box-shadow:0 14px 36px rgba(0,0,0,.38)}
-  .tile.penalty{background:linear-gradient(to top,rgba(6,10,16,.96),rgba(6,10,16,.15)),url('assets/fb_stadium.jpg');background-size:cover;background-position:center;border-color:rgba(18,178,74,.28);box-shadow:0 14px 40px rgba(0,0,0,.45),0 0 32px rgba(18,178,74,.12),inset 0 -40px 60px rgba(0,0,0,.35)}
+  .tile.penalty{background:linear-gradient(150deg,#0F3D20 0%,#0B2E18 44%,#08130D 100%);border-color:rgba(18,178,74,.4);box-shadow:0 14px 40px rgba(0,0,0,.42),0 0 36px rgba(18,178,74,.2),inset 0 1px 0 rgba(18,178,74,.12);overflow:hidden}
+  .tile.penalty::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% 44%,rgba(18,178,74,.30),transparent 55%);animation:penglow 3s ease-in-out infinite;pointer-events:none;z-index:0}
+  .tile.penalty::after{content:"";position:absolute;inset:-1px;border-radius:20px;border:1px solid rgba(18,178,74,.22);box-shadow:inset 0 0 20px rgba(18,178,74,.08);pointer-events:none;z-index:2}
+  .tile.penalty .pengoal{position:absolute;top:54px;right:18px;width:120px;height:66px;border:3px solid rgba(255,255,255,.8);border-bottom:none;border-radius:6px 6px 0 0;background:repeating-linear-gradient(90deg,transparent 0 8px,rgba(255,255,255,.15) 8px 9px),repeating-linear-gradient(0deg,transparent 0 8px,rgba(255,255,255,.15) 8px 9px);z-index:1;filter:drop-shadow(0 0 10px rgba(255,255,255,.22))}
+  .tile.penalty .penball{position:absolute;right:150px;bottom:40px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 40%,#c4ccd4);box-shadow:0 3px 10px rgba(0,0,0,.5),inset -2px -3px 5px rgba(0,0,0,.2);z-index:1;animation:penshot 2.8s cubic-bezier(.35,.05,.5,1) infinite}
+  .tile.penalty .penflash{position:absolute;top:66px;right:56px;font-size:15px;font-weight:900;font-style:italic;color:var(--volt);opacity:0;z-index:3;text-shadow:0 2px 8px rgba(0,0,0,.6);animation:pentxt 2.8s ease infinite}
+  @keyframes penshot{0%{transform:translate(0,0) scale(1) rotate(0);opacity:0}8%{opacity:1}52%{transform:translate(78px,-30px) scale(.58) rotate(320deg);opacity:1}62%{transform:translate(78px,-30px) scale(.58) rotate(345deg);opacity:.8}70%{opacity:0}100%{transform:translate(0,0) scale(1) rotate(0);opacity:0}}
+  @keyframes pentxt{0%,45%{opacity:0;transform:scale(.6)}55%{opacity:1;transform:scale(1.1)}66%{opacity:1}72%,100%{opacity:0}}
+  @keyframes penglow{0%,100%{opacity:.45}50%{opacity:1}}
   .tile.wheel{background:linear-gradient(150deg,#2E1A52 0%,#241546 42%,#141922 100%);border-color:rgba(138,92,246,.38);box-shadow:0 14px 40px rgba(0,0,0,.42),0 0 36px rgba(138,92,246,.22),inset 0 1px 0 rgba(138,92,246,.12);overflow:hidden}
   .tile.wheel::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 85% 35%,rgba(138,92,246,.28),transparent 55%);pointer-events:none;z-index:0}
   .tile.wheel::after{content:"";position:absolute;inset:-1px;border-radius:20px;border:1px solid rgba(138,92,246,.22);box-shadow:inset 0 0 20px rgba(138,92,246,.08);pointer-events:none;z-index:2}
@@ -317,7 +325,7 @@
   <!-- MG-01 GAMES HUB -->
   <div class="fw"><div class="flabel"><div class="fnum">MG-01</div><div class="fname">Games Hub<span>Cost + balance always visible</span></div></div>
   <div class="phone" data-nav="games">
-    <div class="top"><div class="back">‹</div><div class="htitle">Games</div><div class="back" style="margin-left:auto">📜</div><div class="back">?</div></div>
+    <div class="top"><div class="htitle">Games</div><div class="back" style="margin-left:auto">📜</div><div class="back">?</div></div>
     <div class="body">
       <div class="balbar" style="margin-bottom:12px">
         <div class="balchip"><div class="gc">C</div><div><div class="bv num">1,240</div><div class="bk">Coins</div></div></div>
@@ -326,6 +334,9 @@
       </div>
       <div class="scroll">
         <div class="tile penalty">
+          <div class="pengoal"></div>
+          <div class="penball"></div>
+          <div class="penflash">GOAL!</div>
           <div class="tclass">⚽ Skill · angle &amp; power</div>
           <div class="tcost"><div class="gc">C</div>10 / shot</div>
           <div class="ti"><div class="tn">Penalty Shootout</div><div class="tp">Drag angle · tap bouncing power</div></div>
@@ -367,7 +378,6 @@
           <div class="oddr"><span class="c1">Top-corner goal</span><span class="c2">3%</span><span class="c3">+50</span></div>
           <div class="oddr total"><span class="c1">Expected return</span><span class="c2"></span><span class="c3">7.9</span></div>
         </div>
-        <div class="rtp">📊 Return to player ≈ 79% · odds table v4</div>
         <div class="note amber">Prizes are Bonus Coins. Play responsibly — there's a daily limit, and losses are just losses (we'll never show fake "almost won" messages).</div>
         <div style="height:6px"></div>
       </div>

@@ -49,7 +49,8 @@
   .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
   .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
-  .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:12px;padding-bottom:22px;-webkit-overflow-scrolling:touch}
+  .scrollarea::-webkit-scrollbar{width:0;display:none}
   .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
 
   /* three bucket glyphs */
@@ -59,6 +60,12 @@
 
   /* bucket cards (wallet home) */
   .bucket{border-radius:20px;padding:15px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .bucket::after{position:absolute;right:10px;top:8px;font-size:44px;line-height:1;opacity:.13;transform:rotate(-10deg);pointer-events:none}
+  .bucket.coins::after{content:"🪙"}
+  .bucket.gold::after{content:"⭐";opacity:.18}
+  .bucket.tgold::after{content:"🎁"}
+  .bucket.trade::after{content:"📈"}
+  .bucket .bh,.bucket .bal,.bucket .acts,.bucket .rulenote{position:relative;z-index:1}
   .bucket .bh{display:flex;align-items:center;gap:11px}
   .bucket .gly{width:40px;height:40px;font-size:14px}
   .bucket .bn{font-size:15px;font-weight:800}
@@ -129,6 +136,27 @@
   .limitbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold1),var(--coinG1))}
 
   /* KYC */
+  .kycprog{display:flex;gap:6px;margin:2px 0 8px}
+  .kycprog i{flex:1;height:6px;border-radius:999px;background:#E7ECF3;transition:background .3s}
+  .kycprog i.on{background:linear-gradient(90deg,var(--gold1),var(--gold2))}
+  .kycstepnum{font-size:12px;font-weight:800;color:var(--gold2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:12px}
+  .kycstepnum b{color:var(--t1)}
+  .kychero{display:flex;align-items:center;gap:13px;background:linear-gradient(135deg,#FFF7E8,#FDEFD2);border:1px solid #F1DDB0;border-radius:16px;padding:15px 16px;margin-top:2px}
+  .kychero .ki{width:46px;height:46px;border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;background:linear-gradient(140deg,var(--gold1),var(--gold2));box-shadow:0 6px 14px rgba(232,163,58,.35)}
+  .kychero .kh{font-size:16px;font-weight:850;letter-spacing:-.2px}
+  .kychero .khs{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px}
+  .kfield{margin-bottom:13px}
+  .kfield .lbl{margin-bottom:6px}
+  .kinput{height:46px;border-radius:12px;border:1.5px solid var(--line);background:#F8FAFC;display:flex;align-items:center;padding:0 14px;font-size:14px;font-weight:700;color:var(--t1)}
+  .kinput.ph{color:var(--t3);font-weight:650}
+  .krow{display:flex;gap:10px}.krow .kfield{flex:1}
+  .kreview{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:2px}
+  .krev{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line)}
+  .kreview .krev:last-child{border-bottom:none}
+  .krev .kci{width:34px;height:34px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px;background:#E9F9EF;color:#0FA04C;border:1px solid #BFE9CE}
+  .krev .kk{font-size:12px;font-weight:700;color:var(--t3)}
+  .krev .kv{font-size:14px;font-weight:800;margin-top:1px}
+  .krev .kedit{margin-left:auto;font-size:12px;font-weight:800;color:var(--gold2)}
   .kycsteps{display:flex;flex-direction:column;margin:6px 0}
   .kstep{display:flex;gap:14px;position:relative;padding-bottom:18px}
   .kstep:last-child{padding-bottom:0}
@@ -387,13 +415,13 @@
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Verify identity</div></div>
     <div class="lbody">
-      <div class="sub" style="margin-top:0">Withdrawals need a one-time identity check. Your documents are never shown publicly.</div>
-      <div class="card" style="padding:14px 16px;margin-top:16px">
+      <div class="kychero"><div class="ki">🛡️</div><div><div class="kh">A quick 4-step check</div><div class="khs">One-time only · about 2 minutes · unlocks withdrawals</div></div></div>
+      <div class="card" style="padding:16px 16px 14px;margin-top:14px">
         <div class="kycsteps">
-          <div class="kstep"><div class="kd wait">1</div><div><div class="kt">Personal details</div></div></div>
-          <div class="kstep"><div class="kd wait">2</div><div><div class="kt">Identity document</div></div></div>
-          <div class="kstep"><div class="kd wait">3</div><div><div class="kt">Selfie &amp; liveness</div></div></div>
-          <div class="kstep"><div class="kd wait">4</div><div><div class="kt">Review</div></div></div>
+          <div class="kstep"><div class="kd now">1</div><div><div class="kt">Personal details</div><div class="ks">Legal name &amp; date of birth</div></div></div>
+          <div class="kstep"><div class="kd wait">2</div><div><div class="kt">Identity document</div><div class="ks">Passport or ID card</div></div></div>
+          <div class="kstep"><div class="kd wait">3</div><div><div class="kt">Selfie &amp; liveness</div><div class="ks">Match your face to the document</div></div></div>
+          <div class="kstep"><div class="kd wait">4</div><div><div class="kt">Review &amp; submit</div><div class="ks">Confirm and send securely</div></div></div>
         </div>
       </div>
       <div class="warnnote" style="margin-top:14px;background:#F0F7FF;border-color:#CEE4FA;color:#1E5E96">🔒 Minimum withdrawal 130 Gold ≈ $10. Documents are encrypted and never appear on your profile.</div>
@@ -401,11 +429,29 @@
     </div>
   </div></div>
 
+  <!-- KYC-01A PERSONAL DETAILS -->
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-01A</div><div class="fname">Personal Details<span>Step 1 of 4</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Personal details</div></div>
+    <div class="lbody">
+      <div class="kycprog"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="kycstepnum">Step 1 of 4 · <b>Personal details</b></div>
+      <div class="krow"><div class="kfield"><div class="lbl">First name</div><div class="kinput">Zeeshan</div></div><div class="kfield"><div class="lbl">Last name</div><div class="kinput">Nawaz</div></div></div>
+      <div class="kfield"><div class="lbl">Date of birth</div><div class="kinput">14 March 1999</div></div>
+      <div class="kfield"><div class="lbl">Country of residence</div><div class="kinput">United Kingdom <span style="margin-left:auto;color:var(--t3)">▾</span></div></div>
+      <div class="kfield"><div class="lbl">Residential address</div><div class="kinput ph">Start typing your address…</div></div>
+      <div class="warnnote" style="margin-top:6px;background:#F0F7FF;border-color:#CEE4FA;color:#1E5E96">ℹ️ Use your legal name exactly as it appears on your ID.</div>
+      <div class="cta"><div class="btn">Continue</div></div>
+    </div>
+  </div></div>
+
   <!-- KYC-02 DOCUMENT -->
-  <div class="fw"><div class="flabel"><div class="fnum">KYC-02</div><div class="fname">Identity Document<span>Compliant provider</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-02</div><div class="fname">Identity Document<span>Step 2 of 4</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Identity document</div></div>
     <div class="lbody">
+      <div class="kycprog"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      <div class="kycstepnum">Step 2 of 4 · <b>Identity document</b></div>
       <div class="lbl">Document type</div>
       <div class="card" style="padding:13px 15px;display:flex;align-items:center;font-size:14px;font-weight:750;margin-bottom:14px">🪪 Passport <span style="margin-left:auto;color:var(--t3)">▾</span></div>
       <div class="lbl">Upload front</div>
@@ -415,12 +461,31 @@
   </div></div>
 
   <!-- KYC-03 SELFIE -->
-  <div class="fw"><div class="flabel"><div class="fnum">KYC-03</div><div class="fname">Selfie &amp; Liveness<span>Match to document</span></div></div>
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-03</div><div class="fname">Selfie &amp; Liveness<span>Step 3 of 4</span></div></div>
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">Selfie check</div></div>
     <div class="lbody">
-      <div style="text-align:center;margin-top:20px"><div class="selfieframe">🙂</div><div style="font-size:14px;font-weight:750;margin-top:18px">Center your face in the circle</div><div style="font-size:12px;font-weight:650;color:var(--t2);margin-top:6px">Good lighting · no hat or glasses · follow the prompts</div></div>
+      <div class="kycprog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      <div class="kycstepnum">Step 3 of 4 · <b>Selfie &amp; liveness</b></div>
+      <div style="text-align:center;margin-top:8px"><div class="selfieframe">🙂</div><div style="font-size:14px;font-weight:750;margin-top:18px">Center your face in the circle</div><div style="font-size:12px;font-weight:650;color:var(--t2);margin-top:6px">Good lighting · no hat or glasses · follow the prompts</div></div>
       <div class="cta"><div class="btn">Start Liveness Check</div></div>
+    </div>
+  </div></div>
+
+  <!-- KYC-04 REVIEW -->
+  <div class="fw"><div class="flabel"><div class="fnum">KYC-04</div><div class="fname">Review &amp; Submit<span>Step 4 of 4</span></div></div>
+  <div class="phone">
+    <div class="top"><div class="back">‹</div><div class="htitle">Review &amp; submit</div></div>
+    <div class="lbody">
+      <div class="kycprog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      <div class="kycstepnum">Step 4 of 4 · <b>Review &amp; submit</b></div>
+      <div class="kreview">
+        <div class="krev"><div class="kci">👤</div><div><div class="kk">Personal details</div><div class="kv">Zeeshan Nawaz · 14 Mar 1999</div></div><div class="kedit">Edit</div></div>
+        <div class="krev"><div class="kci">🪪</div><div><div class="kk">Identity document</div><div class="kv">Passport · front uploaded</div></div><div class="kedit">Edit</div></div>
+        <div class="krev"><div class="kci">✓</div><div><div class="kk">Selfie &amp; liveness</div><div class="kv">Liveness check passed</div></div></div>
+      </div>
+      <div class="warnnote" style="margin-top:14px;background:#F0F7FF;border-color:#CEE4FA;color:#1E5E96">🔒 By submitting you confirm the details are accurate. Data is encrypted and used only for verification.</div>
+      <div class="cta"><div class="btn gold">Submit for Verification</div></div>
     </div>
   </div></div>
 
