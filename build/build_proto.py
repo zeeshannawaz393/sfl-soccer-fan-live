@@ -4070,7 +4070,7 @@ PLAYER_JS = """
   }
   function plMarkBuySellDuty(){
     var d=plDutyCounts();
-    if(d.sell>=2&&d.buy>=2){ SFLdone['Buy & sell players']=1; sflToast('Weekly task complete · 2 listed + 2 system buys'); return true; }
+    if(d.sell>=2&&d.buy>=2){ SFLdone['Buy & sell players']=1; sflToast('Weekly task complete · 2 listed + 2 buys'); return true; }
     return false;
   }
   function plRecordList(kind){
@@ -4080,7 +4080,7 @@ PLAYER_JS = """
     var d=plDutyCounts();
     if(kind==='transfer'){
       if(!plMarkBuySellDuty()){
-        if(d.sell>=2) sflToast('2 listed · buy the 2 system picks to finish');
+        if(d.sell>=2) sflToast('2 listed · buy the 2 players to finish');
         else sflToast('Listed · sell '+Math.min(2,d.sell)+'/2 · you pick who to sell');
       }
     } else sflToast('Loan listed');
@@ -4097,12 +4097,12 @@ PLAYER_JS = """
     SFLplBought[id]=1;
     if(!plMarkBuySellDuty()){
       var d=plDutyCounts();
-      sflToast('Bought · buy '+Math.min(2,d.buy)+'/2 system picks');
+      sflToast('Bought · buy '+Math.min(2,d.buy)+'/2');
     }
   }
   function plRecRowHtml(id, listedId){
     var p=SFLPLAYERS[id]||SFLPLAYERS.bello, src=SFLPLAYERS[listedId], bought=!!SFLplBought[id];
-    var match=src?('Matched to '+src.name+' · '+p.val+' vs '+src.val):('System pick · '+p.val+' Coins');
+    var match=src?('Matched to '+src.name+' · '+p.val+' vs '+src.val):('Buy · '+p.val+' Coins');
     return '<div class="recrow" data-pl="'+id+'" data-plrec="'+id+'"><div class="pi" style="background-image:'+sflImg(p.av)+'"></div><div><div class="pn">'+p.name+'</div><div class="pp">'+p.pos+' · '+p.club+'</div><div class="rmatch">'+match+'</div></div><div class="side">'+(bought?'<div class="bought">✓ Bought</div>':'<div class="cv" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--goldDeep)"><div class="coin" style="width:15px;height:15px;font-size:8px">C</div>'+p.val+'</div>')+'</div></div>';
   }
   function plUnlist(){ var id=SFLpl||'rivera'; delete SFLplList[id]; sflToast('Player unlisted'); }
@@ -4337,14 +4337,14 @@ PLAYER_JS = """
   function applyHomePlayersDuty(root){
     var q=root.querySelector('.qt.players .qs'); if(!q)return;
     var d=plDutyCounts(), n=Math.min(2,d.sell)+Math.min(2,d.buy);
-    q.textContent=n>=4?'Duty complete · sold 2 + bought 2':'Duty · sell '+d.sell+'/2 you pick · buy '+d.buy+'/2 system picks';
+    q.textContent=n>=4?'Duty complete · sold 2 + bought 2':'Duty · sell '+d.sell+'/2 you pick · buy '+d.buy+'/2';
     var bar=root.querySelector('.qt.players .qbar i'); if(bar) bar.style.width=Math.round((n/4)*100)+'%';
   }
   function applyFtPlayerDuty(root){
     [].forEach.call(root.querySelectorAll('.trow'),function(r){
       var tt=r.querySelector('.tt'); if(!tt||!/buy|sell|player|transfer|loan/i.test(tt.textContent||''))return;
       var d=plDutyCounts();
-      var req=r.querySelector('.req'); if(req) req.textContent='Sell '+Math.min(2,d.sell)+'/2 · Buy '+Math.min(2,d.buy)+'/2 · you pick sells · system picks buys';
+      var req=r.querySelector('.req'); if(req) req.textContent='Sell '+Math.min(2,d.sell)+'/2 · Buy '+Math.min(2,d.buy)+'/2 · you pick sells · buys are matched';
       var bar=r.querySelector('.pbar i'); if(bar) bar.style.width=Math.round(((Math.min(2,d.sell)+Math.min(2,d.buy))/4)*100)+'%';
       if(d.sell>=2&&d.buy>=2){ r.classList.add('complete'); var side=r.querySelector('.side'); if(side) side.innerHTML='<div class="done">✓</div>'; }
     });
@@ -4354,7 +4354,7 @@ PLAYER_JS = """
     var prog=root.querySelector('#ft-buysell-prog'); if(prog) prog.textContent='Sell '+Math.min(2,d.sell)+'/2 · Buy '+Math.min(2,d.buy)+'/2';
     var dp=root.querySelector('.dp'); if(dp) dp.innerHTML=n+'<small> / 4</small>';
     var buyBtn=root.querySelector('[data-ftact="buyrecs"]');
-    if(buyBtn) buyBtn.textContent=d.sell<2?'Buy the 2 recommended':'Buy the 2 recommended';
+    if(buyBtn) buyBtn.textContent='Buy the 2 players';
   }
   function applyPlRecsBox(root){
     var copy=root.querySelector('#pl-recs-copy'), rows=root.querySelector('#pl-recs-rows'), cta=root.querySelector('#pl-recs-cta');
@@ -4362,7 +4362,7 @@ PLAYER_JS = """
     var listed=plListedSellIds(), recs=plMatchRecs(), d=plDutyCounts();
     if(copy){
       if(!listed.length) copy.textContent='List 2 players first. SFL will then show two recommended buys matched to those listing values — you don’t browse-pick them.';
-      else copy.textContent='You pick the sells. The system picked these buys to match your listing values.';
+      else copy.textContent='You pick the sells. These buys are matched to your listing values.';
     }
     if(rows){
       if(!listed.length) rows.innerHTML='';
@@ -4385,7 +4385,7 @@ PLAYER_JS = """
   }
   function applyPlListLive(root){
     var d=plDutyCounts(), btn=root.querySelector('[data-plact="afterlist"], .cta .btn');
-    if(btn) btn.textContent=d.sell>=2?'Buy the 2 recommended':'List another player';
+    if(btn) btn.textContent=d.sell>=2?'Buy the 2 players':'List another player';
   }
   function applyPlPurchaseDuty(root){
     if(SFLplWeeklyBuy || (SFL_REC_POOL.indexOf(SFLpl)>=0)){
@@ -4573,7 +4573,7 @@ PLAYER_JS = """
     var hic=t.closest('.hicon'); if(hic){var e=hic.textContent; if(e.indexOf('🔔')>=0)return 'notifications'; if(e.indexOf('💬')>=0)return 'inbox';}
     if(t.closest('.ha')||t.closest('.selavatar'))return 'profile';
     var lab=t.closest('.btn,.dbtn,.lbtn,.short,.mod,.tile,.tplay,.listrow,.rolerow,.pjoin,.ab,.mgo,.cgo,.gj,.rw,.cat,.reccard,.mbanner,.clubcard,.hqbtn,.nrow,.txrow,.hrow,.crow,.callrow,.qt,.mom,.hjoin,.nextfix,.hfol,.livecard,.act,.explorelink,a'); var x=(lab?lab.textContent:'').toLowerCase();
-    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become a room manager','chrequest'],['request room manager','chrequest'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & managers','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games'],['afcon 2026','tournnotify'],['register your country','tournnotify'],['tournament coin','tournhub'],['tournament registration','tournnotify']];
+    var K=[['ask to become a manager','cmgrask'],['manager asked you','cmgrinvite'],['selected you to become','cmgrinvite'],['make manager','cmgrmake'],['co-managers','cmgrqueue'],['you are now a manager','cmgryes'],['is now a manager','cmgrfanok'],['request to become a room manager','chrequest'],['request room manager','chrequest'],['request to become co-host','chrequest'],['request co-host','chrequest'],['waiting list','chinbox'],['join & managers','chinbox'],['join & co-host','chinbox'],['buy from a coin seller','csellers'],['buy from coin seller','csellers'],['coin seller desk','csdesk'],['open desk','csdesk'],['go live','golive'],['start watch','watchlive'],['end watch-along','watchend'],['end watch','watchend'],['watch along','watchpick'],['▶ watch','watchpick'],['join a pk','pk'],['pk battle','pk'],['start a pk','pk'],['matchday','live'],['watchalong','live'],['join live','live'],['north stand','live'],['watch sfl','watch'],['watch','watch'],['make a prediction','predictions'],['predict','predictions'],['transfer gold','gtransfer'],['send gold','gtransfer'],['gold transfer','gtransfer'],['convert','convert'],['withdraw','withdraw'],['buy coins','coinstore'],['coin store','coinstore'],['top up','coinstore'],['manager hq','managerhq'],['manager dashboard','managerhq'],['open hq','managerhq'],['enter hq','managerhq'],['kit bag','kitbag'],['reward ready','rewards'],['ready to claim','rewards'],['see winners','rewards'],['monthly winners','rewards'],['claim','rewards'],['rewards','rewards'],['you won','rewards'],['invited you','clubinvite'],['invitation','clubinvite'],['application','clubapplications'],['open club','club'],['club home','club'],['view club','club'],['other clubs','clubs'],['explore other','clubs'],['browse clubs','clubs'],['discover clubs','clubs'],['explore clubs','clubs'],['find a club','clubs'],['join a fan club','clubs'],['join a club','clubs'],['join club','clubs'],['gold received','wallethist'],['sent you','wallethist'],['refund','wallethist'],['transaction','wallethist'],['loan offer','moveoffer'],['transfer offer','moveoffer'],['loan/transfer','move'],['awaiting fan consent','moveproc'],['move status','moveproc'],['loan activated','loanactive'],['loan completed','loanreturn'],['leave request approved','clubleft'],['leave request declined','club'],['seat request approved','fanseated'],['position approved','fanseated'],['seat request declined','live'],['join live','live'],['watchalong','live'],['matchday','live'],['north stand','live'],['pk battle','live'],['go live','live'],['watch party','live'],['stadium','live'],['live room','live'],['notification','notifications'],['messages','inbox'],['message','inbox'],['chat','inbox'],['prediction','predictions'],['tasks','tasks'],['duties','tasks'],['progression','progression'],['fan level','progression'],['verify identity','kyc'],['kyc','kyc'],['withdrawals unlocked','kyc'],['contact support','support'],['get support','support'],['report a problem','support'],['raise dispute','support'],['buy the 2 recommended','plweeklybuys'],['buy the 2 players','plweeklybuys'],['buy 2 players','plweeklybuys'],['list 2 players','myplayers'],['my players','myplayers'],['player market','market'],['escrow','market'],['market','market'],['edit profile','profile'],['my stats','profile'],['wallet','wallet'],['games','games'],['afcon 2026','tournnotify'],['register your country','tournnotify'],['tournament coin','tournhub'],['tournament registration','tournnotify']];
     for(var i=0;i<K.length;i++){if(x.indexOf(K[i][0])>=0)return K[i][1];}
     return null;
   }
@@ -4931,7 +4931,7 @@ PLAYER_JS = """
         if(t.closest('.btn')){goTo(_cf==='FT-02'?'tasksweeklydone':'tasksdone');return;}
         if(t.closest('.ringhero')){return;}
       }
-      if(_cf==='FT-03P'){ var _fta=(t.closest('[data-ftact]')||{}).getAttribute&&t.closest('[data-ftact]').getAttribute('data-ftact'); if(_fta==='buyrecs'||/recommend|system/i.test((t.closest('.btn')||{}).textContent||'')){ if(plDutyCounts().sell<2){ sflToast('List 2 players first · you pick the sells'); goTo('myplayers'); return; } goTo('plweeklybuys'); return; } if(t.closest('.btn')||_fta==='list2'){ goTo('myplayers'); return; } return; }
+      if(_cf==='FT-03P'){ var _fta=(t.closest('[data-ftact]')||{}).getAttribute&&t.closest('[data-ftact]').getAttribute('data-ftact'); var _ftbtn=t.closest('.btn'); var _ftbuy=_fta==='buyrecs'||/buy the 2|buy 2 player|recommend/i.test((_ftbtn||{}).textContent||''); if(_ftbuy){ if(plDutyCounts().sell<2) sflToast('List 2 players first · you pick the sells'); goTo('plweeklybuys'); return; } if(_ftbtn||_fta==='list2'){ goTo('myplayers'); return; } return; }
       if(_cf==='FT-03'){ if(t.closest('.btn')){goTo('taskwatch');return;} if(t.closest('.link')){return;} return; }
       if(_cf==='FT-03W'){ if(t.closest('.back')){goBack();return;} if(t.closest('.btn')){goTo('taskcomplete');return;} return; }
       if(_cf==='FT-04'){ if(t.closest('.btn')){goTo('coinstore');return;} return; }
