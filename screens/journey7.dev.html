@@ -13,7 +13,7 @@
     --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;--goldLite:#FFE99A;
     --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--cyan:#42D5FF;
     --pitch1:#2FA85A;--pitch2:#279C50;
-    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --shadow:0 12px 34px rgba(24,40,80,0);--shadow-sm:0 5px 16px rgba(24,40,80,0);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   body{background:#E7ECF6;background-image:radial-gradient(58% 32% at 12% 0%,rgba(15,183,83,.11),transparent 60%),radial-gradient(50% 32% at 90% 6%,rgba(255,59,95,.06),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
@@ -77,11 +77,11 @@
   .roomcard .rmm{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);margin-top:2px;display:flex;align-items:center;gap:6px}
   .roomcard .rf{padding:9px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:750;color:var(--t2)}
   .fillbadge{font-size:11px;font-weight:800;color:#0FA04C;background:#F2FBF5;border:1px solid #BFE9CE;padding:2px 8px;border-radius:999px}
-  .phone.stadhome{background:#07090E;color:#F4F6FA;border-color:#1A1E28}
+  .phone.stadhome{background:var(--bg);color:var(--t1);border-color:var(--line)}
   .phone.stadhome .top{padding:10px 14px 6px}
-  .phone.stadhome .htitle{color:#F4F6FA;font-size:22px;letter-spacing:-.6px}
+  .phone.stadhome .htitle{color:var(--t1);font-size:22px;letter-spacing:-.6px}
   .phone.stadhome .hacts{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .phone.stadhome .hbtn{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .phone.stadhome .hbtn{width:34px;height:34px;border-radius:11px;background:var(--card);border:1px solid var(--line);color:var(--t1);display:flex;align-items:center;justify-content:center;font-size:15px}
   .phone.stadhome .coinbal{background:linear-gradient(120deg,#FFF3D6,#FFE6A6);border-color:#F2CE7E;color:#7A5200}
   .stadsearch{display:none;align-items:center;gap:9px;margin:0 0 12px;height:44px;padding:0 14px;border-radius:13px;background:var(--panel,#fff);border:1px solid var(--line,#ECEEF5);box-shadow:var(--shadow-sm)}
   .stadsearch.on{display:flex}
@@ -89,16 +89,16 @@
   .stadsearch .ss-ph{flex:1;font-size:13.5px;font-weight:650;color:var(--t3,#A6ADBC)}
   .stadsearch .ss-x{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--t2,#707786);background:rgba(0,0,0,.05);cursor:pointer}
   .phone.stadhome .lbody{padding:8px 12px 0}
-  .phone.stadhome .tabs{gap:6px;margin-bottom:10px}
-  .phone.stadhome .tab{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:#A4ADBA;padding:6px 12px;font-size:12.5px}
+  .phone.stadhome .tabs{gap:6px;margin-bottom:10px;background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important}
+  .phone.stadhome .tab{background:var(--card);border:1px solid var(--line);color:var(--t2);padding:6px 12px;font-size:12.5px}
   .phone.stadhome .tab.on{background:#C9FF3D;color:#10140A;border-color:#C9FF3D}
-  .phone.stadhome .golivecard{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:10px}
+  .phone.stadhome .golivecard{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:10px;box-shadow:none!important}
   .phone.stadhome .golivecard .gk{margin:0}
   .phone.stadhome .golivecard .gt{font-size:16px;margin:0}
   .phone.stadhome .golivecard .gs{display:none}
-  .phone.stadhome .golivecard .gbtn{margin:0 0 0 auto;padding:8px 14px;font-size:13px}
-  .phone.stadhome .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:8px}
-  .phone.stadhome .roomcard{margin:0;border:none;border-radius:14px;background:#12151C;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .phone.stadhome .golivecard .gbtn{margin:0 0 0 auto;padding:8px 14px;font-size:13px;color:#0A7A38!important}
+  .phone.stadhome .sgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:10px;row-gap:16px;padding-bottom:8px}
+  .phone.stadhome .roomcard{margin:0;border:none;border-radius:14px;background:#12151C;box-shadow:none!important}
   .phone.stadhome .roomcard .rc{height:210px;background:linear-gradient(180deg,rgba(10,20,14,.28),rgba(8,12,9,.7)),url('assets/fb_stadium.jpg') center 22%/cover}
   .phone.stadhome .roomcard .rc.red{background:linear-gradient(180deg,rgba(74,20,20,.5),rgba(18,10,10,.76)),url('assets/fb_stadium.jpg') center 22%/cover}
   .phone.stadhome .roomcard .rc.blue{background:linear-gradient(180deg,rgba(20,54,86,.5),rgba(10,16,24,.76)),url('assets/fb_stadium.jpg') center 22%/cover}
@@ -110,30 +110,22 @@
   .phone.stadhome .roomcard .rc.blue{border-bottom-color:#2F7FD1}
   .phone.stadhome .roomcard .rc.purple{border-bottom-color:#8A5CF6}
   .phone.stadhome .roomcard .rc.orange{border-bottom-color:#F5921B}
-  /* avatar + lightning: PERMANENTLY elevated (mobile — no hover needed) */
+  /* avatar PERMANENTLY elevated + neon energy image background (mobile) */
   .phone.stadhome .roomcard{position:relative;overflow:visible}
   .phone.stadhome .roomcard .rc{border-radius:14px}
-  .phone.stadhome .roomcard .rcpitch{border-radius:inherit}
-  .phone.stadhome .roomcard .rc::before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:rgba(3,5,9,.4);pointer-events:none}
-  .phone.stadhome .roomcard .rcav{position:absolute;inset:0;background-size:auto 100%;background-position:center bottom;background-repeat:no-repeat;z-index:1;transform:perspective(640px) translateY(-6px) scale(1.09) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-origin:center bottom;filter:drop-shadow(0 18px 24px rgba(0,0,0,.75)) drop-shadow(0 0 30px rgba(255,150,40,.32));transition:transform .28s cubic-bezier(.18,.72,.28,1);will-change:transform;--rx:0deg;--ry:0deg}
+  .phone.stadhome .roomcard .rcpitch{display:none}
+  .phone.stadhome .roomcard .rcbg{position:absolute;inset:0;z-index:0;border-radius:inherit;background-size:cover;background-position:center;background-repeat:no-repeat}
+  .phone.stadhome .roomcard .rcbg::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(125% 92% at 50% 30%,transparent 46%,rgba(3,4,9,.5));pointer-events:none}
+  .phone.stadhome .roomcard .rcbg.b_c1{background-image:url('assets/c1_bg.jpg')}
+  .phone.stadhome .roomcard .rcbg.b_c2{background-image:url('assets/c2_bg.jpg')}
+  .phone.stadhome .roomcard .rcbg.b_c3{background-image:url('assets/c3_bg.jpg')}
+  .phone.stadhome .roomcard .rcbg.b_c4{background-image:url('assets/c4_bg.jpg')}
+  .phone.stadhome .roomcard .rcbg.b_c5{background-image:url('assets/c5_bg.jpg')}
+  .phone.stadhome .roomcard .rcav{position:absolute;inset:0;background-size:auto 100%;background-position:center bottom;background-repeat:no-repeat;z-index:1;transform:perspective(640px) translateY(-6px) scale(1.08) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-origin:center bottom;filter:none;transition:transform .28s cubic-bezier(.18,.72,.28,1);will-change:transform;--rx:0deg;--ry:0deg}
   @media (hover:hover){ .phone.stadhome .roomcard:hover{z-index:6} .phone.stadhome .roomcard:hover .rcav{transform:perspective(640px) translateY(-11px) scale(1.13) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))} }
   .phone.stadhome .roomcard:active{z-index:6}
   .phone.stadhome .roomcard:active .rcav{transform:perspective(640px) translateY(-11px) scale(1.13) rotateX(0deg) rotateY(0deg)}
-  .phone.stadhome .roomcard .rc::after{background:linear-gradient(180deg,transparent 46%,rgba(4,6,10,.9));z-index:2;border-radius:inherit}
-  /* Tekken-style lightning behind avatar — ALWAYS ON, thick + realistic */
-  .phone.stadhome .roomcard .rcbolt{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:1;overflow:visible;mix-blend-mode:screen;filter:drop-shadow(0 0 5px rgba(255,195,70,1)) drop-shadow(0 0 16px rgba(255,140,20,.92)) drop-shadow(0 0 32px rgba(255,105,0,.6));animation:boltJit .3s linear infinite}
-  .phone.stadhome .roomcard .boltsvg{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .phone.stadhome .roomcard .boltsvg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .phone.stadhome .roomcard .boltsvg .halo{stroke:#FF8A1E;stroke-width:15;opacity:.3}
-  .phone.stadhome .roomcard .boltsvg .glow{stroke:#FFB43A;stroke-width:8.5;opacity:.62}
-  .phone.stadhome .roomcard .boltsvg .core{stroke:#FFFCEC;stroke-width:3.4}
-  .phone.stadhome .roomcard .boltsvg .b1{animation:boltA .6s linear infinite}
-  .phone.stadhome .roomcard .boltsvg .b2{animation:boltB .72s linear infinite;animation-delay:.05s}
-  .phone.stadhome .roomcard .boltsvg .b3{animation:boltC .86s linear infinite;animation-delay:.12s}
-  @keyframes boltA{0%{opacity:.4}6%{opacity:1}12%{opacity:.5}18%{opacity:.95}26%{opacity:.6}34%{opacity:1}48%{opacity:.6}62%{opacity:1}77%{opacity:.5}90%{opacity:.95}100%{opacity:.75}}
-  @keyframes boltB{0%{opacity:.55}9%{opacity:1}16%{opacity:.5}27%{opacity:.92}40%{opacity:.6}54%{opacity:1}69%{opacity:.65}84%{opacity:1}100%{opacity:.55}}
-  @keyframes boltC{0%{opacity:.45}22%{opacity:.95}38%{opacity:.6}55%{opacity:1}72%{opacity:.55}88%{opacity:.92}100%{opacity:.65}}
-  @keyframes boltJit{0%{transform:translate(0,0)}20%{transform:translate(1.4px,-1.1px)}40%{transform:translate(-1.1px,.9px)}60%{transform:translate(.9px,1.1px)}80%{transform:translate(-1.4px,-.7px)}100%{transform:translate(0,0)}}
+  .phone.stadhome .roomcard .rc::after{background:linear-gradient(180deg,transparent 40%,rgba(4,6,10,.92));z-index:2;border-radius:inherit}
   .phone.stadhome .roomcard .live{top:8px;left:8px;font-size:9px;padding:3px 7px;z-index:3}
   .phone.stadhome .roomcard .vv{top:8px;right:8px;font-size:10px;padding:3px 7px;background:rgba(7,9,13,.62);z-index:3}
   .phone.stadhome .roomcard .rt{z-index:3}
@@ -141,6 +133,34 @@
   .phone.stadhome .roomcard .rtt{font-size:13px;letter-spacing:-.2px}
   .phone.stadhome .roomcard .rmm{font-size:11px;font-weight:750}
   .phone.stadhome .roomcard .rf{display:none}
+  /* PK battle cards (stacked, red-vs-blue art bg, avatar each side) */
+  .phone.stadhome .pkgrid{display:flex;flex-direction:column;gap:18px;padding-bottom:8px}
+  .phone.stadhome .pkbcard{position:relative;width:100%;aspect-ratio:2/1;border-radius:14px;overflow:visible;background:#07090E}
+  .phone.stadhome .pkbg{position:absolute;inset:0;z-index:0;border-radius:14px;background:url('assets/pkb.jpg') center/cover}
+  .phone.stadhome .pkbcard .rc,.phone.stadhome .pkbcard::after{border-radius:14px}
+  .phone.stadhome .pkside{position:absolute;top:2%;bottom:3%;width:42%;z-index:2}
+  .phone.stadhome .pkside.red{left:1%}
+  .phone.stadhome .pkside.blue{right:1%}
+  .phone.stadhome .pkav{position:absolute;inset:0;background-size:contain;background-position:center bottom;background-repeat:no-repeat;transform:translateY(-20px) scale(1.16);transform-origin:center bottom;filter:none;transition:transform .28s cubic-bezier(.18,.72,.28,1);will-change:transform}
+  @media (hover:hover){ .phone.stadhome .pkbcard:hover{z-index:6} .phone.stadhome .pkbcard:hover .pkav{transform:translateY(-26px) scale(1.22)} }
+  .phone.stadhome .pkbcard:active{z-index:6}
+  .phone.stadhome .pkbcard:active .pkav{transform:translateY(-26px) scale(1.22)}
+  .phone.stadhome .pkname{position:absolute;top:3.5%;z-index:4;width:40%;text-align:center;font-size:10px;font-weight:800;color:#fff;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 4px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.7)}
+  .phone.stadhome .pkname.red{left:2%}
+  .phone.stadhome .pkname.blue{right:2%}
+  .phone.stadhome .pkmeta{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:7px;background:rgba(6,8,13,.62);border:1px solid rgba(255,255,255,.15);padding:3px 10px;border-radius:999px;font-size:9.5px;font-weight:800;color:#EAEEF5;white-space:nowrap;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+  .phone.stadhome .pkmeta .pklive{display:inline-flex;align-items:center;gap:4px;color:#FF6072}
+  .phone.stadhome .pkmeta .pklive i{width:4px;height:4px;border-radius:50%;background:#FF3B5C;animation:blink 1.3s infinite}
+  .phone.stadhome .pkmeta .pktime{color:#FFD166}
+  /* Watchalong cards */
+  .phone.stadhome .wagrid{display:flex;flex-direction:column;gap:10px;padding-bottom:8px}
+  .phone.stadhome .wacard{display:flex;align-items:center;gap:12px;background:#12151C;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 12px}
+  .phone.stadhome .wathumb{width:58px;height:58px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(140deg,#1E2A3A,#0E1622);border:1px solid rgba(255,255,255,.08);position:relative}
+  .phone.stadhome .wathumb .walive{position:absolute;top:-6px;left:-6px;font-size:8px;font-weight:800;background:var(--coral);color:#fff;padding:2px 6px;border-radius:6px}
+  .phone.stadhome .watx{flex:1;min-width:0}
+  .phone.stadhome .watt{font-size:13.5px;font-weight:800;color:#F4F6FA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .phone.stadhome .wams{font-size:11px;font-weight:700;color:#9AA4B2;margin-top:2px}
+  .phone.stadhome .wago{flex:none;font-size:12px;font-weight:800;color:#10140A;background:#C9FF3D;padding:8px 14px;border-radius:999px}
 
   /* eligibility / permissions */
   .checkrow{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:750}
@@ -221,6 +241,7 @@
     position:absolute;top:0;left:0;right:0;height:50px;background:transparent;color:#F4F6FA;z-index:600;
   }
   .rtop{position:absolute;top:56px;left:16px;right:16px;z-index:9;display:flex;align-items:flex-start;gap:8px}
+  .phone.room .rback{width:34px;height:34px;border-radius:50%;flex:none;background:rgba(7,9,13,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
   .hosttile{width:96px;height:64px;border-radius:14px;background-size:cover;background-position:center top;background-color:#0f2318;background-image:radial-gradient(circle at 50% 6%,rgba(201,255,61,.18),transparent 55%);position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.5);box-shadow:0 6px 18px rgba(0,0,0,.4)}
   .hosttile .hl{position:absolute;top:5px;left:5px;font-size:8px;font-weight:800;background:var(--coral);color:#fff;padding:2px 6px;border-radius:6px;display:flex;align-items:center;gap:3px}
   .hosttile .hl i{width:4px;height:4px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
@@ -229,8 +250,11 @@
   .rtop .rname{font-size:14px;font-weight:800;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   .rtop .rmeta{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 1px 6px rgba(0,0,0,.5);margin-top:2px}
   .rhud{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none;max-width:58%}
-  .htools{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+  .htools{display:flex;flex-direction:column;gap:7px;align-items:flex-end}
   .htool{width:34px;height:34px;border-radius:50%;background:rgba(7,9,13,.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .audstack{display:flex;align-items:center;background:rgba(7,9,13,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:3px 9px 3px 4px;cursor:pointer}
+  .audstack .au{width:24px;height:24px;border-radius:50%;background-size:cover;background-position:center;border:2px solid #12151C;margin-right:-9px}
+  .audstack .aumore{margin-left:13px;font-size:10px;font-weight:800;color:#fff;letter-spacing:.2px}
   .formfield{position:absolute;left:6px;right:6px;top:0;bottom:0;z-index:5;display:block;padding:0;pointer-events:none}
   .formfield .frow,.formfield .wavid,.formfield .seat{pointer-events:auto}
   .frow{position:absolute;left:0;right:0;display:flex;justify-content:space-evenly}
@@ -239,6 +263,28 @@
   .formfield .frow.mid{top:44.5%}
   .formfield .frow.def{top:59.5%}
   .formfield .frow.gk{top:71.5%}
+  /* GL-03V viewer hero: bigger glowing host + flanking match-time & goal-rush */
+  .room.vhero .rhero-bg{position:absolute;top:0;left:0;right:0;height:236px;z-index:2;pointer-events:none;background:radial-gradient(88% 68% at 50% 4%,rgba(201,255,61,.17),transparent 62%),linear-gradient(180deg,rgba(3,10,6,.55),transparent 76%)}
+  .room.vhero .hero-time,.room.vhero .hero-rush{position:absolute;top:112px;z-index:8;width:74px;text-align:center;background:rgba(6,14,9,.6);border:1px solid rgba(201,255,61,.24);border-radius:12px;padding:6px 5px 7px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 5px 14px rgba(0,0,0,.35)}
+  .room.vhero .hero-time{left:12px}
+  .room.vhero .hero-rush{right:12px}
+  .room.vhero .hero-time .hl,.room.vhero .hero-rush .hl{font-size:7px;font-weight:800;letter-spacing:.5px;color:rgba(255,255,255,.72);text-transform:uppercase}
+  .room.vhero .hero-time .mclock{display:flex;justify-content:center;align-items:baseline;gap:0;font-family:'Manrope',sans-serif;font-size:19px;font-weight:900;color:#C9FF3D;letter-spacing:-.5px;line-height:1;margin-top:3px;text-shadow:0 2px 7px rgba(0,0,0,.55)}
+  .room.vhero .hero-time .mclock .mcsep{font-size:16px;margin:0 1px}
+  .room.vhero .hero-time .hs,.room.vhero .hero-rush .hs{font-size:6.5px;font-weight:800;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.3px}
+  .room.vhero .hero-rush .cdring{width:38px;height:38px;margin:2px auto 0;position:relative}
+  .room.vhero .hero-rush .cdring svg{width:38px;height:38px;transform:rotate(-90deg)}
+  .room.vhero .hero-rush .cdring .cdbg{fill:none;stroke:rgba(255,255,255,.14);stroke-width:5}
+  .room.vhero .hero-rush .cdring .cdfg{fill:none;stroke:#C9FF3D;stroke-width:5;stroke-linecap:round}
+  .room.vhero .hero-rush .cdring.low .cdfg{stroke:var(--coral)}
+  .room.vhero .hero-rush .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#C9FF3D}
+  .room.vhero .frow.hostrow{top:12%}
+  .room.vhero .seat.host{width:158px}
+  .room.vhero .seat.host .av{width:132px;height:132px;border-width:4px;border-color:#0b140c;box-shadow:0 0 0 4px rgba(201,255,61,.92),0 0 32px rgba(201,255,61,.5),0 12px 26px rgba(0,0,0,.5)}
+  .room.vhero .seat.host .hl{top:-8px;font-size:9px;padding:3px 11px}
+  .room.vhero .seat.host .pos{font-size:10px;padding:3px 13px;margin-top:7px}
+  .room.vhero .seat.host .nm{font-size:14px;margin-top:5px}
+  .room.vhero .formfield .frow.fwd,.room.vhero .formfield>.frow:nth-child(2){top:35%}
   .formfield>.frow:nth-child(2){top:27.5%}
   .formfield>.frow:nth-child(3){top:44.5%}
   .formfield>.frow:nth-child(4){top:59.5%}
@@ -299,6 +345,13 @@
   .ractbar{position:absolute;left:16px;right:16px;bottom:20px;z-index:6;display:flex;align-items:center;gap:9px}
   .rsay{flex:1;height:44px;border-radius:999px;background:rgba(13,17,24,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;padding:0 16px;font-size:13.5px;font-weight:600;color:rgba(255,255,255,.5)}
   .rrb{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(13,17,24,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);color:#fff}
+  /* host controls stacked vertically above a message bar (declutter) */
+  .phone.room .hosttools{position:absolute;right:12px;bottom:74px;z-index:8;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+  .phone.room .hosttools .rrb{width:52px;height:52px;border-radius:50%;padding:0;font-size:20px;flex-direction:column;gap:1px;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+  .phone.room .hosttools .rrb.pk{font-size:17px}
+  .phone.room .hosttools .rrb.pk span{font-size:9px;font-weight:800;line-height:1;letter-spacing:.3px}
+  .phone.room .hosttools .rrb.endlive{background:rgba(228,54,43,.92);border:none;color:#fff}
+  .phone.room:has(.hosttools) .rchat{right:80px;bottom:80px}
   .rrb.gift{background:linear-gradient(140deg,#FFD54F,#FF9E00);border:none;box-shadow:0 5px 16px rgba(255,158,0,.5)}
   .rrb.pk{background:linear-gradient(135deg,#FF3B5C,#7A2BFF);border:none;font-size:12.5px;font-weight:800;color:#fff;width:auto;height:44px;padding:0 12px;border-radius:999px;letter-spacing:.2px;box-shadow:0 6px 16px rgba(122,43,255,.42);animation:pkpulse 1.8s infinite}
   @keyframes pkpulse{0%,100%{box-shadow:0 6px 16px rgba(122,43,255,.4);transform:scale(1)}50%{box-shadow:0 8px 20px rgba(255,59,92,.55);transform:scale(1.03)}}
@@ -485,7 +538,7 @@
   .optrow:last-child{border:none}
   .optrow .oi{width:34px;height:34px;border-radius:10px;background:#F3F5FA;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
   .optrow.danger{color:var(--red)}.optrow.danger .oi{background:#FFF5F4}
-  .endstat{display:flex;justify-content:space-around;margin:14px 0;padding:14px 0;background:#F6F8FC;border-radius:14px}
+  .endstat{display:flex;justify-content:space-around;margin:14px 0;padding:14px 0;background:var(--raised2);border:1px solid var(--line);border-radius:14px}
   .endstat .es{text-align:center}
   .endstat .ev{font-size:18px;font-weight:800}.endstat .ev.gold{color:var(--goldDeep)}
   .endstat .el{font-size:10.5px;font-weight:700;color:var(--t2);margin-top:1px}
@@ -586,7 +639,7 @@
     </div>
     <div class="lbody">
       <div class="stadsearch"><span class="ss-ico">🔍</span><span class="ss-ph">Search rooms, hosts, clubs…</span><span class="ss-x">✕</span></div>
-      <div class="tabs"><span class="tab on">For You</span><span class="tab">Following</span><span class="tab">PK</span><span class="tab">Watchalong</span></div>
+      <div class="tabs"><span class="tab on" data-view="foryou">For You</span><span class="tab" data-view="following">Following</span><span class="tab" data-view="pk">PK</span><span class="tab" data-view="watchalong">Watchalong</span></div>
       <div class="scrollarea">
         <div class="golivecard">
           <div>
@@ -596,7 +649,7 @@
           </div>
           <div class="gbtn">🎥 Go Live</div>
         </div>
-        <div class="sgrid">
+        <div class="sgrid" data-view="foryou">
           <div class="roomcard">
             <div class="rc red"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_03.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">8.4K</span><div class="rt"><div class="rtt">Jay Malik</div><div class="rmm">🇬🇧 🇳🇬 · Red District</div></div></div>
           </div>
@@ -614,6 +667,74 @@
           </div>
           <div class="roomcard">
             <div class="rc orange"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_06.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">402</span><div class="rt"><div class="rtt">Lucia9</div><div class="rmm">🇪🇸 · La Grada</div></div></div>
+          </div>
+        </div>
+        <div class="folgrid sgrid" data-view="following" style="display:none">
+          <div class="roomcard">
+            <div class="rc red"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_02.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">2.6K</span><div class="rt"><div class="rtt">Red Fury FC</div><div class="rmm">🏴󠁧󠁢󠁥󠁮󠁧󠁿 · Club room</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc blue"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_05.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">1.4K</span><div class="rt"><div class="rtt">Kai M.</div><div class="rmm">🇰🇷 · Blue Wolves</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc purple"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_01.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">908</span><div class="rt"><div class="rtt">Olivia S.</div><div class="rmm">🇪🇸 · Blueview United</div></div></div>
+          </div>
+          <div class="roomcard">
+            <div class="rc orange"><div class="rcpitch"></div><div class="rcav" style="background-image:url('assets/pa_04.png')"></div><span class="live"><i></i>LIVE</span><span class="vv num">640</span><div class="rt"><div class="rtt">Maya Chen</div><div class="rmm">🇦🇷 · City Central</div></div></div>
+          </div>
+        </div>
+        <div class="pkgrid" data-view="pk" style="display:none">
+          <div class="pkbcard">
+            <div class="pkbg"></div>
+            <div class="pkname red">Jay Malik</div><div class="pkname blue">Diego S.</div>
+            <div class="pkside red"><div class="pkav" style="background-image:url('assets/pa_03.png')"></div></div>
+            <div class="pkside blue"><div class="pkav" style="background-image:url('assets/pa_04.png')"></div></div>
+            <div class="pkmeta"><span class="pklive"><i></i>LIVE PK</span><span class="pkvv num">4.1K</span><span class="pktime">2:15</span></div>
+          </div>
+          <div class="pkbcard">
+            <div class="pkbg"></div>
+            <div class="pkname red">Olivia S.</div><div class="pkname blue">Kai M.</div>
+            <div class="pkside red"><div class="pkav" style="background-image:url('assets/pa_01.png')"></div></div>
+            <div class="pkside blue"><div class="pkav" style="background-image:url('assets/pa_05.png')"></div></div>
+            <div class="pkmeta"><span class="pklive"><i></i>LIVE PK</span><span class="pkvv num">2.8K</span><span class="pktime">0:48</span></div>
+          </div>
+          <div class="pkbcard">
+            <div class="pkbg"></div>
+            <div class="pkname red">Maya Chen</div><div class="pkname blue">Lucia9</div>
+            <div class="pkside red"><div class="pkav" style="background-image:url('assets/pa_02.png')"></div></div>
+            <div class="pkside blue"><div class="pkav" style="background-image:url('assets/pa_06.png')"></div></div>
+            <div class="pkmeta"><span class="pklive"><i></i>LIVE PK</span><span class="pkvv num">1.5K</span><span class="pktime">3:02</span></div>
+          </div>
+          <div class="pkbcard">
+            <div class="pkbg"></div>
+            <div class="pkname red">Jordan</div><div class="pkname blue">Sofia R.</div>
+            <div class="pkside red"><div class="pkav" style="background-image:url('assets/pa_05.png')"></div></div>
+            <div class="pkside blue"><div class="pkav" style="background-image:url('assets/pa_03.png')"></div></div>
+            <div class="pkmeta"><span class="pklive"><i></i>LIVE PK</span><span class="pkvv num">970</span><span class="pktime">1:29</span></div>
+          </div>
+          <div class="pkbcard">
+            <div class="pkbg"></div>
+            <div class="pkname red">Luis O.</div><div class="pkname blue">CityTV</div>
+            <div class="pkside red"><div class="pkav" style="background-image:url('assets/pa_04.png')"></div></div>
+            <div class="pkside blue"><div class="pkav" style="background-image:url('assets/pa_02.png')"></div></div>
+            <div class="pkmeta"><span class="pklive"><i></i>LIVE PK</span><span class="pkvv num">612</span><span class="pktime">4:10</span></div>
+          </div>
+        </div>
+        <div class="wagrid" data-view="watchalong" style="display:none">
+          <div class="wacard">
+            <div class="wathumb">📺<span class="walive">LIVE</span></div>
+            <div class="watx"><div class="watt">Red Devils vs City · 2nd half</div><div class="wams">Watch party · 3.2K watching · 68'</div></div>
+            <div class="wago">Join</div>
+          </div>
+          <div class="wacard">
+            <div class="wathumb">⚽<span class="walive">LIVE</span></div>
+            <div class="watx"><div class="watt">El Clásico Watchalong</div><div class="wams">Watch party · 1.7K watching · 24'</div></div>
+            <div class="wago">Join</div>
+          </div>
+          <div class="wacard">
+            <div class="wathumb">🏆</div>
+            <div class="watx"><div class="watt">Cup Final · pre-match build-up</div><div class="wams">Starts 8:00 PM · 540 reminded</div></div>
+            <div class="wago">Remind</div>
           </div>
         </div>
       </div>
@@ -737,43 +858,38 @@
 
   <!-- GL-03H HOST ROOM -->
   <div class="fw"><div class="flabel"><div class="fnum">GL-03H</div><div class="fname">Host Live Room<span>Broadcast + manage · compact HUD</span></div></div>
-  <div class="phone room bleed">
+  <div class="phone room bleed vhero">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
+    <div class="rhero-bg"></div>
     <div class="rtop">
+      <div class="rback" title="Minimise">‹</div>
       <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div></div>
-      <div class="rhud">
-      <div class="htools"><div class="htool waitpill chinbox" title="Waiting list">Waiting list<span class="nbadge" id="ch-badge">0</span></div><div class="htool" title="Appoint managers">👔</div></div>
-      <div class="livetmr">
-      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="mcset"><span class="mcchip" data-min="30">30m</span><span class="mcchip on" data-min="45">45m</span><span class="mcchip" data-min="90">90m</span><span class="mcreset">↺ Reset</span></div></div>
-      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
-      </div>
-      </div>
+      <div class="rhud"><div class="htools"><div class="audstack" title="Audience"><span class="au" style="background-image:url('assets/pa_h_01.png')"></span><span class="au" style="background-image:url('assets/pa_h_03.png')"></span><span class="au" style="background-image:url('assets/pa_h_05.png')"></span><span class="aumore">+2.1k</span></div><div class="htool" title="Appoint managers">👔</div><div class="htool chinbox" title="Waiting list">📋<span class="nbadge" id="ch-badge">3</span></div></div></div>
     </div>
+    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div><div class="hs">1st Half</div></div>
     <div class="formfield">
       <div class="frow hostrow"><div class="seat host you"><div class="av" style="background-image:url('assets/pa_h_02.png')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">You</div></div></div>
-      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
-      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/up_01.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/up_04.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
-      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/up_05.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_09.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_08.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
-      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
+      <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/pa_h_01.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/pa_h_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
+      <div class="frow mid"><div class="seat"><div class="av" style="background-image:url('assets/pa_h_04.png')"></div><div class="pos">CM</div><div class="nm">JJ</div></div><div class="seat spk"><div class="av" style="background-image:url('assets/pa_h_05.png')"></div><div class="pos">CM</div><div class="nm">Nadia</div></div><div class="seat"><div class="av" style="background-image:url('assets/pa_h_06.png')"></div><div class="mut">🔇</div><div class="pos">CM</div><div class="nm">Teo</div></div></div>
+      <div class="frow def"><div class="seat"><div class="av" style="background-image:url('assets/pa_h_01.png')"></div><div class="pos">LB</div><div class="nm">Kojo</div></div><div class="seat"><div class="av" style="background-image:url('assets/pa_h_05.png')"></div><div class="pos">CB</div><div class="nm">Sara</div></div><div class="seat open"><div class="av">＋</div><div class="pos">CB</div><div class="nm">Open</div></div><div class="seat"><div class="av" style="background-image:url('assets/pa_h_03.png')"></div><div class="pos">RB</div><div class="nm">Mik</div></div></div>
+      <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/pa_h_04.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm join">⚡ MartaSilva took RW</div><br><div class="cm"><b style="color:#8FE5FF">PitchZed</b> Nadia's cooking 🔥</div></div>
-    <div class="ractbar hostacts"><div class="rrb wa">▶ Watch</div><div class="rrb pk">⚔️ PK Battle</div><div class="rrb gift">🎁</div><div class="rrb" style="margin-left:auto;background:rgba(228,54,43,.6);border:none">⏹</div></div>
+    <div class="hosttools"><div class="rrb wa" title="Watch">▶</div><div class="rrb pk" title="PK Battle">⚔️<span>PK</span></div><div class="rrb endlive" title="End Live">⏹</div></div>
+    <div class="ractbar"><div class="rsay">Say something to the room…</div><div class="rrb gift">🎁</div></div>
   </div></div>
 
   <!-- GL-03V VIEWER ROOM -->
   <div class="fw"><div class="flabel"><div class="fnum">GL-03V</div><div class="fname">Viewer Live Room<span>Join position + gift · guest gated</span></div></div>
-  <div class="phone room bleed">
+  <div class="phone room bleed vhero">
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
+    <div class="rhero-bg"></div>
     <div class="rtop">
+      <div class="rback" title="Minimise">‹</div>
       <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div></div>
-      <div class="rhud">
-      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool">＋</div></div>
-      <div class="livetmr">
-      <div><div class="mctitle">MATCH TIME</div><div class="mclock" data-sec="2700" data-init="2700"><div class="mcbox"><span class="mcv mm">45</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div></div>
-      <div class="cdwrap"><div class="cdring" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div><div class="cdcap">GOAL RUSH</div></div>
-      </div>
-      </div>
+      <div class="rhud"><div class="htools"><div class="htool rleave" title="Leave">✕</div></div></div>
     </div>
+    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div><div class="hs">1st Half</div></div>
     <div class="formfield">
       <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/pa_h_02.png')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
       <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
@@ -782,7 +898,7 @@
       <div class="frow gk"><div class="seat"><div class="av" style="background-image:url('assets/up_10.png')"></div><div class="pos" style="background:var(--gold1);color:#5A3E00">GK</div><div class="nm">GloveBoy</div></div></div>
     </div>
     <div class="rchat"><div class="cm"><b style="color:#DCFF8A">You</b> come on reds 🔴</div></div>
-    <div class="ractbar"><div class="rsay">Say something…</div><div class="rrb join">＋ Join a Position</div><div class="rrb gift">🎁</div></div>
+    <div class="ractbar"><div class="rsay">Tap an open ＋ seat to join · say something…</div><div class="rrb gift">🎁</div></div>
   </div></div>
 
   <!-- GL-03V-GUEST GUEST GATE -->
@@ -924,7 +1040,7 @@
     <div class="pitch"><div class="mark mid"></div><div class="mark circle"></div><div class="mark boxT"></div><div class="mark boxB"></div><div class="grad"></div></div>
     <div class="rtop">
       <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div><div class="rmeta">Red District FC · Watch-Along</div></div>
-      <div class="htools"><div class="htool rleave" title="Leave">✕</div><div class="htool">＋</div></div>
+      <div class="htools"><div class="htool rleave" title="Leave">✕</div></div>
     </div>
     <div class="formfield wafield">
       <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/pa_h_02.png')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>

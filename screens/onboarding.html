@@ -16,8 +16,8 @@
     --live1:#FF416C;--live2:#FF7A3B;
     --gold1:#FFB300;--gold2:#FFD54F;
     --violet:#7C4DFF;--cyan:#1FA8FF;--red:#E4362B;--amber:#F59E0B;
-    --shadow:0 10px 30px rgba(24,40,80,.10);
-    --shadow-sm:0 4px 14px rgba(24,40,80,.08);
+    --shadow:0 10px 30px rgba(24,40,80,0);
+    --shadow-sm:0 4px 14px rgba(24,40,80,0);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   body{
@@ -353,7 +353,7 @@
     position:relative;margin-top:12px;padding:0;overflow:hidden;align-items:stretch;
     flex-direction:column;gap:0;border-radius:22px;
     background:var(--card);border:1px solid var(--line);
-    box-shadow:0 10px 28px rgba(24,40,80,.07);
+    box-shadow:0 10px 28px rgba(24,40,80,0);
   }
   .choose .opt.rec{border-color:#B7E4C7;box-shadow:0 12px 30px rgba(15,183,83,.10)}
   .choose .opt:not(.rec){border-color:#F0D48A;box-shadow:0 12px 30px rgba(180,130,20,.10)}
@@ -1083,8 +1083,8 @@
       <div class="body blockwrap">
         <div class="bic green">✅</div>
         <div class="h1">Password updated</div>
-        <div class="sub">You're signed in on this device. Other devices were signed out.</div>
-        <div class="btnrow"><div class="btn">Back to the action</div></div>
+        <div class="sub">Other devices were signed out. Sign in with your new password to continue.</div>
+        <div class="btnrow"><div class="btn">Back to sign in</div></div>
       </div>
     </div>
   </div>

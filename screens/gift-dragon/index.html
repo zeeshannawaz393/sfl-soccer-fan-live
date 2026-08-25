@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Golden Dragon · Live Gift Prototype</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="phone-wrap">
+      <!-- The simulated live room. The gift overlay renders into it, above the UI. -->
+      <div id="phone"></div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-title">Dev controls</div>
+      <div class="demo-row">
+        <button id="btn-rose" class="db">Send Rose</button>
+        <button id="btn-dragon" class="db gold">Send Golden Dragon</button>
+        <button id="btn-dragon5" class="db gold">Send Dragon ×5</button>
+      </div>
+      <div class="demo-row">
+        <button id="btn-multi" class="db">Simulate Multiple Gifts</button>
+        <button id="btn-reset" class="db ghost">Reset</button>
+        <label class="qwrap">Quality
+          <select id="quality">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </label>
+      </div>
+      <div class="demo-hint">Tap <b>Send Golden Dragon</b> repeatedly within 3s to build a combo (×2, ×3…).</div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

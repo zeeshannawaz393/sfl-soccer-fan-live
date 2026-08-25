@@ -17,8 +17,8 @@
     --gold1:#FFB300;--gold2:#FFD54F;
     --violet1:#7C4DFF;--violet2:#B388FF;
     --cyan:#1FA8FF;--red:#E4362B;--amber:#F59E0B;
-    --shadow:0 10px 30px rgba(24,40,80,.10);
-    --shadow-sm:0 4px 14px rgba(24,40,80,.08);
+    --shadow:0 10px 30px rgba(24,40,80,0);
+    --shadow-sm:0 4px 14px rgba(24,40,80,0);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   body{
@@ -149,7 +149,7 @@
   .clubm .rw{margin-left:auto;font-size:12px;font-weight:800;color:#B08900;background:#FFF6DE;border:1px solid #FFDF8E;padding:5px 11px;border-radius:999px}
 
   /* =================== 2 · CLUB STUDIO =================== */
-  .cs{background:#F2F4F9}
+  .cs{background:var(--card)}
   .cs .head .crest{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#F0524A,var(--red));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex:none}
   .cs .role{margin-left:auto;font-size:12px;font-weight:800;color:#7C4DFF;background:#F1EBFF;border:1px solid #DCCEFF;padding:5px 12px;border-radius:999px}
   .sect{font-size:14px;font-weight:800;letter-spacing:-.2px;margin:16px 0 9px;display:flex;align-items:baseline;color:#3A4150}
@@ -192,7 +192,7 @@
   .active-m .rw.xp{color:#0FA04C;background:#E9F9EF;border:1px solid #BFE9CE}
   .active-m .rw.gd{color:#B08900;background:#FFF6DE;border:1px solid #FFDF8E}
   .pick{
-    border-radius:16px;background:#fff;border:1px solid var(--line);
+    border-radius:16px;background:var(--card);border:1px solid var(--line);
     padding:13px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;
   }
   .pick .ic{width:38px;height:38px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:17px;background:#F3F5FA}

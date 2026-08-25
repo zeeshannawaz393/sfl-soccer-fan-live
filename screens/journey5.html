@@ -12,7 +12,7 @@
     --green1:#0FB753;--green2:#7CD843;
     --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;
     --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--amber:#F59E0B;--cyan:#1FA8FF;--violet:#7C4DFF;
-    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --shadow:0 12px 34px rgba(24,40,80,0);--shadow-sm:0 5px 16px rgba(24,40,80,0);
     --goldglow:0 8px 22px rgba(255,179,0,.3);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
@@ -61,9 +61,9 @@
   .coin{border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#7A5400;background:radial-gradient(circle at 35% 28%,#FFE99A,#FFC42E 52%,#C88A00);box-shadow:inset 0 1px 3px rgba(255,255,255,.7),inset 0 -3px 6px rgba(120,80,0,.4)}
   .goldchip{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(120deg,#FFF7E4,#FFEDBF);border:1px solid #FFE199;color:var(--goldDeep);font-weight:800;font-size:12px;padding:4px 9px;border-radius:999px;box-shadow:0 3px 10px rgba(255,179,0,.16),inset 0 1px 0 rgba(255,255,255,.5)}
   .goldchip .coin{width:15px;height:15px;font-size:8px}
-  .tabs{display:flex;gap:8px;background:#EAEEF5;border-radius:999px;padding:4px;box-shadow:inset 0 1px 3px rgba(24,40,80,.06)}
+  .tabs{display:flex;gap:8px;background:#EAEEF5;border-radius:999px;padding:4px;box-shadow:inset 0 1px 3px rgba(24,40,80,0)}
   .tabs i{flex:1;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;font-weight:800;color:var(--t2)}
-  .tabs i.on{background:#fff;color:var(--t1);box-shadow:0 3px 12px rgba(24,40,80,.12),inset 0 1px 0 rgba(255,255,255,.9)}
+  .tabs i.on{background:#fff;color:var(--t1);box-shadow:0 3px 12px rgba(24,40,80,0),inset 0 1px 0 rgba(255,255,255,.9)}
   .fchips{display:flex;gap:7px}
   .fchip{font-size:12.5px;font-weight:750;color:var(--t2);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
   .fchip.on{background:#14161C;color:#fff;border-color:#14161C}

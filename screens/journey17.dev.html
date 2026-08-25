@@ -77,8 +77,8 @@
   .balchip.ticket .bv{color:var(--volt);text-shadow:0 0 12px rgba(201,255,61,.35)}
 
   /* game tiles */
-  .tile{border-radius:20px;overflow:hidden;position:relative;height:200px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);box-shadow:0 14px 36px rgba(0,0,0,.38)}
-  .tile.penalty{background:linear-gradient(150deg,#0F3D20 0%,#0B2E18 44%,#08130D 100%);border-color:rgba(18,178,74,.4);box-shadow:0 14px 40px rgba(0,0,0,.42),0 0 36px rgba(18,178,74,.2),inset 0 1px 0 rgba(18,178,74,.12);overflow:hidden}
+  .tile{border-radius:20px;overflow:hidden;position:relative;height:200px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);box-shadow:none}
+  .tile.penalty{background:linear-gradient(150deg,#0F3D20 0%,#0B2E18 44%,#08130D 100%);border-color:rgba(18,178,74,.4);box-shadow:0 0 30px rgba(18,178,74,.18),inset 0 1px 0 rgba(18,178,74,.12);overflow:hidden}
   .tile.penalty::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% 44%,rgba(18,178,74,.30),transparent 55%);animation:penglow 3s ease-in-out infinite;pointer-events:none;z-index:0}
   .tile.penalty::after{content:"";position:absolute;inset:-1px;border-radius:20px;border:1px solid rgba(18,178,74,.22);box-shadow:inset 0 0 20px rgba(18,178,74,.08);pointer-events:none;z-index:2}
   .tile.penalty .pengoal{position:absolute;top:54px;right:18px;width:120px;height:66px;border:3px solid rgba(255,255,255,.8);border-bottom:none;border-radius:6px 6px 0 0;background:repeating-linear-gradient(90deg,transparent 0 8px,rgba(255,255,255,.15) 8px 9px),repeating-linear-gradient(0deg,transparent 0 8px,rgba(255,255,255,.15) 8px 9px);z-index:1;filter:drop-shadow(0 0 10px rgba(255,255,255,.22))}
@@ -87,7 +87,7 @@
   @keyframes penshot{0%{transform:translate(0,0) scale(1) rotate(0);opacity:0}8%{opacity:1}52%{transform:translate(78px,-30px) scale(.58) rotate(320deg);opacity:1}62%{transform:translate(78px,-30px) scale(.58) rotate(345deg);opacity:.8}70%{opacity:0}100%{transform:translate(0,0) scale(1) rotate(0);opacity:0}}
   @keyframes pentxt{0%,45%{opacity:0;transform:scale(.6)}55%{opacity:1;transform:scale(1.1)}66%{opacity:1}72%,100%{opacity:0}}
   @keyframes penglow{0%,100%{opacity:.45}50%{opacity:1}}
-  .tile.wheel{background:linear-gradient(150deg,#2E1A52 0%,#241546 42%,#141922 100%);border-color:rgba(138,92,246,.38);box-shadow:0 14px 40px rgba(0,0,0,.42),0 0 36px rgba(138,92,246,.22),inset 0 1px 0 rgba(138,92,246,.12);overflow:hidden}
+  .tile.wheel{background:linear-gradient(150deg,#2E1A52 0%,#241546 42%,#141922 100%);border-color:rgba(138,92,246,.38);box-shadow:0 0 30px rgba(138,92,246,.2),inset 0 1px 0 rgba(138,92,246,.12);overflow:hidden}
   .tile.wheel::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 85% 35%,rgba(138,92,246,.28),transparent 55%);pointer-events:none;z-index:0}
   .tile.wheel::after{content:"";position:absolute;inset:-1px;border-radius:20px;border:1px solid rgba(138,92,246,.22);box-shadow:inset 0 0 20px rgba(138,92,246,.08);pointer-events:none;z-index:2}
   .tile .tclass{position:absolute;top:12px;left:12px;font-size:10px;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid var(--line2);color:#fff;backdrop-filter:blur(4px)}

@@ -12,7 +12,7 @@
     --green1:#0FB753;--green2:#7CD843;
     --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;
     --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--amber:#F59E0B;--cyan:#1FA8FF;--violet:#7C4DFF;
-    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --shadow:0 12px 34px rgba(24,40,80,0);--shadow-sm:0 5px 16px rgba(24,40,80,0);
     --goldglow:0 8px 22px rgba(255,179,0,.3);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
@@ -67,16 +67,16 @@
   .cr-blue{background:radial-gradient(circle at 32% 28%,#7FB6E8,var(--blue))}
   .cr-green{background:radial-gradient(circle at 32% 28%,#6FD98F,#0F9A46)}
   .cr-gold{background:radial-gradient(circle at 32% 28%,#F6D24E,#C79B00)}
-  .tabs{display:flex;gap:8px;background:#EAEEF5;border-radius:999px;padding:4px;box-shadow:inset 0 1px 3px rgba(24,40,80,.06)}
+  .tabs{display:flex;gap:8px;background:#EAEEF5;border-radius:999px;padding:4px;box-shadow:inset 0 1px 3px rgba(24,40,80,0)}
   .tabs i{flex:1;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:var(--t2)}
-  .tabs i.on{background:#fff;color:var(--t1);box-shadow:0 3px 12px rgba(24,40,80,.12),inset 0 1px 0 rgba(255,255,255,.9)}
+  .tabs i.on{background:#fff;color:var(--t1);box-shadow:0 3px 12px rgba(24,40,80,0),inset 0 1px 0 rgba(255,255,255,.9)}
   .fchips{display:flex;gap:7px;overflow:hidden}
   .fchip{flex:none;font-size:12.5px;font-weight:750;color:var(--t2);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
   .fchip.on{background:#14161C;color:#fff;border-color:#14161C}
 
   /* player card grid */
   .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .pcard{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(170deg,#1b2233,#10141d);box-shadow:0 12px 26px rgba(10,15,30,.45);border:1px solid rgba(255,255,255,.09);cursor:pointer}
+  .pcard{position:relative;border-radius:18px;overflow:hidden;background:var(--card);box-shadow:none;border:1px solid var(--line);cursor:pointer}
   .pcard .pav{width:92px;height:92px;border-radius:50%;background-color:transparent;background-size:230% auto;background-position:center 2%;background-repeat:no-repeat;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.45);position:relative;z-index:2}
   .pcard .pn .n{color:#fff}
   .pcard .pn .t{color:rgba(255,255,255,.82)}
@@ -92,7 +92,7 @@
   .pcard .pn .t{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.8)}
   .pcard .meta{padding:10px 11px;display:flex;align-items:center;gap:7px}
   .pcard .meta .mv{margin-left:auto}
-  .pcard .seller{font-size:10px;font-weight:700;color:#8994A6;padding:0 11px 11px;text-align:center}
+  .pcard .seller{font-size:10px;font-weight:700;color:var(--t2);padding:0 11px 11px;text-align:center}
 
   /* player detail — stadium bleeds under the status bar; head stays fully on-canvas */
   .phone.bleed > .sfl-statusbar{
@@ -256,7 +256,7 @@
   .revealcard .rn .t{font-size:11px;font-weight:700;color:rgba(255,255,255,.82);margin-top:1px}
   .vbadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--green1);background:linear-gradient(135deg,#E9F9EF,#F2FBF5);border:1px solid #BFE9CE;padding:5px 13px;border-radius:999px;margin-top:14px;box-shadow:0 4px 14px rgba(15,183,83,.16)}
   .balrows{width:100%;margin-top:16px}
-  .balrows.card{background:linear-gradient(180deg,#fff,#F8FAFD)!important;box-shadow:0 10px 28px rgba(24,40,80,.10)!important;border-color:var(--line)!important}
+  .balrows.card{background:linear-gradient(180deg,#fff,#F8FAFD)!important;box-shadow:0 10px 28px rgba(24,40,80,0)!important;border-color:var(--line)!important}
   .balr.new .v{font-size:18px;color:var(--goldDeep)}
   .celebrate .btn{background:linear-gradient(140deg,var(--green1),var(--green2));box-shadow:0 14px 32px rgba(15,183,83,.36),inset 0 1px 0 rgba(255,255,255,.22)}
   .state{align-items:center;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;padding-bottom:36px}

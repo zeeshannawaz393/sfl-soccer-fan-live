@@ -13,7 +13,7 @@
     --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;--goldLite:#FFE99A;
     --value:#4DB326;--valueDeep:#2E7A12;
     --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--violet:#7C4DFF;--amber:#F59E0B;--cyan:#1FA8FF;
-    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --shadow:0 12px 34px rgba(24,40,80,0);--shadow-sm:0 5px 16px rgba(24,40,80,0);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   body{background:#E7ECF6;background-image:radial-gradient(58% 32% at 12% 0%,rgba(255,179,0,.10),transparent 60%),radial-gradient(50% 32% at 90% 6%,rgba(228,54,43,.06),transparent 60%);color:var(--t1);font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
@@ -49,7 +49,10 @@
   .btn.ghost{background:var(--card);color:var(--t1);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
   .altlink{font-size:13.5px;font-weight:750;color:var(--t2);text-align:center}
   .card{background:var(--card);border-radius:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
-  .scrollarea{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  .scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
+  .scrollarea::-webkit-scrollbar{width:0;display:none}
+  .tsec{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin:6px 2px 0}
+  .tsec:first-child{margin-top:0}
   .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--t2);text-transform:uppercase;margin-bottom:7px}
   .coin{border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#7A5400;background:radial-gradient(circle at 35% 28%,var(--goldLite),#FFC42E 52%,#C88A00)}
   .goldnum{color:var(--goldDeep)}
@@ -199,7 +202,7 @@
   .gradestatus .gsicon{width:36px;height:36px;flex:none;border-radius:11px;background:linear-gradient(140deg,rgba(47,127,209,.14),rgba(47,127,209,.06));border:1px solid rgba(47,127,209,.2);display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1}
   .gradestatus .gstxt{flex:1;min-width:0;font-size:12.5px;font-weight:750;color:var(--t2);line-height:1.45}
   .gradestatus .gstxt b{color:var(--valueDeep)}
-  .gradecta .btn.ghost{background:linear-gradient(180deg,#fff,#F8F9FC);border:1.5px solid var(--line);box-shadow:0 4px 14px rgba(24,40,80,.10),inset 0 1px 0 rgba(255,255,255,.9)}
+  .gradecta .btn.ghost{background:linear-gradient(180deg,#fff,#F8F9FC);border:1.5px solid var(--line);box-shadow:0 4px 14px rgba(24,40,80,0),inset 0 1px 0 rgba(255,255,255,.9)}
 
   /* prize checklist */
   .pzrow{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:750}
@@ -421,11 +424,26 @@
     <div class="lbody">
       <div class="sub" style="margin-top:0">Register your profile country before kickoff. Match results pay Coins to eligible squad players — Fan Value tracks separately.</div>
       <div class="scrollarea" style="margin-top:14px">
+        <div class="tsec">National teams</div>
         <div class="tourcard reg"><div class="ti">🏆</div><div><div class="tn2" data-tname>AFCON 2026</div><div class="ts">Registration open · Group stage</div></div><div class="tact">Register</div></div>
-        <div class="tourcard"><div class="ti">🌍</div><div><div class="tn2">FIFA World Cup 2026</div><div class="ts">Opens Dec 2026</div></div><div class="tact">Coming soon</div></div>
-        <div class="tourcard soon"><div class="ti">⚽</div><div><div class="tn2">Women's World Cup</div><div class="ts">Opens 2027</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard"><div class="ti">🌍</div><div><div class="tn2">FIFA World Cup 2026</div><div class="ts">Opens Dec 2026 · 🇺🇸🇨🇦🇲🇽</div></div><div class="tact">Coming soon</div></div>
+        <div class="tourcard"><div class="ti">🇪🇺</div><div><div class="tn2">UEFA Euro 2028</div><div class="ts">Opens 2028 · Qualifiers soon</div></div><div class="tact">Coming soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌎</div><div><div class="tn2">Copa América 2028</div><div class="ts">Opens 2028</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌏</div><div><div class="tn2">AFC Asian Cup</div><div class="ts">Opens 2027 · 🇸🇦</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🥇</div><div><div class="tn2">CONCACAF Gold Cup</div><div class="ts">Opens 2027</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🏝️</div><div><div class="tn2">OFC Nations Cup</div><div class="ts">Opens 2028</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🎖️</div><div><div class="tn2">UEFA Nations League</div><div class="ts">Group stage 2026</div></div><div class="tact">Soon</div></div>
+        <div class="tsec">Women's football</div>
+        <div class="tourcard soon"><div class="ti">⚽</div><div><div class="tn2">Women's World Cup</div><div class="ts">Opens 2027 · 🇧🇷</div></div><div class="tact">Soon</div></div>
         <div class="tourcard soon"><div class="ti">🦁</div><div><div class="tn2">Women's AFCON</div><div class="ts">Opens 2026</div></div><div class="tact">Soon</div></div>
-        <div class="tourcard soon"><div class="ti">🌏</div><div><div class="tn2">Asia Cup</div><div class="ts">Opens 2027</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">👩</div><div><div class="tn2">UEFA Women's Euro</div><div class="ts">Opens 2029</div></div><div class="tact">Soon</div></div>
+        <div class="tsec">Club competitions</div>
+        <div class="tourcard"><div class="ti">⭐</div><div><div class="tn2">UEFA Champions League</div><div class="ts">League phase 2026/27</div></div><div class="tact">Coming soon</div></div>
+        <div class="tourcard soon"><div class="ti">🧡</div><div><div class="tn2">UEFA Europa League</div><div class="ts">League phase 2026/27</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌿</div><div><div class="tn2">UEFA Conference League</div><div class="ts">Opens 2026/27</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🏵️</div><div><div class="tn2">Copa Libertadores</div><div class="ts">Opens 2026</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌟</div><div><div class="tn2">CAF Champions League</div><div class="ts">Opens 2026/27</div></div><div class="tact">Soon</div></div>
+        <div class="tourcard soon"><div class="ti">🌐</div><div><div class="tn2">FIFA Club World Cup</div><div class="ts">Opens 2029</div></div><div class="tact">Soon</div></div>
       </div>
       <div class="tournnote">ℹ️ This is an opt-in <b>Tournament Coin Rewards</b> journey. Real Fan Value / Player Value results are tracked separately.</div>
     </div>

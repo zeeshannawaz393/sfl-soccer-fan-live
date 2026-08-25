@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dragon Head — Art Preview</title>
+<style>
+  body{margin:0;min-height:100vh;background:radial-gradient(60% 40% at 50% 0%,#241a10,#05060a 60%),#05060a;
+    display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px;font-family:-apple-system,Segoe UI,sans-serif;color:#cdb37a}
+  h1{font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#ffd54a;margin:0}
+  p{font-size:12px;color:#8c7a52;margin:0 0 14px}
+  .box{background:radial-gradient(50% 50% at 50% 45%,rgba(255,180,60,.12),transparent 70%);border:1px solid #2a2114;border-radius:16px;padding:26px 44px}
+  svg{filter:drop-shadow(0 6px 18px rgba(0,0,0,.5)) drop-shadow(0 0 20px rgba(255,190,70,.4))}
+</style>
+</head>
+<body>
+  <h1>Golden Dragon — Head Art</h1>
+  <p>Isolated preview of the vector head that rides on the animated body.</p>
+  <div class="box">
+    <svg viewBox="-20 -10 460 330" width="640" height="460" style="overflow:visible" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g" x1="0.12" y1="0" x2="0.5" y2="1">
+          <stop offset="0" stop-color="#fff7d4"/><stop offset="0.16" stop-color="#ffe487"/><stop offset="0.36" stop-color="#f3c62e"/>
+          <stop offset="0.56" stop-color="#c8890c"/><stop offset="0.74" stop-color="#8a5e08"/><stop offset="0.88" stop-color="#b9810c"/><stop offset="1" stop-color="#5a3d05"/>
+        </linearGradient>
+        <linearGradient id="gj" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffe487"/><stop offset="0.4" stop-color="#e0a51e"/><stop offset="0.8" stop-color="#8a5e08"/><stop offset="1" stop-color="#4a3204"/>
+        </linearGradient>
+        <linearGradient id="gh" x1="0" y1="1" x2="0.7" y2="0">
+          <stop offset="0" stop-color="#5a3d05"/><stop offset="0.35" stop-color="#c8890c"/><stop offset="0.55" stop-color="#ffe487"/><stop offset="0.72" stop-color="#fff7d4"/><stop offset="1" stop-color="#ffd54a"/>
+        </linearGradient>
+        <linearGradient id="gm" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#fff0a0"/><stop offset="0.35" stop-color="#ffc23c"/><stop offset="0.7" stop-color="#e8901e"/><stop offset="1" stop-color="#c86a10" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gspec" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fffdf2" stop-opacity="0.9"/><stop offset="1" stop-color="#fffdf2" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="ge" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff"/><stop offset="0.4" stop-color="#ffe27a"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gs" cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0" stop-color="#fff8dc" stop-opacity="0.85"/><stop offset="1" stop-color="#fff8dc" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- MANE: layered flame hair flowing off the back -->
+      <g fill="url(#gm)">
+        <path d="M120,108 C64,84 30,96 2,80 C34,112 36,132 118,140 Z"/>
+        <path d="M110,142 C50,132 20,152 -8,150 C28,172 40,196 122,178 Z"/>
+        <path d="M114,178 C56,192 28,220 4,232 C44,226 70,236 128,214 Z"/>
+        <path d="M126,208 C80,228 54,252 38,268 C78,258 100,262 138,238 Z"/>
+      </g>
+
+      <!-- HORNS: thick curved horns sweeping up and back from the crown -->
+      <path d="M156,92 C146,60 134,36 112,6 C128,34 158,64 186,90 Z" fill="url(#gh)" opacity="0.9"/>
+      <path d="M132,98 C110,64 84,40 48,10 C74,34 116,66 172,94 Z" fill="url(#gh)" stroke="#fff4bf" stroke-width="2"/>
+      <g stroke="#8a5e08" stroke-width="3" fill="none" opacity="0.5" stroke-linecap="round">
+        <path d="M104,66 c10,-7 20,-9 28,-6"/><path d="M84,44 c9,-7 18,-8 26,-5"/><path d="M66,26 c8,-6 14,-7 20,-4"/>
+      </g>
+      <path d="M52,14 C80,38 118,68 168,92" fill="none" stroke="#fff8e0" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+
+      <!-- LOWER JAW (open) -->
+      <path d="M186,164 C222,184 262,192 300,204 C286,226 252,228 220,226 C176,222 138,208 116,190 C142,178 164,170 186,164 Z" fill="url(#gj)" stroke="#7a5406" stroke-width="2"/>
+
+      <!-- UPPER HEAD + SNOUT (convex top, no concave notch) -->
+      <path d="M62,184
+        C48,128 82,94 128,90
+        C158,86 182,90 200,104
+        C240,112 282,110 314,108
+        C338,106 351,113 360,123
+        C366,131 360,144 344,144
+        C324,152 302,148 284,152
+        L214,158 L184,162
+        C150,164 108,158 90,150
+        C70,168 62,180 62,184 Z" fill="url(#g)" stroke="#7a5406" stroke-width="2"/>
+
+      <!-- crisp rim highlight along the top edge (catches the light like metal) -->
+      <path d="M128,94 C162,86 200,90 240,100 C286,108 324,108 352,117" fill="none" stroke="#fffdf2" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+      <!-- dorsal snout crest -->
+      <g fill="#e8b021">
+        <path d="M248,106 l9,-16 l6,15 Z"/><path d="M282,106 l8,-15 l6,14 Z"/><path d="M312,108 l7,-13 l5,12 Z"/>
+      </g>
+      <!-- metal glints -->
+      <g fill="#fffdf2">
+        <path d="M302,118 l2,7 l7,2 l-7,2 l-2,7 l-2,-7 l-7,-2 l7,-2 Z" opacity="0.9"/>
+        <path d="M214,138 l1.5,5 l5,1.5 l-5,1.5 l-1.5,5 l-1.5,-5 l-5,-1.5 l5,-1.5 Z" opacity="0.75"/>
+      </g>
+
+      <!-- MOUTH interior + tongue -->
+      <path d="M184,162 L282,152 L266,200 L196,182 Z" fill="#2a1305"/>
+      <path d="M198,180 C238,192 264,190 290,194 C264,208 234,208 200,198 Z" fill="#c23b4b"/>
+
+      <!-- FANGS -->
+      <g fill="#fffbe8">
+        <path d="M274,150 l11,36 l10,-34 Z"/><path d="M240,156 l9,28 l9,-27 Z"/><path d="M208,160 l7,22 l7,-21 Z"/>
+        <path d="M208,186 l8,-25 l9,24 Z"/><path d="M246,190 l9,-25 l9,24 Z"/>
+      </g>
+
+      <!-- BROW -->
+      <path d="M120,122 C146,96 180,96 204,118 C180,108 148,110 124,128 Z" fill="url(#g)"/>
+
+      <!-- EYE (almond, angry brow already above) -->
+      <circle cx="158" cy="138" r="30" fill="url(#ge)"/>
+      <ellipse cx="158" cy="139" rx="18" ry="13" fill="#fff6d8"/>
+      <ellipse cx="161" cy="139" rx="5.5" ry="12" fill="#241200"/>
+      <circle cx="152" cy="133" r="4" fill="#fff"/>
+      <path d="M138,130 C150,120 172,122 180,132" fill="none" stroke="#7a5406" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- NOSTRIL -->
+      <ellipse cx="330" cy="128" rx="8" ry="5" fill="#5a3d05" transform="rotate(20 330 128)"/>
+
+      <!-- WHISKERS -->
+      <g fill="none" stroke="#ffce5a" stroke-width="3.5" stroke-linecap="round">
+        <path d="M350,126 C392,144 414,116 442,128 C466,138 466,158 486,154"/>
+        <path d="M342,150 C380,178 402,168 428,190"/>
+      </g>
+
+      <!-- BEARD: flame tufts under the jaw -->
+      <g fill="#ff8a2a" opacity="0.92">
+        <path d="M200,210 C192,244 198,266 188,294 C210,272 220,246 222,212 Z"/>
+        <path d="M228,216 C222,250 228,272 220,298 C240,274 248,250 248,216 Z"/>
+        <path d="M256,214 C252,246 258,268 252,294 C268,272 274,248 272,214 Z"/>
+      </g>
+    </svg>
+  </div>
+  <p style="margin-top:18px">Front-facing head (hero head-turn)</p>
+  <div class="box">
+    <svg viewBox="0 0 300 340" width="330" height="374" style="overflow:visible" xmlns="http://www.w3.org/2000/svg">
+      <!-- mane: radiating flame tufts -->
+      <g fill="#ff8a2a" opacity="0.92">
+        <path d="M104,98 C66,66 34,66 8,50 C34,94 54,106 116,124 Z"/>
+        <path d="M196,98 C234,66 266,66 292,50 C266,94 246,106 184,124 Z"/>
+        <path d="M86,150 C44,148 18,166 -8,172 C32,180 58,184 104,170 Z"/>
+        <path d="M214,150 C256,148 282,166 308,172 C268,180 242,184 196,170 Z"/>
+        <path d="M96,196 C60,214 40,238 22,258 C58,244 82,244 116,222 Z"/>
+        <path d="M204,196 C240,214 260,238 278,258 C242,244 218,244 184,222 Z"/>
+      </g>
+      <!-- horns -->
+      <path d="M118,86 C102,54 92,34 68,6 C88,32 116,58 140,84 Z" fill="url(#gh)" stroke="#fff4bf" stroke-width="2"/>
+      <path d="M182,86 C198,54 208,34 232,6 C212,32 184,58 160,84 Z" fill="url(#gh)" stroke="#fff4bf" stroke-width="2"/>
+      <!-- face shield (broad, defined jaw) -->
+      <path d="M82,116 C82,80 112,60 150,58 C188,60 218,80 218,116 C224,150 216,180 188,200 C172,214 160,220 150,222 C140,220 128,214 112,200 C84,180 76,150 82,116 Z" fill="url(#g)" stroke="#7a5406" stroke-width="2"/>
+      <!-- cheek scales -->
+      <g fill="rgba(120,80,8,0.2)"><ellipse cx="108" cy="170" rx="18" ry="11"/><ellipse cx="192" cy="170" rx="18" ry="11"/></g>
+      <!-- muzzle -->
+      <path d="M124,120 C138,108 162,108 176,120 C182,150 176,176 150,190 C124,176 118,150 124,120 Z" fill="url(#g)"/>
+      <path d="M134,122 C144,114 156,114 166,122" fill="none" stroke="#fff6d0" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
+      <ellipse cx="138" cy="160" rx="6" ry="4.5" fill="#5a3d05"/><ellipse cx="162" cy="160" rx="6" ry="4.5" fill="#5a3d05"/>
+      <!-- brows (fierce, angled toward center) -->
+      <path d="M92,118 C110,108 132,112 146,130 C128,120 108,120 90,132 Z" fill="url(#g)"/>
+      <path d="M208,118 C190,108 168,112 154,130 C172,120 192,120 210,132 Z" fill="url(#g)"/>
+      <!-- eyes (big, fierce) -->
+      <circle cx="114" cy="138" r="30" fill="url(#ge)"/><circle cx="186" cy="138" r="30" fill="url(#ge)"/>
+      <ellipse cx="114" cy="139" rx="17" ry="15" fill="#fff6d8"/><ellipse cx="186" cy="139" rx="17" ry="15" fill="#fff6d8"/>
+      <ellipse cx="117" cy="140" rx="6" ry="13" fill="#241200"/><ellipse cx="183" cy="140" rx="6" ry="13" fill="#241200"/>
+      <circle cx="110" cy="133" r="4" fill="#fff"/><circle cx="182" cy="133" r="4" fill="#fff"/>
+      <!-- open roaring mouth -->
+      <path d="M112,186 C136,181 164,181 188,186 C180,210 164,226 150,228 C136,226 120,210 112,186 Z" fill="#2a1305"/>
+      <path d="M130,204 C140,212 160,212 170,204 C160,216 140,216 130,204 Z" fill="#c23b4b"/>
+      <g fill="#fffbe8">
+        <path d="M120,187 l-3,18 l11,-13 Z"/><path d="M180,187 l3,18 l-11,-13 Z"/>
+        <path d="M140,188 l-3,14 l8,0 Z"/><path d="M160,188 l3,14 l-8,0 Z"/><path d="M150,189 l-3,13 l6,0 Z"/>
+        <path d="M136,220 l-2,-14 l8,5 Z"/><path d="M164,220 l2,-14 l-8,5 Z"/>
+      </g>
+      <!-- whiskers -->
+      <g fill="none" stroke="#ffce5a" stroke-width="3.5" stroke-linecap="round">
+        <path d="M124,156 C82,154 50,176 18,170 C-4,166 -10,154 -26,156"/>
+        <path d="M176,156 C218,154 250,176 282,170 C304,166 310,154 326,156"/>
+      </g>
+      <!-- beard -->
+      <g fill="#ff8a2a" opacity="0.9">
+        <path d="M136,222 C130,254 136,278 128,306 C150,282 156,254 156,224 Z"/>
+        <path d="M164,222 C170,254 164,278 172,306 C150,282 144,254 144,224 Z"/>
+        <path d="M150,226 C150,258 150,282 150,310 C158,282 158,256 156,228 Z"/>
+      </g>
+    </svg>
+  </div>
+</body>
+</html>

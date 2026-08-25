@@ -12,7 +12,7 @@
     --green1:#0FB753;--green2:#7CD843;
     --gold1:#FFB300;--gold2:#FFD54F;--goldDeep:#9A6A00;--goldLite:#FFE99A;
     --coral:#FF3B5F;--red:#E4362B;--blue:#2F7FD1;--violet:#7C4DFF;--cyan:#42D5FF;
-    --shadow:0 12px 34px rgba(24,40,80,.12);--shadow-sm:0 5px 16px rgba(24,40,80,.09);
+    --shadow:0 12px 34px rgba(24,40,80,0);--shadow-sm:0 5px 16px rgba(24,40,80,0);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   body{background:#04060a;background-image:radial-gradient(58% 32% at 12% 0%,rgba(255,179,0,.09),transparent 60%),radial-gradient(50% 32% at 90% 6%,rgba(124,77,255,.07),transparent 60%);color:#F7F8FA;font-family:'Manrope',-apple-system,'Segoe UI',sans-serif;padding:64px 40px 96px}
@@ -197,10 +197,10 @@
   .kcat.on{background:#14161C;color:#fff;border-color:#14161C}
   .kgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
   .kitem{border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:12px 6px 9px;text-align:center;position:relative}
-  .kitem .kem{position:relative;overflow:hidden;width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#eef1f7 52%,#d5dae7 100%);box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 16px rgba(24,40,80,.16);border:1px solid #fff;animation:g3dbob 3.8s ease-in-out infinite}
+  .kitem .kem{position:relative;overflow:hidden;width:58px;height:58px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#eef1f7 52%,#d5dae7 100%);box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,0),0 8px 16px rgba(24,40,80,0);border:1px solid #fff;animation:g3dbob 3.8s ease-in-out infinite}
   .kitem .kem::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.75) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3.6s ease-in-out infinite;pointer-events:none}
-  .kitem.ultra .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 20px rgba(255,179,0,.42)}
-  .kitem.legend .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,.14),0 8px 22px rgba(255,59,95,.42)}
+  .kitem.ultra .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,0),0 8px 20px rgba(255,179,0,.42)}
+  .kitem.legend .kem{box-shadow:inset 0 3px 6px #fff,inset 0 -7px 12px rgba(24,40,80,0),0 8px 22px rgba(255,59,95,.42)}
   .kitem .kn{font-size:11.5px;font-weight:800;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .kitem .kr{font-size:10px;font-weight:800;margin-top:2px}
   .kitem .kq{position:absolute;top:8px;right:8px;font-size:11px;font-weight:800;color:var(--t2);background:#F0F2F7;padding:2px 7px;border-radius:999px}
@@ -211,7 +211,7 @@
 
   /* item detail */
   .idhero{border-radius:20px;background:linear-gradient(135deg,#F4FCF6,#fff);border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:26px;text-align:center}
-  .idhero .em{position:relative;overflow:hidden;width:120px;height:120px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:66px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#FFF0C4 50%,#E7B84A 100%);box-shadow:0 12px 28px rgba(24,40,80,.16),0 0 40px rgba(255,179,0,.28),inset 0 5px 12px #fff,inset 0 -12px 22px rgba(154,106,0,.2);border:2px solid #fff;animation:g3dbob 3.6s ease-in-out infinite}
+  .idhero .em{position:relative;overflow:hidden;width:120px;height:120px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:66px;line-height:1;border-radius:50%;background:radial-gradient(circle at 34% 26%,#fff,#FFF0C4 50%,#E7B84A 100%);box-shadow:0 12px 28px rgba(24,40,80,0),0 0 40px rgba(255,179,0,.28),inset 0 5px 12px #fff,inset 0 -12px 22px rgba(154,106,0,.2);border:2px solid #fff;animation:g3dbob 3.6s ease-in-out infinite}
   .idhero .em::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.7) 50%,transparent 64%);background-size:230% 100%;animation:g3dsheen 3.2s ease-in-out infinite;pointer-events:none}
   .idhero .nm{font-size:22px;font-weight:800;margin-top:8px}
   .idhero .rr{font-size:13px;font-weight:800;margin-top:4px}
