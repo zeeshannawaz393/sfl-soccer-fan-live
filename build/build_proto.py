@@ -5896,6 +5896,13 @@ for fn,code,label in ALL:
 # copy the interactive prototype into the site as prototype.html
 shutil.copyfile('sfl-prototype.html', os.path.join(SITE,'prototype.html'))
 
+# copy the raw assets folder so runtime-generated markup (JS-built url('assets/..') for
+# live-room avatars, camera, gallery, dynamic data-av) resolves on the deployed site.
+# The inlined pages don't need it, but the interactive prototype builds these paths at runtime.
+if os.path.isdir('assets'):
+    shutil.copytree('assets', os.path.join(SITE,'assets'), dirs_exist_ok=True)
+    print('copied assets/ ->', os.path.join(SITE,'assets'))
+
 def cards(kind):
     out=''
     for code,label,slug,href,nscr,k in entries:
