@@ -83,7 +83,7 @@
   .vid.split .h{flex:1;background-size:cover;background-position:center 12%}
   .vid.split .seam{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-1px);background:linear-gradient(180deg,transparent,rgba(255,255,255,.6),transparent);z-index:3}
   .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.5) 0%,transparent 22%,transparent 55%,rgba(5,7,11,.85) 92%)}
-  .livetop{position:absolute;top:16px;left:16px;right:16px;z-index:6;display:flex;align-items:center;gap:8px}
+  .livetop{position:absolute;top:54px;left:16px;right:16px;z-index:6;display:flex;align-items:center;gap:8px}
   .lbadge{display:inline-flex;align-items:center;gap:5px;background:var(--coral);color:#fff;font-size:11px;font-weight:800;letter-spacing:.5px;padding:4px 10px;border-radius:8px}
   .lbadge i{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 1.3s infinite}
   .vpill{margin-left:auto;background:rgba(7,9,13,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:12px;font-weight:750;padding:5px 11px;border-radius:999px}
@@ -147,8 +147,8 @@
   .chalfull{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column}
   .chalfull .halves{flex:1;display:flex}
   .chalfull .cb{flex:1}
-  .chalfull .cb.blue{background:linear-gradient(180deg,rgba(47,127,209,.5),rgba(10,20,35,.9)),url('assets/cc_cam.jpg') center 12%/cover}
-  .chalfull .cb.red{background:linear-gradient(180deg,rgba(228,54,43,.4),rgba(30,8,6,.9)),url('assets/fb_host.jpg') center 12%/cover}
+  .chalfull .cb.blue{background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33}
+  .chalfull .cb.red{background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a}
   .chalinfo{position:absolute;left:20px;right:20px;top:120px;z-index:6;text-align:center}
   .chalinfo .ct{font-size:12px;font-weight:800;letter-spacing:3px;color:var(--gold2);text-transform:uppercase}
   .chalinfo .cn{font-size:28px;font-weight:800;color:#fff;margin-top:8px}
@@ -206,9 +206,9 @@
   /* winner reveal */
   .winwrap{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column}
   .winwrap .whero{flex:1;display:flex}
-  .winwrap .wl{flex:2;position:relative;background:url('assets/cc_cam.jpg') center 10%/cover}
-  .winwrap .wl::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.72) 0%,rgba(47,127,209,.4) 26%,rgba(8,14,24,.6) 62%,rgba(5,7,11,.95))}
-  .winwrap .wr{flex:1;position:relative;background:url('assets/fb_host.jpg') center 10%/cover;filter:grayscale(.35) brightness(.6)}
+  .winwrap .wl{flex:2;position:relative;background:url('assets/pa_04.png') center bottom/auto 98% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33}
+  .winwrap .wl::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.55) 0%,rgba(47,127,209,.32) 30%,rgba(8,14,24,.55) 62%,rgba(5,7,11,.95))}
+  .winwrap .wr{flex:1;position:relative;background:url('assets/pa_02.png') center bottom/auto 90% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a;filter:grayscale(.2) brightness(.62)}
   .winwrap .wr::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,11,.72) 0%,rgba(20,20,24,.5) 30%,rgba(5,7,11,.95))}
   .wintop{position:absolute;left:0;right:0;top:70px;z-index:7;text-align:center}
   .wintop .ft{font-size:12px;font-weight:800;letter-spacing:4px;color:rgba(255,255,255,.7)}
@@ -250,6 +250,11 @@
   .mclock.low .mcv{color:#FFCBC2;text-shadow:0 0 10px rgba(255,110,96,.65)}
   .mclock.low .mcbox{border-color:rgba(255,110,96,.55)}
   .pktimer .l{margin-top:5px}
+  .pktimer{top:60px}
+  .pktimer .mcbox{min-width:31px;padding:3px 3px 3px}
+  .pktimer .mcbox .mcv{font-size:16px}
+  .pktimer .mcbox .mcl{font-size:6px;margin-top:2px}
+  .pktimer .mcsep{font-size:15px}
   .cdwrap{display:flex;flex-direction:column;align-items:center;gap:2px}
   .cdcap{font-size:8px;font-weight:800;letter-spacing:1px;color:rgba(255,255,255,.6);text-shadow:0 1px 4px rgba(0,0,0,.5)}
   .cdring{position:relative;width:52px;height:52px;flex:none}
@@ -334,7 +339,7 @@
       <div class="idfield">@Maria<span style="color:var(--coral);font-weight:300">|</span></div>
       <div style="font-size:11.5px;font-weight:650;color:var(--t2);margin-top:8px;display:flex;align-items:center;gap:6px">🔒 Display names are unique — no two fans share one, so a name finds exactly one Host.</div>
       <div class="scout">
-        <div class="sp" style="background-image:url('assets/cc_cam.jpg')"><span class="lbadge2 slive"><i></i>LIVE</span><div class="sn"><div class="n">Maria · Blue Wolves</div><div class="i num">@Maria · ID 67890 · Host Lv 14</div></div></div>
+        <div class="sp" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"><span class="lbadge2 slive"><i></i>LIVE</span><div class="sn"><div class="n">Maria · Blue Wolves</div><div class="i num">@Maria · ID 67890 · Host Lv 14</div></div></div>
         <div class="sm">✓ Available for PK · Host grade compatible</div>
       </div>
       <div class="cta"><div class="btn">Send Challenge</div><div class="altlink">Search another ID or name</div></div>
@@ -376,7 +381,7 @@
   <div class="fw"><div class="flabel"><div class="fnum">PK-01E</div><div class="fname">Opponent Found / Matchup<span>VS · rules</span></div></div>
   <div class="phone">
     <div class="pkback">‹</div>
-    <div class="matchup"><div class="halves"><div class="m blue" style="background-image:url('assets/cc_cam.jpg')"></div><div class="m red" style="background-image:url('assets/fb_host.jpg')"></div></div>
+    <div class="matchup"><div class="halves"><div class="m blue" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="m red" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div></div>
       <div class="mn" style="left:0;width:50%"><div class="n">Maria</div><div class="c">Blue Wolves · Blues</div></div>
       <div class="mn" style="left:50%;width:50%"><div class="n">You</div><div class="c">Red District · Reds</div></div>
     </div>
@@ -394,15 +399,15 @@
   <!-- PK-02A COUNTDOWN -->
   <div class="fw"><div class="flabel"><div class="fnum">PK-02A</div><div class="fname">Countdown<span>Server-synced · no gifts before start</span></div></div>
   <div class="phone">
-    <div class="countdown"><div class="halves"><div class="cc" style="background-image:url('assets/cc_cam.jpg')"></div><div class="cc" style="background-image:url('assets/fb_host.jpg')"></div></div></div>
+    <div class="countdown"><div class="halves"><div class="cc" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="cc" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div></div></div>
     <div class="cdbig"><div class="cdring big" data-from="10"><svg viewBox="0 0 66 66"><circle class="cdbg" cx="33" cy="33" r="28"/><circle class="cdfg" cx="33" cy="33" r="28"/></svg><div class="cdn num">10</div></div></div>
     <div class="cdmsg">SUPPORT YOUR SIDE — KICK OFF COUNTDOWN</div>
   </div></div>
 
   <!-- PK-03 LIVE BATTLE -->
   <div class="fw"><div class="flabel"><div class="fnum">PK-03</div><div class="fname">Live PK Battle<span>Timer · side Coins · Possession · gifts</span></div></div>
-  <div class="phone">
-    <div class="vid split"><div class="h" style="background-image:url('assets/cc_cam.jpg')"></div><div class="h" style="background-image:url('assets/fb_host.jpg')"></div><div class="seam"></div></div>
+  <div class="phone bleed">
+    <div class="vid split"><div class="h" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="h" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div><div class="seam"></div></div>
     <div class="scrim"></div>
     <div class="livetop"><span class="lbadge"><i></i>LIVE PK</span><span class="vpill">👁 4.1K</span><span class="pkend">✕ End PK</span></div>
     <div class="pktimer"><div class="mclock" data-sec="300" data-init="300"><div class="mcbox"><span class="mcv mm">05</span><span class="mcl">MIN</span></div><div class="mcsep">:</div><div class="mcbox"><span class="mcv ss">00</span><span class="mcl">SEC</span></div></div><div class="l">Battle time</div></div>
@@ -425,7 +430,7 @@
   <!-- PK-03A GIFT SIDE SHEET -->
   <div class="fw"><div class="flabel"><div class="fnum">PK-03A</div><div class="fname">Choose Side &amp; Gift<span>Sheet retains target</span></div></div>
   <div class="phone">
-    <div class="vid split" style="filter:brightness(.5)"><div class="h" style="background-image:url('assets/cc_cam.jpg')"></div><div class="h" style="background-image:url('assets/fb_host.jpg')"></div></div>
+    <div class="vid split" style="filter:brightness(.5)"><div class="h" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="h" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div></div>
     <div class="sheet-scrim"><div class="sheet">
       <div class="grab"></div>
       <h3>Support <span class="sidetag red">Reds</span></h3>
@@ -444,7 +449,7 @@
   <!-- PK-03B LEAD CHANGE -->
   <div class="fw"><div class="flabel"><div class="fnum">PK-03B</div><div class="fname">Lead Change<span>Flash · no extra Coins added</span></div></div>
   <div class="phone">
-    <div class="vid split"><div class="h" style="background-image:url('assets/cc_cam.jpg')"></div><div class="h" style="background-image:url('assets/fb_host.jpg')"></div><div class="seam"></div></div>
+    <div class="vid split"><div class="h" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="h" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div><div class="seam"></div></div>
     <div class="scrim"></div>
     <div class="leadflash"><div class="lt">BLUES<br>TAKE THE LEAD<small>61% — 39%</small></div></div>
     <div class="pktimer"><div class="t num">1:12</div><div class="l">Full time</div></div>
@@ -453,7 +458,7 @@
   <!-- PK-03D FINALIZING -->
   <div class="fw"><div class="flabel"><div class="fnum">PK-03D</div><div class="fname">Finalizing<span>Server-verified, not client values</span></div></div>
   <div class="phone">
-    <div class="vid split" style="filter:brightness(.5)"><div class="h" style="background-image:url('assets/cc_cam.jpg')"></div><div class="h" style="background-image:url('assets/fb_host.jpg')"></div></div>
+    <div class="vid split" style="filter:brightness(.5)"><div class="h" style="background:url('assets/pa_04.png') center bottom/auto 96% no-repeat,url('assets/pcbg_blue.png') center/cover;background-color:#0b1a33"></div><div class="h" style="background:url('assets/pa_02.png') center bottom/auto 96% no-repeat,url('assets/pcbg_red.png') center/cover;background-color:#25101a"></div></div>
     <div class="finalizing">
       <div class="sp"></div>
       <div class="ft">Confirming final support…</div>

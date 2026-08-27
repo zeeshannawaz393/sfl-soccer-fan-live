@@ -40,6 +40,7 @@
   /* header / dugout hero */
   .hero{position:relative;padding:16px 18px 16px;overflow:hidden;background:linear-gradient(160deg,#2A0C0A,#120608 70%);border-bottom:1px solid rgba(255,255,255,.06)}
   .hero.dash{padding-bottom:20px}
+  .phone.bleed .hero{padding-top:56px}
   .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 82% 12%,rgba(228,54,43,.42),transparent 60%);pointer-events:none}
   .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background-image:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000);opacity:.5;pointer-events:none}
   .htop{display:flex;align-items:center;gap:12px;position:relative;z-index:2}
@@ -85,6 +86,8 @@
 
   /* target card with pitch */
   .target{background:linear-gradient(160deg,#0d1a10,#0b0e14);border:1px solid rgba(201,255,61,.2);border-radius:18px;padding:15px 16px;position:relative;overflow:hidden}
+  .hero.dash .epill{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#C9FF3D;background:rgba(201,255,61,.14);border:1px solid rgba(201,255,61,.32);padding:2px 8px;border-radius:999px}
+  .target::before{content:"";position:absolute;inset:0;z-index:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Cg fill='none' stroke='%2334D058' stroke-opacity='0.55' stroke-width='2'%3E%3Cline x1='160' y1='0' x2='160' y2='180'/%3E%3Ccircle cx='160' cy='90' r='40'/%3E%3Crect x='0' y='52' width='46' height='76'/%3E%3Crect x='274' y='52' width='46' height='76'/%3E%3C/g%3E%3Ccircle cx='160' cy='90' r='3' fill='%2334D058' fill-opacity='0.6'/%3E%3C/svg%3E") center/118% no-repeat;opacity:.55;pointer-events:none}
   .target::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(201,255,61,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,255,61,.06) 1px,transparent 1px);background-size:30px 30px;-webkit-mask-image:radial-gradient(80% 80% at 50% 120%,#000,transparent);mask-image:radial-gradient(80% 80% at 50% 120%,#000,transparent);pointer-events:none}
   .target .th{display:flex;align-items:center;position:relative;z-index:1}
   .target .tt{font-size:13px;font-weight:800;color:var(--t1)}
@@ -98,7 +101,9 @@
   .tmeta a{margin-left:auto;color:var(--volt);font-weight:800}
 
   /* recruitment snapshot */
-  .recruit{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .recruit{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative;overflow:hidden}
+  .recruit::before{content:"";position:absolute;right:-10px;top:0;bottom:0;width:42%;z-index:0;background:repeating-linear-gradient(48deg,rgba(15,183,83,.14) 0 1.5px,transparent 1.5px 11px),repeating-linear-gradient(-48deg,rgba(15,183,83,.14) 0 1.5px,transparent 1.5px 11px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%);pointer-events:none}
+  .recruit .rh,.recruit .rc,.recruit .prog{position:relative;z-index:1}
   .hfilt{flex:none;font-size:12px;font-weight:750;color:var(--t2);background:var(--panel);border:1px solid var(--line);padding:6px 13px;border-radius:999px}
   .hfilt.on{background:var(--volt);color:#0A0C10;border-color:var(--volt);font-weight:800}
   .hlog{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)}
@@ -120,7 +125,7 @@
   .short{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;gap:8px;position:relative}
   .short .si{width:36px;height:36px;border-radius:10px;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;overflow:visible}
   .short .sl{font-size:11.5px;font-weight:750;line-height:14px;color:#E4E9F1}
-  .short .badge{position:absolute;top:-7px;right:-7px;min-width:21px;height:21px;padding:0 5px;border-radius:999px;background:var(--coral);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 3px 8px rgba(228,54,43,.45);z-index:4}
+  .short .badge{position:absolute;top:5px;right:5px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--coral);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--panel);box-shadow:0 3px 8px rgba(228,54,43,.45);z-index:4}
 
   /* buttons */
   .btn{height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:800;background:var(--volt);color:#0A1400;box-shadow:0 10px 24px rgba(201,255,61,.24)}
@@ -282,7 +287,7 @@
 
   <!-- MC-00 CLUB SELECTOR -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-00</div><div class="fname">Manager HQ · Club Selector<span>Multi-club · verify permission</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="selavatar" style="background-image:url('assets/up_12.png')"></div><div><div class="hq">Manager HQ</div><div class="cname">Zeeshan N.</div></div><div class="hicons"><div class="hicon">⚙️</div></div></div></div>
     <div class="body">
       <div class="lbl" style="margin-bottom:10px">Your managed clubs</div>
@@ -297,7 +302,7 @@
 
   <!-- MC-01 DASHBOARD -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-01</div><div class="fname">Manager Dashboard<span>Scoreboard command view</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero dash"><div class="htop"><div class="crest sm">RF</div><div><div class="hq">Manager HQ</div><div class="cname">Red Fury</div></div><div class="fanview">👁 Fan view</div><div class="hicons"><div class="hicon">🔔<span class="dot"></span></div><div class="hicon avatar" style="overflow:hidden;padding:0"><img src="assets/up_12.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div></div></div></div>
     <div class="body">
       <div class="scroll">
@@ -337,7 +342,7 @@
 
   <!-- MC-01A COMMISSION DETAIL -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-01A</div><div class="fname">Commission Detail<span>Tiers · additive model</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Your Club Commission</div></div></div>
     <div class="body">
       <div class="scroll">
@@ -369,7 +374,7 @@
 
   <!-- MC-01B TARGET BREAKDOWN -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-01B</div><div class="fname">Monthly Target Breakdown<span>Show the maths</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Monthly Club Target</div></div></div>
     <div class="body">
       <div class="scroll">
@@ -408,7 +413,7 @@
 
   <!-- MC-02 RECRUIT FANS -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-02</div><div class="fname">Recruit Fans<span>Match-ticket link · 7-day form</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Recruit Fans</div></div></div>
     <div class="body">
       <div class="scroll">
@@ -452,7 +457,7 @@
 
   <!-- MC-02A SHARE SHEET -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-02A</div><div class="fname">Recruitment Share Sheet<span>"Apply," never auto-add · QR</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">✕</div><div class="htitle">Share invitation</div></div></div>
     <div class="body">
       <div class="qrframe">
@@ -469,7 +474,7 @@
 
   <!-- MC-02H RECRUITMENT HISTORY -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-02H</div><div class="fname">Recruitment History<span>Log · accepted / rejected / expired</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Recruitment History</div></div></div>
     <div class="body">
       <div class="row2" style="margin-bottom:10px">
@@ -493,7 +498,7 @@
 
   <!-- MC-03 REWARD CENTER -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-03</div><div class="fname">Daily Reward Center<span>Claim to Club Wallet</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Club Rewards</div></div></div>
     <div class="body">
       <div class="row2" style="margin-bottom:2px">
@@ -530,7 +535,7 @@
 
   <!-- MC-04 FAN LIST -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-04</div><div class="fname">Fan List<span>Squad roster · filters</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Squad · 388 Fans</div><div class="hicons"><div class="hicon">⇅</div></div></div></div>
     <div class="body">
       <div class="search">🔎 Search username or User ID</div>
@@ -551,7 +556,7 @@
 
   <!-- MC-04A FAN DETAIL -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-04A</div><div class="fname">Fan Performance Detail<span>Club-relevant only</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Fan profile</div></div>
       <div style="display:flex;align-items:center;gap:13px;position:relative;z-index:2;margin-top:12px">
         <div class="av" id="cm-av" style="width:62px;height:62px;background-image:url('assets/up_11.png')"></div>
@@ -579,7 +584,7 @@
 
   <!-- MC-04B REMOVE CONFIRM -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-04B</div><div class="fname">Remove Fan Confirmation<span>Reason required · audited</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">✕</div><div class="htitle">Remove from club</div></div></div>
     <div class="body">
       <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="av" style="width:44px;height:44px;background-image:url('assets/up_06.png')"></div><div><div style="font-size:15px;font-weight:800">Tom H.</div><div class="fid num">ID 71203</div></div></div>
@@ -598,7 +603,7 @@
 
   <!-- MC-05 APPLICATIONS -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-05</div><div class="fname">Fan Applications<span>Scouting cards · accept/reject</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Applications · 4 pending</div></div></div>
     <div class="body">
       <div class="scroll">
@@ -629,7 +634,7 @@
 
   <!-- MC-06 ADD BY USER ID -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-06</div><div class="fname">Add Fan by User ID<span>Invitation · consent above button</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Invite by User ID</div></div></div>
     <div class="body">
       <div class="lbl" style="margin-bottom:8px">Fan's SFL User ID</div>
@@ -648,7 +653,7 @@
 
   <!-- MC-06R INVITATION SENT -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-06R</div><div class="fname">Invitation Sent<span>Amber clock, not a checkmark</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Invitation sent</div></div></div>
     <div class="body" style="justify-content:flex-start;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:28px">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px;margin-top:6px;flex:none">🕐</div>
@@ -666,7 +671,7 @@
 
   <!-- MC-07 APPROVAL QUEUE -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-07</div><div class="fname">Transfer / Loan Approvals<span>Consent-gated · no withdrawals</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Approvals · 2 pending</div></div></div>
     <div class="body">
       <div class="tabs" style="margin-bottom:8px"><div class="tab on">Transfers <span class="bd">1</span></div><div class="tab">Loans <span class="bd">1</span></div><div class="tab">Done</div><div class="tab">Rejected</div></div>
@@ -704,7 +709,6 @@
           <div class="consentbar" style="margin-top:14px">🕐 Awaiting Fan Consent — approval is locked until Lena agrees.</div>
           <div class="sactions" style="display:flex;gap:9px;margin-top:10px"><div class="btn ghost sm" style="flex:1">Reject</div><div class="btn dis sm" style="flex:2">Approve</div></div>
         </div>
-        <div class="note coral" style="margin-top:2px">Wallet withdrawals are <b>not</b> approved here — they stay in the Fan's own KYC-gated wallet (J13).</div>
         <div style="height:10px;flex:none"></div>
       </div>
     </div>
@@ -712,7 +716,7 @@
 
   <!-- MC-07D APPROVAL DETAIL -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-07D</div><div class="fname">Approval Detail<span>Full terms · both-Manager sign-off</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Transfer request</div></div></div>
     <div class="body">
       <div class="scroll">
@@ -745,7 +749,7 @@
 
   <!-- MC-CM-01 MAKE MANAGER CONFIRM -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-01</div><div class="fname">Make Manager<span>Invite · fan must accept</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Make Manager</div></div></div>
     <div class="body">
       <div style="display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px"><div class="av cm-av" style="width:50px;height:50px;background-image:url('assets/up_11.png')"></div><div><div class="cm-name" style="font-size:16px;font-weight:800">Olivia M.</div><div class="fid num cm-fid">ID 67890 · Lv 9</div></div></div>
@@ -763,7 +767,7 @@
 
   <!-- MC-CM-02 INVITE SENT -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-02</div><div class="fname">Manager Invite Sent<span>Awaiting fan</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Invite sent</div></div></div>
     <div class="body" style="justify-content:flex-start;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:28px">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px;margin-top:6px;flex:none">🕐</div>
@@ -775,7 +779,7 @@
 
   <!-- MC-CM-03 FAN ACCEPTED -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-03</div><div class="fname">Fan Is Now a Manager<span>Invite accepted</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Accepted</div></div></div>
     <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(201,255,61,.14);border:1.5px solid rgba(201,255,61,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🛡️</div>
@@ -792,7 +796,7 @@
 
   <!-- MC-CM-Q QUEUE -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-Q</div><div class="fname">Co-manager Requests<span>Accept / decline</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Co-managers</div></div></div>
     <div class="body">
       <div class="tabs" style="margin-bottom:10px"><div class="tab on" data-cmtab="ask">Requests <span class="bd" id="cm-askn">1</span></div><div class="tab" data-cmtab="invite">Sent invites <span class="bd" id="cm-invn">0</span></div></div>
@@ -803,7 +807,7 @@
 
   <!-- MC-CM-F1 FAN INVITE -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F1</div><div class="fname">Manager Invite Received<span>Fan accept / reject</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Manager invite</div></div></div>
     <div class="body">
       <div style="width:72px;height:72px;border-radius:18px;background:linear-gradient(150deg,var(--gold),var(--gold2));color:#3A2400;display:flex;align-items:center;justify-content:center;font-size:32px;margin:8px auto 0;box-shadow:0 10px 24px rgba(255,158,27,.35)">🛡️</div>
@@ -821,7 +825,7 @@
 
   <!-- MC-CM-F2 FAN ASK -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F2</div><div class="fname">Ask to Become Manager<span>Fan request</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Become a manager</div></div></div>
     <div class="body">
       <div class="sheet-title">Ask to manage this club too?</div>
@@ -838,7 +842,7 @@
 
   <!-- MC-CM-F3 ASK SENT -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F3</div><div class="fname">Manager Request Sent<span>Awaiting manager</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Request sent</div></div></div>
     <div class="body" style="justify-content:flex-start;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:28px">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,163,26,.14);border:1.5px solid rgba(255,163,26,.4);display:flex;align-items:center;justify-content:center;font-size:38px;margin-top:6px;flex:none">🕐</div>
@@ -850,7 +854,7 @@
 
   <!-- MC-CM-F4 ACCEPTED -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F4</div><div class="fname">You Are a Manager<span>HQ unlocked</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">You are in</div></div></div>
     <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(201,255,61,.14);border:1.5px solid rgba(201,255,61,.4);display:flex;align-items:center;justify-content:center;font-size:38px">🛡️</div>
@@ -867,7 +871,7 @@
 
   <!-- MC-CM-F5 REJECTED -->
   <div class="fw"><div class="flabel"><div class="fnum">MC-CM-F5</div><div class="fname">Manager Decision<span>Rejected</span></div></div>
-  <div class="phone">
+  <div class="phone bleed">
     <div class="hero"><div class="htop"><div class="back">‹</div><div class="htitle">Decision</div></div></div>
     <div class="body" style="justify-content:center;text-align:center;align-items:center;display:flex;flex-direction:column;padding-top:0">
       <div style="width:86px;height:86px;border-radius:50%;background:rgba(255,59,95,.12);border:1.5px solid rgba(255,59,95,.35);display:flex;align-items:center;justify-content:center;font-size:38px">✕</div>

@@ -52,6 +52,11 @@
   .teamrow .tc{font-size:11px;font-weight:650;color:var(--t2);margin-top:1px}
   .teamrow .rad{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none}
   .teamrow.on .rad{border-color:var(--green1);background:radial-gradient(circle,var(--green1) 40%,transparent 46%)}
+  .teamrow.full{opacity:.62;cursor:not-allowed}
+  .teamrow.full .crest{filter:grayscale(.55)}
+  .teamrow .clubfull{margin-left:auto;flex:none;font-size:9.5px;font-weight:800;letter-spacing:.3px;color:#fff;background:linear-gradient(140deg,#FF6B5C,#E4362B);padding:4px 9px;border-radius:999px;box-shadow:0 3px 8px rgba(228,54,43,.3)}
+  .teamrow .clubslots{margin-left:auto;flex:none;font-size:10px;font-weight:800;color:#B4740A;background:rgba(255,179,0,.15);border:1px solid rgba(255,179,0,.35);padding:3px 8px;border-radius:999px}
+  .teamrow .clubslots + .rad{margin-left:10px}
   .teamsel{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff,#F3F7FD);border:1px solid var(--line);border-radius:15px;padding:13px 14px;box-shadow:var(--shadow-sm)}
   .teamsel .crest{width:44px;height:44px;border-radius:11px;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(150deg,var(--red),#8F1109);flex:none}
   .teamsel .tn{font-size:14.5px;font-weight:800}.teamsel .tc{font-size:11.5px;font-weight:650;color:var(--t2);margin-top:1px}
@@ -142,15 +147,15 @@
       <div class="teamrow" data-name="bournemouth"><div class="crest cr-red">BOU</div><div><div class="tn">Bournemouth</div><div class="tc">Bournemouth</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="brentford"><div class="crest cr-red">BRE</div><div><div class="tn">Brentford</div><div class="tc">London</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="brighton & hove albion"><div class="crest cr-blue">BHA</div><div><div class="tn">Brighton & Hove Albion</div><div class="tc">Brighton</div></div><div class="rad"></div></div>
-      <div class="teamrow" data-name="chelsea"><div class="crest cr-blue">CHE</div><div><div class="tn">Chelsea</div><div class="tc">London</div></div><div class="rad"></div></div>
+      <div class="teamrow full" data-name="chelsea" data-full="1"><div class="crest cr-blue">CHE</div><div><div class="tn">Chelsea</div><div class="tc">London</div></div><span class="clubfull">FULL · 5/5</span></div>
       <div class="teamrow" data-name="crystal palace"><div class="crest cr-blue">CRY</div><div><div class="tn">Crystal Palace</div><div class="tc">London</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="everton"><div class="crest cr-blue">EVE</div><div><div class="tn">Everton</div><div class="tc">Liverpool</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="fulham"><div class="crest cr-blue">FUL</div><div><div class="tn">Fulham</div><div class="tc">London</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="ipswich town"><div class="crest cr-blue">IPS</div><div><div class="tn">Ipswich Town</div><div class="tc">Ipswich</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="leicester city"><div class="crest cr-blue">LEI</div><div><div class="tn">Leicester City</div><div class="tc">Leicester</div></div><div class="rad"></div></div>
-      <div class="teamrow" data-name="liverpool"><div class="crest cr-red">LIV</div><div><div class="tn">Liverpool</div><div class="tc">Liverpool</div></div><div class="rad"></div></div>
+      <div class="teamrow" data-name="liverpool"><div class="crest cr-red">LIV</div><div><div class="tn">Liverpool</div><div class="tc">Liverpool</div></div><span class="clubslots">4/5</span><div class="rad"></div></div>
       <div class="teamrow" data-name="manchester city"><div class="crest cr-blue">MCI</div><div><div class="tn">Manchester City</div><div class="tc">Manchester</div></div><div class="rad"></div></div>
-      <div class="teamrow" data-name="manchester united"><div class="crest cr-red">MUN</div><div><div class="tn">Manchester United</div><div class="tc">Manchester</div></div><div class="rad"></div></div>
+      <div class="teamrow full" data-name="manchester united" data-full="1"><div class="crest cr-red">MUN</div><div><div class="tn">Manchester United</div><div class="tc">Manchester</div></div><span class="clubfull">FULL · 5/5</span></div>
       <div class="teamrow" data-name="newcastle united"><div class="crest cr-blue">NEW</div><div><div class="tn">Newcastle United</div><div class="tc">Newcastle</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="nottingham forest"><div class="crest cr-red">NFO</div><div><div class="tn">Nottingham Forest</div><div class="tc">Nottingham</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="southampton"><div class="crest cr-red">SOU</div><div><div class="tn">Southampton</div><div class="tc">Southampton</div></div><div class="rad"></div></div>
@@ -160,8 +165,8 @@
     </div>
     <div class="lgroup" data-league="laliga">
       <div class="lgsec">SPAIN · LA LIGA</div>
-      <div class="teamrow" data-name="real madrid"><div class="crest cr-gold">RMA</div><div><div class="tn">Real Madrid</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
-      <div class="teamrow" data-name="fc barcelona"><div class="crest cr-blue">BAR</div><div><div class="tn">FC Barcelona</div><div class="tc">Barcelona</div></div><div class="rad"></div></div>
+      <div class="teamrow full" data-name="real madrid" data-full="1"><div class="crest cr-gold">RMA</div><div><div class="tn">Real Madrid</div><div class="tc">Madrid</div></div><span class="clubfull">FULL · 5/5</span></div>
+      <div class="teamrow" data-name="fc barcelona"><div class="crest cr-blue">BAR</div><div><div class="tn">FC Barcelona</div><div class="tc">Barcelona</div></div><span class="clubslots">4/5</span><div class="rad"></div></div>
       <div class="teamrow" data-name="atlético madrid"><div class="crest cr-red">ATM</div><div><div class="tn">Atlético Madrid</div><div class="tc">Madrid</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="athletic bilbao"><div class="crest cr-red">ATH</div><div><div class="tn">Athletic Bilbao</div><div class="tc">Bilbao</div></div><div class="rad"></div></div>
       <div class="teamrow" data-name="real sociedad"><div class="crest cr-blue">RSO</div><div><div class="tn">Real Sociedad</div><div class="tc">San Sebastián</div></div><div class="rad"></div></div>

@@ -187,7 +187,13 @@
 
   /* my players squad */
   .squadsum{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .sbox{background:linear-gradient(145deg,#fff,#F8FAFD);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}
+  .sbox{position:relative;background:linear-gradient(145deg,#fff,#F8FAFD);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}
+  .sbi{position:absolute;top:11px;right:11px;width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+  .sbi.gold{background:rgba(255,179,0,.16);color:var(--goldDeep)}
+  .sbi.up{background:rgba(15,183,83,.15);color:var(--green1)}
+  .rosterhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .rosterhead .rht{font-size:13.5px;font-weight:800;letter-spacing:-.2px;color:var(--t1)}
+  .rosterhead .rhc{font-size:10.5px;font-weight:750;color:var(--t2);background:var(--raised2);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
   .sbox:first-child{background:linear-gradient(145deg,#FFF8E8,#FFFCF4);border-color:#FFE199;box-shadow:0 6px 20px rgba(255,179,0,.12),inset 0 1px 0 rgba(255,255,255,.9)}
   .sbox:last-child{background:linear-gradient(145deg,#F2FBF5,#FAFEFB);border-color:#BFE9CE;box-shadow:0 6px 20px rgba(15,183,83,.10),inset 0 1px 0 rgba(255,255,255,.9)}
   .sbox .sv{font-size:19px;font-weight:800}
@@ -505,9 +511,9 @@
   <div class="phone">
     <div class="top"><div class="back">‹</div><div class="htitle">My Players</div><div class="coinbal"><div class="coin">C</div><span class="num">820</span></div></div>
     <div class="body">
-      <div class="squadsum" style="margin-bottom:10px">
-        <div class="sbox"><div class="sv gold num">6,140</div><div class="sl">Squad value</div></div>
-        <div class="sbox"><div class="sv up num">+310</div><div class="sl">Unrealized P/L</div></div>
+      <div class="squadsum" style="margin-bottom:12px">
+        <div class="sbox"><span class="sbi gold">◆</span><div class="sv gold num">6,140</div><div class="sl">Squad value</div></div>
+        <div class="sbox"><span class="sbi up">▲</span><div class="sv up num">+310</div><div class="sl">Unrealized P/L</div></div>
       </div>
       <div class="dutybar" id="pl-duty">
         <div class="dh">Fan duty this week</div>
@@ -517,13 +523,7 @@
           <div class="dutyp" id="pl-duty-b"><div class="n num">0/2</div><div class="l">Buy</div></div>
         </div>
       </div>
-      <div class="recbox" id="pl-recs">
-        <div class="rh">Buy picks</div>
-        <div class="rd" id="pl-recs-copy">List 2 players first. SFL will then show two recommended buys matched to those listing values — you don’t browse-pick them.</div>
-        <div id="pl-recs-rows"></div>
-        <div class="btn sm" data-plact="weeklybuys" id="pl-recs-cta" style="margin-top:8px;display:none">Buy the 2 players</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;background:#F2FBF5;border:1px solid #BFE9CE;border-radius:12px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;font-weight:750;color:#187A42">🛡️ 18 players · squad minimum 18 · seeded from Man United</div>
+      <div class="rosterhead"><span class="rht">Your squad</span><span class="rhc">🛡️ 18 · min 18</span></div>
       <div class="tabs" style="margin-bottom:12px"><i class="on" data-pltab="all">All</i><i data-pltab="avail">Available</i><i data-pltab="listed">Listed</i><i data-pltab="pending">Pending</i></div>
       <div class="scrollarea">
         <div class="roster">

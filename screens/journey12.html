@@ -141,6 +141,13 @@
   .lgr .cn{font-weight:800}
   .lgr .cf{font-size:10.5px;font-weight:700;color:var(--t2)}
   .lgr .pts{margin-left:auto;font-weight:800;font-size:15px}
+  .lghd{display:flex;align-items:center;gap:10px;padding:8px 13px;border-bottom:1px solid var(--line);font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);background:var(--raised2)}
+  .lghd .rk{width:22px;text-align:center}
+  .lghd .cnh{flex:1}
+  .lgr .lgn{flex:1;min-width:0}
+  .lgr .col,.lghd .col{width:24px;flex:none;text-align:center;font-weight:800;font-size:13.5px}
+  .lgr .col.pts,.lghd .col.pts{width:36px;color:var(--red);font-size:15px}
+  .lgscore{margin-top:12px;font-size:11.5px;font-weight:700;color:var(--t2);line-height:1.45;background:var(--raised2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
   .lgr .gd{font-size:10px;font-weight:800;color:#fff;padding:2px 6px;border-radius:5px;margin-left:8px}
   .gd.a{background:var(--value)}.gd.b{background:var(--gold1);color:#5A3E00}.gd.c{background:var(--t3)}
   .lgr.you{background:linear-gradient(90deg,rgba(228,54,43,.08),transparent);box-shadow:inset 3px 0 0 var(--red)}
@@ -380,20 +387,22 @@
       <div class="lgtabs" style="margin-bottom:12px"><span class="lgtab on">Club Performance</span><span class="lgtab">Highest Spend</span><span class="lgtab">Previous</span></div>
       <div class="scrollarea">
         <div class="podium">
-          <div class="pod second"><div class="pc crest cr-blue">BW</div><div class="pn">Blue Wolves</div><div class="pp num">980</div></div>
-          <div class="pod first"><div class="pc">🏆</div><div class="pn">North Stars</div><div class="pp num">1,120</div></div>
-          <div class="pod third"><div class="pc crest cr-violet">VV</div><div class="pn">Violet V.</div><div class="pp num">760</div></div>
+          <div class="pod second"><div class="pc crest cr-red">RF</div><div class="pn">Red Fury</div><div class="pp num">12</div></div>
+          <div class="pod first"><div class="pc">🏆</div><div class="pn">North Stars</div><div class="pp num">14</div></div>
+          <div class="pod third"><div class="pc crest cr-blue">BW</div><div class="pn">Blue Wolves</div><div class="pp num">11</div></div>
         </div>
-        <div class="lgcount"><span>⏱ Closes in 6d 14h</span><span style="margin-left:auto;font-weight:750;color:var(--t2)">Scores update live</span></div>
+        <div class="lgcount"><span>⏱ Closes in 6d 14h</span><span style="margin-left:auto;font-weight:750;color:var(--t2)">Win +3 · Draw +2</span></div>
         <div class="lgtable">
-          <div class="lgr"><span class="rk num">1</span><span class="mv up">▲</span><div class="crest cr-gold">NS</div><div style="flex:1"><div class="cn">North Stars</div><div class="cf num">52 fans</div></div><span class="pts num">1,120</span><span class="gd a">A</span></div>
+          <div class="lghd"><span class="rk">#</span><span class="cnh">Club</span><span class="col">W</span><span class="col">D</span><span class="col">L</span><span class="col pts">Pts</span></div>
+          <div class="lgr"><span class="rk num">1</span><div class="crest cr-gold">NS</div><div class="lgn"><div class="cn">North Stars</div><div class="cf num">52 fans</div></div><span class="col num">4</span><span class="col num">1</span><span class="col num">0</span><span class="col pts num">14</span></div>
           <div class="prizeline">◆ TIER 1 PRIZE</div>
-          <div class="lgr you"><span class="rk num">2</span><span class="mv up">▲</span><div class="crest cr-red">RF</div><div style="flex:1"><div class="cn">Red Fury · You</div><div class="cf num">40 fans · 40 behind #1</div></div><span class="pts num">1,080</span><span class="gd a">A</span></div>
-          <div class="lgr"><span class="rk num">3</span><span class="mv dn">▼</span><div class="crest cr-blue">BW</div><div style="flex:1"><div class="cn">Blue Wolves</div><div class="cf num">44 fans</div></div><span class="pts num">980</span><span class="gd b">B</span></div>
+          <div class="lgr you"><span class="rk num">2</span><div class="crest cr-red">RF</div><div class="lgn"><div class="cn">Red Fury · You</div><div class="cf num">40 fans · 2 behind #1</div></div><span class="col num">4</span><span class="col num">0</span><span class="col num">1</span><span class="col pts num">12</span></div>
+          <div class="lgr"><span class="rk num">3</span><div class="crest cr-blue">BW</div><div class="lgn"><div class="cn">Blue Wolves</div><div class="cf num">44 fans</div></div><span class="col num">3</span><span class="col num">1</span><span class="col num">1</span><span class="col pts num">11</span></div>
           <div class="prizeline">◆ TIER 2 PRIZE</div>
-          <div class="lgr"><span class="rk num">4</span><span class="mv up">▲</span><div class="crest cr-violet">VV</div><div style="flex:1"><div class="cn">Violet Valley</div><div class="cf num">31 fans</div></div><span class="pts num">760</span><span class="gd b">B</span></div>
-          <div class="lgr"><span class="rk num">5</span><span class="mv">·</span><div class="crest cr-green">GF</div><div style="flex:1"><div class="cn">Greenfield</div><div class="cf num">28 fans</div></div><span class="pts num">610</span><span class="gd c">C</span></div>
+          <div class="lgr"><span class="rk num">4</span><div class="crest cr-violet">VV</div><div class="lgn"><div class="cn">Violet Valley</div><div class="cf num">31 fans</div></div><span class="col num">2</span><span class="col num">1</span><span class="col num">2</span><span class="col pts num">8</span></div>
+          <div class="lgr"><span class="rk num">5</span><div class="crest cr-green">GF</div><div class="lgn"><div class="cn">Greenfield</div><div class="cf num">28 fans</div></div><span class="col num">1</span><span class="col num">0</span><span class="col num">4</span><span class="col pts num">3</span></div>
         </div>
+        <div class="lgscore">🏆 <b>Win +3</b> · <b>Draw +2</b> · Loss 0 — every point adds <b>+100 Fan Value</b> &amp; <b>+100 Player Value</b> to your eligible squad.</div>
       </div>
     </div>
   </div></div>
@@ -461,7 +470,7 @@
           <div style="font-size:13.5px;font-weight:750;line-height:22px;color:var(--t2);margin-top:8px">• Placed in a group like the real tournament<br>• Coin payouts on your country's results<br>• Win: +100 × eligible squad players<br>• Draw: +40 × eligible players<br>• Entry fee: <b style="color:var(--goldDeep)">500 Coins</b></div>
         </div>
       </div>
-      <div class="cta"><div class="btn">Register for AFCON 2026</div><div class="altlink ruleslink">View Coin Reward rules</div></div>
+      <div class="cta"><div class="btn">Register for AFCON 2026</div></div>
     </div>
   </div></div>
 
@@ -473,13 +482,8 @@
       <div class="h1" style="font-size:22px">Your tournament country</div>
       <div class="sub">Must match your profile country. You compete for this nation throughout the tournament.</div>
       <div class="countrypill" style="margin-top:16px"><div class="cf2">🇳🇬</div><div><div class="cn2" data-tcountry>Nigeria 🇳🇬</div><div class="cs2">From your profile · cannot change after registration</div></div><div class="lock">🔒 Locked</div></div>
-      <div class="card" style="padding:4px 16px;margin-top:14px">
-        <div class="balr"><span class="k">Entry fee</span><span class="v"><span class="coin" style="width:16px;height:16px;font-size:8px;display:inline-flex;vertical-align:middle;margin-right:4px">C</span><span data-tfee class="num">500</span> Coins</span></div>
-        <div class="balr"><span class="k">Your balance</span><span class="v num" data-tbal>1,240</span></div>
-        <div class="balr new"><span class="k">Balance after</span><span class="v num" data-tafter>740</span></div>
-      </div>
-      <div class="feenote">💡 One-time registration per tournament. Coins are deducted when you confirm payment on the next screen.</div>
-      <div class="cta"><div class="btn">Continue to payment</div><div class="altlink ruleslink">View reward rules</div></div>
+      <div class="feenote" style="margin-top:16px">💡 One-time <b>500 Coin</b> registration per tournament. Coins are deducted when you confirm on the next screen.</div>
+      <div class="cta"><div class="btn">Continue to payment</div></div>
     </div>
   </div></div>
 
@@ -645,16 +649,16 @@
         </div>
         <div class="gradestatus card"><div class="gsicon">⬆️</div><div class="gstxt">On track to <b>maintain Grade A</b> — confirmed at month end</div></div>
       </div>
-      <div class="cta gradecta"><div class="btn ghost">View Grade Rules</div><div class="altlink">View Prize Eligibility</div></div>
+      <div class="cta gradecta"><div class="btn ghost">View Grade Rules</div></div>
     </div>
   </div></div>
 
   <!-- PR-04B PRIZE ELIGIBILITY -->
   <div class="fw"><div class="flabel"><div class="fnum">PR-04B</div><div class="fname">Prize Eligibility<span>Why you qualify</span></div></div>
   <div class="phone">
-    <div class="top"><div class="back">‹</div><div class="htitle">Prize eligibility</div></div>
+    <div class="top"><div class="back">‹</div><div class="htitle">Grade rules &amp; eligibility</div></div>
     <div class="lbody">
-      <div style="text-align:center;margin-top:6px"><div style="font-size:44px">🏟️</div><div class="h1" style="margin-top:8px">Currently eligible</div><div class="sub">Tier 2 monthly prize · Red Fury FC</div></div>
+      <div style="text-align:center;margin-top:6px"><div style="font-size:44px">🏟️</div><div class="h1" style="margin-top:8px">Grade A · currently eligible</div><div class="sub">Hit the monthly target to hold your grade · Tier 2 monthly prize · Red Fury FC</div></div>
       <div class="card" style="padding:2px 16px;margin-top:16px">
         <div class="pzrow"><span class="pk ok">✓</span>Ranked in the prize zone (#2)</div>
         <div class="pzrow"><span class="pk ok">✓</span>Monthly target reached</div>

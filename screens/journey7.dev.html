@@ -92,11 +92,14 @@
   .phone.stadhome .tabs{gap:6px;margin-bottom:10px;background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important}
   .phone.stadhome .tab{background:var(--card);border:1px solid var(--line);color:var(--t2);padding:6px 12px;font-size:12.5px}
   .phone.stadhome .tab.on{background:#C9FF3D;color:#10140A;border-color:#C9FF3D}
-  .phone.stadhome .golivecard{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:10px;box-shadow:none!important}
-  .phone.stadhome .golivecard .gk{margin:0}
-  .phone.stadhome .golivecard .gt{font-size:16px;margin:0}
+  .phone.stadhome .golivecard{display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:18px;margin-bottom:12px;background:linear-gradient(115deg,#0E3A22,#0E5B31 45%,#12C25A)!important;box-shadow:0 14px 34px rgba(15,183,83,.4),inset 0 1px 0 rgba(255,255,255,.14)!important;position:relative;overflow:hidden}
+  .phone.stadhome .golivecard::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg);animation:goliveshine 4.5s ease-in-out infinite;pointer-events:none}
+  @keyframes goliveshine{0%,72%{left:-60%}86%,100%{left:135%}}
+  .phone.stadhome .golivecard .gk{margin:0;color:#B7F5CE}
+  .phone.stadhome .golivecard .gt{font-size:18px;margin:1px 0 0}
   .phone.stadhome .golivecard .gs{display:none}
-  .phone.stadhome .golivecard .gbtn{margin:0 0 0 auto;padding:8px 14px;font-size:13px;color:#0A7A38!important}
+  .phone.stadhome .golivecard .gbtn{margin:0 0 0 auto;padding:11px 18px;font-size:14px;color:#0A7A38!important;box-shadow:0 6px 16px rgba(0,0,0,.28),0 0 0 4px rgba(255,255,255,.12);animation:golivepulse 1.8s ease-in-out infinite;position:relative;z-index:1;white-space:nowrap}
+  @keyframes golivepulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
   .phone.stadhome .sgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:10px;row-gap:16px;padding-bottom:8px}
   .phone.stadhome .roomcard{margin:0;border:none;border-radius:14px;background:#12151C;box-shadow:none!important}
   .phone.stadhome .roomcard .rc{height:210px;background:linear-gradient(180deg,rgba(10,20,14,.28),rgba(8,12,9,.7)),url('assets/fb_stadium.jpg') center 22%/cover}
@@ -265,13 +268,13 @@
   .formfield .frow.gk{top:71.5%}
   /* GL-03V viewer hero: bigger glowing host + flanking match-time & goal-rush */
   .room.vhero .rhero-bg{position:absolute;top:0;left:0;right:0;height:236px;z-index:2;pointer-events:none;background:radial-gradient(88% 68% at 50% 4%,rgba(201,255,61,.17),transparent 62%),linear-gradient(180deg,rgba(3,10,6,.55),transparent 76%)}
-  .room.vhero .hero-time,.room.vhero .hero-rush{position:absolute;top:112px;z-index:8;width:74px;text-align:center;background:rgba(6,14,9,.6);border:1px solid rgba(201,255,61,.24);border-radius:12px;padding:6px 5px 7px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 5px 14px rgba(0,0,0,.35)}
+  .room.vhero .hero-time,.room.vhero .hero-rush{position:absolute;top:116px;z-index:8;width:52px;text-align:center;background:rgba(6,14,9,.6);border:1px solid rgba(201,255,61,.24);border-radius:10px;padding:3px 3px 4px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 5px 14px rgba(0,0,0,.35)}
   .room.vhero .hero-time{left:12px}
   .room.vhero .hero-rush{right:12px}
-  .room.vhero .hero-time .hl,.room.vhero .hero-rush .hl{font-size:7px;font-weight:800;letter-spacing:.5px;color:rgba(255,255,255,.72);text-transform:uppercase}
-  .room.vhero .hero-time .mclock{display:flex;justify-content:center;align-items:baseline;gap:0;font-family:'Manrope',sans-serif;font-size:19px;font-weight:900;color:#C9FF3D;letter-spacing:-.5px;line-height:1;margin-top:3px;text-shadow:0 2px 7px rgba(0,0,0,.55)}
-  .room.vhero .hero-time .mclock .mcsep{font-size:16px;margin:0 1px}
-  .room.vhero .hero-time .hs,.room.vhero .hero-rush .hs{font-size:6.5px;font-weight:800;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.3px}
+  .room.vhero .hero-time .hl,.room.vhero .hero-rush .hl{font-size:6px;font-weight:800;letter-spacing:.3px;color:rgba(255,255,255,.72);text-transform:uppercase;line-height:1}
+  .room.vhero .hero-time .mclock{display:flex;justify-content:center;align-items:baseline;gap:0;font-family:'Manrope',sans-serif;font-size:13px;font-weight:900;color:#C9FF3D;letter-spacing:-.5px;line-height:1;margin-top:2px;text-shadow:0 2px 7px rgba(0,0,0,.55)}
+  .room.vhero .hero-time .mclock .mcsep{font-size:11px;margin:0 .5px}
+  .room.vhero .hero-time .hs,.room.vhero .hero-rush .hs{font-size:5.5px;font-weight:800;color:rgba(255,255,255,.6);margin-top:2px;text-transform:uppercase;letter-spacing:.2px;line-height:1}
   .room.vhero .hero-rush .cdring{width:38px;height:38px;margin:2px auto 0;position:relative}
   .room.vhero .hero-rush .cdring svg{width:38px;height:38px;transform:rotate(-90deg)}
   .room.vhero .hero-rush .cdring .cdbg{fill:none;stroke:rgba(255,255,255,.14);stroke-width:5}
@@ -279,6 +282,7 @@
   .room.vhero .hero-rush .cdring.low .cdfg{stroke:var(--coral)}
   .room.vhero .hero-rush .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#C9FF3D}
   .room.vhero .frow.hostrow{top:12%}
+  .room.vhero .formfield .frow{padding:0 16px}
   .room.vhero .seat.host{width:158px}
   .room.vhero .seat.host .av{width:132px;height:132px;border-width:4px;border-color:#0b140c;box-shadow:0 0 0 4px rgba(201,255,61,.92),0 0 32px rgba(201,255,61,.5),0 12px 26px rgba(0,0,0,.5)}
   .room.vhero .seat.host .hl{top:-8px;font-size:9px;padding:3px 11px}
@@ -866,7 +870,7 @@
       <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip host">Host</span></div></div>
       <div class="rhud"><div class="htools"><div class="audstack" title="Audience"><span class="au" style="background-image:url('assets/pa_h_01.png')"></span><span class="au" style="background-image:url('assets/pa_h_03.png')"></span><span class="au" style="background-image:url('assets/pa_h_05.png')"></span><span class="aumore">+2.1k</span></div><div class="htool" title="Appoint managers">👔</div><div class="htool chinbox" title="Waiting list">📋<span class="nbadge" id="ch-badge">3</span></div></div></div>
     </div>
-    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div><div class="hs">1st Half</div></div>
+    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div></div>
     <div class="formfield">
       <div class="frow hostrow"><div class="seat host you"><div class="av" style="background-image:url('assets/pa_h_02.png')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">You</div></div></div>
       <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/pa_h_01.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/pa_h_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
@@ -889,7 +893,7 @@
       <div class="rt2"><div class="rname">Matchday Warm-Up <span class="rolechip viewer">Viewer</span></div></div>
       <div class="rhud"><div class="htools"><div class="htool rleave" title="Leave">✕</div></div></div>
     </div>
-    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div><div class="hs">1st Half</div></div>
+    <div class="hero-time"><div class="hl">Match Time</div><div class="mclock" data-sec="2697" data-init="2700"><span class="mm">44</span><span class="mcsep">:</span><span class="ss">57</span></div></div>
     <div class="formfield">
       <div class="frow hostrow"><div class="seat host"><div class="av" style="background-image:url('assets/pa_h_02.png')"></div><div class="hl"><i></i>LIVE</div><div class="pos">HOST</div><div class="nm">RobbieOnAir</div></div></div>
       <div class="frow fwd"><div class="seat spk"><div class="av" style="background-image:url('assets/up_07.png')"></div><div class="pos">LW</div><div class="nm">Lucia</div></div><div class="seat"><div class="av" style="background-image:url('assets/up_03.png')"></div><div class="pos">ST</div><div class="nm">Omar</div></div><div class="seat open pulse"><div class="av">＋</div><div class="pos">RW</div><div class="nm">Open</div></div></div>
