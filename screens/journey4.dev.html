@@ -86,6 +86,9 @@
   .trow .thumb .pi{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;z-index:1;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
   .trow .tbody{flex:1;min-width:0}
   .trow .tt{font-size:14px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:6px}
+  .trow .tt .mgrtag{font-size:8px;font-weight:800;letter-spacing:.4px;color:#0A7A38;background:rgba(15,183,83,.14);border:1px solid rgba(15,183,83,.3);padding:2px 6px;border-radius:999px}
+  .trow.mgr-battle{border-color:rgba(15,183,83,.3);background:linear-gradient(120deg,#F2FBF5,#fff)}
+  .trow.mgr-battle .thumb{background-color:#0E3A22}
   .trow .req{font-size:12px;font-weight:650;color:var(--t2);margin-top:2px}
   .trow .pbar{height:5px;border-radius:999px;background:#EAEEF5;overflow:hidden;margin-top:8px}
   .trow .pbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green1),var(--green2))}
@@ -281,6 +284,16 @@
             <div class="rt"><span class="goldchip"><div class="coin">G</div>+10</span></div>
           </div>
           <div class="side"><div class="act">Predict</div></div>
+        </div>
+
+        <div class="trow mgr-battle" style="display:none">
+          <div class="thumb" style="background-image:url('assets/fb_m3.jpg')"><span class="pi">⚔️</span></div>
+          <div class="tbody">
+            <div class="tt">Club Battle <span class="mgrtag">MANAGER</span></div>
+            <div class="req num">0 of 1 · challenge a rival club's manager</div>
+            <div class="rt"><span class="goldchip"><div class="coin">C</div>+10</span></div>
+          </div>
+          <div class="side"><div class="act" data-battle="1">Battle</div></div>
         </div>
 
         <div class="trow complete">

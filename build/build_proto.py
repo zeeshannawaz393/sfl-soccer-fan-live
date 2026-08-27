@@ -863,6 +863,8 @@ body[data-stage="light"] #j13 .hero{
   border-bottom:3px solid #E4362B!important;
   box-shadow:0 8px 24px rgba(228,54,43,.08)!important;
 }
+/* Manager HQ hero is light in light mode — status bar text must be dark to stay visible */
+body[data-stage="light"] #j13 .sfl-statusbar{color:#14161C!important}
 body[data-stage="light"] #j13 .hero::before{
   background:radial-gradient(58% 80% at 88% 8%,rgba(228,54,43,.14),transparent 62%)!important;
 }
@@ -3321,6 +3323,40 @@ PLAYER_JS = """
       if(e.target===w||e.target.closest('.sup-cancel')){ w.remove(); return; }
       if(e.target.closest('.sup-send')){ w.remove(); goTo('ticketdetail'); setTimeout(function(){ sflToast('✓ Ticket created · '+_supcat+' — support will reply shortly'); },40); return; } });
   }
+  function showClubBattle(presetIdx){
+    var phone=_qaPhone(); if(!phone)return; var old=phone.querySelector('.sflbattle'); if(old)old.remove();
+    var OPP=[['Blue Wolves','M. Okonkwo','#2266C9','BW','3–2'],['North Stars','S. Adeyemi','#E6A100','NS','2–1'],['Violet Valley','K. Rivera','#7C3AED','VV','4–2'],['Greenfield','T. Bennett','#0FA855','GF','5–0']];
+    var w=document.createElement('div'); w.className='sflbattle';
+    w.style.cssText='position:absolute;inset:0;z-index:84;display:flex;align-items:flex-end;background:rgba(4,6,10,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);font-family:Manrope,-apple-system,sans-serif';
+    var card=document.createElement('div'); card.className='sflbattle-card';
+    card.style.cssText='width:100%;background:linear-gradient(180deg,#1b2233,#12151d);border-top-left-radius:22px;border-top-right-radius:22px;padding:16px 18px 26px;box-shadow:0 -20px 50px rgba(0,0,0,.55)';
+    w.appendChild(card); phone.appendChild(w);
+    function grab(){ return '<div style="width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:0 auto 14px"></div>'; }
+    function pick(){
+      card.innerHTML=grab()
+        +'<div style="font-size:17px;font-weight:800;color:#fff">⚔️ Club Battle</div>'
+        +'<div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:3px">Challenge a rival club\\'s manager. Win to earn +10 Coins for your club.</div>'
+        +'<div style="margin-top:14px;display:flex;flex-direction:column;gap:9px">'
+        + OPP.map(function(o,i){ return '<div class="bt-opp" data-i="'+i+'" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;cursor:pointer"><div style="width:36px;height:36px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,rgba(255,255,255,.28),'+o[2]+' 62%);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 3px 8px rgba(0,0,0,.3)">'+o[3]+'</div><div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:800;color:#fff">'+o[0]+'</div><div style="font-size:11px;font-weight:650;color:#8892A4">Manager · '+o[1]+'</div></div><span style="font-size:12px;font-weight:800;color:#C9FF3D;background:rgba(201,255,61,.14);border:1px solid rgba(201,255,61,.3);padding:6px 12px;border-radius:999px">Challenge</span></div>'; }).join('')
+        +'</div>';
+    }
+    function sent(o){
+      card.innerHTML=grab()+'<div style="text-align:center;padding:8px 0 4px"><div style="font-size:34px">⚔️</div><div style="font-size:16px;font-weight:800;color:#fff;margin-top:8px">Challenge sent</div><div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:4px">Waiting for '+o[1]+' · '+o[0]+' to accept…</div></div>';
+      setTimeout(function(){ if(w.parentNode) result(o); }, 1600);
+    }
+    function result(o){
+      card.innerHTML=grab()+'<div style="text-align:center"><div style="font-size:34px">🏆</div>'
+        +'<div style="font-size:19px;font-weight:800;color:#C9FF3D;margin-top:6px">Red Fury won!</div>'
+        +'<div style="font-size:13px;font-weight:700;color:#EAEEF5;margin-top:4px">Red Fury '+o[4]+' '+o[0]+'</div>'
+        +'<div style="display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:rgba(255,194,61,.15);border:1px solid rgba(255,194,61,.4);color:#FFC24D;font-weight:800;font-size:15px;padding:9px 16px;border-radius:999px"><div class="coin" style="width:20px;height:20px;font-size:10px">C</div>+10 Coins</div></div>'
+        +'<div class="bt-collect" style="text-align:center;margin-top:18px;padding:13px;border-radius:13px;background:linear-gradient(140deg,#C9FF3D,#8FD400);color:#10140A;font-weight:800;font-size:14px;cursor:pointer">Collect reward</div>';
+    }
+    if(typeof presetIdx==='number'&&OPP[presetIdx]){ sent(OPP[presetIdx]); } else { pick(); }
+    w.addEventListener('click',function(e){ e.stopPropagation();
+      var op=e.target.closest('.bt-opp'); if(op){ sent(OPP[+op.getAttribute('data-i')]); return; }
+      if(e.target.closest('.bt-collect')){ w.remove(); sflToast('✓ Club Battle won · +10 Coins added to the club'); return; }
+      if(e.target===w){ w.remove(); return; } });
+  }
   function showMoveSheet(name){
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflmovewrap'))return;
     var pos=['RW','CB','CM'];
@@ -4075,7 +4111,22 @@ PLAYER_JS = """
       +'<div style="font-size:13px;font-weight:600;color:#8892A4;margin-top:8px;line-height:1.5">Are you sure you want to leave? You can rejoin anytime while the host is live.</div>'
       +'<div style="display:flex;gap:9px;margin-top:18px"><div class="lv-stay" style="flex:1;padding:12px;border-radius:12px;background:rgba(255,255,255,.08);color:#C9D0DC;font-weight:800;font-size:13.5px;cursor:pointer">Stay</div><div class="lv-go" style="flex:1;padding:12px;border-radius:12px;background:rgba(228,54,43,.92);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer">Leave room</div></div></div>';
     phone.appendChild(w);
-    w.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===w||e.target.closest('.lv-stay')){ w.remove(); return; } if(e.target.closest('.lv-go')){ w.remove(); SFLpip=null; sflToast('You left the live room'); goTo('live'); return; } });
+    w.addEventListener('click',function(e){ e.stopPropagation(); if(e.target===w||e.target.closest('.lv-stay')){ w.remove(); return; } if(e.target.closest('.lv-go')){ w.remove(); SFLpip=null; showViewerRecap(); return; } });
+  }
+  function showViewerRecap(){
+    var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone)return; var old=phone.querySelector('.sflrecap'); if(old)old.remove();
+    var w=document.createElement('div'); w.className='sflrecap';
+    w.style.cssText='position:absolute;inset:0;z-index:92;display:flex;align-items:center;justify-content:center;background:rgba(4,6,10,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:Manrope,-apple-system,sans-serif';
+    function stat(ic,v,l){ return '<div style="flex:1;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 6px"><div style="font-size:17px">'+ic+'</div><div style="font-size:18px;font-weight:800;color:#fff;margin-top:4px">'+v+'</div><div style="font-size:9.5px;font-weight:700;color:#8892A4;margin-top:2px">'+l+'</div></div>'; }
+    w.innerHTML='<div style="width:84%;max-width:312px;background:linear-gradient(180deg,#1b2233,#12151d);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:22px 20px;text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.6)">'
+      +'<div style="font-size:32px">👋</div>'
+      +'<div style="font-size:19px;font-weight:800;color:#fff;margin-top:6px">You left the room</div>'
+      +'<div style="font-size:12.5px;font-weight:650;color:#8892A4;margin-top:4px">Matchday Warm-Up · RobbieOnAir</div>'
+      +'<div style="display:flex;gap:9px;margin-top:16px">'+stat('⏱','24m','Watched')+stat('💬','8','Messages')+stat('🎁','2','Gifts sent')+'</div>'
+      +'<div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font-size:11px;font-weight:750;color:#C9FF3D;background:rgba(201,255,61,.1);border:1px solid rgba(201,255,61,.25);border-radius:999px;padding:7px 12px">🔥 You were part of a 2.1k crowd</div>'
+      +'<div class="rc-done" style="margin-top:18px;padding:13px;border-radius:13px;background:linear-gradient(140deg,#C9FF3D,#8FD400);color:#10140A;font-weight:800;font-size:14px;cursor:pointer">Back to Stadium</div></div>';
+    phone.appendChild(w);
+    w.addEventListener('click',function(e){ e.stopPropagation(); if(e.target.closest('.rc-done')||e.target===w){ w.remove(); goTo('live'); return; } });
   }
   function injectRoomBg(mount){ if(!mount)return; var cards=mount.querySelectorAll('.stadhome .roomcard .rc'); for(var i=0;i<cards.length;i++){ var rc=cards[i]; if(rc.querySelector('.rcbg'))continue; var b=document.createElement('div'); b.className='rcbg '+(EIMG[i%EIMG.length]); rc.insertBefore(b, rc.firstChild); } }
   function render(){
@@ -4096,6 +4147,7 @@ PLAYER_JS = """
     SFLcoinify(mount); SFLcrest(mount); SFLchat(mount);
     if(/^ML-/.test(scr.fnum)||scr.fnum==='MC-07D') applyMoveType(mount);
     if(scr.fnum==='FT-01'||scr.fnum==='FT-02'){applyTaskDone(mount);}
+    if(scr.fnum==='FT-01'){ var _mbt=mount.querySelector('.mgr-battle'); if(_mbt)_mbt.style.display=SFLmgrMode?'':'none'; }
     if(scr.fnum==='PV-04'){SFLpred={match:SFLpredMatch,score:SFLpredScore};}
     if(scr.fnum==='PV-05'){applyVoteDone(mount,'motm');}
     if(scr.fnum==='PV-09'){applyVoteDone(mount,'award');}
@@ -4182,7 +4234,7 @@ PLAYER_JS = """
     if(scr.fnum==='G-02'||scr.fnum==='G-02M'){applyHomePlayersDuty(mount);}
     if(scr.fnum==='FT-02'){applyFtPlayerDuty(mount);}
     if(scr.fnum==='FT-03P'){applyFtBuySellDetail(mount);}
-    if(scr.fnum==='G-03'){applyPlNotifs(mount);applyCmgrNotifs(mount);applyTourn(mount);}
+    if(scr.fnum==='G-03'){applyPlNotifs(mount);applyCmgrNotifs(mount);applyTourn(mount); var _bn=mount.querySelector('.mgr-battle-notif'); if(_bn)_bn.style.display=SFLmgrMode?'':'none';}
     if(scr.fnum==='J2-16'){applyCmgrMember(mount);}
     if(scr.fnum==='J2-05'){applyClubDetailMember(mount);}
     if(scr.fnum==='MC-01'){applyCmgrHqBadge(mount);}
@@ -5215,6 +5267,7 @@ PLAYER_JS = """
     if(_cf==='1'){ if(!t.closest('.btn,.altlink,a')){next();return;} }
     if(_cf==='G-03'){ if(t.closest('.top .back')){goBack();return;} if(t.closest('.ico')){[].forEach.call(mEl.querySelectorAll('.unread'),function(u){u.style.display='none';}); sflToast('All notifications marked read'); return;} var _nfc=t.closest('.fchip'); if(_nfc){singleSel(_nfc,_nfc.parentElement);return;}
       var _ngo=t.closest('.nrow[data-goto]'); if(_ngo){ var _un2=_ngo.querySelector('.unread'); if(_un2)_un2.style.display='none'; goTo(_ngo.getAttribute('data-goto')); return; }
+      var _btl=t.closest('[data-btldec]'); if(_btl){ var _bd=_btl.getAttribute('data-btldec'); var _bnr=_btl.closest('.nrow'); if(_bd==='accept'){ if(_bnr)_bnr.style.display='none'; showClubBattle(0); } else { if(_bnr){ var _bun=_bnr.querySelector('.unread'); if(_bun)_bun.style.display='none'; var _bna=_bnr.querySelector('.nacts'); if(_bna)_bna.innerHTML='<span style="font-size:11px;font-weight:800;color:var(--t3)">Declined</span>'; } sflToast('Club Battle declined'); } return; }
       var _off=t.closest('[data-ploffer]');
       if(_off){
         var _pid=_off.getAttribute('data-ploffer')||'rivera', _kind=_off.getAttribute('data-kind')||'transfer', _dec=(t.closest('[data-pldec]')||{}).getAttribute&&t.closest('[data-pldec]').getAttribute('data-pldec');
@@ -5285,7 +5338,7 @@ PLAYER_JS = """
     }
     if(_cf.indexOf('CS-')===0 && ((VIEWS[curJ].screens[curS]||{}).srcJ===25)){
       var _csbk=t.closest('.top .back');
-      if(_csbk){ if(/🔔/.test(_csbk.textContent||'')){goTo('csnotes');return;} if(/🧾/.test(_csbk.textContent||'')){goTo('cshistory');return;} if(_cf==='CS-30'){goTo('profile');return;} goBack(); return; }
+      if(_csbk){ if(/🔔/.test(_csbk.textContent||'')){goTo('csnotes');return;} if(/🧾/.test(_csbk.textContent||'')){goTo('cshistory');return;} if(_cf==='CS-30'){cleanTo('profile', /^CS-/);return;} goBack(); return; }
       var _sl=t.closest('[data-seller]');
       if(_sl){
         if(_sl.classList.contains('off')){ sflToast('Seller is offline'); return; }
@@ -5503,6 +5556,7 @@ PLAYER_JS = """
       if(_cf==='FT-01'||_cf==='FT-02'){
         var _ftab=t.closest('.tabs i'); if(_ftab){jumpTab(/week/i.test(_ftab.textContent)?'tasksweekly':'tasksdaily');return;}
         var _row=t.closest('.trow'); if(_row){ var _tt=((_row.querySelector('.tt')||{}).textContent||'').toLowerCase();
+          if(/club battle/.test(_tt)){showClubBattle();return;}
           if(/predict/.test(_tt)){goTo('predictions');return;}
           if(/award/.test(_tt)){goTo('awards');return;}
           if(/vote|motm|man of|woman of/.test(_tt)){goTo('vote');return;}
