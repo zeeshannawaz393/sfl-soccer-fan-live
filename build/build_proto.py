@@ -5110,10 +5110,8 @@ PLAYER_JS = """
   stage.addEventListener('touchend',function(e){
     if(e.changedTouches.length!==1){swipeLock=null;return;}
     if(swipeLock==='v'){swipeLock=null;return;}
-    var t=e.changedTouches[0], dx=t.clientX-tx, dy=t.clientY-ty;
     swipeLock=null;
-    if(Math.abs(dx)<SWIPE_MIN||Math.abs(dx)<Math.abs(dy)*SWIPE_RATIO)return;
-    dx<0?next():prev();
+    /* horizontal swipe no longer flips between screens — navigation is via on-screen controls only */
   },{passive:true});
   var MULTI='.tchip,.chip', SINGLE='.fchip,.lchip,.tab,.dtab,.segopt,.reasonopt,.srcopt,.laopt,.opt,.giftopt,.pt,.sw,.em,.teamrow,.lgchip,.formcard', SEG='.seg,.tabs,.dtabs';
   function singleSel(el,grp){[].forEach.call(grp.children,function(c){if(c.classList)c.classList.remove('on');});el.classList.add('on');}
