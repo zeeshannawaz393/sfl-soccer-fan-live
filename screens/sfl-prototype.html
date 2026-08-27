@@ -5529,8 +5529,8 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
           <div class="thumb" style="background-image:var(--img-fb_m3_jpg)"><span class="pi">⚔️</span></div>
           <div class="tbody">
             <div class="tt">Club Battle <span class="mgrtag">MANAGER</span></div>
-            <div class="req num">0 of 1 · challenge a rival club's manager</div>
-            <div class="rt"><span class="goldchip"><div class="coin">C</div>+10</span></div>
+            <div class="req num">Challenge a rival manager to a live PK battle</div>
+            <div class="rt"><span class="goldchip">⚔️ Winner decided live</span></div>
           </div>
           <div class="side"><div class="act" data-battle="1">Battle</div></div>
         </div>
@@ -11727,7 +11727,7 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
             <div class="ni club">⚔️</div>
             <div style="flex:1">
               <div class="nt">Blue Wolves challenged you to a Club Battle</div>
-              <div class="nsupport">Manager · M. Okonkwo · accept to start · winner earns +10 Coins</div>
+              <div class="nsupport">Manager · M. Okonkwo · accept to start a live PK battle · winner decided by confirmed support</div>
               <div class="nacts"><div class="nbtn ok" data-btldec="accept">Accept</div><div class="nbtn no" data-btldec="reject">Reject</div></div>
               <div class="ntime">Just now</div>
             </div>
@@ -14717,6 +14717,21 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
     tst.addEventListener('click',function(e){ e.stopPropagation(); if(tst._t)clearTimeout(tst._t); _kill(); });
     tst._t=setTimeout(_kill,1900);
   }
+  var SFLclubBattle=null;
+  function applyClubBattle(root){
+    if(!SFLclubBattle){ return; }
+    var o=SFLclubBattle; var oppShort=(o[0]||'Rival').split(' ')[0];
+    var lb=root.querySelector('.livetop .lbadge'); if(lb)lb.innerHTML='<i></i>CLUB BATTLE';
+    function crest(el,txt,col){ if(!el)return; el.textContent=txt; if(col){el.style.background='linear-gradient(150deg,rgba(255,255,255,.25),'+col+' 62%)';} }
+    crest(root.querySelector('.pkc:not(.r) .crest'),o[3]||'BW',o[2]); crest(root.querySelector('.pkc.r .crest'),'RF','#E4362B');
+    var ln=root.querySelector('.pkc:not(.r) .nm'); if(ln)ln.textContent=o[0]+' · '+o[1];
+    var rn=root.querySelector('.pkc.r .nm'); if(rn)rn.textContent='Red Fury · You';
+    crest(root.querySelector('.fpside:not(.r) .crest'),o[3]||'BW',o[2]); crest(root.querySelector('.fpside.r .crest'),'RF','#E4362B');
+    var lfs=root.querySelector('.fpside:not(.r) .n'); if(lfs)lfs.textContent=oppShort;
+    var rfs=root.querySelector('.fpside.r .n'); if(rfs)rfs.textContent='Red Fury';
+    var gb=root.querySelector('.giftbtns .gbtn.blue'); if(gb)gb.textContent='🎁 Gift '+o[0];
+    var gr=root.querySelector('.giftbtns .gbtn.red'); if(gr)gr.textContent='🎁 Gift Red Fury';
+  }
   function showSupportNew(cat){
     var phone=_qaPhone(); if(!phone)return; var old=phone.querySelector('.sflsup'); if(old)old.remove();
     var cats=['Payments & Coins','Withdrawal','Escrow / Transfer','Fraud / Abuse','Other'];
@@ -14750,14 +14765,14 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
     function pick(){
       card.innerHTML=grab()
         +'<div style="font-size:17px;font-weight:800;color:#fff">⚔️ Club Battle</div>'
-        +'<div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:3px">Challenge a rival club\'s manager. Win to earn +10 Coins for your club.</div>'
+        +'<div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:3px">Challenge a rival club\'s manager to a live PK battle — winner decided by confirmed support.</div>'
         +'<div style="margin-top:14px;display:flex;flex-direction:column;gap:9px">'
         + OPP.map(function(o,i){ return '<div class="bt-opp" data-i="'+i+'" style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;cursor:pointer"><div style="width:36px;height:36px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:#fff;background:linear-gradient(150deg,rgba(255,255,255,.28),'+o[2]+' 62%);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 3px 8px rgba(0,0,0,.3)">'+o[3]+'</div><div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:800;color:#fff">'+o[0]+'</div><div style="font-size:11px;font-weight:650;color:#8892A4">Manager · '+o[1]+'</div></div><span style="font-size:12px;font-weight:800;color:#C9FF3D;background:rgba(201,255,61,.14);border:1px solid rgba(201,255,61,.3);padding:6px 12px;border-radius:999px">Challenge</span></div>'; }).join('')
         +'</div>';
     }
     function sent(o){
-      card.innerHTML=grab()+'<div style="text-align:center;padding:8px 0 4px"><div style="font-size:34px">⚔️</div><div style="font-size:16px;font-weight:800;color:#fff;margin-top:8px">Challenge sent</div><div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:4px">Waiting for '+o[1]+' · '+o[0]+' to accept…</div></div>';
-      setTimeout(function(){ if(w.parentNode) result(o); }, 1600);
+      card.innerHTML=grab()+'<div style="text-align:center;padding:8px 0 4px"><div style="font-size:34px">⚔️</div><div style="font-size:16px;font-weight:800;color:#fff;margin-top:8px">Challenge accepted!</div><div style="font-size:12px;font-weight:650;color:#8892A4;margin-top:4px">'+o[1]+' · '+o[0]+' is ready — starting the battle…</div></div>';
+      setTimeout(function(){ if(w.parentNode){ w.remove(); SFLpkViewer=false; SFLclubBattle=o; goTo('pkbattle'); } }, 1400);
     }
     function result(o){
       card.innerHTML=grab()+'<div style="text-align:center"><div style="font-size:34px">🏆</div>'
@@ -14771,6 +14786,16 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
       var op=e.target.closest('.bt-opp'); if(op){ sent(OPP[+op.getAttribute('data-i')]); return; }
       if(e.target.closest('.bt-collect')){ w.remove(); sflToast('✓ Club Battle won · +10 Coins added to the club'); return; }
       if(e.target===w){ w.remove(); return; } });
+  }
+  function showRematchSim(){
+    var phone=_qaPhone(); if(!phone)return; var old=phone.querySelector('.sflrematch'); if(old)old.remove();
+    var oppName=SFLclubBattle?(SFLclubBattle[1]+' · '+SFLclubBattle[0]):'Maria · Blue Wolves';
+    var w=document.createElement('div'); w.className='sflrematch';
+    w.style.cssText='position:absolute;inset:0;z-index:94;display:flex;align-items:center;justify-content:center;background:rgba(4,6,10,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:Manrope,-apple-system,sans-serif';
+    w.innerHTML='<div style="width:82%;max-width:300px;text-align:center;background:linear-gradient(180deg,#1b2233,#12151d);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:24px 20px;box-shadow:0 30px 70px rgba(0,0,0,.6)"><div style="font-size:34px">⚔️</div><div style="font-size:18px;font-weight:800;color:#fff;margin-top:8px">Rematch requested</div><div class="rm-sub" style="font-size:12.5px;font-weight:650;color:#8892A4;margin-top:6px">Waiting for '+oppName+'…</div></div>';
+    phone.appendChild(w);
+    setTimeout(function(){ var s=w.querySelector('.rm-sub'); if(s)s.innerHTML='<b style="color:#C9FF3D">'+oppName+' accepted!</b> Restarting the battle…'; },1000);
+    setTimeout(function(){ if(w.parentNode){ w.remove(); goTo('pkbattle'); } },2100);
   }
   function showMoveSheet(name){
     var phone=document.getElementById('scaler').firstElementChild.querySelector('.phone'); if(!phone||phone.querySelector('.sflmovewrap'))return;
@@ -15570,11 +15595,13 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
     if(scr.fnum==='J2-21'&&SFLfvActive){var _j21b=mount.querySelector('.btn'); if(_j21b)_j21b.textContent='✓ Fan Value Active';}
     if(scr.fnum==='FV-00'&&SFLfvActive){var _fv0b=mount.querySelector('.btn'); if(_fv0b)_fv0b.textContent='✓ Already Active';}
     if((scr.fnum==='MSG-04'||scr.fnum==='MSG-05')&&SFLchatGift){ var _cg=SFLchatGift; SFLchatGift=null; var _mb=mount.querySelector('.msgs'); if(_mb){ var _gcard=document.createElement('div'); _gcard.className='giftcard'; _gcard.innerHTML='<div class="gi">'+_cg.em+'</div><div class="gt">You sent a '+_cg.gn+'</div><div class="gs">Sent via Gifts · '+_cg.gp+' Coins</div>'; _mb.appendChild(_gcard); _mb.scrollTop=_mb.scrollHeight; } setTimeout(function(){flyGift(_cg.em);},160); }
-    if(scr.fnum==='PK-00'){SFLpkViewer=false;}
+    if(scr.fnum==='PK-00'){SFLpkViewer=false;SFLclubBattle=null;}
+    if(scr.fnum==='PK-03'){applyClubBattle(mount);}
     if(scr.fnum==='G-02G'){SFLguest=true;}
     if(scr.fnum==='G-02'||scr.fnum==='G-02M'){SFLguest=false;}
     if(scr.fnum==='PK-03'){ var _pgb=mount.querySelector('.giftbtns'); if(_pgb)_pgb.style.display=SFLpkViewer?'':'none'; if(!SFLpkViewer){setTimeout(function(){flyGift('🎁');},500);setTimeout(function(){flyGift('🥇');},1300);} var _pck=mount.querySelector('.pktimer .mclock'); if(_pck){var _ps=(SFLpkMin||5)*60; _pck.setAttribute('data-sec',_ps); _pck.setAttribute('data-init',_ps); var _pmm=_pck.querySelector('.mm'),_pss=_pck.querySelector('.ss'); if(_pmm)_pmm.textContent=(SFLpkMin<10?'0':'')+(SFLpkMin||5); if(_pss)_pss.textContent='00';} pkWhistle(); window._sflpkto=setTimeout(function(){ pkFinale(mount); },4500); }
-    if((scr.fnum==='PK-04A'||scr.fnum==='PK-04C')&&SFLpkViewer){var _reb=mount.querySelector('.winbtns .re'); if(_reb)_reb.style.display='none'; var _exb=mount.querySelector('.winbtns .ex'); if(_exb){_exb.style.flex='1';_exb.textContent='Exit to Stadium';}}
+    if((scr.fnum==='PK-04A'||scr.fnum==='PK-04C')&&SFLpkViewer&&!SFLclubBattle){var _reb=mount.querySelector('.winbtns .re'); if(_reb)_reb.style.display='none'; var _exb=mount.querySelector('.winbtns .ex'); if(_exb){_exb.style.flex='1';_exb.textContent='Exit to Stadium';}}
+    if((scr.fnum==='PK-04A'||scr.fnum==='PK-04C')&&SFLclubBattle){var _ceb=mount.querySelector('.winbtns .ex'); if(_ceb)_ceb.textContent='Back to Tasks';}
     if(scr.fnum==='PV-01'){applyPredDone(mount);}
     if(scr.fnum==='G-05'){ var _pf=mount.querySelector('.pv-fan'),_pm=mount.querySelector('.pv-mgr'); if(_pf)_pf.style.display=SFLmgrMode?'none':''; if(_pm)_pm.style.display=SFLmgrMode?'block':'none'; var _rm=mount.querySelector('.rolemgr'); if(_rm)_rm.style.display=SFLmgrMode?'':'none'; applyCmgrMember(mount); }
     if(scr.fnum==='CC-00'){ applyMgrGate(mount); }
@@ -16724,7 +16751,7 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
       return;
     }
     if(_cf==='MSG-01'){var _rq=t.closest('.fchip'); if(_rq){ var _rt=(_rq.textContent||'').toLowerCase(); if(/request/i.test(_rt)){goTo('msgrequests');return;} singleSel(_rq,_rq.parentElement); [].forEach.call(mEl.querySelectorAll('.crow'),function(r){ var show=true; if(/unread/.test(_rt)){show=!!r.querySelector('.unread');} else if(/club/.test(_rt)){show=!!r.querySelector('.rolechip.club');} else if(/manager/.test(_rt)){show=!!r.querySelector('.rolechip.mgr');} r.style.display=show?'':'none'; }); return;} }
-    if(t.closest('.pkcard')){SFLpkViewer=true;goTo('pkbattle');return;}
+    if(t.closest('.pkcard')){SFLpkViewer=true;SFLclubBattle=null;goTo('pkbattle');return;}
     var _dvc=t.closest('.filters .fchip'); if(_dvc&&mEl.querySelector('.pkcard')){ singleSel(_dvc,_dvc.parentElement); var _pk=/pk/i.test(_dvc.textContent); var _dh=mEl.querySelector('.hero'); if(_dh)_dh.style.display=_pk?'none':''; [].forEach.call(mEl.querySelectorAll('.rcard'),function(r){var _isp=r.classList.contains('pkcard'); r.style.display=(_pk?_isp:!_isp)?'':'none';}); var _car=mEl.querySelector('.carousel'); if(_car){_car.classList.toggle('pkmode',_pk);} var _rh=mEl.querySelector('.rowhead .t'); if(_rh)_rh.textContent=_pk?'Live PK battles':'Rooms heating up'; return; }
     if(_cf==='CC-01T'){var lgc=t.closest('.lgchip'); if(lgc){var grp=lgc.parentElement; [].forEach.call(grp.children,function(c){c.classList&&c.classList.remove('on');}); lgc.classList.add('on'); var key=lgc.getAttribute('data-league')||''; [].forEach.call(mEl.querySelectorAll('.lgroup'),function(g){g.style.display=(!key||g.getAttribute('data-league')===key)?'':'none';}); return;}}
     var ffc=t.closest('.filters .fchip'); if(ffc){var fgrp=ffc.parentElement;[].forEach.call(fgrp.children,function(c){c.classList&&c.classList.remove('on');});ffc.classList.add('on');var fl=(ffc.textContent||'').toLowerCase();var fk=/follow/.test(fl)?'following':/premier/.test(fl)?'prem':/champion/.test(fl)?'champions':'';var rc=mEl.querySelectorAll('.carousel .rcard, .rcard');[].forEach.call(rc,function(r){var cats=(r.getAttribute('data-cat')||'');r.style.display=(!fk||cats.indexOf(fk)>=0)?'':'none';});return;}
@@ -16939,7 +16966,7 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
       if(_cf==='PK-03A'){ if(t.closest('.btn')){goTo('pkleadchange');return;} if(t.closest('.altlink')){goTo('coinstore');return;} var _gi=t.closest('.gi'); if(_gi){singleSel(_gi,_gi.parentElement);return;} return; }
       if(_cf==='PK-03B'){ goTo('pkfinalizing'); return; }
       if(_cf==='PK-03D'){ goTo('pkwin'); return; }
-      if(_cf==='PK-04A'||_cf==='PK-04C'){ var _wb=t.closest('.b'); if(_wb){ if((_wb.classList.contains('re')||/rematch/i.test(_wb.textContent))&&!SFLpkViewer){goTo('pkrematch');return;} if(window._sflpkto)clearTimeout(window._sflpkto); if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;} goTo(SFLpkViewer?'live':'liveroomhost');return;} return; }
+      if(_cf==='PK-04A'||_cf==='PK-04C'){ var _wb=t.closest('.b'); if(_wb){ if((_wb.classList.contains('re')||/rematch/i.test(_wb.textContent))&&!SFLpkViewer){ if(window._sflpkto)clearTimeout(window._sflpkto); if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;} showRematchSim(); return;} if(window._sflpkto)clearTimeout(window._sflpkto); if(window._sflpkfin){clearInterval(window._sflpkfin);window._sflpkfin=null;} if(SFLclubBattle){ SFLclubBattle=null; cleanTo('tasks', /^PK-/); return; } goTo(SFLpkViewer?'live':'liveroomhost');return;} return; }
       if(_cf==='PK-04D'){ if(t.closest('.btn')){goTo('pkbattle');return;} if(t.closest('.altlink')){goTo('live');return;} return; }
     }
     if(_cf.indexOf('PL-')===0){
@@ -17076,14 +17103,14 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
       if(_cf==='CC-05'){ if(t.closest('.btn')){goTo('cccreated');return;} return; }
       if(_cf==='CC-06'){ var _cli=t.closest('.cli'); if(_cli){var _ct=(_cli.textContent||'').toLowerCase(); if(/invite/.test(_ct)){goTo('mgrrecruit');return;} if(/task/.test(_ct)){goTo('tasks');return;} if(/go live/.test(_ct)){goTo('golive');return;} if(/prediction/.test(_ct)){goTo('predictions');return;} } if(t.closest('.btn')){goTo('managerhq');return;} return; }
     }
-    if(_cf==='EV-01'){ if(t.closest('.back')){goBack();return;} var _ev=t.closest('.evcard'); if(_ev&&t.closest('.evjoin')){var _et=(_ev.textContent||'').toLowerCase(); if(/pk|tournament/.test(_et)){SFLpkViewer=true;goTo('pkbattle');return;} if(/predict|league/.test(_et)){goTo('predictions');return;} if(/recruit/.test(_et)){goTo('mgrrecruit');return;} goTo('live');return;} return; }
+    if(_cf==='EV-01'){ if(t.closest('.back')){goBack();return;} var _ev=t.closest('.evcard'); if(_ev&&t.closest('.evjoin')){var _et=(_ev.textContent||'').toLowerCase(); if(/pk|tournament/.test(_et)){SFLpkViewer=true;SFLclubBattle=null;goTo('pkbattle');return;} if(/predict|league/.test(_et)){goTo('predictions');return;} if(/recruit/.test(_et)){goTo('mgrrecruit');return;} goTo('live');return;} return; }
     if(_cf==='J2-16'){
       if(t.closest('.clubmore')){ showClubOptsSheet(); return; }
       var _j16bk=t.closest('.hnav .back'); if(_j16bk){ if(/‹|←/.test(_j16bk.textContent||'')){goBack();} return; }
       if(t.closest('.cmgrask')){goTo('cmgrask');return;}
       if(t.closest('.sbtn')){goTo('clubchat');return;}
       var _q16=t.closest('.qa'); if(_q16){var _qq=(_q16.textContent||'').toLowerCase(); if(/task/.test(_qq)){goSectionFromClub('tasks');return;} if(/live/.test(_qq)){goSectionFromClub('live');return;} if(/reward/.test(_qq)){goSectionFromClub('rewards');return;} if(/league/.test(_qq)){goSectionFromClub('league');return;} return;}
-      var _lv16=t.closest('.lvcard'); if(_lv16){var _lvb2=_lv16.querySelector('.lvb'); if(_lvb2&&/pk/i.test(_lvb2.textContent)){SFLpkViewer=true;goTo('pkbattle');return;} goTo('liveroom');return;}
+      var _lv16=t.closest('.lvcard'); if(_lv16){var _lvb2=_lv16.querySelector('.lvb'); if(_lvb2&&/pk/i.test(_lvb2.textContent)){SFLpkViewer=true;SFLclubBattle=null;goTo('pkbattle');return;} goTo('liveroom');return;}
       if(t.closest('.btn.club')){goTo('liveroom');return;}
       return;
     }
@@ -17275,7 +17302,7 @@ body[data-stage="light"] .ppnavbtn{background:#fff;color:#14161C;border-color:#D
     if(t.closest('.upnext')){goTo('watch');return;}
     if(cf==='CS-01C'){var cst=(t.closest('.btn,.altlink,.dcta')||t).textContent||''; if(/view reward|claim/i.test(cst)){goTo('rewards');return;} if(/task|keep watching/i.test(cst)){goTo('tasks');return;}}
     if(t.closest('.hspot')){goTo('live');return;}
-    var _lvc=t.closest('.livecard,.lvcard'); if(_lvc){ var _lvb=_lvc.querySelector('.lb'); if(_lvb&&/pk/i.test(_lvb.textContent)){SFLpkViewer=true;goTo('pkbattle');return;} goTo('liveroom');return; }
+    var _lvc=t.closest('.livecard,.lvcard'); if(_lvc){ var _lvb=_lvc.querySelector('.lb'); if(_lvb&&/pk/i.test(_lvb.textContent)){SFLpkViewer=true;SFLclubBattle=null;goTo('pkbattle');return;} goTo('liveroom');return; }
     if(t.closest('.qt.players')){goTo('myplayers');return;}
     if(t.closest('.sbtn')||t.closest('.onlinebar')||t.closest('.chatprev')){goTo('clubchat');return;}
     if(t.closest('.giftlead')){goTo('rewards');return;}
