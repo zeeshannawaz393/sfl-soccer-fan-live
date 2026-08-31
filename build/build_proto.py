@@ -3708,11 +3708,12 @@ PLAYER_JS = """
     13:[[{p:'LW'},{p:'ST'},{p:'RW'}],[{p:'CM'},{p:'CM'},{p:'CM'}],[{p:'LB'},{p:'CB'},{p:'CB'},{p:'RB'}],[{p:'SUB'},{p:'GK',gk:1},{p:'SUB'}]]
   };
   var SFL_SEAT_PEOPLE=[
-    {p:'LW',n:'Lucia',a:'pa_h_01.png',spk:1},{p:'ST',n:'Omar',a:'pa_h_03.png'},{p:'RW',n:'Open'},
-    {p:'CM',n:'JJ',a:'pa_h_04.png'},{p:'CM',n:'Nadia',a:'pa_h_05.png',spk:1},{p:'CM',n:'Teo',a:'pa_h_06.png'},
-    {p:'LB',n:'Kojo',a:'pa_h_01.png'},{p:'CB',n:'Sara',a:'pa_h_05.png'},{p:'CB',n:'Open'},{p:'RB',n:'Mik',a:'pa_h_03.png'},
-    {p:'GK',n:'GloveBoy',a:'pa_h_04.png',gk:1},{p:'SUB',n:'Open'},{p:'SUB',n:'Open'}
+    {p:'LW',n:'Lucia',a:'pa_h_01.png',spk:1,g:34},{p:'ST',n:'Omar',a:'pa_h_03.png',g:52},{p:'RW',n:'Open'},
+    {p:'CM',n:'JJ',a:'pa_h_04.png',g:12},{p:'CM',n:'Nadia',a:'pa_h_05.png',spk:1,g:88},{p:'CM',n:'Teo',a:'pa_h_06.png',g:7},
+    {p:'LB',n:'Kojo',a:'pa_h_01.png',g:21},{p:'CB',n:'Sara',a:'pa_h_05.png',g:15},{p:'CB',n:'Open'},{p:'RB',n:'Mik',a:'pa_h_03.png',g:9},
+    {p:'GK',n:'GloveBoy',a:'pa_h_04.png',gk:1,g:41},{p:'SUB',n:'Open'},{p:'SUB',n:'Open'}
   ];
+  var SFLhostGifts='1.2k';
   var SFL_SEAT_DOTS={
     4:[{l:22,t:22},{l:50,t:16},{l:78,t:22},{l:50,t:88,gk:1}],
     6:[{l:22,t:18},{l:50,t:14},{l:78,t:18},{l:35,t:48},{l:65,t:48},{l:50,t:88,gk:1}],
@@ -3756,7 +3757,7 @@ PLAYER_JS = """
     }
     var hostYou=fn==='GL-03H'||fn==='GL-WA-H'||fn==='GL-02A';
     var hostNm=hostYou?'You':'RobbieOnAir';
-    var html='<div class="frow hostrow"><div class="seat host'+(hostYou?' you':'')+'"><div class="av" style="background-image:url(\\\'assets/pa_h_02.png\\\')"></div><div class="hl"><i></i>'+(fn==='GL-02A'?'PREVIEW':'LIVE')+'</div><div class="pos">HOST</div><div class="nm">'+hostNm+'</div></div></div>';
+    var html='<div class="frow hostrow"><div class="seat host'+(hostYou?' you':'')+'"><div class="av" style="background-image:url(\\\'assets/pa_h_02.png\\\')">'+(fn==='GL-02A'?'':'<span class="giftcount host">🎁 '+SFLhostGifts+'</span>')+'</div><div class="hl"><i></i>'+(fn==='GL-02A'?'PREVIEW':'LIVE')+'</div><div class="pos">HOST</div><div class="nm">'+hostNm+'</div></div></div>';
     var lines=({4:['fwd','gk'],6:['fwd','mid','gk'],9:['fwd','mid','def','gk'],11:['fwd','mid','def','gk'],13:['fwd','mid','def','gk']})[n]||['fwd','mid','def','gk'];
     (SFL_SEAT_MAP[n]||SFL_SEAT_MAP[11]).forEach(function(row,ri){
       html+='<div class="frow '+(lines[ri]||'')+'">';
@@ -3767,7 +3768,7 @@ PLAYER_JS = """
         var avSt=(!open&&fan.a)?' style="background-image:url(\\\'assets/'+fan.a+'\\\')"':'';
         var posSt=(slot.gk||fan.gk)?' style="background:var(--gold1);color:#5A3E00"':'';
         var nmSt=fan.you?' style="color:var(--gold2)"':'';
-        html+='<div class="'+cls+'"><div class="av"'+avSt+'>'+(open?'＋':'')+'</div><div class="pos"'+posSt+'>'+slot.p+'</div><div class="nm"'+nmSt+'>'+(open?'Open':fan.n)+'</div></div>';
+        html+='<div class="'+cls+'"><div class="av"'+avSt+'>'+(open?'＋':'')+((!open&&fan.g)?'<span class="giftcount">🎁 '+fan.g+'</span>':'')+'</div><div class="pos"'+posSt+'>'+slot.p+'</div><div class="nm"'+nmSt+'>'+(open?'Open':fan.n)+'</div></div>';
       });
       html+='</div>';
       if(waHTML&&ri===0) html+=waHTML;

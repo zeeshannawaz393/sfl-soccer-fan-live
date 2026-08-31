@@ -283,12 +283,16 @@
   .room.vhero .hero-rush .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#C9FF3D}
   .room.vhero .frow.hostrow{top:12%}
   .room.vhero .formfield .frow{padding:0 16px}
-  .room.vhero .seat.host{width:158px}
-  .room.vhero .seat.host .av{width:132px;height:132px;border-width:4px;border-color:#0b140c;box-shadow:0 0 0 4px rgba(201,255,61,.92),0 0 32px rgba(201,255,61,.5),0 12px 26px rgba(0,0,0,.5)}
+  .room.vhero .seat.host{width:108px}
+  .room.vhero .seat.host .av{width:84px;height:84px;border-width:3px;border-color:#0b140c;box-shadow:0 0 0 3px rgba(201,255,61,.92),0 0 24px rgba(201,255,61,.45),0 10px 22px rgba(0,0,0,.5)}
   .room.vhero .seat.host .hl{top:-8px;font-size:9px;padding:3px 11px}
   .room.vhero .seat.host .pos{font-size:10px;padding:3px 13px;margin-top:7px}
   .room.vhero .seat.host .nm{font-size:14px;margin-top:5px}
-  .room.vhero .formfield .frow.fwd,.room.vhero .formfield>.frow:nth-child(2){top:35%}
+  .room.vhero .frow.hostrow{top:10%}
+  .room.vhero .formfield .frow.fwd,.room.vhero .formfield>.frow:nth-child(2){top:31%}
+  .room.vhero .formfield .frow.mid,.room.vhero .formfield>.frow:nth-child(3){top:45%}
+  .room.vhero .formfield .frow.def,.room.vhero .formfield>.frow:nth-child(4){top:59%}
+  .room.vhero .formfield .frow.gk,.room.vhero .formfield>.frow:nth-child(5){top:73%}
   .formfield>.frow:nth-child(2){top:27.5%}
   .formfield>.frow:nth-child(3){top:44.5%}
   .formfield>.frow:nth-child(4){top:59.5%}
@@ -310,8 +314,10 @@
   .room.wa .frow.hostrow{top:7.5%;padding-bottom:0}
   .room.wa .seat.host{width:104px}
   .room.wa .seat.host .av{width:90px;height:90px}
-  .seat{display:flex;flex-direction:column;align-items:center;gap:3px;width:64px;position:relative}
-  .seat .av{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;border:2.5px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+  .seat{display:flex;flex-direction:column;align-items:center;gap:4px;width:78px;position:relative}
+  .seat .av{position:relative;width:60px;height:60px;border-radius:50%;background-size:cover;background-position:center;border:2.5px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+  .seat .giftcount{position:absolute;top:-3px;left:-7px;z-index:6;display:inline-flex;align-items:center;gap:2px;background:linear-gradient(140deg,#FFC24D,#FF9E1B);color:#3A2600;font-size:8.5px;font-weight:800;line-height:1;padding:2.5px 6px;border-radius:999px;border:1.5px solid rgba(7,9,13,.5);box-shadow:0 2px 6px rgba(0,0,0,.45);white-space:nowrap}
+  .seat.host .giftcount{top:auto;bottom:-11px;left:50%;transform:translateX(-50%);right:auto;font-size:10.5px;padding:3px 10px}
   .seat.spk .av{border-color:var(--green2);animation:ringpulse 2s infinite}
   .seat.you .av{border-color:var(--gold1);box-shadow:0 0 0 3px rgba(255,179,0,.4),0 4px 10px rgba(0,0,0,.3)}
   .seat .pos{font-size:9px;font-weight:800;color:#fff;background:rgba(7,9,13,.55);padding:1px 6px;border-radius:6px;letter-spacing:.5px}
@@ -331,12 +337,12 @@
   .room[data-seats="6"] .seat .pos{font-size:9.5px}
   .room[data-seats="6"] .seat .micind{width:21px;height:21px}
   .room[data-seats="6"] .seat.open .av{font-size:24px}
-  .room[data-seats="9"] .seat{width:72px}
-  .room[data-seats="9"] .seat .av{width:56px;height:56px}
+  .room[data-seats="9"] .seat{width:78px}
+  .room[data-seats="9"] .seat .av{width:62px;height:62px}
   .room[data-seats="9"] .seat .nm{max-width:72px}
   .room[data-seats="9"] .seat.open .av{font-size:22px}
-  .room[data-seats="13"] .seat{width:60px}
-  .room[data-seats="13"] .seat .av{width:44px;height:44px}
+  .room[data-seats="13"] .seat{width:66px}
+  .room[data-seats="13"] .seat .av{width:50px;height:50px}
   .room[data-seats="13"] .seat .nm{max-width:60px}
   .rchat{position:absolute;left:16px;right:66px;bottom:74px;z-index:6;max-height:148px;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;align-items:flex-start;gap:5px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24%);mask-image:linear-gradient(180deg,transparent 0,#000 24%)}
   .rchat::-webkit-scrollbar{display:none}
